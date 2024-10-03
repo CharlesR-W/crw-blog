@@ -1,8 +1,9 @@
+mdx_math(enable_dollar_delimiter=1)
 ---
 title: "Musings on Running Couplings and Invariant Subspaces"
 date: 2024-10-03
 ---
-mdx_math(enable_dollar_delimiter=1)
+
 In this post I want to outline a connection between the renormalization-semigroup and invariant subspaces in renormalization theory. It's written mostly for fun / to share and discuss with friends.  Consider this water-cooler brainstorming.
 
 Consider the Ising Hamiltonian
