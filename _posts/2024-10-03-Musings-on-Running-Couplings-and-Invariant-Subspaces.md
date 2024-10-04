@@ -6,9 +6,9 @@ date: 2024-10-03
 In this post I want to outline a connection between the renormalization-semigroup and invariant subspaces in renormalization theory. It's written mostly for fun / to share and discuss with friends.  Consider this water-cooler brainstorming.
 
 Consider the Ising Hamiltonian
-```math
+$$
 H = J \sum_{ij} \sigma_i \sigma_j + h \sum_i \sigma_i
-```
+$$
 
 In typical renormalization-semigroup analyses, we 'zoom out', writing the Hamiltonian $H(\{\sigma\})$ in terms of some new renormalized degrees of freedom $\hat{H}(\{\hat{\sigma}\})$. Oftentimes, we like to have a continuous parameter (here we'll use $\lambda$) which tells us 'how far' the renormalization process has gone. This yields, in effect, a dynamical system over the set of possible Hamiltonians, parameterized by $\lambda$. Though by no means required, we'll note at the beginning that the next step commonly taken is to _assert_ (-qua-approximation) that, as $\lambda$ increases (i.e., as $H$ evolves), it suffices to determine the two variables $J$ and $h$ as functions of $\lambda$—no additional terms (e.g. quartic in $\sigma$, non-local terms, etc.) are added to the Hamiltonian.
 
