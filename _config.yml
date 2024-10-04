@@ -3,3 +3,4 @@ author: Charles Renshaw-Whitman
 description: Personal Blog
 markdown: kramdown
 permalink: /:title/
+baseurl: "/crw-blog"
