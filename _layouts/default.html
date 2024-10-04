@@ -28,12 +28,28 @@
       src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script type="text/javascript" async
       src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-svg.js"></script>
-
 </head>
 <body>
+    <!-- Header and site title -->
+    <header>
+        <h1>{{ site.title }}</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ '/' | relative_url }}">Home</a></li>
+                <li><a href="{{ '/about' | relative_url }}">About</a></li>
+                <li><a href="{{ '/blog' | relative_url }}">Blog</a></li>
+            </ul>
+        </nav>
+    </header>
+
     <!-- Main content of the page -->
     <main>
         {{ content }}
     </main>
+
+    <!-- Footer with basic info -->
+    <footer>
+        <p>&copy; {{ site.time | date: '%Y' }} {{ site.title }}. Powered by <a href="https://pages.github.com/">GitHub Pages</a>.</p>
+    </footer>
 </body>
 </html>
