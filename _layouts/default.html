@@ -6,27 +6,24 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ page.title }}</title>
 
-    <!-- Jekyll will automatically include theme's CSS here -->
-    {{ site.theme_css }}
-
-    <!-- MathJax configuration -->
+    <!-- MathJax configuration for LaTeX rendering -->
     <script type="text/javascript">
-  window.MathJax = {
-    tex: {
-      inlineMath: [['$', '$'], ['\\(', '\\)']],
-      displayMath: [['$$', '$$'], ['\\[', '\\]']],
-      processEscapes: true,
-      tags: 'ams'
-    },
-    options: {
-      skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-      ignoreHtmlClass: "tex2jax_ignore"
-    },
-    svg: {
-      fontCache: 'global'
-    }
-  };
-</script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']],
+          processEscapes: true,
+          tags: 'ams'
+        },
+        options: {
+          skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+          ignoreHtmlClass: "tex2jax_ignore"
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+    </script>
     <script type="text/javascript" async
       src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script type="text/javascript" async
@@ -34,6 +31,7 @@
 
 </head>
 <body>
+    <!-- Main content of the page -->
     <main>
         {{ content }}
     </main>
