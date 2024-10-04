@@ -12,27 +12,36 @@ $$
 H = J \sum_{ij} \sigma_i \sigma_j + h \sum_i \sigma_i
 $$
 
-In typical renormalization-semigroup analyses, we 'zoom out', writing the Hamiltonian $H(\{\sigma\})$ in terms of some new renormalized degrees of freedom $\hat{H}(\{\hat{\sigma}\})$. Oftentimes, we like to have a continuous parameter (here we'll use $\lambda$) which tells us 'how far' the renormalization process has gone. This yields, in effect, a dynamical system over the set of possible Hamiltonians, parameterized by $\lambda$. Though by no means required, a next step commonly taken is to _assert_ (-qua-approximation) that, as $\lambda$ increases (i.e., as $H$ evolves), it suffices to determine the two variables $J$ and $h$ as functions of $\lambda$ — no additional terms (e.g. quartic in $\sigma$, non-local terms, etc.) are added to the Hamiltonian.
+In typical renormalization-semigroup analyses, we 'zoom out', writing the Hamiltonian $H(\{\sigma\})$ in terms of some new renormalized degrees of freedom $\hat{H}(\{\hat{\sigma}\})$. Oftentimes, we like to have a continuous parameter (here we'll use $\lambda$) which tells us 'how far' the renormalization process has gone. This yields, in effect, a dynamical system over the set of possible Hamiltonians, parameterized by $\lambda$. Though by no means required, a next step commonly taken is to _assert_ (-qua-approximation) that, as $\lambda$ increases (i.e., as $H$ evolves), it suffices to determine the two variables $J$ and $h$ as functions of $\lambda$ — no additional terms (e.g. quartic in $\sigma$, non-local terms, etc.) are added to the Hamiltonian:
+
+$$
+H(\lambda) = J(\lambda) \sum_{ij} \sigma_i \sigma_j + h(\lambda) \sum_i \sigma_i
+$$
 
 Here I'll be discussing the concept of invariant subspaces in this renormalization context, mostly because it seems interesting.  I wanted to discuss Koopmann invariant subspaces (i.e. those where some _finite_ handful of _functions_ of the Hamiltonian-parameters form a closed linear dynamical system), but I didn't have much success in proposing an interpretive significance for that.  What follows is exploratory and should be construed as brainstorming, with the hope that this different picture leads to some insights (or something).
 
 ### Renormalization Semigroup - Flows on Systems
 We're not really concerned with renormalization _per se_; the basic point of relevance to us is that the 'renormalization semigroup' has us thinking about "dynamics" in the space of possible theories (let's use 'theory', 'system', and 'model' interchangeably). By that, I mean we're relatively unconcerned about what this flow has to do with 'renormalization'; here we'll consider the case where the degrees-of-freedom don't change as the system flows (usually people talk about 'integrating out' degrees of freedom, but I prefer to keep the dynamical systems approach at the forefront). The equation of interest is
+
 $$
 \frac{d}{d\lambda} H_\lambda = f(H)
 $$
+
 where $H$ is the Hamiltonian function which defines the time-evolution of the underlying degrees of freedom.
 
 ### Invariant Subspaces of the Flow
 Let's go back to thinking about the Ising model considered at the start—for almost any given renormalization procedure or flow on systems, it will _not_ be sufficient to merely track the 'running couplings' (i.e., $J$ and $h$ as functions of $\lambda$). This is because, in general, the system will flow such that new terms are added (unless a flow is chosen which specifically avoids this). 
 
 Suppose we have some parameter family $\theta$ which is sufficient to describe the Hamiltonian system, so that we can equate the system flow over $H$ with a dynamical system in terms of the $\theta$. We then have
+
 $$
 \frac{d}{d\lambda}\theta = f(\theta)
 $$
+
 for some function $f$ (which for renormalization, is determined by the renormalization procedure). The theory of phase transitions is in large part about studying the fixed points of this equation.
 
-Now, as for "invariant subspaces", we mena any scenario where you can take a strict subset of the dynamical variables (probably you could extend this to a set of well-chosen functions of the $\theta$, by changing co-ordinates),  $\theta_1$, (call the remaining variables $\theta_{-1}$) and organize them such that their time evolution is closed:
+Now, as for "invariant subspaces", we mean any scenario where you can take a strict subset of the dynamical variables (probably you could extend this to a set of well-chosen functions of the $\theta$, by point-transformations),  $\theta_1$, (call the remaining variables $\theta_{-1}$) and organize them such that their time evolution is closed:
+
 $$
 \frac{d}{d\lambda} 
 \begin{bmatrix} 
@@ -56,14 +65,18 @@ This sort of restriction is reminiscent of the constrainted dynamics which is so
 Here I'll switch gears away from "renormalization as dynamical system" to "renormalization as progressively integrating something out" (tbh I'm not that well versed yet on how to reconcile these two perspectives, so this section especially should be taken cum grano salis. Hitherto I've been assuming $f(H)$ has whatever niceness properties I needed, but to have this discussion I think I need to do precisely the opposite and talk about the sorts of $f$ which make it the renormalization _semi_group (i.e. aren't invertible, aren't smooth etc).  
 
 (Here I'm following wikipedia/renormalization_group/exact_renormalization_group_equations rather heavily with modified notation).  The exact renormalization semigroup is defined by requiring that the partition function is independent of the renormalization parameter $\lambda$.
+
 $$
 Z = \int_{B(\lambda)} \mathcal{D}\sigma_{\lambda} ~ \mathrm{exp}( H_{\lambda} \left[ \sigma_{\lambda} \right] )
 $$
+
 $B(\lambda)$ is family of sets, nonincreasing (maybe strictly decreasing?) in $\lambda$.
 Since we're interested in the Hamiltonian, the transformation is
+
 $$
 \mathrm{exp}(H_{\lambda_2}) = \int_{B(\lambda_1) - B(\lambda_2)} \mathcal{D}\sigma ~ \mathrm{exp}( H_{\lambda_1} \left[ \sigma \right] )
 $$
+
 If I understand correctly, it's not very well defined to talk about $\frac{dH}{d\lambda}$ here because they have different domains (you lose the DoFs which are integrated out), and so there's a "Polchinski" version of the ERSG which has a soft cutoff that makes this problem go away.  Anyways, you choose some soft-cutoff function then you impose the condition \frac{dZ_\lambda}{d\lambda} = 0, and any trajectory $H(\lambda)$ which solves that works.
 
 I'm not sure if this gets us to deriving RSG 'lossiness', in the sense of no longer being able to uniquely determine $H(\lambda)$ from initial conditions.  I'm a bit too tired to think more on this now, and as ever painfully aware that 'good enough' is the enemy of 'at all' as regards my writing.
