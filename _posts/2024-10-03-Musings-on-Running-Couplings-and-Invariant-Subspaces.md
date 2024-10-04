@@ -81,8 +81,8 @@ If I understand correctly, it's not very well defined to talk about $\frac{dH}{d
 I'm not sure if this gets us to deriving RSG 'lossiness', in the sense of no longer being able to uniquely determine $H(\lambda)$ from initial conditions.  I'm a bit too tired to think more on this now, and as ever painfully aware that 'good enough' is the enemy of 'at all' as regards my writing.
 
 
-### Are Some Renormalization Procedures Better Than Others?
-Let's suppose we can meaningfully define a metric function in the (tangent-spaces-to-the-) parameter-space over flows, $g$ (presumably dictated by the problem at hand). This entails a distance function (the length of a geodesic; one could also postulate this directly) between two points $d(\theta_1, \theta_2)$.  Considering the renormalization flow as 'coarse-graining', we can then start to ask questions about which of these coarse-grainings is 'best' with respect to this metric.  Perhaps one could devise optimization problems based on such criteria?  
+### Are Some Renormalization Procedures Better Than Others?  And Other Miscellaneous Neat Ideas That Occurred to Me While Writing
+Let's suppose we can meaningfully define a metric function in the (tangent-spaces-to-the-) parameter-space over flows, $g$ (presumably dictated by the problem at hand). This entails a distance function (the length of a geodesic; one could also postulate this directly) between two points $d(\theta_1, \theta_2)$.  Considering the renormalization flow as 'coarse-graining', we can then start to ask questions about which of these coarse-grainings is 'best' with respect to this metric.  Perhaps one could devise optimization problems based on such criteria?  E.g.
 
 $$
 \begin{aligned}
@@ -90,6 +90,46 @@ $$
     \text{Subject to:} \quad & \frac{d\theta}{d\lambda}=f(\theta) \\
 \end{aligned}
 $$
+
+Think about adding sparsity criteria / normalization to design a flow which will find the system with N terms that's the best approximation to some other system?
+
+$$
+\begin{aligned}
+    \text{Minimize}_{f \in \text{Valid RSG Flows}} \quad & ||\theta(\lambda_f)||_1 \\
+    \text{Subject to:} \quad & \frac{d\theta}{d\lambda}=f(\theta) \\
+\end{aligned}
+$$
+
+Or perhaps, since the flow defines a dynamical system, we could go meta and ask about flows over flows?  I can think of a lot of things that are schematically maybe representable this way - perhaps outer-flow = learning-rule, inner-flow = online-learning for control systems, or maybe analogously for optimization-algorithms in general
+
+$$
+\begin{aligned}
+    \text{Minimize}_{f_o \in \text{Valid RSG Flows}} \quad & \Gamma\left[ \theta_o, \theta_i \right] \\
+    \text{Subject to:} \quad & \frac{d\theta_o}{d\lambda_o}=f(\theta_o) \\
+    \text{Subject to:} \quad & \frac{d\theta_i}{d\lambda_i}=f_i \left[\theta_o\right](\theta_i) \\
+\end{aligned}
+$$
+
+(where $i$ and $o$ are 'outer' and 'inner' respectively)
+
+Of course if one goes meta once you have to go meta again by asking what happens if you do that infinitely many times?
+
+$$
+\begin{aligned}
+    \text{Minimize}_{f_{\infty} \in \text{Valid RSG Flows}} \quad & \Gamma\left[ \{\theta_i\}_{i \in \mathbb{Z}_{++}}\right] \\
+    \text{Subject to:} \quad & \frac{d\theta_i}{d\lambda_i}=f[\theta_{i+1}](\theta_i) \quad \forall i \in \mathbb{Z}_{++}\\
+\end{aligned}
+$$
+
+($i$ now an integer index) I have no good idea what that could mean or be used for, but seems neat! You could also do away with the optimization framing.  I won't mention that you could maybe also do ontologically devious things like (1) make a continuum limit for $i$ and get a PDE or (2) ask about fixed points of that map + stability.  The fun need never end!
+
+The PDE for (1) I think should look like
+
+$$
+\frac{\partial}{\partial \lambda}\frac{\partial}{\partial x} \theta (\lambda,x) = \frac{\partial \theta}{\partial x}^T \left[ \nabla_1 f + \nabla_2 f \right] (\theta(x,\lambda), \theta(x,\lambda)) 
+$$
+
+(where we represent $f_{\theta_1}(\theta_2) = f(\theta_1, \theta_2)$ and the index of $\nabla$ indicates the gradient with respect to the first or second argument).
 
 Do you think we could require $\lambda$ to trade off against accuracy at a pre-determined rate (I have in mind saying that $\lambda$ is e.g. number of flops available compute some observable, and asking what the best system to simulate is - sounds hard but neat idea! (any relation maybe to the role of compute in ML scaling laws??))
 
