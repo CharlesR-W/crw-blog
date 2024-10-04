@@ -82,7 +82,17 @@ I'm not sure if this gets us to deriving RSG 'lossiness', in the sense of no lon
 
 
 ### Are Some Renormalization Procedures Better Than Others?
-Let's suppose we can meaningfully define a metric function in the (tangent-spaces-to-the-) parameter-space over flows, $g$ (presumably dictated by the problem at hand). This entails a distance function (the length of a geodesic; one could also postulate this directly) between two points $d(\theta_1, \theta_2)$.  Considering the renormalization flow as 'coarse-graining', we can then start to ask questions about which of these coarse-grainings is 'best' with respect to this metric.  Perhaps one could devise optimization problems based on such criteria?  Do you think we could require $\lambda$ to trade off against accuracy at a pre-determined rate (I have in mind saying that $\lambda$ is e.g. number of flops available compute some observable, and asking what the best system to simulate is - sounds hard but neat idea! (any relation maybe to the role of compute in ML scaling laws??))
+Let's suppose we can meaningfully define a metric function in the (tangent-spaces-to-the-) parameter-space over flows, $g$ (presumably dictated by the problem at hand). This entails a distance function (the length of a geodesic; one could also postulate this directly) between two points $d(\theta_1, \theta_2)$.  Considering the renormalization flow as 'coarse-graining', we can then start to ask questions about which of these coarse-grainings is 'best' with respect to this metric.  Perhaps one could devise optimization problems based on such criteria?  
+
+$$
+\begin{aligned}
+    \text{Minimize}_{f \in \text{Valid RSG Flows}} \quad & \Gamma\left[ \theta \right] \\
+    \text{Subject to:} \quad & \frac{d\theta}{d\lambda}=f(\theta) \\
+\end{aligned}
+$$
+
+Do you think we could require $\lambda$ to trade off against accuracy at a pre-determined rate (I have in mind saying that $\lambda$ is e.g. number of flops available compute some observable, and asking what the best system to simulate is - sounds hard but neat idea! (any relation maybe to the role of compute in ML scaling laws??))
 
 ### Does this matter if we only care about fixed points?
-Not that I can tell or think of readily.  Maybe if you're concerned about moving the fixed points around.  I wrote this mostly thinking about renormalization as 'coarse graining' in that you use it to extract some high level dynamical features of a system by zooming out some finite amount, as opposed to specifically looking for fixed points, phase transitions, etc.  I suspect if I knew more / read more about RG I could say more interesting things.
+Not that I can tell or think of readily.  Maybe if you're concerned about moving the fixed points around.  I wrote this mostly thinking about renormalization as 'coarse graining' in that you use it to extract some high level dynamical features of a system by zooming out some finite amount, as opposed to specifically looking for fixed points, phase transitions, etc.  I suspect if I knew more / read more about RG I could say more interesting things.  I'm also interested to think more about other types of 'systems of systems'
+ more broadly.
