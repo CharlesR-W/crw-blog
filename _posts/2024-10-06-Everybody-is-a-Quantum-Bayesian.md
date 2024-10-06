@@ -63,9 +63,9 @@ $$
 \mathcal{M} \xrightarrow[]{\mathfrak{B}_{\mathcal{M}}} \{ o \} \leftrightarrow \psi
 $$
 
-Every underlying ontology that we talk about (Bohm, Everett, etc.), $$ \(\mathcal{M}, \mathfrak{B}_{\mathcal{M}}\) $$ is _chosen_ so that Bayesian updates based on $o$ reproduce the normal quantum mechanical predictions.  Crucially, a $\psi$ encoding beliefs about experiment outcomes, along with a (possibly arbitrary) prior over $\mathcal{M}$, can be used to write a probability distribution over $\mathcal{M}$ the underlying state of reality.  This can be time-evolved with $f_{\mathcal{M}}$.
+Every underlying ontology that we talk about (Bohm, Everett, etc.), $$ (\mathcal{M},~ \mathfrak{B}_{\mathcal{M}}) $$ is _chosen_ so that Bayesian updates based on $o$ reproduce the normal quantum mechanical predictions.  Crucially, a $\psi$ encoding beliefs about experiment outcomes, along with a (possibly arbitrary) prior over $\mathcal{M}$, can be used to write a probability distribution over $$\mathcal{M}$$ the underlying state of reality.  This can be time-evolved with $f_{\mathcal{M}}$.
 
-The _game_ is to take different $ (\mathcal{M}, \mathfrak{B}_{\mathcal{M}), f_{\mathcal{M}}) $</span>, propose slight perturbations, and see if this gives 'new physics' (cashed out as different predictions from normal QM).
+The _game_ is to take different $$ (\mathcal{M}, \mathfrak{B}_{\mathcal{M}), f_{\mathcal{M}}) $$, propose slight perturbations, and see if this gives 'new physics' (cashed out as different predictions from normal QM).
 
 A good example is Bohmian mechanics - as I understand it, $\psi$ (as OWF) is a real dynamical variable, which evolves in such a way that for most priors over the hidden variables, Bayesian-updating will converge you to Born-rule predictions _dynamically_- a testable difference!  Or you could just propose that the hidden variables actually couple in some way that sometimes lets you see them.
 
