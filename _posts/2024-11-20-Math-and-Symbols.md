@@ -13,7 +13,7 @@ The problem I had set myself was "derive the Stirling approximation for the Gamm
 ## An example
 To give an example of what these look like: (n.b. this is the normal gamma function offset by 1, bc that makes symbol jockeying easier)
 $$
-\Gamma(z) = \int__0^\infty e^{-t} t^z dt
+\Gamma(z) = \int_0^\infty e^{-t} t^z dt
 $$
 "Hm what if I Taylor it in z?" --> write down all the steps till hit a dead end --> doesn't work --> "hm what if I put another variable before the t above the e, and write some differential equation in that" --> write down some more steps till hitting a dead end = doesn't work --> "hm what if I try to find f(x) such that lim x--> inf of Gam(x) / e^(f(x)) is a constant?" --> etc.
 
