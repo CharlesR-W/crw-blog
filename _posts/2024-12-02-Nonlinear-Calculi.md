@@ -69,7 +69,7 @@ In turn, giving you at least one metric $d_{\oplus}$. You can presumably do just
 The last thing I'll use is a notion of intervals and the natural (Haar) measure:
 
 $$
-d\mu_{\oplus}(x) = \frac{dx}{\left.\frac{d}{dg}(x \oplus g)\right|_{g=e_{\oplus}}}
+d\mu_{\oplus}(x) = \frac{dx}{\left.\frac{d}{dg}(x \oplus g)\right \mid _{g=e_{\oplus}}}
 $$
 
 This basically lets us express the $\oplus$-integral in terms of the regular additive one; note $\frac{d}{dx}$ there is the normal additive derivative. $\mu_{\oplus}$ is defined by the fact that if you feed it an interval, it'll give you an answer which is invariant under action by $\oplus$-ing anything to both ends of the interval—the same way $[1,10]$ is the same length as $[1 \oplus 10, 10 \oplus 10] = [11,20]$, just with $\oplus$ instead.  In the geometric case, _multiplying_ both interval-ends by 10 will give you the length wrt $\mu$ before and after.
@@ -207,7 +207,7 @@ e_{\otimes} = e
 $$
 (RHS is the real regular e = 2.7...)
 
-$$POS = \{x \mid |x| > 1\}$$ 
+$$POS = \{x \mid  \mid x \mid  > 1\}$$ 
 (note this would be disconnected if we had allowed negatives!)
 
 
@@ -294,11 +294,11 @@ e_{\oplus} = f^{-1}(0)
 $$
 
 $$
-POS = \{x | f(x)>0\}
+POS = \{x  \mid  f(x)>0\}
 $$
 
 $$
-d\mu(x) = |f'(x)|
+d\mu(x) =  \mid f'(x) \mid 
 $$
 
 *(Note changing the function from $f$ to $g$, so as not to confuse with the transformation function $f$.)*
@@ -484,7 +484,7 @@ $$
 [f^{-1} * G_2](f(z), \{b_n\}) = \sum_{n=0}^{\infty} z^n b_n
 $$
 
-Cauchy-Hadamard theorem tells us how to find the radius of convergence of the series for this last expression. The second-to-last expression will then converge absolutely for all $|f^{-1}(z)| < R$, where $R$ is determined by the tail of the $\{b_n\}$. Can we use this to say when the formal sequence $G_1$ will converge? Plop in the identity above $E_1(x) = f([f * E_1](f^{-1}(x)))$, but for $E_1$ replaced with $[f^{-1} * G_2]$, and swap $f$ with $f^{-1}$:
+Cauchy-Hadamard theorem tells us how to find the radius of convergence of the series for this last expression. The second-to-last expression will then converge absolutely for all $ \mid f^{-1}(z) \mid  < R$, where $R$ is determined by the tail of the $\{b_n\}$. Can we use this to say when the formal sequence $G_1$ will converge? Plop in the identity above $E_1(x) = f([f * E_1](f^{-1}(x)))$, but for $E_1$ replaced with $[f^{-1} * G_2]$, and swap $f$ with $f^{-1}$:
 
 $$
 [f^{-1} * G_2](z, \{b_n\}) = f\left([f * [f^{-1} * G_2]](f^{-1}(z), \{f^{-1}(b_n)\})\right) = f\left(G_2\left(f^{-1}(z), \{f^{-1}(b_n)\}\right)\right)
@@ -492,21 +492,22 @@ $$
 
 ("Real Taylor series = $f$(pseudo-Taylor series with different args)"—they are equal _at each step in the sequence_).
 
-We know the following: $[f^{-1} * G_2](z, \{b_n\})$ converges for $|f^{-1}(z)| < R$, AND that it is equal to the RHS of the above in value _at every order of partial approximant_. Therefore, the sequence of partial approximants (still for a different series than we started with!)
+We know the following: $[f^{-1} * G_2](z, \{b_n\})$ converges for $ \mid f^{-1}(z) \mid  < R$, AND that it is equal to the RHS of the above in value _at every order of partial approximant_. Therefore, the sequence of partial approximants (still for a different series than we started with!)
 
 $$
 f\left(G_{2,n}\left(z, \{f^{-1}(b_n)\}\right)\right)
 $$
 
-converges if and only if $|z| < R$, to a value we'll call $f(\tilde{L})$.
+converges if and only if $ \mid z \mid  < R$, to a value we'll call $f(\tilde{L})$.
 
-Assume $f$ is continuous everywhere, so if any sequence $a_n \to a$, then $f(a_n) \to f(a)$. Then the sequence $G_{2,n}(z, \{f^{-1}(b_n)\})$ converges if and only if $|z| < R$ to $\tilde{L}$ (and thus so does $G_{1,n}(z, \{f^{-1}(b_n)\})$).
+Assume $f$ is continuous everywhere, so if any sequence $a_n \to a$, then $f(a_n) \to f(a)$. Then the sequence $G_{2,n}(z, \{f^{-1}(b_n)\})$ converges if and only if $ \mid z \mid  < R$ to $\tilde{L}$ (and thus so does $G_{1,n}(z, \{f^{-1}(b_n)\})$).
 
 Thus we have:
 
 **Theorem:**
 
-The sequence of continued-function approximants $b_0 + z \cdot f(b_1 + z \cdot f(b_2 + \dots ))$ converges if $|z| < \frac{1}{\limsup_n \left( |f^{-1}(b_n)|^{1/n} \right)}$, and does not converge if $|z|$ is greater than that; for $z$ equal to $R$, it can converge or diverge.  Further, these approximants are equal at each $n$ in the sequence to the $\oplus$ Taylor series:
+The sequence of continued-function approximants $b_0 + z \cdot f(b_1 + z \cdot f(b_2 + \dots ))$ converges if $ \mid z \mid  < \frac{1}{\limsup_n \left(  \mid f^{-1}(b_n) \mid ^{1/n} \right)}$, and does not converge if $ \mid z \mid $ is greater than that; for $z$ equal to $R$, it can converge or diverge.  Further, these approximants are equal at each $n$ in the sequence to the $\oplus$ Taylor series:
+
 $$
 b_0 + z \cdot f\left( b_1 + z \cdot f\left( b_2 + \dots \right) \right) = \bigoplus_{n=0}^{\infty} \left[ f^{-1}(z)^n \otimes f^{-1}(b_n) \right] = f^{-1}\left( \sum_{n=0}^{\infty} b_n f\left( \left[ f^{-1}(z) \right]^n \right) \right)
 $$
