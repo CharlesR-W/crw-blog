@@ -503,15 +503,15 @@ $$
 
 Can we use this to say when the formal sequence $G_1$ will converge? Plug in the identity above $ E_1(x) = f\left(\left[f * E_1\right]\left(f^{-1}\left(x\right)\right)\right) $ (“Real Taylor series = $f$ (pseudo-Taylor series with different args)”—they are equal at each step in the sequence).
 
-We know the following: $ \left[f^{-1} * G_2\right]\left(z, \{ b_n \}\right)$ converges for $\left|f^{-1}(z)\right| < R$, and that it is equal to the right-hand side of the above in value at every order of partial approximant. Therefore, the sequence of partial approximants (still for a different series than we started with!)
+We know the following: $ \left[ f^{-1} * G_2\right]\left(z, \{ b_n \}\right)$ converges for $ \left| f^{-1}(z) \right| < R$, and that it is equal to the right-hand side of the above in value at every order of partial approximant. Therefore, the sequence of partial approximants (still for a different series than we started with!)
 
 $$
 f(G_{2,n}(z, \{ f^{-1}(b_n) \}))
 $$
 
-converges if and only if $ \left|z\right| < R $, to a value we’ll call $ f(\tilde{L}) $.
+converges if and only if $ \left| z \right| < R $, to a value we’ll call $ f(L) $.
 
-Assume $f$ is continuous everywhere, so if any sequence $a_n \to a$, then $f(a_n) \to f(a)$. Then the sequence $G_{2,n}(z, \{ f^{-1}(b_n) \})$ converges if and only if $\left|z\right| < R$ to $\tilde{L}$ (and thus so does $G_{1,n}(z, \{ f^{-1}(b_n) \})$).
+Assume $f$ is continuous everywhere, so if any sequence $a_n \to a$, then $f(a_n) \to f(a)$. Then the sequence $G_{2,n}(z, \{ f^{-1}(b_n) \})$ converges if and only if $ \left| z \right| < R$ to $L$ (and thus so does $G_{1,n}(z, \{ f^{-1}(b_n) \})$).
 
 Thus we have:
 
@@ -523,10 +523,10 @@ $$
 b_0 + z \cdot f(b_1 + z \cdot f(b_2 + \dots))
 $$
 
-converges if $\left| z \right| < \frac{1}{\limsup_{n \to \infty} (\left| f^{-1}(b_n) \right|^{1/n})}$, and does not converge if $\left| z \right|$ is greater than that; for $z$ equal to $R$, it can converge or diverge. Further, these approximants are equal at each $n$ in the sequence to the $\oplus$ Taylor series:
+converges if $\left| z \right| < \frac{1}{\limsup_{n \to \infty} (\left| f^{-1}(b_n) \right|^{1/n})}$, and does not converge if $ \left| z \right| $ is greater than that; for $z$ equal to $R$, it can converge or diverge. Further, these approximants are equal at each $n$ in the sequence to the $\oplus$ Taylor series:
 
 $$
-b_0 + z \cdot f(b_1 + z \cdot f(b_2 + \dots)) = \bigoplus_{n=0}^{\infty} [f^{-1}(z)^n \otimes f^{-1}(b_n)] = f^{-1}\left( \sum_{n=0}^{\infty} b_n f\left( \left[ f^{-1}(z) \right]^n \right) \right).
+b_0 + z \cdot f(b_1 + z \cdot f(b_2 + \dots)) = \bigoplus_{n=0}^{\infty} \left[ f^{-1}(z)^n \otimes f^{-1}(b_n) \right]  = f^{-1}\left( \sum_{n=0}^{\infty} b_n f\left( \left[ f^{-1}(z) \right]^n \right) \right).
 $$
 
 ## Some Ideas That Didn't Make It In
