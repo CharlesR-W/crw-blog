@@ -70,7 +70,7 @@ In turn, giving you at least one metric $d_{\oplus}$. You can presumably do just
 The last thing I'll use is a notion of intervals and the natural (Haar) measure:
 
 $$
-d\mu_{\oplus}(x) = \frac{dx}{\left. \frac{d}{dg} (x \oplus g) \|_{g=e_{\oplus}}}
+d\mu_{\oplus}(x) = \frac{dx}{\| \frac{d}{dg} (x \oplus g) \|_{g=e_{\oplus}}}
 $$
 
 This basically lets us express the $\oplus$-integral in terms of the regular additive one; note $\frac{d}{dx}$ there is the normal additive derivative. $\mu_{\oplus}$ is defined by the fact that if you feed it an interval, it'll give you an answer which is invariant under action by $\oplus$-ing anything to both ends of the interval—the same way $(1,10)$ is the same length as $(1 \oplus 10, 10 \oplus 10) = (11,20)$, just with $\oplus$ instead. In the geometric case, _multiplying_ both interval-ends by 10 will give you the length wrt $\mu$ before and after.
