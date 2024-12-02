@@ -70,7 +70,7 @@ In turn, giving you at least one metric $d_{\oplus}$. You can presumably do just
 The last thing I'll use is a notion of intervals and the natural (Haar) measure:
 
 $$
-d\mu_{\oplus}(x) = \frac{dx}{\left. \frac{d}{dg} (x \oplus g) \right|_{g=e_{\oplus}}}
+d\mu_{\oplus}(x) = \frac{dx}{\left. \frac{d}{dg} (x \oplus g) \|_{g=e_{\oplus}}}
 $$
 
 This basically lets us express the $\oplus$-integral in terms of the regular additive one; note $\frac{d}{dx}$ there is the normal additive derivative. $\mu_{\oplus}$ is defined by the fact that if you feed it an interval, it'll give you an answer which is invariant under action by $\oplus$-ing anything to both ends of the interval—the same way $(1,10)$ is the same length as $(1 \oplus 10, 10 \oplus 10) = (11,20)$, just with $\oplus$ instead. In the geometric case, _multiplying_ both interval-ends by 10 will give you the length wrt $\mu$ before and after.
@@ -495,7 +495,7 @@ $$
 [f^{-1} * G_2](f(z), \{ b_n \}) = \sum_{n=0}^{\infty} z^n b_n
 $$
 
-Cauchy-Hadamard theorem tells us how to find the radius of convergence of the series for this last expression. The second-to-last expression will then converge absolutely for all $ \left| f^{-1}(z) \right|  < R$, where
+Cauchy-Hadamard theorem tells us how to find the radius of convergence of the series for this last expression. The second-to-last expression will then converge absolutely for all $ \| f^{-1}(z) \|  < R$, where
 
 $$
 R = \frac{1}{\limsup_{n \to \infty} (|f^{-1}(b_n)|^{1/n})}.
@@ -503,15 +503,15 @@ $$
 
 Can we use this to say when the formal sequence $G_1$ will converge? Plug in the identity above $ E_1(x) = f\left(\left[f * E_1\right]\left(f^{-1}\left(x\right)\right)\right) $ (“Real Taylor series = $f$ (pseudo-Taylor series with different args)”—they are equal at each step in the sequence).
 
-We know the following: $ \left[ f^{-1} * G_2 \right] (z, \{ b_n \}) $ converges for $ \left| f^{-1}(z) \right| < R$, and that it is equal to the right-hand side of the above in value at every order of partial approximant. Therefore, the sequence of partial approximants (still for a different series than we started with!)
+We know the following: $ \left[ f^{-1} * G_2 \right] \left( z, \{ b_n \} \right) $ converges for $ \| f^{-1} \left( z \right) \| < R$, and that it is equal to the right-hand side of the above in value at every order of partial approximant. Therefore, the sequence of partial approximants (still for a different series than we started with!)
 
 $$
 f(G_{2,n}(z, \{ f^{-1}(b_n) \}))
 $$
 
-converges if and only if $ \left| z \right| < R $, to a value we’ll call $ f(L) $.
+converges if and only if $ \| z \| < R $, to a value we’ll call $ f(L) $.
 
-Assume $f$ is continuous everywhere, so if any sequence $a_n \to a$, then $f(a_n) \to f(a)$. Then the sequence $G_{2,n}(z, \{ f^{-1}(b_n) \})$ converges if and only if $ \left| z \right| < R$ to $L$ (and thus so does $G_{1,n}(z, \{ f^{-1}(b_n) \})$).
+Assume $f$ is continuous everywhere, so if any sequence $a_n \to a$, then $f(a_n) \to f(a)$. Then the sequence $G_{2,n}(z, \{ f^{-1}(b_n) \})$ converges if and only if $ \| z \| < R$ to $L$ (and thus so does $G_{1,n}(z, \{ f^{-1}(b_n) \})$).
 
 Thus we have:
 
@@ -523,7 +523,7 @@ $$
 b_0 + z \cdot f(b_1 + z \cdot f(b_2 + \dots))
 $$
 
-converges if $\left| z \right| < \frac{1}{\limsup_{n \to \infty} (\left| f^{-1}(b_n) \right|^{1/n})}$, and does not converge if $ \left| z \right| $ is greater than that; for $z$ equal to $R$, it can converge or diverge. Further, these approximants are equal at each $n$ in the sequence to the $\oplus$ Taylor series:
+converges if $\| z \| < \frac{1}{\limsup_{n \to \infty} (\| f^{-1}(b_n) \|^{1/n})}$, and does not converge if $ \| z \| $ is greater than that; for $z$ equal to $R$, it can converge or diverge. Further, these approximants are equal at each $n$ in the sequence to the $\oplus$ Taylor series:
 
 $$
 b_0 + z \cdot f(b_1 + z \cdot f(b_2 + \dots)) = \bigoplus_{n=0}^{\infty} \left[ f^{-1}(z)^n \otimes f^{-1}(b_n) \right]  = f^{-1}\left( \sum_{n=0}^{\infty} b_n f\left( \left[ f^{-1}(z) \right]^n \right) \right).
