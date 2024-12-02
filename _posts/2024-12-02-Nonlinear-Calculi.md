@@ -495,21 +495,17 @@ $$
 \left[ f^{-1} * G_2 \right](f(z), \{ b_n \}) = \sum_{n=0}^{\infty} z^n b_n
 $$
 
-Cauchy-Hadamard theorem tells us how to find the radius of convergence of the series for this last expression. The second-to-last expression will then converge absolutely for all $|f^{-1}(z)| < R$, where 
+Cauchy-Hadamard theorem tells us how to find the radius of convergence of the series for this last expression. The second-to-last expression will then converge absolutely for all $|f^{-1}(z)| < R$, where
 $$
 R = \frac{1}{\limsup_{n \to \infty} \left( |f^{-1}(b_n)|^{1/n} \right)}.
 $$
-Can we use this to say when the formal sequence $G_1$ will converge? Plug in the identity above $E_1(x) = f\left( \left[ f * E_1 \right](f^{-1}(x)) \right)$, but for $E_1$ replaced with $\left[ f^{-1} * G_2 \right]$, and swap $f$ with $f^{-1}$:
-$$
-\left[ f^{-1} * G_2 \right](z, \{ b_n \}) = f\left( \left[ f * \left[ f^{-1} * G_2 \right] \right](f^{-1}(z), \{ f^{-1}(b_n) \}) \right) = f\left( G_2\left( f^{-1}(z), \{ f^{-1}(b_n) \} \right) \right).
-$$
-("Real Taylor series = $f$ (pseudo-Taylor series with different args)"—they are equal _at each step in the sequence_).
+Can we use this to say when the formal sequence $G_1$ will converge? Plug in the identity above $E_1(x) = f\left( \left[ f * E_1 \right](f^{-1}(x)) \right)$ (“Real Taylor series = $f$ (pseudo-Taylor series with different args)”—they are equal at each step in the sequence).
 
-We know the following: $\left[ f^{-1} * G_2 \right](z, \{ b_n \})$ converges for $|f^{-1}(z)| < R$, and that it is equal to the right-hand side of the above in value _at every order of partial approximant_. Therefore, the sequence of partial approximants (still for a different series than we started with!)
+We know the following: $\left[ f^{-1} * G_2 \right](z, \{ b_n \})$ converges for $|f^{-1}(z)| < R$, and that it is equal to the right-hand side of the above in value at every order of partial approximant. Therefore, the sequence of partial approximants (still for a different series than we started with!)
 $$
 f\left( G_{2,n}\left( z, \{ f^{-1}(b_n) \} \right) \right)
 $$
-converges if and only if $|z| < R$, to a value we'll call $f(\tilde{L})$.
+converges if and only if $|z| < R$, to a value we’ll call $f(\tilde{L})$.
 
 Assume $f$ is continuous everywhere, so if any sequence $a_n \to a$, then $f(a_n) \to f(a)$. Then the sequence $G_{2,n}\left( z, \{ f^{-1}(b_n) \} \right)$ converges if and only if $|z| < R$ to $\tilde{L}$ (and thus so does $G_{1,n}\left( z, \{ f^{-1}(b_n) \} \right)$).
 
@@ -527,8 +523,10 @@ b_0 + z \cdot f\left( b_1 + z \cdot f\left( b_2 + \dots \right) \right) = \bigop
 $$
 
 
+
 ## Some Ideas That Didn't Make It In
 - Variational calculus on twisting function $f$, maybe so that you can linearize some nonlinear ODE? Maybe do a Lie group flow in 'some optimal way' to achieve some objective
 - Differential geometry + connection to Lie groups etc. - well beyond my ken for now.
 - Eigenvalue equations? Connection to Sturm-Liouville?
 - Are there any neat tricks you can use for multivariable equations? Like "transforming one variable but not the other"?
+
