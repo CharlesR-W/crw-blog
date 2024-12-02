@@ -34,7 +34,7 @@ Scott Garrabrant has a good series on geometric thinking, geometric expectations
 We can do this way more generally too—I had to learn an appreciable bit of purer-than-I'm-used-to math stuff to really elaborate on this idea of 'naturalness', so:
 
 1. Possible pure math warning if you're an applied-math person.
-2. I'm quite cavalier in seeing what I can get out of my equations and not disposed right now to try and be rigorous and parsimonious about what conditions/axioms I'm using—please take the use of any pure math term like "division ring}" to mean "something like a division ring, maybe plus or minus some axioms." And please watch out for any mistakes induced by this cavalierness—I’m just here to have fun :)
+2. I'm quite cavalier in seeing what I can get out of my equations and not disposed right now to try and be rigorous and parsimonious about what conditions/axioms I'm using—please take the use of any pure math term like "division ring" to mean "something like a division ring, maybe plus or minus some axioms." And please watch out for any mistakes induced by this cavalierness—I’m just here to have fun :)
 
 ## How to Summon Forth Your Very Own Calculus Monstrosity!
 *(Feel free to skip below to the examples if you want to see where this is going before reading the ingredients list!)*
@@ -61,7 +61,7 @@ $$
 \text{abs}(x) = 
 \begin{cases} 
 x & \text{if } x \in P \\
--a & \text{otherwise}
+-x & \text{otherwise}
 \end{cases}
 $$
 
@@ -334,19 +334,19 @@ So just as in linear algebra, a lot of fuss is made over how a matrix is a mere 
 
 Put another way, we can abstract away the particular implementation of these operations and talk JUST about the abstract relationships between objects. All the "answers" above, where I spell out e.g., "otimes is actually implemented by $f^{-1} \left( f(x) \otimes f(y) \right)$", you should actually read as "otimes CAN BE REPRESENTED IN THE STANDARD FIELD as $f^{-1} \left( f(x) \otimes f(y) \right)$". BUT you could obviously do the opposite and say "REGULAR multiplication can be represented in the $\oplus$ field as $a \otimes b = f \left( f^{-1}(a) \otimes f^{-1}(b) \right)$".
 
-As an example with functions, if you have some $p_+$, you get $p_{\times}$ by rewriting all the operators in $p_+$ by their $\oplus$ counterparts. E.g., $p_+(x) = x^3 = x \otimes x \otimes x$, so $p_{\times}(x) = x \otimes x \otimes x = x^{\ln(x)^{\ln(x)}}$. $p_+$ is the representation of $p$ in the standard field, and $p_{\times}$ is the representation of $p$ in the geometric world (the $x^{\dots}$ bit is just a tutorial on how to calculate that).
+As an example with functions, if you have some $p_+$, you get $p_{\times}$ by rewriting all the operators in $p_+$ by their $\oplus$ counterparts. E.g., $p_+(x) = x \otimes x \otimes x$, so $p_{\times}(x) = x \otimes x \otimes x = x^{\ln(x)^{\ln(x)}}$. $p_+$ is the representation of $p$ in the standard field, and $p_{\times}$ is the representation of $p$ in the geometric world (the $x^{\dots}$ bit is just a tutorial on how to calculate that).
 
 Cute, right? We can take this further. Consider the arbitrarily selected differential equation
 
 $$
 \frac{d}{dx} y + q\left( x \right)^2 y = p\left( x \right)
-$$
+$$$
 
 More suggestively,
 
 $$
 D_+ y_+ + q_+\left( x \right)^2 \cdot y_+ = p_+\left( x \right)
-$$
+$$$
 
 The plus subscript means "in the standard field."
 
@@ -354,13 +354,13 @@ Obviously, you can tell where I'm going with this;
 
 $$
 D_{\oplus} y_{\oplus} \oplus \left( q_{\oplus}\left( x \right) \otimes q_{\oplus}\left( x \right) \right) \otimes y = p_{\oplus}\left( x \right)
-$$
+$$$
 
 or less irritatingly:
 
 $$
 D y \oplus \left( \left( q\left( x \right) \otimes q\left( x \right) \right) \otimes y \right) = p\left( x \right)
-$$
+$$$
 
 Now this is an "abstract differential equation"; $p$ and $q$ are 'abstract functions', and $\oplus$ is 'abstract addition'. The ODEs we normally deal with are, in some sense, representing this abstract relationship "in the standard field." Or another perspective is that this is one ODE for each definition of $\oplus$.
 
@@ -375,7 +375,7 @@ So,
 
 $$
 D_H D_H g = \frac{g}{g'} \left( g'' - 2 g' \right)
-$$
+$$$
 
 which looks complicated enough to give something that I would be intimidated by.
 
@@ -383,25 +383,25 @@ So maybe something like
 
 $$
 y'' - \left( p - 2 \right) \frac{y'}{y} = 0
-$$
+$$$
 
 All we have to do is recognize $D_H^2$:
 
 $$
 D_H^2 y = p_+\left( x \right)
-$$
+$$$
 
 Now we can solve $y'' = p\left( x \right)$
 
 $$
-y = A x + B + J^{\left[ 0, x \right]}_{x_1} J^{\left[ 0, x_1 \right]}_{x_2} p_H\left( x_2 \right)
-$$
+y = A x + B + J^{\left[ 0, x \right]}_{\oplus} \left( J^{\left[ 0, x_1 \right]}_{\oplus} \left[ p_H\left( x_2 \right) \right] \right)
+$$$
 
 And now we transform back by reinterpreting:
 
 $$
 \frac{1}{y} = \frac{1}{A x} + \frac{1}{B} + \frac{1}{ \int_0^x \frac{dx_1}{ \left[ \int_0^{x_1} \frac{dx_2}{ \left[ p_+\left( x_2 \right) \right] } \right] } }
-$$
+$$$
 
 I'm not going to actually verify that that's a solution because I haven't learned to use SymPy yet, lol. *(It's on the list!)* (If it _is_ wrong, the principle I think still stands)
 
@@ -416,8 +416,8 @@ Let's say we have a continued function approximation of something of interest—
 Continued products are a pretty simple example, just because the transformation using $\ln$ is pretty obvious, so let's try continued fractions instead, for flavor!
 
 $$
-f(x) = \frac{1}{ \frac{1}{b_1} + \frac{x}{ \frac{1}{b_2} + \frac{x}{ \frac{1}{b_3} + \dots  } }}
-$$
+f(x) = \frac{1}{ \left( \frac{1}{b_1} + \frac{x}{ \left( \frac{1}{b_2} + \frac{x}{ \left( \frac{1}{b_3} + \dots \right) } \right) } \right) }
+$$$
 
 *(Normally the $b_1$'s are inverted compared to this definition, but I'm tired of trying to close parentheses, thus cheating.)*
 
@@ -425,13 +425,13 @@ This is just
 
 $$
 f(x) = b_1 \oplus \left( x \otimes \left( b_2 \oplus \left( x \otimes b_3 \dots \right) \right) \right)
-$$
+$$$
 
 or abstractly
 
 $$
 f(x) = b_1 + x \otimes \left( b_2 + x \otimes \left( \dots \right) \right)
-$$
+$$$
 
 Which is equivalent to a Taylor series in $x$ (with coefficients $a_n = b_0 b_1 \dots b_n$). How fun!
 
@@ -449,7 +449,7 @@ Suppose we have some _expression_ consisting of strings of variables and/or oper
 
 $$
 f * E_1 = E_2 = \left[ \text{sym if sym.is\_variable()} \text{ else } \text{convert\_to\_O}\left( \text{sym} \right) \right]
-$$
+$$$
 
 "For each symbol in the expression, if it's a variable, leave it alone, but if it's an operation, replace it with its $\oplus$ counterpart." *(I'm not worrying about things like handling parentheses, etc., since the extension is obvious.)*
 
@@ -457,13 +457,13 @@ For a given value of variables (I'll call them all 'x', lol), evaluating $E_1(x)
 
 $$
 \left[ f * E_1 \right](x) = E_2(x) = f^{-1}\left( E_1\left( f(x) \right) \right)
-$$
+$$$
 
 And also:
 
 $$
 E_1(x) = f\left( \left[ f * E_1 \right]\left( f^{-1}(x) \right) \right)
-$$
+$$$
 
 Standard coordinate change stuff, but I always mess it up unless I do it this way, lol.
 
@@ -471,7 +471,7 @@ Consider the general continued function approximation
 
 $$
 g(z) = b_0 + z \cdot f\left( b_1 + z \cdot f\left( \dots \right) \right)
-$$
+$$$
 
 Call this expression $G_1(z, \{ b_n \})$.
 
@@ -479,7 +479,7 @@ $g(z)$ is equal at all orders to the series, without arranging terms or anything
 
 $$
 g(z) = f^{-1}\left( b_0 \right) \oplus f^{-1}\left( z \right) \otimes f^{-1}\left( b_1 \right) \oplus \dots = \bigoplus_{n=0}^{\infty} \left[ f^{-1}\left( z \right)^n \otimes f^{-1}\left( b_n \right) \right]
-$$
+$$$
 
 Call this expression $G_2(z, \{ b_n \})$.
 
@@ -487,19 +487,19 @@ Then we see that:
 
 $$
 \left[ f^{-1} * G_2 \right](z, \{ b_n \}) = \sum_{n=0}^{\infty} f^{-1}\left( z \right)^n b_n
-$$
+$$$
 
 and then:
 
 $$
 \left[ f^{-1} * G_2 \right](f(z), \{ b_n \}) = \sum_{n=0}^{\infty} z^n b_n
-$$
+$$$
 
 Cauchy-Hadamard theorem tells us how to find the radius of convergence of the series for this last expression. The second-to-last expression will then converge absolutely for all $ \left| f^{-1}(z) \right| < R $, where $ R $ is determined by the tail of the $ \{ b_n \} $. Can we use this to say when the formal sequence $ G_1 $ will converge? Plop in the identity above $ E_1(x) = f\left( \left[ f * E_1 \right]\left( f^{-1}(x) \right) \right) $, but for $E_1$ replaced with $ \left[ f^{-1} * G_2 \right] $, and swap $f$ with $f^{-1}$:
 
 $$
 \left[ f^{-1} * G_2 \right](z, \{ b_n \}) = f\left( \left[ f * \left[ f^{-1} * G_2 \right] \right]\left( f^{-1}(z), \{ f^{-1}(b_n) \} \right) \right) = f\left( G_2\left( f^{-1}(z), \{ f^{-1}(b_n) \} \right) \right)
-$$
+$$$
 
 ("Real Taylor series = $f$ (pseudo-Taylor series with different args)"—they are equal _at each step in the sequence_).
 
@@ -507,7 +507,7 @@ We know the following: $\left[ f^{-1} * G_2 \right](z, \{ b_n \})$ converges for
 
 $$
 f\left( G_{2,n} \left( z, \{ f^{-1}(b_n) \} \right) \right)
-$$
+$$$
 
 converges if and only if $ \left| z \right| < R $, to a value we'll call $f(\tilde{L})$.
 
@@ -521,7 +521,7 @@ The sequence of continued-function approximants $b_0 + z \cdot f\left( b_1 + z \
 
 $$
 b_0 + z \cdot f\left( b_1 + z \cdot f\left( b_2 + \dots \right) \right) = \bigoplus_{n=0}^{\infty} \left[ f^{-1}\left( z \right)^n \otimes f^{-1}\left( b_n \right) \right] = f^{-1}\left( \sum_{n=0}^{\infty} b_n f\left( \left[ f^{-1}\left( z \right) \right]^n \right) \right)
-$$
+$$$
 
 ## Some Ideas That Didn't Make It In
 - Variational calculus on twisting function $f$, maybe so that you can linearize some nonlinear ODE? Maybe do a Lie group flow in 'some optimal way' to achieve some objective
