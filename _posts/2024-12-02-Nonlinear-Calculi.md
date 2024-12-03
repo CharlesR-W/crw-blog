@@ -146,7 +146,7 @@ $$
 J^{[a, b]}_{\oplus} [f] = \lim_{N \to \infty} \bigoplus_{n=0}^N [f(x_n) \otimes \mu(x_n, x_{n-1})]
 $$
 
-Where the $N$ limit is a normal (not $\oplus$) integer limit, and $x_n$ are a partition of $(a, b)$ which approaches size $0$ and $\mu(dx)$ should approach $0_{\otimes}$. To make life easy, the $x_n$ should be placed so $\mu(dx)$ is a constant (not $\Delta x$). Note that the interval $(a, b)$ is defined totally independently of $\oplus$, but its _length_ is not.
+Where the $N$ limit is a normal (not $ \oplus $) integer limit, and $x_n$ are a partition of $(a, b)$ which approaches size $0$ and $\mu(dx)$ should approach $ e_{\oplus} $. To make life easy, the $x_n$ should be placed so $\mu(dx)$ is a constant (not $\Delta x$). Note that the interval $(a, b)$ is defined totally independently of $\oplus$, but its _length_ is not.
 
 ### Indefinite Integral
 
