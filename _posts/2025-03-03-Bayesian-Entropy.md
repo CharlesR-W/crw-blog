@@ -1,9 +1,8 @@
-# Thermodynamics as Approximate Bayesian Inference
-
-**Charles Renshaw-Whitman**  
-*Date: \today*
-
 ---
+title:  "Bayesian Entropy"
+date: 2025-03-03
+---
+# Thermodynamics as Approximate Bayesian Inference
 
 ## Abstract
 
