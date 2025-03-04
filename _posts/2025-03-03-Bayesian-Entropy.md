@@ -35,7 +35,7 @@ Statistical mechanics typically uses such information about the state to constru
 $$
 \begin{aligned}
 \max_{p \in \Delta \Omega} \quad & -\sum_{\omega \in \Omega} p(\omega) \ln p(\omega)\\
-\textrm{s.t.} \quad & \mathbb{E}_{\omega \sim p}[f(\omega)] = F\,.
+\textrm{s.t.} \quad & \mathbb{E}_{\omega \sim p}[f(\omega)] = F
 \end{aligned}
 $$
 
@@ -46,7 +46,7 @@ The solution, proceeding by the method of Lagrange multipliers, gives the family
 $$
 \begin{aligned}
 p(\omega; \lambda) &= \frac{1}{Z(\lambda)} \exp\Bigl(-\lambda_f\, f(\omega)\Bigr)\\[0.5ex]
-Z(\lambda) &= \sum_{\omega \in \Omega} \exp\Bigl(-\lambda_f\, f(\omega)\Bigr)\,.
+Z(\lambda) &= \sum_{\omega \in \Omega} \exp\Bigl(-\lambda_f\, f(\omega)\Bigr)
 \end{aligned}
 $$
 
@@ -55,7 +55,7 @@ For different values of $\lambda_f$, this distribution corresponds to a solution
 Applying this principle to the energy of some system—where $f$ is the total energy $E(\omega)$ of the microstate and its conjugate $\lambda_E$ is the inverse temperature—yields the Gibbs distribution for the microcanonical ensemble:
 
 $$
-p(\omega) = \frac{1}{Z}\exp\Bigl(-\lambda_E\, E(\omega)\Bigr)\,.
+p(\omega) = \frac{1}{Z}\exp\Bigl(-\lambda_E\, E(\omega)\Bigr)
 $$
 
 Here, the parameter $\lambda_E$ is the inverse temperature of the system; indeed, taking this to be the *definition* of temperature is appealing. We note that temperature is (1) not a property of the *physical* system, but instead a parameter describing our probability distribution over it, and (2) not all such probability distributions may be described by a temperature—for example, any system whose exact microstate is known (if this state is not a ground state) is, naively, indescribable in this way.
@@ -71,14 +71,14 @@ If we wish to consider a prior probability distribution $p_0$ and use a slightly
 $$
 \begin{aligned}
 \max_{p \in \Delta \Omega} \quad & -\sum_{\omega \in \Omega} p(\omega) \ln \frac{p(\omega)}{p_0(\omega)}\\
-\textrm{s.t.} \quad & \mathbb{E}_{\omega \sim p}[f(\omega)] = F\,.
+\textrm{s.t.} \quad & \mathbb{E}_{\omega \sim p}[f(\omega)] = F
 \end{aligned}
 $$
 
 This yields
 
 $$
-p_{\mathrm{PME}}(\omega | F) = \frac{p_0(\omega)}{Z_f}\exp\Bigl(-\lambda_f\, f(\omega)\Bigr)\,.
+p_{\mathrm{PME}}(\omega | F) = \frac{p_0(\omega)}{Z_f}\exp\Bigl(-\lambda_f\, f(\omega)\Bigr)
 $$
 
 It may be verified that this update rule is consistent (updating on one observation and then updating on a second is equivalent to updating on both at once). In fact, this update procedure is a useful generalization of Bayes’ rule to allow for more general types of constraints; for details see [Geometric Rationality Updating Garrabrant](#). Further, note that the objective function with the prior corresponds to
@@ -96,7 +96,7 @@ For the remainder of this work, we shall refer to the “principle of maximum en
 Bayes’ rule for updating a probability distribution $p(\omega)$ upon observing $F$ may be written as
 
 $$
-p(\omega | F) = \frac{p(F | \omega)\,p(\omega)}{p(F)}\,.
+p(\omega | F) = \frac{p(F | \omega)\,p(\omega)}{p(F)}
 $$
 
 However, supposing we perform a measurement of the system, it is conceptually incorrect to update on that measurement yielding the given value $F$ *in expectation*. For example, if one observes that the sky is blue, it would be foolish merely to *decrease* your estimated probability that it is in fact green—the probability should go all the way to zero (ignoring any possibility of misperception).
@@ -123,7 +123,7 @@ $$
 \begin{aligned}
 \text{Bayes:} \quad
 & \max_{p \in \Delta \Omega} \quad -D_{KL}(p \parallel p_0)\\[0.5ex]
-& \textrm{s.t.} \quad p(f(\omega)=F) = 1\,.
+& \textrm{s.t.} \quad p(f(\omega)=F) = 1
 \end{aligned}
 $$
 
@@ -134,7 +134,7 @@ In fact, requiring the observation to occur with probability one is equivalent t
 $$
 p(f(\omega)=F) \propto \delta \Bigl(f(\omega) - F\Bigr)
 \quad\leftrightarrow\quad
-\mathbb{E}[f^n] = \bigl(\mathbb{E}[f]\bigr)^n \quad \forall\, n\in \mathbb{Z}^+\,.
+\mathbb{E}[f^n] = \bigl(\mathbb{E}[f]\bigr)^n \quad \forall\, n\in \mathbb{Z}^+
 $$
 
 (moment-matching is necessary but not sufficient in general to prove the equality of two distributions on an infinite interval.)
@@ -146,7 +146,7 @@ We may construct a hierarchy of “higher-order” thermodynamics corresponding 
 $$
 \begin{aligned}
 \max_{p \in \Delta \Omega} \quad & -D_{KL}(p \parallel p_0)\\[0.5ex]
-\textrm{s.t.} \quad & \mathbb{E}_{\omega \sim p}[f^n(\omega)] = F^n \quad \text{for } n=0,\dots,N\,.
+\textrm{s.t.} \quad & \mathbb{E}_{\omega \sim p}[f^n(\omega)] = F^n \quad \text{for } n=0,\dots,N
 \end{aligned}
 $$
 
@@ -176,7 +176,7 @@ p_M
 F^1\\[0.5ex]
 \vdots \\[0.5ex]
 F^N 
-\end{bmatrix}\,.
+\end{bmatrix}
 $$
 
 Since (by assumption) the $f_i$ are all distinct, the rank of the Vandermonde matrix is $\min(N,M)$; that is, specifying as many moments as there are distinct measurements suffices to yield the requisite delta-function distribution. Thus, for a discrete observable that can take $M$ distinct values, $M$th order thermodynamics is exactly equivalent to Bayesian updating!
@@ -194,7 +194,7 @@ That Bayes’ rule should be the “gold standard” against which any update ru
 Thermodynamics simplifies physics by considering large-$N$ limits. We might ask whether such a limit justifies using the PMEEC instead of the full Bayesian calculation. Suppose we can define the state space $\Omega(N)$ and some observable $E$ that is well defined in the large-$N$ limit. If the error is quantified using the KL divergence, the error will typically be infinite for continuous observables (since the PMEEC will generally assign some probability density over the whole space, whereas the Bayesian distribution must be a delta function on the “true” manifold—almost all of the PMEEC mass will lie in regions where the Bayesian distribution is zero). Assuming the system is discrete, we calculate (with $p_B$ the Bayesian and $p_G$ the Gibbs distribution, using uniform priors for both):
 
 $$
-D_{KL}(p_{B}\parallel p_{G}) = \beta E_0 + \ln\!\left[\frac{\sum_{\omega} e^{-\beta E(\omega)}}{|E_N^{-1}(E_0)|}\right] = -(F_N-E_0)\beta - \ln|E_N^{-1}(E_0)| = S_G - S_B\,.
+D_{KL}(p_{B}\parallel p_{G}) = \beta E_0 + \ln\!\left[\frac{\sum_{\omega} e^{-\beta E(\omega)}}{|E_N^{-1}(E_0)|}\right] = -(F_N-E_0)\beta - \ln|E_N^{-1}(E_0)| = S_G - S_B
 $$
 
 The final form shows that the divergence is the difference in the two entropies—and since $S_G$ maximizes the entropy subject to a looser constraint than $S_B$, this difference is nonnegative.
@@ -210,7 +210,7 @@ $$
 This analysis is somewhat an artifact of using the KL divergence. A better analysis might involve calculating the “Earth-Mover Distance,” but lacking a simple method for that here, I offer a hackier criterion: the corrections are plausibly unimportant if the Gibbs distribution converges to the Bayesian distribution blurred by a Gaussian with variance $\epsilon>0$ (i.e., take the $N$ limit for fixed $\epsilon$, and then see if the KL distance goes to zero as $\epsilon$ does):
 
 $$
-e^{-\beta E + \ln g_N(E)} \rightarrow e^{-\frac{1}{2}\left(\frac{E-E_0}{\epsilon}\right)^2}\,,
+e^{-\beta E + \ln g_N(E)} \rightarrow e^{-\frac{1}{2}\left(\frac{E-E_0}{\epsilon}\right)^2}
 $$
 
 where $g_N$ is the density of states.
@@ -224,7 +224,7 @@ We have so far assumed that all measurements of the system are ideal; now, let u
 Suppose that a measurement of the observable $f(\omega)$ is drawn according to a probability distribution $p(m_f | f(\omega))$. Assume for simplicity that the measurement distribution may vary depending on $f$ but not directly on the microstate $\omega$, and that the observed value is $M_f$. The Bayesian update prescription is no different than before; it may be formulated as an (unconstrained) optimization problem:
 
 $$
-\max_{p \in \Delta \Omega} \quad \Bigl\{-D_{KL}(p\parallel p_0) + \mathbb{E}_p\bigl[\ln p(M_f | \omega)\bigr]\Bigr\}\,.
+\max_{p \in \Delta \Omega} \quad \Bigl\{-D_{KL}(p\parallel p_0) + \mathbb{E}_p\bigl[\ln p(M_f | \omega)\bigr]\Bigr\}
 $$
 
 That is, the Bayes posterior maximizes the difference between the expected log-likelihood of the measurement and the relative entropy (with respect to the prior).
@@ -232,13 +232,13 @@ That is, the Bayes posterior maximizes the difference between the expected log-l
 One might inquire whether there exists a simple measurement–error profile that naturally entails the PMEEC approximation—that is, whether there exists a $p(m|\omega)$ such that the Bayes posterior given the noisy measurement value equals the Gibbs distribution for the observable measured with no error:
 
 $$
-\frac{e^{-\lambda(m_f) f(\omega)}}{Z(m_f)} = p(\omega | m_f) = \frac{p(m_f|f(\omega))\, p(\omega)}{p(m_f)}\,.
+\frac{e^{-\lambda(m_f) f(\omega)}}{Z(m_f)} = p(\omega | m_f) = \frac{p(m_f|f(\omega))\, p(\omega)}{p(m_f)}
 $$
 
 Then (assuming, for simplicity, a uniform prior),
 
 $$
-p(m_f | f(\omega)) = \frac{e^{-\lambda(m_f)[f(\omega) - m_f]}}{\tilde{Z}(m_f)}\,.
+p(m_f | f(\omega)) = \frac{e^{-\lambda(m_f)[f(\omega) - m_f]}}{\tilde{Z}(m_f)}
 $$
 
 That is, for fixed $m_f$, the measurement noise is a decaying exponential in the signed distance from $f(\omega)$. The behavior as $m_f$ varies is complex, and it is not clear what to make of it, if anything.
@@ -248,7 +248,7 @@ In the moment-matching approximation, we impose the constraint that the induced 
 $$
 \begin{aligned}
 \max_{p \in \Delta \Omega} \quad & -D_{KL}(p\parallel p_0)\\
-\textrm{s.t.} \quad & \mathbb{E}_{\omega \sim p}\Bigl[f(\omega)^n\Bigr] = \int d\omega\, \frac{p(M_f | f(\omega))\, p_0(\omega)}{p_0(M_f)}\, f(\omega)^n \quad \text{for } n=0,\dots,N\,.
+\textrm{s.t.} \quad & \mathbb{E}_{\omega \sim p}\Bigl[f(\omega)^n\Bigr] = \int d\omega\, \frac{p(M_f | f(\omega))\, p_0(\omega)}{p_0(M_f)}\, f(\omega)^n \quad \text{for } n=0,\dots,N
 \end{aligned}
 $$
 
@@ -261,7 +261,7 @@ Once the measurement is noisy, the constraining data need no longer be the power
 Consider a classical ideal gas as is traditionally used to derive the Maxwell–Boltzmann distribution. We seek the probability distribution function that predicts the energy of each particle:
 
 $$
-Z = \int \exp\Biggl[ -\sum_{k=0}^N \beta_k\, E^k(\omega) \Biggr]\, d\omega\,.
+Z = \int \exp\Biggl[ -\sum_{k=0}^N \beta_k\, E^k(\omega) \Biggr]\, d\omega
 $$
 
 Because the $\beta_k$ are nonnegative (arising from their origin as Lagrange multipliers), the exponent is strictly negative and strictly decreasing. Determining the $\beta_k$ given the required expectation value of $E$ is clearly nontrivial in general; nonetheless, observables may be computed—as in the traditional theory—by examining derivatives of the log-partition function $Z$.
@@ -269,7 +269,7 @@ Because the $\beta_k$ are nonnegative (arising from their origin as Lagrange mul
 The first problem is that even for an ideal gas (with no interactions), the partition function no longer factorizes into a product of single-particle partition functions—it now incorporates correlations between the particles. (For example, $E^2(\omega) = \Bigl[\sum_i E(\omega_i)\Bigr]^2$ is not linear in the energies of individual particles.) The velocity distribution becomes
 
 $$
-Z_N(\beta_1,\beta_2) = \int \Biggl(\prod_i d^3\vec{v}_i\Biggr) \exp\Biggl[-\beta_1 \sum_i v_i^2 - \beta_2 \Bigl(\sum_i v_i^2\Bigr)^2 \Biggr] = \frac{S_{3N-1}}{2} \int_0^\infty dX\, X^{\frac{3}{2}N - 1} e^{-\beta_1 X - \beta_2 X^2}\,,
+Z_N(\beta_1,\beta_2) = \int \Biggl(\prod_i d^3\vec{v}_i\Biggr) \exp\Biggl[-\beta_1 \sum_i v_i^2 - \beta_2 \Bigl(\sum_i v_i^2\Bigr)^2 \Biggr] = \frac{S_{3N-1}}{2} \int_0^\infty dX\, X^{\frac{3}{2}N - 1} e^{-\beta_1 X - \beta_2 X^2}
 $$
 
 where 
@@ -289,13 +289,13 @@ Higher orders of the moment-matching expansion may be approximated as perturbati
 Consider a system modeled by an unperturbed Hamiltonian $H_0(\omega)$ and a perturbing potential $H_I(\omega)$. The associated Gibbs distribution at order $N$ is
 
 $$
-p(\omega) = \frac{ \exp\Biggl(-\sum_{k=0}^N \beta_k\, \Bigl[H_0(\omega) + H_I(\omega)\Bigr]^k \Biggr)}{\int \exp\Biggl(-\sum_{k=0}^N \beta_k\, \Bigl[H_0(\omega) + H_I(\omega)\Bigr]^k \Biggr) d\omega}\,.
+p(\omega) = \frac{ \exp\Biggl(-\sum_{k=0}^N \beta_k\, \Bigl[H_0(\omega) + H_I(\omega)\Bigr]^k \Biggr)}{\int \exp\Biggl(-\sum_{k=0}^N \beta_k\, \Bigl[H_0(\omega) + H_I(\omega)\Bigr]^k \Biggr) d\omega}
 $$
 
 Two separate expansions are required—the first with respect to the perturbing potential, and the second with respect to the higher-order moments. Let $O(\omega)$ be an observable; its expectation is
 
 $$
-\langle O \rangle_{N} = \int d\omega\, O(\omega)\, p(\omega)\,.
+\langle O \rangle_{N} = \int d\omega\, O(\omega)\, p(\omega)
 $$
 
 Here, $\langle \cdot \rangle_{k}$ denotes the expectation with respect to the $k$th order Gibbs distribution (to full order in $H_I$), while we reserve $\langle \cdot \rangle_{k,0}$ to mean the expectation with respect to the *unperturbed* $k$th order Gibbs distribution (so $\langle \cdot \rangle_{0,0}$ refers to the traditional first-order unperturbed distribution).
@@ -304,8 +304,8 @@ We may develop perturbation expansions as follows:
 
 $$
 \begin{aligned}
-\langle O \rangle_{N} &= \frac{\Bigl\langle O\, \exp\Bigl[-\sum_{k=1}^N \beta_k\Bigl((H_0 + H_I)^k - H_0^k\Bigr)\Bigr]\Bigr\rangle_{N,0}}{\Bigl\langle \exp\Bigl[-\sum_{k=1}^N \beta_k\Bigl((H_0 + H_I)^k - H_0^k\Bigr)\Bigr]\Bigr\rangle_{N,0}}\,,\\[1ex]
-\langle O \rangle_{N} &= \frac{\Bigl\langle O\, \exp\Bigl[\beta_1 H_0 - \sum_{k=1}^N \beta_k\Bigl((H_0 + H_I)^k\Bigr)\Bigr]\Bigr\rangle_{0,0}}{\Bigl\langle \exp\Bigl[\beta_1 H_0 - \sum_{k=1}^N \beta_k\Bigl((H_0 + H_I)^k\Bigr)\Bigr]\Bigr\rangle_{0,0}}\,.
+\langle O \rangle_{N} &= \frac{\Bigl\langle O\, \exp\Bigl[-\sum_{k=1}^N \beta_k\Bigl((H_0 + H_I)^k - H_0^k\Bigr)\Bigr]\Bigr\rangle_{N,0}}{\Bigl\langle \exp\Bigl[-\sum_{k=1}^N \beta_k\Bigl((H_0 + H_I)^k - H_0^k\Bigr)\Bigr]\Bigr\rangle_{N,0}}\\[1ex]
+\langle O \rangle_{N} &= \frac{\Bigl\langle O\, \exp\Bigl[\beta_1 H_0 - \sum_{k=1}^N \beta_k\Bigl((H_0 + H_I)^k\Bigr)\Bigr]\Bigr\rangle_{0,0}}{\Bigl\langle \exp\Bigl[\beta_1 H_0 - \sum_{k=1}^N \beta_k\Bigl((H_0 + H_I)^k\Bigr)\Bigr]\Bigr\rangle_{0,0}}
 \end{aligned}
 $$
 
@@ -318,7 +318,7 @@ The first equation is useful if an analytic or otherwise tractable form of the $
 Consider a gas of classical non-interacting particles. We are often interested in “extensive” quantities; let us denote such a quantity by $E(\omega)$, satisfying
 
 $$
-E(\omega) = \sum_i E(\omega_i),
+E(\omega) = \sum_i E(\omega_i)
 $$
 
 where $i$ indexes the subsystems (or particles) of the system, with a total of $N$ subsystems. The first-order Gibbs distribution is
@@ -326,14 +326,14 @@ where $i$ indexes the subsystems (or particles) of the system, with a total of $
 $$
 \begin{aligned}
 p(\omega_1,\dots,\omega_N) &= \frac{1}{Z}\exp\Bigl[-\sum_i \lambda\, E(\omega_i)\Bigr] \\
-&= \prod_i \frac{e^{-\lambda\, E(\omega_i)}}{Z_i} = \prod_i p_i(\omega_i)\,,
+&= \prod_i \frac{e^{-\lambda\, E(\omega_i)}}{Z_i} = \prod_i p_i(\omega_i)
 \end{aligned}
 $$
 
 i.e. the probability distribution for each subsystem is *independent* of the others. The second-order Gibbs distribution is given by
 
 $$
-p(\omega_1,\dots,\omega_N) = \frac{1}{Z}\exp\Bigl[-\sum_i \lambda_1\, E(\omega_i) - \lambda_2\, \Bigl(\sum_i E(\omega_i)\Bigr)^2\Bigr]\,.
+p(\omega_1,\dots,\omega_N) = \frac{1}{Z}\exp\Bigl[-\sum_i \lambda_1\, E(\omega_i) - \lambda_2\, \Bigl(\sum_i E(\omega_i)\Bigr)^2\Bigr]
 $$
 
 It is clear upon inspection that this distribution does not factor into a product of independent distributions—in fact, it introduces a nonlocal “interaction” between each pair of subsystems (which is purely inferential in nature, not physical).
@@ -345,7 +345,7 @@ With this in mind, one might ask if there is a sense in which the first-order Gi
 $$
 \begin{aligned}
 \min_{p \in \Delta \Omega} \quad & D_{KL}(p_B \parallel p)\\
-\textrm{s.t.} \quad & p(\omega_1,\dots,\omega_N) = p_1(\omega_1) \cdots p_N(\omega_N) \quad \forall\,\omega_1,\dots,\omega_N\,,
+\textrm{s.t.} \quad & p(\omega_1,\dots,\omega_N) = p_1(\omega_1) \cdots p_N(\omega_N) \quad \forall\,\omega_1,\dots,\omega_N
 \end{aligned}
 $$
 
@@ -364,7 +364,7 @@ Specifically, define
 $$
 \begin{aligned}
 S_t = \max_{p \in \Delta \Omega} \quad & S_I[p]\\
-\textrm{s.t.} \quad & p(O_i(\omega)=o_i) = 1 \quad \text{for } i=0,\dots,t\,,
+\textrm{s.t.} \quad & p(O_i(\omega)=o_i) = 1 \quad \text{for } i=0,\dots,t
 \end{aligned}
 $$
 
@@ -373,7 +373,7 @@ for observables $O_i$ measured to have value $o_i$. In this model, $S_t$ is nond
 Landauer’s limit is a hypothetical bound on the amount of heat created during irreversible computation at a given temperature $T$, viz.
 
 $$
-\Delta Q \geq \beta^{-1} \ln 2\,.
+\Delta Q \geq \beta^{-1} \ln 2
 $$
 
 The argument is roughly as follows: during computation, a bit register must change state; if this change is irreversible—so that information about the previous state cannot be inferred from the current state—then (by classical determinism) the lost information must be ejected into the environment. This transfer of information increases the entropy of our probability distribution over the environment, corresponding to at least one bit of heat. (If computations are reversible, as in some cases in quantum computing, this limit does not apply. Likewise, if one keeps an updated probability distribution over the environment, the limit may not apply.) Thus, Landauer’s limit is not a fundamental law of nature but an implication of a particular model of how an observer stores and discards data about the environment and system.
@@ -386,10 +386,10 @@ $$
 D_{KL}\Bigl(p(\omega_{E,t+1} |\beta_{t}, \omega_{S,t}) \,\parallel\, p_E(\omega_{E,t+1}; \beta_{t+1})\Bigr)
 $$
 
-(or one might reference the globally optimal distribution $p(\omega_{E,t+1} | \{\omega_S\}_{t'\le t})$ ). That is, one seeks
+Or one might reference the globally optimal distribution $p(\omega_{E,t+1} | \{\omega_S\}_{t'\le t})$. Thus, one seeks
 
 $$
-\min_{\beta_{t+1} } \quad \int d\omega_{E,t+1}\, p(\omega_{E,t+1} | \beta_t, \omega_{S,t}) \ln p(\omega_{E,t+1} | \beta_{t+1})\,.
+\min_{\beta_{t+1} } \quad \int d\omega_{E,t+1}\, p(\omega_{E,t+1} | \beta_t, \omega_{S,t}) \ln p(\omega_{E,t+1} | \beta_{t+1})
 $$
 
 If we define $p(\omega_{E,t+1} | \beta_t, \omega_{S,t})$ as equal to $p(\omega_{E,t}|\beta_t)$ if there exists an $\omega_{S,t+1}$ such that $(\omega_{S,t},\omega_{E,t})$ evolves to $ (\omega_{S,t+1},\omega_{E,t+1}) $, and 0 otherwise, then the change in entropy is given by $D_{KL}(\beta_{t+1} \parallel \beta_t)$.
@@ -399,7 +399,7 @@ In the case where $\beta$ is a complete parameterization of $\Delta \Omega_E$, t
 Finally, we can discuss the geometric interpretation of the entropy increase: the distributions parameterized by $\beta$ form a submanifold $B$ of $\Delta \Omega$. The entropy $S$ is a scalar function on $\Delta \Omega$, and the system evolves under a Hamiltonian $H$ which induces a Liouville operator $L$ on $\Delta \Omega$. A point $p$ in $\Delta \Omega$ is evolved by $L$ along a path where $S$ is constant (since no information is lost under deterministic, reversible evolution). However, $L$ induces an effective evolution $L_B = P_B L$ on the manifold $B$ (where $P_B$ is the projection operator from the tangent bundle $T\Delta \Omega$ to $TB$); in general, $L_B$ does not move along iso-entropy lines. In other words, the time derivative of the entropy along $L_B$ is
 
 $$
-\frac{d}{dt} S(\beta) = \nabla_{L_B} S = \mathcal{I}\bigl(P_B \nabla S,\, P_B L\bigr)\,,
+\frac{d}{dt} S(\beta) = \nabla_{L_B} S = \mathcal{I}\bigl(P_B \nabla S,\, P_B L\bigr)
 $$
 
 with $\mathcal{I}$ denoting the Fisher metric (which defines the inner product).
@@ -413,13 +413,13 @@ A cute example application is that the accrued entropy may depend on the number 
 Grandy develops time-dependent thermodynamics by considering constraints that fix the expected value of an observable $F$ at the time when the time-dependent distribution $\rho_t$ is calculated, namely $\langle F(t) \rangle_t$. This yields
 
 $$
-\rho_t = \frac{1}{Z_t}\exp\Biggl(-\beta H - \int_0^t \lambda(t')\, F(t')\, dt'\Biggr)\,.
+\rho_t = \frac{1}{Z_t}\exp\Biggl(-\beta H - \int_0^t \lambda(t')\, F(t')\, dt'\Biggr)
 $$
 
 At each time $t$, the Lagrange multiplier $\lambda(t)$ is set to fix
 
 $$
-\langle F(t) \rangle_t = \operatorname{Tr}\Bigl(\rho_t F(t)\Bigr) = - \left[ \frac{\delta}{\delta \lambda(t)} \ln Z_t \right]_{\lambda(t)=\lambda^*(t)}\,.
+\langle F(t) \rangle_t = \operatorname{Tr}\Bigl(\rho_t F(t)\Bigr) = - \left[ \frac{\delta}{\delta \lambda(t)} \ln Z_t \right]_{\lambda(t)=\lambda^*(t)}
 $$
 
 While this method allows one to develop a time-dependent thermodynamics, the procedure is not consistent; although it fixes the expectation values $\langle F(t')\rangle_{t'}$ at the time of measurement, these values are not constrained at later times—i.e., $\langle F(t')\rangle_t \neq \langle F(t')\rangle_{t'}$ even after constraining $F(t')$ by measurement.
@@ -427,13 +427,13 @@ While this method allows one to develop a time-dependent thermodynamics, the pro
 This issue can be remedied within first-order thermodynamics by replacing $\lambda(t')$ with $\lambda_t(t')$; then, at each time $t$, the entire set of Lagrange multipliers must be redetermined. One then has
 
 $$
-\rho_t = \frac{1}{Z_t}\exp\Biggl(-\beta H - \int_0^t \lambda_t(t')\, F(t')\, dt'\Biggr)\,,
+\rho_t = \frac{1}{Z_t}\exp\Biggl(-\beta H - \int_0^t \lambda_t(t')\, F(t')\, dt'\Biggr)
 $$
 
 with the multipliers determined by requiring
 
 $$
-\langle F(t')\rangle_t = - \left[ \frac{\delta}{\delta \lambda_t(t')}\ln Z_t \right]_{\lambda_t=\lambda^*_t} \quad \forall\, 0\le t'\le t\,.
+\langle F(t')\rangle_t = - \left[ \frac{\delta}{\delta \lambda_t(t')}\ln Z_t \right]_{\lambda_t=\lambda^*_t} \quad \forall\, 0\le t'\le t
 $$
 
 That is, the multipliers are now determined by a *functional* equation rather than a single nonlinear equation. This adds considerable complexity; moreover, the common short-memory approximation (i.e., that system correlations decay rapidly) suggests that constraining information from far in the past is irrelevant. Nonetheless, in discussions of apparent irreversibilities it is important to acknowledge that such approximations entail the discarding of information.
@@ -441,23 +441,23 @@ That is, the multipliers are now determined by a *functional* equation rather th
 The entropy of the system is then given by
 
 $$
-\frac{1}{k} S_t = \ln Z_t - \beta \langle H \rangle_t - \int_0^t \lambda_t(t')\, \langle F(t')\rangle_t \, dt'\,.
+\frac{1}{k} S_t = \ln Z_t - \beta \langle H \rangle_t - \int_0^t \lambda_t(t')\, \langle F(t')\rangle_t \, dt'
 $$
 
 It may be observed that the time derivative of the density matrix (i.e. the change in the density matrix due solely to changes in the information used to construct it, rather than due to unitary time evolution) satisfies
 
 $$
-\partial_t \rho_t = \rho_t \Biggl[ \int_0^t \partial_t \lambda_t(t')\, \Bigl(\overline{F(t')} - \langle F(t')\rangle_t\Bigr)\, dt' + \lambda_t(t)\,\Bigl(\overline{F(t)}-\langle F(t)\rangle_t\Bigr) \Biggr]\,,
+\partial_t \rho_t = \rho_t \Biggl[ \int_0^t \partial_t \lambda_t(t')\, \Bigl(\overline{F(t')} - \langle F(t')\rangle_t\Bigr)\, dt' + \lambda_t(t)\,\Bigl(\overline{F(t)}-\langle F(t)\rangle_t\Bigr) \Biggr]
 $$
 
 where the overbar denotes the generalized Kubo transform of the operator (taken with respect to $\ln \rho_t$). The time derivative of an operator’s expectation can be written as
 
 $$
-\frac{d}{dt}\langle C(t)\rangle_t = \langle \dot{C}(t)\rangle_t + \lambda_t(t)\, K_{CF}^t(t,t) + \int_0^t \partial_t \lambda_t(t')\, K_{CF}^t(t',t) \, dt'\,,
+\frac{d}{dt}\langle C(t)\rangle_t = \langle \dot{C}(t)\rangle_t + \lambda_t(t)\, K_{CF}^t(t,t) + \int_0^t \partial_t \lambda_t(t')\, K_{CF}^t(t',t) \, dt'
 $$
 
 which in turn leads to the definition of the source $\sigma_C(t)$ (heuristically, the extent to which the expectation of $C$ changes due to the updating of the density matrix):
 
 $$
-\sigma_C(t) = \frac{d}{dt}\langle C(t)\rangle_t - \langle \dot{C}(t)\rangle_t = \lambda_t(t)\, K_{CF}^t(t,t) + \int_0^t \partial_t \lambda_t(t')\, K_{CF}^t(t',t) \, dt'\,.
+\sigma_C(t) = \frac{d}{dt}\langle C(t)\rangle_t - \langle \dot{C}(t)\rangle_t = \lambda_t(t)\, K_{CF}^t(t,t) + \int_0^t \partial_t \lambda_t(t')\, K_{CF}^t(t',t) \, dt'
 $$
