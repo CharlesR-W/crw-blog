@@ -1,6 +1,6 @@
 ---
-title:  "Bayesian Entropy"
-date: 2025-03-03
+title: "Bayesian Entropy"
+date: "2025-03-03"
 ---
 # Thermodynamics as Approximate Bayesian Inference
 
@@ -407,7 +407,6 @@ A cute example application is that the accrued entropy may depend on the number 
 ---
 
 ## Appendix: Information-Preserving First-Order Thermodynamics
-This is an extended exercise in "correcting" Grandy's formulation of non-equilibrium thermodynamics (the notional correction is of course to an approximation he introduces in order to recover classical thermodynamics, of which I'm quite sure he was aware).  This is disconnected from the rest of the post in that it uses a lot of his particular formalism, thus may not be interesting if you haven't read his book.
 
 Grandy develops time-dependent thermodynamics by considering constraints that fix the expected value of an observable \(F\) at the time when the time-dependent distribution \(\rho_t\) is calculated, namely \(\langle F(t) \rangle_t\). This yields
 
@@ -463,3 +462,5 @@ which in turn leads to the definition of the source \(\sigma_C(t)\) (heuristical
 
 ---
 
+**Note on Markdown and LaTeX Compatibility:**  
+To properly render the LaTeX math in this document, ensure that your Markdown environment supports LaTeX (e.g., via MathJax or KaTeX). Many blogging platforms (such as Jekyll or GitHub Pages) require you to enable math rendering in their configuration. Additionally, the custom LaTeX macros (such as `\macro`, `\curlybrackets`, etc.) from your original preamble have been omitted here. If you require those definitions, consider including them separately in a code block or adapting your Markdown processor accordingly.
