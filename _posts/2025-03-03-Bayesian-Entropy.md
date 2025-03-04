@@ -221,7 +221,7 @@ Another possible reason to prefer PMEEC over full Bayesian updating is that meas
 
 We have so far assumed that all measurements of the system are ideal; now, let us relax that assumption to allow for “noisy” measurements. (Note that measurements which are “coarse” in the sense of mapping many possible microstates to a single observed value—for example, the energy of a many-particle system—can be conceptually handled without explicit noise.)
 
-Suppose that a measurement of the observable $f(\omega)$ is drawn according to a probability distribution $p(m_f | f(\omega))$ (assume for simplicity that the measurement distribution may vary depending on $f$ but not directly on the microstate $\omega$) and that the observed value is $M_f$. The Bayesian update prescription is no different than before; it may be formulated as an (unconstrained) optimization problem:
+Suppose that a measurement of the observable $f(\omega)$ is drawn according to a probability distribution $p(m_f | f(\omega))$. Assume for simplicity that the measurement distribution may vary depending on $f$ but not directly on the microstate $\omega$, and that the observed value is $M_f$. The Bayesian update prescription is no different than before; it may be formulated as an (unconstrained) optimization problem:
 
 $$
 \max_{p \in \Delta \Omega} \quad \Bigl\{-D_{KL}(p\parallel p_0) + \mathbb{E}_p\bigl[\ln p(M_f | \omega)\bigr]\Bigr\}\,.
@@ -386,13 +386,13 @@ $$
 D_{KL}\Bigl(p(\omega_{E,t+1} |\beta_{t}, \omega_{S,t}) \,\parallel\, p_E(\omega_{E,t+1}; \beta_{t+1})\Bigr)
 $$
 
-(or one might reference the globally optimal distribution $p(\omega_{E,t+1} | \{\omega_S\}_{t'\le t})$). That is, one seeks
+(or one might reference the globally optimal distribution $p(\omega_{E,t+1} | \{\omega_S\}_{t'\le t})$ ). That is, one seeks
 
 $$
 \min_{\beta_{t+1} } \quad \int d\omega_{E,t+1}\, p(\omega_{E,t+1} | \beta_t, \omega_{S,t}) \ln p(\omega_{E,t+1} | \beta_{t+1})\,.
 $$
 
-If we define $p(\omega_{E,t+1} | \beta_t, \omega_{S,t})$ as equal to $p(\omega_{E,t}|\beta_t)$ if there exists an $\omega_{S,t+1}$ such that $(\omega_{S,t},\omega_{E,t})$ evolves to $(\omega_{S,t+1},\omega_{E,t+1})$ (and 0 otherwise), then the change in entropy is given by $D_{KL}(\beta_{t+1} \parallel \beta_t)$.
+If we define $p(\omega_{E,t+1} | \beta_t, \omega_{S,t})$ as equal to $p(\omega_{E,t}|\beta_t)$ if there exists an $\omega_{S,t+1}$ such that $(\omega_{S,t},\omega_{E,t})$ evolves to $ (\omega_{S,t+1},\omega_{E,t+1}) $, and 0 otherwise, then the change in entropy is given by $D_{KL}(\beta_{t+1} \parallel \beta_t)$.
 
 In the case where $\beta$ is a complete parameterization of $\Delta \Omega_E$, the entropy is zero and $\beta$ updates solely to reflect time evolution.
 
