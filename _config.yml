@@ -4,3 +4,15 @@ description: Personal Blog
 markdown: kramdown
 permalink: /:title/
 baseurl: "/crw-blog"
+
+# Kramdown configuration for better math handling
+kramdown:
+  math_engine: mathjax
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    block:
+      line_numbers: false
+  # Disable Kramdown's math processing to avoid conflicts with MathJax
+  math_engine_opts:
+    delimiters: 'dollars'
+    output: 'mathml'
