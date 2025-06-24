@@ -1,0 +1,36 @@
+Configuration file: /home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/_config.yml
+            Source: /home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG
+       Destination: /home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/_site
+ Incremental build: disabled. Enable with --incremental
+      Generating... 
+                    done in 0.348 seconds.
+ Auto-regeneration: disabled when running server detached.
+[31m                    ------------------------------------------------[0m
+[31m      Jekyll 4.4.1   Please append `--trace` to the `serve` command [0m
+[31m                     for any additional information or backtrace. [0m
+[31m                    ------------------------------------------------[0m
+/usr/lib/ruby/3.0.0/socket.rb:201:in `bind': Address already in use - bind(2) for 0.0.0.0:4000 (Errno::EADDRINUSE)
+	from /usr/lib/ruby/3.0.0/socket.rb:201:in `listen'
+	from /usr/lib/ruby/3.0.0/socket.rb:765:in `block in tcp_server_sockets'
+	from /usr/lib/ruby/3.0.0/socket.rb:227:in `each'
+	from /usr/lib/ruby/3.0.0/socket.rb:227:in `foreach'
+	from /usr/lib/ruby/3.0.0/socket.rb:763:in `tcp_server_sockets'
+	from /home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/webrick-1.9.1/lib/webrick/utils.rb:60:in `create_listeners'
+	from /home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/webrick-1.9.1/lib/webrick/server.rb:130:in `listen'
+	from /home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/webrick-1.9.1/lib/webrick/server.rb:111:in `initialize'
+	from /home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/webrick-1.9.1/lib/webrick/httpserver.rb:47:in `initialize'
+	from /home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/jekyll-4.4.1/lib/jekyll/commands/serve.rb:216:in `new'
+	from /home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/jekyll-4.4.1/lib/jekyll/commands/serve.rb:216:in `start_up_webrick'
+	from /home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/jekyll-4.4.1/lib/jekyll/commands/serve.rb:102:in `process'
+	from /home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/jekyll-4.4.1/lib/jekyll/command.rb:91:in `block in process_with_graceful_fail'
+	from /home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/jekyll-4.4.1/lib/jekyll/command.rb:91:in `each'
+	from /home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/jekyll-4.4.1/lib/jekyll/command.rb:91:in `process_with_graceful_fail'
+	from /home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/jekyll-4.4.1/lib/jekyll/commands/serve.rb:85:in `block (2 levels) in init_with_program'
+	from /home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/mercenary-0.4.0/lib/mercenary/command.rb:221:in `block in execute'
+	from /home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/mercenary-0.4.0/lib/mercenary/command.rb:221:in `each'
+	from /home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/mercenary-0.4.0/lib/mercenary/command.rb:221:in `execute'
+	from /home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/mercenary-0.4.0/lib/mercenary/program.rb:44:in `go'
+	from /home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/mercenary-0.4.0/lib/mercenary.rb:21:in `program'
+	from /home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/jekyll-4.4.1/exe/jekyll:15:in `<top (required)>'
+	from /home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/bin/jekyll:25:in `load'
+	from /home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/bin/jekyll:25:in `<main>'

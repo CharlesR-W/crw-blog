@@ -7,6 +7,36 @@
   Add your open source license, GitHub uses MIT license.
 -->
 
+# Fruit of Preterition Blog
+
+## Local Development Workflow (GitHub-Compatible)
+
+- **Install dependencies:**
+  ```bash
+  bundle install --path vendor/bundle
+  ```
+- **Start local server (identical to GitHub Pages):**
+  ```bash
+  bundle exec jekyll serve --config _config.yml,_config.local.yml
+  ```
+  Or use the helper script:
+  ```bash
+  ./dev-server.sh start
+  ```
+- **Stop server:**
+  ```bash
+  ./dev-server.sh stop
+  ```
+- **Edit posts in `_posts/`, preview at [http://localhost:4000/crw-blog/](http://localhost:4000/crw-blog/)**
+- **For local-only settings (like live reload), use `_config.local.yml`** (ignored by GitHub Pages)
+- **All dependencies are locked to GitHub Pages via the `github-pages` gem in the Gemfile.**
+
+See `DEVELOPMENT.md` for full details, troubleshooting, and explanations.
+
+---
+
+# Original README content below
+
 # GitHub Pages
 
 _Create a site or blog from your GitHub repositories with GitHub Pages._
