@@ -1,4 +1,5 @@
 Configuration file: /home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/_config.yml
+To use retry middleware with Faraday v2.0+, install `faraday-retry` gem
             Source: /home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG
        Destination: /home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/_site
  Incremental build: disabled. Enable with --incremental

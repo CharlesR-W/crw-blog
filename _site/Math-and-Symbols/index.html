@@ -1,4 +1,58 @@
-<p>#Math and Symbols</p>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Math and Symbols</title>
+
+  <!-- MathJax configuration for LaTeX rendering -->
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true,
+        tags: 'ams'
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        ignoreHtmlClass: "tex2jax_ignore",
+        processHtmlClass: "tex2jax_process"
+      },
+      svg: {
+        fontCache: 'global'
+      },
+      startup: {
+        pageReady: function () {
+          return MathJax.startup.defaultPageReady().then(function () {
+            console.log('MathJax is loaded and ready');
+          });
+        }
+      }
+    };
+  </script>
+  <script type="text/javascript" async src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-svg.js"></script>
+</head>
+
+<body>
+  <!-- Header and site title -->
+  <header>
+    <h1>Fruit of Preterition</h1>
+    <nav>
+      <ul>
+        <li><a href="/crw-blog/">Home</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main content of the page -->
+  <main>
+    <p>#Math and Symbols</p>
 
 <h2 id="introduction">Introduction</h2>
 <p>I believe it was J. A. Wheeler as said something to the effect of “Never do a calculation before you know the answer”.  I spent a good amount of time today picking at a math problem and am writing this post to reflect on how I did it, how I might have done (a lot?) better, and how this relates to the function of math as a whole in practical matters.</p>
@@ -29,3 +83,14 @@
 <p>I think we chalk up another one to Hegel here and give the obvious cop-out answer that there’s really a scale of how braindead the symbol manipulation you’re doing is, symbol-jockeying on the left, pure gigachad platonic geometry on the right.  And there’s also the meta direction of reasoning <em>about</em> the symbol jockeying we’re doing, and I think that’s useful and meaningfully different from the above.</p>
 
 <p>Takeaway for me is that I’ll never get to the point where solving a familiar problem is easier from first-principles semantic reasoning than plug-and-chug, and that’s okay - but I should actively try to verbally reason through different angles of attack.  Perfecting that will by my New Year’s resolution - we’ll see if I get any more Feynman-y.</p>
+
+  </main>
+
+  <!-- Footer with basic info -->
+  <footer>
+    <p>&copy; 2025 Fruit of Preterition. Powered by <a href="https://pages.github.com/">GitHub
+        Pages</a>.</p>
+  </footer>
+</body>
+
+</html>

@@ -1,4 +1,58 @@
-<p>In this post I want to outline a connection between the renormalization-semigroup and invariant subspaces in renormalization theory. It’s written mostly for fun / to share and discuss with friends.  Consider this water-cooler brainstorming.</p>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Musings on Running Couplings and Invariant Subspaces</title>
+
+  <!-- MathJax configuration for LaTeX rendering -->
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true,
+        tags: 'ams'
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        ignoreHtmlClass: "tex2jax_ignore",
+        processHtmlClass: "tex2jax_process"
+      },
+      svg: {
+        fontCache: 'global'
+      },
+      startup: {
+        pageReady: function () {
+          return MathJax.startup.defaultPageReady().then(function () {
+            console.log('MathJax is loaded and ready');
+          });
+        }
+      }
+    };
+  </script>
+  <script type="text/javascript" async src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-svg.js"></script>
+</head>
+
+<body>
+  <!-- Header and site title -->
+  <header>
+    <h1>Fruit of Preterition</h1>
+    <nav>
+      <ul>
+        <li><a href="/crw-blog/">Home</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main content of the page -->
+  <main>
+    <p>In this post I want to outline a connection between the renormalization-semigroup and invariant subspaces in renormalization theory. It’s written mostly for fun / to share and discuss with friends.  Consider this water-cooler brainstorming.</p>
 
 <p>Consider the Ising Hamiltonian</p>
 
@@ -106,3 +160,14 @@ Since we’re interested in the Hamiltonian, the transformation is</p>
 <h3 id="does-this-matter-if-we-only-care-about-fixed-points">Does this matter if we only care about fixed points?</h3>
 <p>Not that I can tell or think of readily.  Maybe if you’re concerned about moving the fixed points around.  I wrote this mostly thinking about renormalization as ‘coarse graining’ in that you use it to extract some high level dynamical features of a system by zooming out some finite amount, as opposed to specifically looking for fixed points, phase transitions, etc.  I suspect if I knew more / read more about RG I could say more interesting things.  I’m also interested to think more about other types of ‘systems of systems’
  more broadly.</p>
+
+  </main>
+
+  <!-- Footer with basic info -->
+  <footer>
+    <p>&copy; 2025 Fruit of Preterition. Powered by <a href="https://pages.github.com/">GitHub
+        Pages</a>.</p>
+  </footer>
+</body>
+
+</html>

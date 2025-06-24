@@ -76,7 +76,7 @@ $$
 \mathrm{exp}(H_{\lambda_2}) = \int_{B(\lambda_1) - B(\lambda_2)} \mathcal{D}\sigma ~ \mathrm{exp}( H_{\lambda_1} \left[ \sigma \right] )
 $$
 
-If I understand correctly, it's not very well defined to talk about $\frac{dH}{d\lambda}$ here because they have different domains (you lose the DoFs which are integrated out), and so there's a "Polchinski" version of the ERSG which has a soft cutoff that makes this problem go away.  Anyways, you choose some soft-cutoff function then you impose the condition \frac{dZ_\lambda}{d\lambda} = 0, and any trajectory $H(\lambda)$ which solves that works.
+If I understand correctly, it's not very well defined to talk about $\frac{dH}{d\lambda}$ here because they have different domains (you lose the DoFs which are integrated out), and so there's a "Polchinski" version of the ERSG which has a soft cutoff that makes this problem go away.  Anyways, you choose some soft-cutoff function then you impose the condition $\frac{dZ_\lambda}{d\lambda} = 0$, and any trajectory $H(\lambda)$ which solves that works.
 
 I'm not sure if this gets us to deriving RSG 'lossiness', in the sense of no longer being able to uniquely determine $H(\lambda)$ from initial conditions.  I'm a bit too tired to think more on this now, and as ever painfully aware that 'good enough' is the enemy of 'at all' as regards my writing.
 
@@ -134,5 +134,4 @@ $$
 Do you think we could require $\lambda$ to trade off against accuracy at a pre-determined rate (I have in mind saying that $\lambda$ is e.g. number of flops available compute some observable, and asking what the best system to simulate is - sounds hard but neat idea! (any relation maybe to the role of compute in ML scaling laws??))
 
 ### Does this matter if we only care about fixed points?
-Not that I can tell or think of readily.  Maybe if you're concerned about moving the fixed points around.  I wrote this mostly thinking about renormalization as 'coarse graining' in that you use it to extract some high level dynamical features of a system by zooming out some finite amount, as opposed to specifically looking for fixed points, phase transitions, etc.  I suspect if I knew more / read more about RG I could say more interesting things.  I'm also interested to think more about other types of 'systems of systems'
- more broadly.
+Not that I can tell or think of readily.  Maybe if you're concerned about moving the fixed points around.  I wrote this mostly thinking about renormalization as 'coarse graining' in that you use it to extract some high level dynamical features of a system by zooming out some finite amount, as opposed to specifically looking for fixed points, phase transitions, etc.  I suspect if I knew more / read more about RG I could say more interesting things.  I'm also interested to think more about other types of 'systems of systems' more broadly.

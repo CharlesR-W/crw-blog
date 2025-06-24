@@ -1,4 +1,58 @@
-<p>#Sketch of a Metaprinciple for Physics</p>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Zero Measure Principle for Physics Metatheory</title>
+
+  <!-- MathJax configuration for LaTeX rendering -->
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true,
+        tags: 'ams'
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        ignoreHtmlClass: "tex2jax_ignore",
+        processHtmlClass: "tex2jax_process"
+      },
+      svg: {
+        fontCache: 'global'
+      },
+      startup: {
+        pageReady: function () {
+          return MathJax.startup.defaultPageReady().then(function () {
+            console.log('MathJax is loaded and ready');
+          });
+        }
+      }
+    };
+  </script>
+  <script type="text/javascript" async src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-svg.js"></script>
+</head>
+
+<body>
+  <!-- Header and site title -->
+  <header>
+    <h1>Fruit of Preterition</h1>
+    <nav>
+      <ul>
+        <li><a href="/crw-blog/">Home</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main content of the page -->
+  <main>
+    <p>#Sketch of a Metaprinciple for Physics</p>
 
 <p>###Physics Paradigms
 There are a few “big-deal” trends in the history of physics - probably more than I as a practitioner am aware of.  One is mathematization - the use of mathematical language to describe physical phenomena; this makes descriptions precise, falsifiable, and establishes a “search space” of “nearby equations” should your first attempt prove wrong.  Another, a big part of the paradigm under which we now labor, is symmetry - the idea that mechanical systems have certain symmetries, and these symmetries entail things about the system which are usually pretty important.  This has been elevated to such a level that the completion of the standard model might be colloquially described as “trying to guess the right symmetry group”.  The really shockingly <em>original</em> application of this idea to generating theories about physical reality is the creation of special relativity from symmetries of the Maxwell equations.</p>
@@ -35,3 +89,14 @@ Morally, my point is that every time you can show that a theory has some cool ge
 <p>###Why Time Travel, FTL, Etc. Are All Possible (“The no-no-go theorem”)</p>
 
 <p>Another great example I had in mind while writing this is Weinberg’s paper “testing quantum mechanics” where he discusses non-linear schrodinger equations etc. and figures out bounds for what we could detect and what we would expect to be properties such solutions would have.  This is one of the reasons I like to say time travel and FTL and communication with other Everett-branches are all ‘definitely possible’ - sorta as a joke since they probably aren’t practical (but who knows what the limits of technology are), and they may end up being impossible for reasons of ontology, but hey fun to think about!</p>
+
+  </main>
+
+  <!-- Footer with basic info -->
+  <footer>
+    <p>&copy; 2025 Fruit of Preterition. Powered by <a href="https://pages.github.com/">GitHub
+        Pages</a>.</p>
+  </footer>
+</body>
+
+</html>
