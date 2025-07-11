@@ -1,5 +1,5 @@
 ---
-title: "Everybody is a Quantum Bayesian"
+title: "[Musing, Physics] Everybody is a Quantum Bayesian"
 date: 2024-10-06
 ---
 # Everyone is a Quantum Bayesian

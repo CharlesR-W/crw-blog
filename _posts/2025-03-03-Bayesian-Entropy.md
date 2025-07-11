@@ -1,5 +1,5 @@
 ---
-title: "Bayesian Entropy"
+title: "[Information Theory, Physics] Bayesian Entropy"
 date: "2025-03-03"
 ---
 

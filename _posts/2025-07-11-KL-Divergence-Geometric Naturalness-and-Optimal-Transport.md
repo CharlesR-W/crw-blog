@@ -1,5 +1,5 @@
 ---
-title: "KL Divergence, Geometric Naturalness, and Optimal Transport"  
+title: "[Information Theory] KL Divergence, Geometric Naturalness, and Optimal Transport"  
 date: "2025-07-11"  
 ---
 # KL Divergence, Geometric Naturalness, and Optimal Transport

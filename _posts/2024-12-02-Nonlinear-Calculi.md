@@ -1,5 +1,5 @@
 ---
-title: "Nonlinear Calculi"
+title: "[Math] Nonlinear Calculi"
 date: 2024-12-02
 ---
 

@@ -1,5 +1,5 @@
 ---
-title: "Why Differential Entropy Stinks (And What to Do About It)"
+title: "[Information Theory] Why Differential Entropy Stinks (And What to Do About It)"
 date: "2025-06-24"
 ---
 

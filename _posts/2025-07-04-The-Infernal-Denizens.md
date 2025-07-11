@@ -1,5 +1,5 @@
 ---
-title: "The Infernal Denizens"  
+title: "[Poetry] The Infernal Denizens"  
 date: "2025-07-04"  
 ---
 
