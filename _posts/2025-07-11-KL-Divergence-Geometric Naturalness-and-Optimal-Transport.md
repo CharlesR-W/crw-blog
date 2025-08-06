@@ -12,7 +12,7 @@ TLDR KL divergence assumes permutation invariance of the underlying space - that
 
 Let's make this concrete. At the end of the day, we want a measure of distance between probability distributions.  KL is this, but it's not "natural" to use on continuous distributions in that it doesn't respect the structure of the real numbers.  It's positive definite, sure, but it's like cold soup - works, but does not spark joy.
 
-Here's the killer example: Consider $P_1 = \delta_0$, and $P_2 = \delta_\epsilon$ for any $\epsilon>0$.  Then $D_{KL}(P_1 || P_2)$ is, depending on your persuasion, infinite or not-defined.  Remember when you were learning programming and they told you you're not allowed to check for equality between floats?  Is it wise and good to have a function which is infinity except when an ill-defined condition holds it's zero?  Nuh-uh.
+Here's the killer example: Consider $P_1 = \delta_0$, and $P_2 = \delta_\epsilon$ for any $\epsilon>0$.  Then $D_{KL}(P_1 \| P_2)$ is, depending on your persuasion, infinite or not-defined.  Remember when you were learning programming and they told you you're not allowed to check for equality between floats?  Is it wise and good to have a function which is infinity except when an ill-defined condition holds it's zero?  Nuh-uh.
 
 ### Two Perspectives On Distances Between Distributions
 
