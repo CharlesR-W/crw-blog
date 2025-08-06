@@ -148,10 +148,10 @@ This is more of a tangent since I was studying β-VAEs at the same time as this-
 The loss function is:
 
 $$
-\mathcal{L} = \mathbb{E}_{q(z|x)}[\log p(x|z)] - \beta D_{KL}(q(z|x) \| p(z))
+\mathcal{L} = \mathbb{E}_{q(z\|x)}[\log p(x\|z)] - \beta D_{KL}(q(z\|x) \| p(z))
 $$
 
-This is the standard VAE loss, but with the hyperparameter $\beta$. For a standard VAE, $\beta=1$. By setting $\beta > 1$, we place a much stronger penalty on the KL divergence term. This term pushes the learned latent distribution for each input, $q(z|x)$, towards a simple prior, $p(z)$ (e.g., an isotropic Gaussian).
+This is the standard VAE loss, but with the hyperparameter $\beta$. For a standard VAE, $\beta=1$. By setting $\beta > 1$, we place a much stronger penalty on the KL divergence term. This term pushes the learned latent distribution for each input, $q(z\|x)$, towards a simple prior, $p(z)$ (e.g., an isotropic Gaussian).
 
 Basically large β tries to make the VAE put all of its samples really close to the origin, even though this makes it way harder to reconstruct stuff - so you have these Gaussian blobs for different classes that it would love to just put infinity far away from each other, but now it can't, so it has to learn to be very judicious with how much it lets each blob spread out - it can only let classes have variance if they 'need it more' than other classes.  At the end of it, the idea is that now you can interpolate between two classes in latent space, and you will meaningfully interpolate in output space too.
 
