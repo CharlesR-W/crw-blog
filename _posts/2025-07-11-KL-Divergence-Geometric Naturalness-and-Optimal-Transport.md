@@ -148,7 +148,7 @@ This is more of a tangent since I was studying β-VAEs at the same time as this-
 The loss function is:
 
 $$
-\mathcal{L} = \mathbb{E}_{q(z\|x)}[\log p(x\|z)] - \beta D_{KL}(q(z\|x) \| p(z))
+\mathcal{L} = \mathbb{E}_{q(z|x)}[\log p(x|z)] - \beta D_{KL}(q(z|x) \| p(z))
 $$
 
 This is the standard VAE loss, but with the hyperparameter $\beta$. For a standard VAE, $\beta=1$. By setting $\beta > 1$, we place a much stronger penalty on the KL divergence term. This term pushes the learned latent distribution for each input, $q(z\|x)$, towards a simple prior, $p(z)$ (e.g., an isotropic Gaussian).
