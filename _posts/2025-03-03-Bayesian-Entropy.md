@@ -11,7 +11,7 @@ date: "2025-03-03"
 In this paper, I illustrate that the branches of physics known as thermodynamics and statistical mechanics may be understood in their entirety as a first-order moment-matching approximation to Bayesian inference. This insight is developed by the extension of the approximation to higher orders, along with a demonstration of the asymptotic correctness of this approximation for a large class of problems. We go on to suggest a framework for generalizations of the Gibbs ensemble for use in various state-inference problems. Finally, we discuss the relationship between the thermodynamic entropy and the information-theoretic entropy in this higher-order thermodynamics.
 
 ---
-
+Note: due to LaTeX compiler issues, the rendering of vertical bar characters "\vert " or "||" may be inconsistent; please interpret with judgement.
 ## Recapitulation of the Derivation of Statistical Mechanics from the Principle of Maximum Entropy
 
 We consider a physical system, say an ideal adiabatically isolated box full of classical, distinguishable gas molecules. Assuming for now that (somehow) one has certain knowledge of the nature of the degrees of freedom therein, we may perfectly describe the state of the system by specifying a point in the phase-space of $N$ particles, 
@@ -78,7 +78,7 @@ $$
 This yields
 
 $$
-p_{\mathrm{PME}}(\omega | F) = \frac{p_0(\omega)}{Z_f}\exp\Bigl(-\lambda_f\, f(\omega)\Bigr)
+p_{\mathrm{PME}}(\omega \vert  F) = \frac{p_0(\omega)}{Z_f}\exp\Bigl(-\lambda_f\, f(\omega)\Bigr)
 $$
 
 It may be verified that this update rule is consistent (updating on one observation and then updating on a second is equivalent to updating on both at once). In fact, this update procedure is a useful generalization of Bayes' rule to allow for more general types of constraints; for details see the post sequence on Geometric Rationality by Garrabrant. Further, note that the objective function with the prior corresponds to
@@ -96,7 +96,7 @@ For the remainder of this work, we shall refer to the "principle of maximum entr
 Bayes' rule for updating a probability distribution $p(\omega)$ upon observing $F$ may be written as
 
 $$
-p(\omega | F) = \frac{p(F | \omega)\,p(\omega)}{p(F)}
+p(\omega \vert  F) = \frac{p(F \vert \omega)\,p(\omega)}{p(F)}
 $$
 
 However, supposing we perform a measurement of the system, it is conceptually incorrect to update on that measurement yielding the given value $F$ *in expectation*. For example, if one observes that the sky is blue, it would be foolish merely to *decrease* your estimated probability that it is in fact green—the probability should go all the way to zero (ignoring any possibility of misperception).
@@ -153,7 +153,7 @@ $$
 In terms of the traditional Lagrange multipliers, this yields the distribution
 
 $$
-p_N(\omega | f(\omega)=F) = \frac{1}{Z_N} \exp\Biggl(-\sum_{n=1}^N \lambda_n\, \bigl(f(\omega)\bigr)^n\Biggr)
+p_N(\omega \vert  f(\omega)=F) = \frac{1}{Z_N} \exp\Biggl(-\sum_{n=1}^N \lambda_n\, \bigl(f(\omega)\bigr)^n\Biggr)
 $$
 
 with $Z_N$ the appropriate normalization constant.
@@ -194,7 +194,7 @@ That Bayes' rule should be the "gold standard" against which any update rule is 
 Thermodynamics simplifies physics by considering large-$N$ limits. We might ask whether such a limit justifies using the PMEEC instead of the full Bayesian calculation. Suppose we can define the state space $\Omega(N)$ and some observable $E$ that is well defined in the large-$N$ limit. If the error is quantified using the KL divergence, the error will typically be infinite for continuous observables (since the PMEEC will generally assign some probability density over the whole space, whereas the Bayesian distribution must be a delta function on the "true" manifold—almost all of the PMEEC mass will lie in regions where the Bayesian distribution is zero). Assuming the system is discrete, we calculate (with $p_B$ the Bayesian and $p_G$ the Gibbs distribution, using uniform priors for both):
 
 $$
-D_{KL}(p_{B}\parallel p_{G}) = \beta E_0 + \ln\!\left[\frac{\sum_{\omega} e^{-\beta E(\omega)}}{|E_N^{-1}(E_0)|}\right] = -(F_N-E_0)\beta - \ln|E_N^{-1}(E_0)| = S_G - S_B
+D_{KL}(p_{B}\parallel p_{G}) = \beta E_0 + \ln\!\left[\frac{\sum_{\omega} e^{-\beta E(\omega)}}{\vert E_N^{-1}(E_0)|}\right] = -(F_N-E_0)\beta - \ln|E_N^{-1}(E_0)| = S_G - S_B
 $$
 
 The final form shows that the divergence is the difference in the two entropies—and since $S_G$ maximizes the entropy subject to a looser constraint than $S_B$, this difference is nonnegative.
@@ -221,24 +221,24 @@ Another possible reason to prefer PMEEC over full Bayesian updating is that meas
 
 We have so far assumed that all measurements of the system are ideal; now, let us relax that assumption to allow for "noisy" measurements. (Note that measurements which are "coarse" in the sense of mapping many possible microstates to a single observed value—for example, the energy of a many-particle system—can be conceptually handled without explicit noise.)
 
-Suppose that a measurement of the observable $f(\omega)$ is drawn according to a probability distribution $p(m_f | f(\omega))$. Assume for simplicity that the measurement distribution may vary depending on $f$ but not directly on the microstate $\omega$, and that the observed value is $M_f$. The Bayesian update prescription is no different than before; it may be formulated as an (unconstrained) optimization problem:
+Suppose that a measurement of the observable $f(\omega)$ is drawn according to a probability distribution $p(m_f \vert  f(\omega))$. Assume for simplicity that the measurement distribution may vary depending on $f$ but not directly on the microstate $\omega$, and that the observed value is $M_f$. The Bayesian update prescription is no different than before; it may be formulated as an (unconstrained) optimization problem:
 
 $$
-\max_{p \in \Delta \Omega} \quad \Bigl\{-D_{KL}(p\parallel p_0) + \mathbb{E}_p\bigl[\ln p(M_f | \omega)\bigr]\Bigr\}
+\max_{p \in \Delta \Omega} \quad \Bigl\{-D_{KL}(p\parallel p_0) + \mathbb{E}_p\bigl[\ln p(M_f \vert  \omega)\bigr]\Bigr\}
 $$
 
 That is, the Bayes posterior maximizes the difference between the expected log-likelihood of the measurement and the relative entropy (with respect to the prior).
 
-One might inquire whether there exists a simple measurement–error profile that naturally entails the PMEEC approximation—that is, whether there exists a $p(m|\omega)$ such that the Bayes posterior given the noisy measurement value equals the Gibbs distribution for the observable measured with no error:
+One might inquire whether there exists a simple measurement–error profile that naturally entails the PMEEC approximation—that is, whether there exists a $p(m\vert \omega)$ such that the Bayes posterior given the noisy measurement value equals the Gibbs distribution for the observable measured with no error:
 
 $$
-\frac{e^{-\lambda(m_f) f(\omega)}}{Z(m_f)} = p(\omega | m_f) = \frac{p(m_f|f(\omega))\, p(\omega)}{p(m_f)}
+\frac{e^{-\lambda(m_f) f(\omega)}}{Z(m_f)} = p(\omega \vert  m_f) = \frac{p(m_f \vert f(\omega))\, p(\omega)}{p(m_f)}
 $$
 
 Then (assuming, for simplicity, a uniform prior),
 
 $$
-p(m_f | f(\omega)) = \frac{e^{-\lambda(m_f)[f(\omega) - m_f]}}{\tilde{Z}(m_f)}
+p(m_f \vert  f(\omega)) = \frac{e^{-\lambda(m_f)[f(\omega) - m_f]}}{\tilde{Z}(m_f)}
 $$
 
 That is, for fixed $m_f$, the measurement noise is a decaying exponential in the signed distance from $f(\omega)$. The behavior as $m_f$ varies is complex, and it is not clear what to make of it, if anything.
@@ -248,7 +248,7 @@ In the moment-matching approximation, we impose the constraint that the induced 
 $$
 \begin{aligned}
 \max_{p \in \Delta \Omega} \quad & -D_{KL}(p\parallel p_0)\\
-\textrm{s.t.} \quad & \mathbb{E}_{\omega \sim p}\Bigl[f(\omega)^n\Bigr] = \int d\omega\, \frac{p(M_f | f(\omega))\, p_0(\omega)}{p_0(M_f)}\, f(\omega)^n \quad \text{for } n=0,\dots,N
+\textrm{s.t.} \quad & \mathbb{E}_{\omega \sim p}\Bigl[f(\omega)^n\Bigr] = \int d\omega\, \frac{p(M_f \vert  f(\omega))\, p_0(\omega)}{p_0(M_f)}\, f(\omega)^n \quad \text{for } n=0,\dots,N
 \end{aligned}
 $$
 
@@ -350,23 +350,23 @@ To illustrate this, note that in the Landauer example the observer has complete 
 Now, consider a generalization where the observer models the system with a vector of parameters $\beta$. Suppose we have $\omega_t = (\omega_{S,t}, \omega_{E,t})$ evolving deterministically. Assume the observer "knows" the microstate $\omega_{S,t}$ and maintains a model of the marginal $p_E(\omega_{E,t}; \beta_t)$, where $\beta_t$ is updated at each time step. The observer is then to "forget" the microstate $\omega_{S,t}$ upon learning the new state $\omega_{S,t+1}$, with a brief overlap where both states are known so that $\beta_t$ can be updated optimally. The new distribution should minimize
 
 $$
-D_{KL}\Bigl(p(\omega_{E,t+1} |\beta_{t}, \omega_{S,t}) \,\parallel\, p_E(\omega_{E,t+1}; \beta_{t+1})\Bigr)
+D_{KL}\Bigl(p(\omega_{E,t+1} \vert  \beta_{t}, \omega_{S,t}) \,\parallel\, p_E(\omega_{E,t+1}; \beta_{t+1})\Bigr)
 $$
 
-Or one might reference the globally optimal distribution $p(\omega_{E,t+1} | \{\omega_S\}_{t'\le t})$. Thus, one seeks
+Or one might reference the globally optimal distribution $p(\omega_{E,t+1} \vert  \{\omega_S\}_{t'\le t})$. Thus, one seeks
 
 $$
-\min_{\beta_{t+1} } \quad \int d\omega_{E,t+1}\, p(\omega_{E,t+1} | \beta_t, \omega_{S,t}) \ln p(\omega_{E,t+1} | \beta_{t+1})
+\min_{\beta_{t+1} } \quad \int d\omega_{E,t+1}\, p(\omega_{E,t+1} \vert  \beta_t, \omega_{S,t}) \ln p(\omega_{E,t+1} \vert \beta_{t+1})
 $$
 
-If we define $p(\omega_{E,t+1} | \beta_t, \omega_{S,t})$ as equal to $p(\omega_{E,t}|\beta_t)$ if there exists an $\omega_{S,t+1}$ such that $(\omega_{S,t},\omega_{E,t})$ evolves to $(\omega_{S,t+1}, \omega_{E,t+1})$, and 0 otherwise, then the change in entropy is given by $D_{KL}(\beta_{t+1} \parallel \beta_t)$.
+If we define $p(\omega_{E,t+1} \vert  \beta_t, \omega_{S,t})$ as equal to $p(\omega_{E,t}\vert\beta_t)$ if there exists an $\omega_{S,t+1}$ such that $(\omega_{S,t},\omega_{E,t})$ evolves to $(\omega_{S,t+1}, \omega_{E,t+1})$, and 0 otherwise, then the change in entropy is given by $D_{KL}(\beta_{t+1} \parallel \beta_t)$.
 
 In the case where $\beta$ is a complete parameterization of $\Delta \Omega_E$, the entropy is zero and $\beta$ updates solely to reflect time evolution.
 
 Finally, we can discuss the geometric interpretation of the entropy: the distributions parameterized by $\beta$ form a submanifold $B$ of $\Delta \Omega$.  Projection onto $B$ is uniquely defined for any distribution in $\Delta \Omega$ by calculating the expectations of the observables conjugate to $\beta$, and then solving the corresponding constrained entropy maximization problem.  Eliding the parameters $\beta$ and the distribution they determine, this is
 
 $$
-proj_B(\omega) = argmin_\beta ~ D_{KL}(\omega || \beta) \newline \\
+proj_B(\omega) = argmin_\beta ~ D_{KL}(\omega \vert  \beta) \newline \\
 s.t. \mathbb{E}_{{\beta}}[O_i] = \mathbb{E}_{\omega}[O_i]
 $$
 

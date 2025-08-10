@@ -4,31 +4,31 @@ To use retry middleware with Faraday v2.0+, install `faraday-retry` gem
        Destination: /home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/_site
  Incremental build: disabled. Enable with --incremental
       Generating... 
-                    done in 10.212 seconds.
+[33m    Liquid Warning: Liquid syntax error (line 365): Unexpected character \ in "{{\beta}}" in /home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/_posts/2025-03-03-Bayesian-Entropy.md[0m
+                    done in 7.023 seconds.
  Auto-regeneration: disabled when running server detached.
-jekyll 3.10.0 | Error:  Address already in use - bind(2) for 0.0.0.0:4000
-/usr/lib/ruby/3.0.0/socket.rb:201:in `bind': Address already in use - bind(2) for 0.0.0.0:4000 (Errno::EADDRINUSE)
-	from /usr/lib/ruby/3.0.0/socket.rb:201:in `listen'
-	from /usr/lib/ruby/3.0.0/socket.rb:765:in `block in tcp_server_sockets'
-	from /usr/lib/ruby/3.0.0/socket.rb:227:in `each'
-	from /usr/lib/ruby/3.0.0/socket.rb:227:in `foreach'
-	from /usr/lib/ruby/3.0.0/socket.rb:763:in `tcp_server_sockets'
-	from /home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/webrick-1.9.1/lib/webrick/utils.rb:60:in `create_listeners'
-	from /home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/webrick-1.9.1/lib/webrick/server.rb:130:in `listen'
-	from /home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/webrick-1.9.1/lib/webrick/server.rb:111:in `initialize'
-	from /home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/webrick-1.9.1/lib/webrick/httpserver.rb:47:in `initialize'
-	from /home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/jekyll-3.10.0/lib/jekyll/commands/serve.rb:229:in `new'
-	from /home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/jekyll-3.10.0/lib/jekyll/commands/serve.rb:229:in `start_up_webrick'
-	from /home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/jekyll-3.10.0/lib/jekyll/commands/serve.rb:104:in `process'
-	from /home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/jekyll-3.10.0/lib/jekyll/commands/serve.rb:93:in `block in start'
-	from /home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/jekyll-3.10.0/lib/jekyll/commands/serve.rb:93:in `each'
-	from /home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/jekyll-3.10.0/lib/jekyll/commands/serve.rb:93:in `start'
-	from /home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/jekyll-3.10.0/lib/jekyll/commands/serve.rb:75:in `block (2 levels) in init_with_program'
-	from /home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/mercenary-0.3.6/lib/mercenary/command.rb:220:in `block in execute'
-	from /home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/mercenary-0.3.6/lib/mercenary/command.rb:220:in `each'
-	from /home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/mercenary-0.3.6/lib/mercenary/command.rb:220:in `execute'
-	from /home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/mercenary-0.3.6/lib/mercenary/program.rb:42:in `go'
-	from /home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/mercenary-0.3.6/lib/mercenary.rb:19:in `program'
-	from /home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/jekyll-3.10.0/exe/jekyll:15:in `<top (required)>'
-	from /home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/bin/jekyll:25:in `load'
-	from /home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/bin/jekyll:25:in `<main>'
+    Server address: http://0.0.0.0:4000/crw-blog/
+Server detached with pid '1314775'. Run `pkill -f jekyll' or `kill -9 1314775' to stop the server.
+[2025-08-10 11:14:48] ERROR '/favicon.ico' not found.
+[2025-08-10 11:23:26] FATAL SignalException: SIGTERM
+	/home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/webrick-1.9.1/lib/webrick/server.rb:173:in `select'
+	/home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/webrick-1.9.1/lib/webrick/server.rb:173:in `block in start'
+	/home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/webrick-1.9.1/lib/webrick/server.rb:32:in `start'
+	/home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/webrick-1.9.1/lib/webrick/server.rb:160:in `start'
+	/home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/jekyll-3.10.0/lib/jekyll/commands/serve.rb:303:in `block in boot_or_detach'
+	/home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/jekyll-3.10.0/lib/jekyll/commands/serve.rb:302:in `fork'
+	/home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/jekyll-3.10.0/lib/jekyll/commands/serve.rb:302:in `boot_or_detach'
+	/home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/jekyll-3.10.0/lib/jekyll/commands/serve.rb:234:in `start_up_webrick'
+	/home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/jekyll-3.10.0/lib/jekyll/commands/serve.rb:104:in `process'
+	/home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/jekyll-3.10.0/lib/jekyll/commands/serve.rb:93:in `block in start'
+	/home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/jekyll-3.10.0/lib/jekyll/commands/serve.rb:93:in `each'
+	/home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/jekyll-3.10.0/lib/jekyll/commands/serve.rb:93:in `start'
+	/home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/jekyll-3.10.0/lib/jekyll/commands/serve.rb:75:in `block (2 levels) in init_with_program'
+	/home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/mercenary-0.3.6/lib/mercenary/command.rb:220:in `block in execute'
+	/home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/mercenary-0.3.6/lib/mercenary/command.rb:220:in `each'
+	/home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/mercenary-0.3.6/lib/mercenary/command.rb:220:in `execute'
+	/home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/mercenary-0.3.6/lib/mercenary/program.rb:42:in `go'
+	/home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/mercenary-0.3.6/lib/mercenary.rb:19:in `program'
+	/home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/gems/jekyll-3.10.0/exe/jekyll:15:in `<top (required)>'
+	/home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/bin/jekyll:25:in `load'
+	/home/crw/Documents/Obsidian Vault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.0.0/bin/jekyll:25:in `<main>'
