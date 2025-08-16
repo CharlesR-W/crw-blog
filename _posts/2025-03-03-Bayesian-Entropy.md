@@ -1,5 +1,5 @@
 ---
-title: "[Information Theory, Physics, High-Quality],  Bayesian Entropy"
+title: "[Information Theory, Physics, High-Effort],  Bayesian Entropy"
 date: 2025-03-03
 ---
 
