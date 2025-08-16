@@ -3,6 +3,7 @@ title: "[Math] Scale-Dependent Geometry from Diffusion"
 date: 2025-08-16
 ---
 # Scale–Dependent Geometry from Diffusion
+\[Please note: Images are not rendering right now.  They're not that good anyways lol = you're not missing out.\]
 
 ## Abstract
 
@@ -224,7 +225,7 @@ $$
 K_t(x,y) = \big(e^{t\mathcal{A}}\big)(x,y)
 $$
 
-From there, all our scale–dependent distances and dimensions follow automatically.  Meaning that if you can give me $p(y|x)$, I could define a dynamics-aware distance and dimension on your pseudo-Grothendieck Markov sheaf whatever-category - EVERYTHING IS PHYSICS - HAHAHA I WIN!
+From there, all our scale–dependent distances and dimensions follow automatically.  Meaning that if you can give me $p(y \vert x)$, I could define a dynamics-aware distance and dimension on your pseudo-Grothendieck Markov sheaf whatever-category - EVERYTHING IS PHYSICS - HAHAHA I WIN!
 
 Under some reasonable conditions (I'll be honest I don't know or care what they are, but like just make sure $p$ is a probability distribution, maybe with full support for each $x,y$ and I'm sure you're fine most of the time), you can just take the matrix logarithm:
 
@@ -357,5 +358,5 @@ We have mostly been re-labeling familiar objects:
 - Diffusion with drift is handled by replacing $\Delta$ with $\mathcal{A} = \\Delta - \nabla V \cdot \nabla$, whose heat kernel gives the same definitions.
 - These notions of distance and dimension naturally bring dynamics into the realm of the geometry, allowing us to, i.a., screen out 'irrelevant' dimensions, talk about effective distances etc.
 - We can identify some variational principles that give us something like these notions od geometry back out
-- Given any ("any") transition density $p(y|x)$, we can define from this a canonical diffusion process, and in turn use this to study the geometry of the structure in question
+- Given any ("any") transition density $p(y \vert x)$, we can define from this a canonical diffusion process, and in turn use this to study the geometry of the structure in question
 - These notions of geometry apply as well to gradient descent.  More on this to come?
