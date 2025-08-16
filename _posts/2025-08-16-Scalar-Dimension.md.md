@@ -31,15 +31,23 @@ To make a long story short, you can define the *heat kernel* as the Green's func
 $$
 K(x,y,t) = \big(e^{t\Delta}[\delta_x]\big)(y)
 $$
+
 You can also understand this probabalistically: if you have an SDE with increments
+
 $$dx = 0 dt + \sqrt{2}{dW_t}$$
+
 then you can derive the corresponding Fokker-Planck equation for the probability to go from x --> y in time t
 
 $$\partial_t p_t(y|x) = \Delta p_t(y|x)$$
+
 Nice, ain't it!  Dwell on your own time - we have to keep moving.
+
 ![[HeatKernel1]]
+
 It is the case that, for a manifold with geodesic distance (I'll write it the formula just for comparison later) 
+
 $$d^2_G(x,y) = \inf_{\gamma:~ [0,1]\to\mathbb \Omega} \int_0^1 dt ~g_{\gamma(t)}(\dot \gamma, \dot \gamma) $$
+
 you can show that as $t \to 0$, the awesome Varadhan's formula gives the leading behavior
 
 $$
@@ -53,6 +61,7 @@ Another standard short–time asymptotic is given by the *average return probabi
 $$
 P(t) \equiv \frac{1}{\mathrm{Vol}(\Omega)} \int_\Omega K(x,x,t)\, dx
 $$
+
 which behaves as
 
 $$
@@ -80,18 +89,25 @@ So first things first let's put the form of K back in front of is so we can poke
 $$
 K(x,y,t) \sim (4 \pi t)^{-\sigma/2}\exp(-\frac{d_G^2(x,y)}{4 t})(1 + O(t))
 $$
+
 Now basically what I want to do is just absorb the $O(t)$ terms in and redefine $\sigma$ and $d$ - you have a degree of freedom in pushing terms between the two new quantities, so I ended up deciding the $\sigma$ gets the diagonal terms and $d$ gets the off diagonal ones:
+
 $$\sigma(x,t) = -2 \frac{\log K(x,x,t)}{\log 4 \pi t}$$
+
 
 $$ d(x,y,t) = \sqrt{4t\log{\frac{K(x,x,t)}{K(x,y,t)}}}$$
 
-
 So for $t \to 0$, these give us back our "pure geometry" - dimension and distance.
 For $t \to \infty$, you get - hilariously, or cosmically saddeningly - 
+
 $$K(x,y,\infty) = \frac{Vol(y)}{Vol(\Omega)}$$
+
 Independent of x and t, so 
+
 $$\sigma(x, \infty) = 0$$
+
 $$d(x,y, \infty) = \delta(x-y)$$
+
 Zero dimensions of freedom, each point an island, the widening gyre... o wretched post-thermal wasteland.
 
 (aside: the result for $d$ actually holds only if there is a "spectral gap" - i.e. the Laplacian's first eigenvalue is finite and > 0.  This is one of those weird order-of-limits things, where if you take the limit where your space, say for concreteness $[-L,L], L\to \infty$, it depends on if you do that or the $t$ limit first, and its not clear that either way is a cringe technicality soooo eh.  But if the manifold is compact and either has no boundary or dirichlet BCs, you have a gap.)
@@ -132,14 +148,20 @@ where $Z_\beta = \int_\Omega e^{-\beta V(z)}\, dz$ is the partition function (sa
 So this is a little funky - diffusion on manifolds is cool because you have a canonical process you study and it just whispers to you about geometry, and the drift feels kinda like it just makes that more complicated than need be?  The trick, that got me to consider this in the first place, is that I really care about situations where you have a "built in" potential function to hand - gradient flow!  But $t\to 0$ stuff can't capture drift - so I'm fiddling with this to see if there's anything to be had looking at the intermediate regime where there's a lil' bit o geometry and a smidge of physics in happy coexistence.
 
 Just for completeness, I think we'll want to redefine $\sigma$ for drift:
+
 $$\sigma_V(x,t) = -2 \frac{K(x,\Phi^V_t(x),t)}{\log 4\pi t}$$
+
 With $\Phi^V_t(x)$ the deterministic evolution of $x$ under $V$.  Then $d$ has to become
+
 $$d^{fwd}_V(x,y,t) = \sqrt{4t \log \frac{ K(x,\Phi^V_t(x),t)}{K(x,\Phi^V_t(y),t)}}$$
+
 Okay kinda annoying but it does seem like the natural thing to do - if you think about $t$ as plain old time, it's not that clear this is the best, since maybe the "distance from x to y" really should be measured in terms of real dynamical travel time - but if you think of $t$ as just some scale parameter, I feel like we want to be measuring distance and dimension "at the same $t$".  And ofc, $d$ has the $fwd$ superscript because you're evolving $y$ forward - you could just as well pull $x$ backwards.
 
 Let's do an example:
-### Example: Quadratic Potential here
+### Example: Quadratic Potential
+
 ![[HeatDriftDiffusion]]
+
 
 Let $V(x) = \frac{k}{2}\,\|x\|^2$ in $\mathbb{R}^n$.  
 The SDE is
@@ -149,7 +171,9 @@ dx_t = -k\,x_t\, dt + \sqrt{2} dW_t
 $$
 
 This is the $n$–dimensional Ornstein–Uhlenbeck process.  We have
+
 $$\Phi^V_t(x) = e^{-kt}x$$
+
 Its transition kernel is Gaussian:
 
 $$
@@ -162,8 +186,11 @@ where, since we can't use $\sigma$, we use $v_t$ the variance:
 $$
 v_t = \frac{1}{k}\big(1 - e^{-2kt}\big)
 $$
+
 Then we get
+
 $$\sigma_V(x,t) = n\frac{\log 2 \pi v_t}{\log 4\pi t }$$
+
 $$d_V(x,y,t) = \parallel y-x\parallel e^{-kt}\sqrt{\frac{2t}{v_t}}$$
 
 Okay so what means?  We see $\sigma_V$ goes to zero as $t$ goes to infinity: for sufficiently large times, you have no real freedom of motion - you're just gonna get pushed back to the origin and any deviations therefrom are damped.  $d_V$ likewise.
@@ -204,6 +231,7 @@ Under some reasonable conditions (I'll be honest I don't know or care what they 
 $$
 \mathcal{A} = \log p(\,\cdot\ \vert \,\cdot\,)
 $$
+
 So we see: any ("any") transition density can be made into dynamics of a stochastic process.  This stochastic process presents a dynamics-aware notion of the local geometry - a geometry of space which is _fundamentally_ inextricable from the potential landscape (and here at least, that's what we _want_).
 
 Nice, eh?
@@ -239,6 +267,7 @@ Taking logs:
 $$
 \log K(x,y,t) = \log\!\int_{\gamma: x \to y} \frac{e^{-t\,\mathcal{A}(\gamma)}\mathcal{D}\gamma}{Z_t}
 $$
+
 This structure parallels the **tempered geodesic distance**.  (It's just the geodesic distance but plus a little bit in proportion to the tempering temperature - by the way, 'temper' as a verb can be used this way to mean 'modified to include temperature', cute eh?).  This is written (two ways, variationally and path integral-y):
 
 $$
@@ -266,21 +295,29 @@ Two is a bit harder to show, but $\sigma$ is the scaling dimension of the sub-le
 Suppress $x$ and $V$ and watch this! (this is a pretty cute trick btw, so try it out if you haven't already):
 
 $$\frac{d}{dT}Vol(t | K(t)<T) = \int_t dt ~\delta(K(t)-T) = \frac{d}{dT} K^{-1}(T)$$
+
 Then, $K(t) = t^{-\sigma(t)/2}$ is the definition of the sublevel set scaling exponent (except this holds for all $t$, not just asymptotically!).  So "For a particle starting at $x$, after a time $t$, the probability of it being at the maximum-likelihood point $\Phi^V_t(x)$ has scaling exponent $\sigma(x,t)$"
 
 ## Saying The Same Stuff But With Different Letters: SGD
 
 ![[DiffusionTransport]]
 Okay so confession, I don't like physics per se that much, I just like applying mathematics.  For this reason I love machine learning (yes the zeitgeist gets me too; I'm only human).  Let's repeat some stuff in the context of SGD:
+
 $$d\theta = -\nabla_{\theta} L(\theta) dt + \sqrt{\frac{2}{\beta}}dW_t$$
+
 (yes I'm ignoring the metric tensor, yes I'm a hypocrite, its just more letters than its worth writing).
 Motion is generated by
+
 $$\mathcal A = \frac{1}{\beta} \Delta - \nabla L \cdot \nabla$$
+
 Then
+
 $$K_L(\theta, \theta', t, \beta) = p_{t,\beta}(\theta' | \theta)= e^{\frac{t}{\beta} \mathcal A}[\delta_{\theta}](\theta')$$
+
 The diffusion kernel gives us our posterior over the trained weights
 
 $$d_L(\theta_0,\theta, t, \beta) = \sqrt{4 t \log \frac{K(\theta_0, \Phi^L_t(\theta_0),t, \beta)}{K(\theta_0, \Phi^L_t(\theta),t,\beta)}}$$
+
 Read this as "The squared thermal distance between initialized and trained weights is four times the training-time times times the log-likelihood ratio of the pushforward of those weights by gradient flow."
 
 $$\sigma(\theta,t,\beta) = -2\frac{\log K(\theta, \Phi^V_t(\theta),t,\beta)}{\log 4 \pi t}$$
@@ -295,11 +332,17 @@ You'll have noted that for finite $t$, $d_V(x,y,t)$ isn't symmetric - but it is 
 Everything in coordinates for simplicity.  This actual gives you a "conjugate connection manifold" a la information geometry, but if you care about that you already know how to write the rest of the cookbook here.
 
 Metric tensor
+
 $$g_{ij}(x) = \frac{\partial}{\partial x_i}\frac{\partial}{\partial y_j}d_{V,t}(x,y,t)\vert_{x=y}$$
+
 Chrsitoffels
+
 $$\Gamma_{ij,~ k} = - \frac{\partial}{\partial x_i}\frac{\partial}{\partial x_j} \frac{\partial}{\partial y_k}d_{V,t}(x,y,t)\vert_{x=y}$$
+
 Connection
+
 $$\nabla_i X^j = \partial_i X^j - \Gamma_{ik}^j ~X^k $$
+
 etc etc.
 
 In principle, this means you have a differential geometry which meaningfully and principledly incorporates the potential function $V$.  The downside is that calculating this stuff is kinda torturous and I couldn't find any of the above which actually feel insightful to do.  Perhaps if one were doing numerics?
