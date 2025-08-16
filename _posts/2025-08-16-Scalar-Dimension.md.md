@@ -1,6 +1,6 @@
 ---
-title: "[Math] Scale-Dependent Geometry from Diffusion"  
-date: "2025-08-04"  
+title: "[Math] Scale-Dependent Geometry from Diffusion"
+date: 2025-08-16
 ---
 # Scale–Dependent Geometry from Diffusion
 
