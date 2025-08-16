@@ -1,6 +1,6 @@
 ---
-title: "[Information Theory, Physics] Bayesian Entropy"
-date: "2025-03-03"
+title: "[Information Theory, Physics, High-Quality],  Bayesian Entropy"
+date: 2025-03-03
 ---
 
 # Thermodynamics as Approximate Bayesian Inference
