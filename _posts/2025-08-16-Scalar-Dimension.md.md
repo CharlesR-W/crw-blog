@@ -78,7 +78,7 @@ $$
 and the spectral dimension
 
 $$
-\sigma = \lim_{t\to 0}-2\,\frac{d\log K(x,x,t)}{d\log t} 
+\sigma = \lim_{t\to 0}-2\,\frac{\log K(x,x,t)}{\log4\pi t} 
 $$
 
 into *scale–dependent* quantities.  (by the way, note this definition of $\sigma$ is the scaling dimension of the sub-level sets of P, if you're familiar from, say, singular learning theory).
