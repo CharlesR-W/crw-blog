@@ -150,7 +150,7 @@ So this is a little funky - diffusion on manifolds is cool because you have a ca
 
 Just for completeness, I think we'll want to redefine $\sigma$ for drift:
 
-$$\sigma_V(x,t) = -2 \frac{K(x,\Phi^V_t(x),t)}{\log 4\pi t}$$
+$$\sigma_V(x,t) = -2 \frac{\log K(x,\Phi^V_t(x),t)}{\log 4\pi t}$$
 
 With $\Phi^V_t(x)$ the deterministic evolution of $x$ under $V$.  Then $d$ has to become
 
