@@ -1,0 +1,170 @@
+current directory: /home/crw/Documents/ObsidianVault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.4.0/gems/http_parser.rb-0.8.0/ext/ruby_http_parser
+/usr/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /home/crw/Documents/ObsidianVault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.4.0/gems/http_parser.rb-0.8.0/ext/ruby_http_parser
+make DESTDIR\= sitearchdir\=./.gem.20251105-486303-ag6gkw sitelibdir\=./.gem.20251105-486303-ag6gkw clean
+
+current directory: /home/crw/Documents/ObsidianVault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.4.0/gems/http_parser.rb-0.8.0/ext/ruby_http_parser
+make DESTDIR\= sitearchdir\=./.gem.20251105-486303-ag6gkw sitelibdir\=./.gem.20251105-486303-ag6gkw
+compiling ruby_http_parser.c
+ruby_http_parser.c: 在函数‘Parser_alloc_by_type’中:
+ruby_http_parser.c:296:3: 警告：‘rb_data_object_wrap_warning’ 已被弃用: by TypedData [-Wdeprecated-declarations]
+  296 |   return Data_Wrap_Struct(klass, ParserWrapper_mark, ParserWrapper_free, wrapper);
+      |   ^~~~~~
+包含于文件 /usr/include/ruby-3.4.0/ruby/internal/core.h:27,
+        于 /usr/include/ruby-3.4.0/ruby/ruby.h:29,
+        于 /usr/include/ruby-3.4.0/ruby.h:38,
+        于 ruby_http_parser.c:1:
+/usr/include/ruby-3.4.0/ruby/internal/core/rdata.h:293:1: 附注：在此声明
+  293 | rb_data_object_wrap_warning(VALUE klass, void *ptr, RUBY_DATA_FUNC mark, RUBY_DATA_FUNC free)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+ruby_http_parser.c: 在函数‘Parser_initialize’中:
+ruby_http_parser.c:317:3: 警告：‘rb_data_object_get_warning’ 已被弃用: by TypedData [-Wdeprecated-declarations]
+  317 |   DATA_GET(self, ParserWrapper, wrapper);
+      |   ^~~~~~~~
+/usr/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: 附注：在此声明
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+ruby_http_parser.c: 在函数‘Parser_execute’中:
+ruby_http_parser.c:356:3: 警告：‘rb_data_object_get_warning’ 已被弃用: by TypedData [-Wdeprecated-declarations]
+  356 |   DATA_GET(self, ParserWrapper, wrapper);
+      |   ^~~~~~~~
+/usr/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: 附注：在此声明
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+ruby_http_parser.c: 在函数‘Parser_set_on_message_begin’中:
+ruby_http_parser.c:380:3: 警告：‘rb_data_object_get_warning’ 已被弃用: by TypedData [-Wdeprecated-declarations]
+  380 |   DATA_GET(self, ParserWrapper, wrapper);
+      |   ^~~~~~~~
+/usr/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: 附注：在此声明
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+ruby_http_parser.c: 在函数‘Parser_set_on_headers_complete’中:
+ruby_http_parser.c:388:3: 警告：‘rb_data_object_get_warning’ 已被弃用: by TypedData [-Wdeprecated-declarations]
+  388 |   DATA_GET(self, ParserWrapper, wrapper);
+      |   ^~~~~~~~
+/usr/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: 附注：在此声明
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+ruby_http_parser.c: 在函数‘Parser_set_on_body’中:
+ruby_http_parser.c:396:3: 警告：‘rb_data_object_get_warning’ 已被弃用: by TypedData [-Wdeprecated-declarations]
+  396 |   DATA_GET(self, ParserWrapper, wrapper);
+      |   ^~~~~~~~
+/usr/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: 附注：在此声明
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+ruby_http_parser.c: 在函数‘Parser_set_on_message_complete’中:
+ruby_http_parser.c:404:3: 警告：‘rb_data_object_get_warning’ 已被弃用: by TypedData [-Wdeprecated-declarations]
+  404 |   DATA_GET(self, ParserWrapper, wrapper);
+      |   ^~~~~~~~
+/usr/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: 附注：在此声明
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+ruby_http_parser.c: 在函数‘Parser_keep_alive_p’中:
+ruby_http_parser.c:412:3: 警告：‘rb_data_object_get_warning’ 已被弃用: by TypedData [-Wdeprecated-declarations]
+  412 |   DATA_GET(self, ParserWrapper, wrapper);
+      |   ^~~~~~~~
+/usr/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: 附注：在此声明
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+ruby_http_parser.c: 在函数‘Parser_upgrade_p’中:
+ruby_http_parser.c:419:3: 警告：‘rb_data_object_get_warning’ 已被弃用: by TypedData [-Wdeprecated-declarations]
+  419 |   DATA_GET(self, ParserWrapper, wrapper);
+      |   ^~~~~~~~
+/usr/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: 附注：在此声明
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+ruby_http_parser.c: 在函数‘Parser_http_version’中:
+ruby_http_parser.c:426:3: 警告：‘rb_data_object_get_warning’ 已被弃用: by TypedData [-Wdeprecated-declarations]
+  426 |   DATA_GET(self, ParserWrapper, wrapper);
+      |   ^~~~~~~~
+/usr/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: 附注：在此声明
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+ruby_http_parser.c: 在函数‘Parser_http_major’中:
+ruby_http_parser.c:436:3: 警告：‘rb_data_object_get_warning’ 已被弃用: by TypedData [-Wdeprecated-declarations]
+  436 |   DATA_GET(self, ParserWrapper, wrapper);
+      |   ^~~~~~~~
+/usr/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: 附注：在此声明
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+ruby_http_parser.c: 在函数‘Parser_http_minor’中:
+ruby_http_parser.c:446:3: 警告：‘rb_data_object_get_warning’ 已被弃用: by TypedData [-Wdeprecated-declarations]
+  446 |   DATA_GET(self, ParserWrapper, wrapper);
+      |   ^~~~~~~~
+/usr/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: 附注：在此声明
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+ruby_http_parser.c: 在函数‘Parser_http_method’中:
+ruby_http_parser.c:456:3: 警告：‘rb_data_object_get_warning’ 已被弃用: by TypedData [-Wdeprecated-declarations]
+  456 |   DATA_GET(self, ParserWrapper, wrapper);
+      |   ^~~~~~~~
+/usr/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: 附注：在此声明
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+ruby_http_parser.c: 在函数‘Parser_status_code’中:
+ruby_http_parser.c:466:3: 警告：‘rb_data_object_get_warning’ 已被弃用: by TypedData [-Wdeprecated-declarations]
+  466 |   DATA_GET(self, ParserWrapper, wrapper);
+      |   ^~~~~~~~
+/usr/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: 附注：在此声明
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+ruby_http_parser.c: 在函数‘Parser_status’中:
+ruby_http_parser.c:481:1: 警告：‘rb_data_object_get_warning’ 已被弃用: by TypedData [-Wdeprecated-declarations]
+  481 | DEFINE_GETTER(status);
+      | ^~~~~~~~~~~~~
+/usr/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: 附注：在此声明
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+ruby_http_parser.c: 在函数‘Parser_request_url’中:
+ruby_http_parser.c:482:1: 警告：‘rb_data_object_get_warning’ 已被弃用: by TypedData [-Wdeprecated-declarations]
+  482 | DEFINE_GETTER(request_url);
+      | ^~~~~~~~~~~~~
+/usr/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: 附注：在此声明
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+ruby_http_parser.c: 在函数‘Parser_headers’中:
+ruby_http_parser.c:483:1: 警告：‘rb_data_object_get_warning’ 已被弃用: by TypedData [-Wdeprecated-declarations]
+  483 | DEFINE_GETTER(headers);
+      | ^~~~~~~~~~~~~
+/usr/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: 附注：在此声明
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+ruby_http_parser.c: 在函数‘Parser_upgrade_data’中:
+ruby_http_parser.c:484:1: 警告：‘rb_data_object_get_warning’ 已被弃用: by TypedData [-Wdeprecated-declarations]
+  484 | DEFINE_GETTER(upgrade_data);
+      | ^~~~~~~~~~~~~
+/usr/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: 附注：在此声明
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+ruby_http_parser.c: 在函数‘Parser_header_value_type’中:
+ruby_http_parser.c:485:1: 警告：‘rb_data_object_get_warning’ 已被弃用: by TypedData [-Wdeprecated-declarations]
+  485 | DEFINE_GETTER(header_value_type);
+      | ^~~~~~~~~~~~~
+/usr/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: 附注：在此声明
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+ruby_http_parser.c: 在函数‘Parser_set_header_value_type’中:
+ruby_http_parser.c:493:3: 警告：‘rb_data_object_get_warning’ 已被弃用: by TypedData [-Wdeprecated-declarations]
+  493 |   DATA_GET(self, ParserWrapper, wrapper);
+      |   ^~~~~~~~
+/usr/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: 附注：在此声明
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+ruby_http_parser.c: 在函数‘Parser_reset’中:
+ruby_http_parser.c:500:3: 警告：‘rb_data_object_get_warning’ 已被弃用: by TypedData [-Wdeprecated-declarations]
+  500 |   DATA_GET(self, ParserWrapper, wrapper);
+      |   ^~~~~~~~
+/usr/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: 附注：在此声明
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+compiling ryah_http_parser.c
+linking shared-object ruby_http_parser.so
+
+current directory: /home/crw/Documents/ObsidianVault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.4.0/gems/http_parser.rb-0.8.0/ext/ruby_http_parser
+make DESTDIR\= sitearchdir\=./.gem.20251105-486303-ag6gkw sitelibdir\=./.gem.20251105-486303-ag6gkw install
+/usr/bin/install -c -m 0755 ruby_http_parser.so ./.gem.20251105-486303-ag6gkw
+
+current directory: /home/crw/Documents/ObsidianVault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.4.0/gems/http_parser.rb-0.8.0/ext/ruby_http_parser
+make DESTDIR\= sitearchdir\=./.gem.20251105-486303-ag6gkw sitelibdir\=./.gem.20251105-486303-ag6gkw clean

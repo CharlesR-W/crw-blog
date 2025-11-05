@@ -2,6 +2,13 @@ source "https://rubygems.org"
 
 gem "github-pages", group: :jekyll_plugins
 
+# Ruby 3.4+ compatibility: these were removed from stdlib
+gem "erb"
+gem "logger"
+gem "csv"
+gem "base64"
+gem "bigdecimal"
+
 # If you want to use custom plugins locally, add them below, but note:
 # GitHub Pages will ignore them unless you use GitHub Actions.
 # gem "jekyll-feed", "~> 0.12"

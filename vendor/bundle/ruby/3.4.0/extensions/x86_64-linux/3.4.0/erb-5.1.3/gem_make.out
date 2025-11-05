@@ -1,0 +1,19 @@
+current directory: /home/crw/Documents/ObsidianVault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.4.0/gems/erb-5.1.3/ext/erb/escape
+/usr/bin/ruby extconf.rb
+checking for rb_ext_ractor_safe() in ruby.h... yes
+creating Makefile
+
+current directory: /home/crw/Documents/ObsidianVault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.4.0/gems/erb-5.1.3/ext/erb/escape
+make DESTDIR\= sitearchdir\=./.gem.20251105-486303-uj7xsp sitelibdir\=./.gem.20251105-486303-uj7xsp clean
+
+current directory: /home/crw/Documents/ObsidianVault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.4.0/gems/erb-5.1.3/ext/erb/escape
+make DESTDIR\= sitearchdir\=./.gem.20251105-486303-uj7xsp sitelibdir\=./.gem.20251105-486303-uj7xsp
+compiling escape.c
+linking shared-object erb/escape.so
+
+current directory: /home/crw/Documents/ObsidianVault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.4.0/gems/erb-5.1.3/ext/erb/escape
+make DESTDIR\= sitearchdir\=./.gem.20251105-486303-uj7xsp sitelibdir\=./.gem.20251105-486303-uj7xsp install
+/usr/bin/install -c -m 0755 escape.so ./.gem.20251105-486303-uj7xsp/erb
+
+current directory: /home/crw/Documents/ObsidianVault/crw-notes-raw-GIT/BLOG/vendor/bundle/ruby/3.4.0/gems/erb-5.1.3/ext/erb/escape
+make DESTDIR\= sitearchdir\=./.gem.20251105-486303-uj7xsp sitelibdir\=./.gem.20251105-486303-uj7xsp clean

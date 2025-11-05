@@ -1,0 +1,15 @@
+# This directory is for blog images
+# All image files here will be published to your public blog
+
+# Don't ignore any images (we want them all committed)
+!*.png
+!*.jpg
+!*.jpeg
+!*.gif
+!*.svg
+!*.webp
+
+# But ignore OS files
+.DS_Store
+Thumbs.db
+
