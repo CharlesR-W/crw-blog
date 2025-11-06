@@ -188,6 +188,49 @@ Thus $\Delta H_t$, the 'tempering entropy' is invariant under coordinate transfo
 
 Note delightfully though that, as $\Delta H_t$ is the entropy lost by convolving with a random variable, this is a manifestation of the equability property of entropy, at least for small $t$ when it's Gaussian; I forget if equability holds for non-Gaussian noise.
 
+# Entropy Generation In Dynamical Systems - "Convective Entropy"
+
+Next we turn to considering entropy generation for dynamical systems - our formulation here gives us a nice way to characterise the intuitive notion that chaotic systems, to the extent that they are sensitive to initial conditions, should require more effective information to specify their states.  I'm not sure if this is the optimal thing to measure to this effect, but a simple quantity is, for some initial probability density $\phi(x)$,
+
+$$\Upsilon(s,t) := H[K_s \Phi_t \phi] - H[\Phi_t K_s \phi]$$
+I named it $\Upsilon$ because I think this is a really awesome application, and I want to have a canonical symbol for it, and I feel bad for $\Upsilon$.  For the sake of naming it, I'll call it the "convective entropy".  Intuitively this is of course the additional entropy accrued by considering our thermalization process as occuring before or after the pushforward.  Just as an aside because I think the formula looks neet, note first that
+
+$$H[\Phi_t \phi] = H[\phi] + \mathbb E_{\phi}\log |D\Phi_{-t}|$$
+
+And, for small diffusions:
+
+$$\partial_s H[K_s \phi] = I[\phi]$$
+
+Since we really only like our thermalisation for small $s$ anyways, and I couldn't figure out any other neat asymptotics, we can calculate $\Upsilon(s,t)\sim s[\partial_s \Upsilon](0,t) + o(s) = [\partial_{\log s}\Upsilon](0,t)$:
+
+$$\Upsilon(t) :=\partial_{\log s} \Upsilon(0,t) = I[\Phi_t\phi] - I[\phi] - \mathbb E_{\phi}[\Delta \log |D \Phi_t|]$$
+
+(the $\log s$ makes it a little cleaner, doesn't matter.)
+So what are we to make of this?  A simple example sheds a little light - imagine $\phi$ is uniform over a sphere and 0 elsewhere, then the fisher information diverges to infinity; if $\phi$ is Gaussian with variance $\sigma^2$, the fisher information is $\frac{d}{\sigma^2}$.  This diverges as $\sigma \to 0$.  So intuitively we're measuring something that really _hates_ sharp edges.  We can understand this by looking at the fourier:
+
+$$K_s\phi = \int \tilde \phi(k)e^{-sk^2} e^{ikx} dV_k$$
+
+For my physics friends, it may please you to replace $s \to \frac{1}{\Lambda^2}$, so that this is just heat kernel regularization (oh... hey... hi!).
+
+This is a property I really really like - dynamical systems by default have this notion of phase volume relating to entropy, but it makes me happy to have an entropy-like notion which is both canonical and natively aware of "sharpness", which feels good for handling things where we ask about sensitivity to initial conditions.  I think this is definitely a killer app, I'm very happy with it!
+
+So last real quick on FTLEs, and sorta just sharing some cute objects I came across:
+The Cauchy strain under $\Phi$ is
+
+$$C(x,t) = D\Phi^T_t D \Phi_t(x)$$
+which is the metric for the finite deformation at $x$.  I would have called it $g$ but it looks like there are already so many named strain tensors that the IUPAC has rules about it...
+
+The finite time Lyapunov exponents (FTLE) $\Lambda(x,t)$ are the log eigenvalues.
+
+$$C = P e^{2\Lambda t}P^T)$$
+So, being a little cavalier with our asymptotics for the sake of illustration, for large times $t$, introducing the _instantaneous global_ maximum eigenvalue $\lambda^*(t) = \max_x \bar \lambda(x,t)$
+
+
+$$\Upsilon(t) \sim (constant) ~ e^{2\lambda^*(t)~ t}$$
+
+(and mutatis mutandis for the time reversed case).  One can get much more complicated with this, extending the integral to the forward/backward attracting FTLE sets; while that was fun, I didn't get much out of it.  In words, the convection entropy grows exponentially with the global maximum Lyapunov exponent.
+
+
 # Summary
 - KL divergence is invariant under permutation of the real numbers; this is cringe because it doesn't respect locality
 - I give conditions for a tempering convolution which, together, sorta-kinda-uniquely specify the heat kernel (at least as $t\to0$ and modulo reparameterization)
@@ -198,6 +241,8 @@ Note delightfully though that, as $\Delta H_t$ is the entropy lost by convolving
 - For small times $t$, $K_t$ is approximately a gaussian of width $\sigma = \sqrt{2t}$.  Morally, this is roughly equivalent to dividing up continuous space into discrete chunks of diameter $O(\sqrt t)$ and likewise coarse-graining any observables; then we take the (more soundly defined imo) discrete entropy.  The tempered entropy is approximately invariant under permutations with length-scale $\xi >> \sqrt t$.  Thus, gleefully, $1/\sqrt{t}$ is the 'cutoff' frequency of tempered information theory.
 - I relate the tempered divergence to gradient flow in Wasserstein space.
 - I introduce the (differential) tempering entropy $\Delta H_t[p]$ which quantifies how much entropy is lost by convolving with the heat kernel as a function of $t$; it is invariant under coordinate transformations, unlike the differential entropy itself $H[p]$.
+- I introduced the convective entropy $\Upsilon(t)$ (depending on initial distribution $\phi$ and dynamical system $\Phi_t$) which which measures the difference in entropy between 'evolving a tempered distribution' and 'tempering an evolved distribution'.  I illustrate a schematic relationship between the convective entropy and the global maximum Lyapunov exponent.
+
 ---
 
 LLM Usage Note: I wrote the notes for this post and asked GPT to organize and write it up, and then I edited everything for tone.  I also had it do the basic manipulations for the Wasserstein and tempered entropy.
