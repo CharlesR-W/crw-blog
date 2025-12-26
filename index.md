@@ -10,7 +10,14 @@ title: "Fruit of Preterition"
 
 Posts:
 
+<div class="posts-list">
+<ul>
 {% for post in site.posts %}
-- [{{ post.title }}]({{ site.baseurl }}{{ post.url }}) - {{ post.date | date: "%B %d, %Y" }}
+	<li class="post-item">
+		<a class="post-link" href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+		<span class="post-date">{{ post.date | date: "%B %d, %Y" }}</span>
+	</li>
 {% endfor %}
+</ul>
+</div>
 
