@@ -35,6 +35,57 @@ See `DEVELOPMENT.md` for full details, troubleshooting, and explanations.
 
 ---
 
+## Adding Images to the Blog
+
+Place image files under the `assets/images/` folder so Jekyll will copy them into the site output. Example path in the repo:
+
+```
+assets/images/my-photo.jpg
+```
+
+Examples of how to reference images in posts and pages:
+
+- Markdown (recommended):
+
+```markdown
+![Alt text]({{ '/assets/images/my-photo.jpg' | relative_url }})
+```
+
+- HTML (with caption):
+
+```html
+<figure class="post-figure">
+  <img src="{{ '/assets/images/my-photo.jpg' | relative_url }}" alt="Descriptive alt" class="responsive-img">
+  <figcaption>Figure 1 — A short caption.</figcaption>
+</figure>
+```
+
+- Featured image via front matter (add to a post):
+
+```yaml
+---
+layout: default
+title: Example Post
+image: /assets/images/featured.jpg
+---
+```
+
+Then add this snippet to your layout (example already available in many themes):
+
+```liquid
+{% raw %}{% if page.image %}
+  <div class="post-featured">
+    <img src="{{ page.image | relative_url }}" alt="{{ page.title }}">
+  </div>
+{% endif %}{% endraw %}
+```
+
+Tips:
+- Optimize images before committing (resize/compress) for faster loads.
+- Use `git lfs` for very large assets (>100 MB).
+- Always include `alt` text for accessibility.
+
+
 # Original README content below
 
 # GitHub Pages
@@ -77,6 +128,9 @@ Here's a recap of all the tasks you've accomplished in your repository:
   <<< Author notes: Footer >>>
   Add a link to get support, GitHub status page, code of conduct, license link.
 -->
+
+
+
 
 ---
 
