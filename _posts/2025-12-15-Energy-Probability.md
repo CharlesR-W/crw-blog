@@ -112,7 +112,7 @@ $$a(S)=\sum_{T\subseteq S} b(T),$$
 
 Mobius inversion is how you back out $b$:  
 
-$$b(S)=\sum_{T\subseteq S}\mu(S,T),a(T),$$
+$$b(S)=\sum_{T\subseteq S}\mu(S,T)\,a(T),$$
 
 For the case we care about, which is the "subset lattice" $\mu$ is:  
 
@@ -148,7 +148,7 @@ Stare at the discussion above until you have convinced yourself that the Mobius 
 Now here’s the thing that gives this meaning beyond the combinatorics.
 
 Consider the MaxEnt problem of inferring a distribution given its marginals:  
-$$\text{maximize } S[q] \ \ \text{subject to}\ \ q|_{R_i}=p|_{R_i}\ \ \forall i\in{1,\dots,m},$$  In the energetic picture, this is clean
+$$\text{maximize } S[q] \ \ \text{subject to}\ \ q|_{R_i}=p|_{R_i}\ \ \forall i\in\{1,\dots,m\},$$  In the energetic picture, this is clean
 - Each marginal constraint $q|_{R_i}=p|_{R_i}$ pins down the marginal energy $E_{R_i}=\log p_{R_i}$
 	- it also specifies the 'descendant' marginals - these have to agree or the problem is infeasible
 - Use Mobius transform to calculate these energies
@@ -186,3 +186,7 @@ You can choose to specify either $\lambda_i$ or $o_i$ for each constraint; $F$ d
 - Inference of a distribution based on its marginals is simple when written in terms of energies: the marginals specify the interaction potential $H_S$ for for the given set and its own marginals, and the maximum entropy distribution is that which matches the energies specified without adding anything else.
 - The energy formulation makes the Gibbs distribution look very nice and affine and pretty.  Reasonably so!
 - In defining this decomposition of the energy over subsets, the Mobius inversion can be seen as a gauge-fixing condition.
+
+---
+
+*Edit 17 Jan 2026: I've since learned that the cluster decomposition described here is known in probability/statistics as the **Hoeffding decomposition** (or ANOVA decomposition). The Möbius inversion machinery is exactly what produces it.*
