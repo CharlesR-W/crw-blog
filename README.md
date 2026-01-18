@@ -1,3 +1,22 @@
+<!--
+  ╔═══════════════════════════════════════════════════════════════════════╗
+  ║  SETUP REMINDER (17 Jan 2026)                                         ║
+  ╠═══════════════════════════════════════════════════════════════════════╣
+  ║  This is the PUBLIC blog repo, auto-deployed to GitHub Pages.         ║
+  ║                                                                       ║
+  ║  WORKFLOW:                                                            ║
+  ║  1. Edit posts in: ~/Documents/ObsidianVault/crw-notes-raw-GIT/BLOG/  ║
+  ║  2. Commit there → post-commit hook auto-syncs here & pushes          ║
+  ║  3. GitHub Pages rebuilds (~1 min)                                    ║
+  ║                                                                       ║
+  ║  LOCALHOST TESTING:                                                   ║
+  ║  cd ~/Programming/LocalhostBlog && ./serve-direct.sh                  ║
+  ║  → http://localhost:4000/crw-blog/                                    ║
+  ║                                                                       ║
+  ║  If you edit THIS repo directly, sync back to the private repo!       ║
+  ╚═══════════════════════════════════════════════════════════════════════╝
+-->
+
 <header>
 
 <!--
