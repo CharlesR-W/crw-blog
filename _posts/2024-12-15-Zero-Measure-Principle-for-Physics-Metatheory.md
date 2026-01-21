@@ -1,6 +1,7 @@
 ---
-title: "[Musing; Physics] Zero Measure Principle for Physics Metatheory"
+title: "Zero Measure Principle for Physics Metatheory"
 date: 2024-12-15
+tags: [high-effort, physics, philosophy]
 ---
 
 #Sketch of a Metaprinciple for Physics

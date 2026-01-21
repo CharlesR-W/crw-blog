@@ -1,6 +1,7 @@
 ---
-title: "[Information Theory] KL Boogaloo: Tempered KL Divergence For Metric-Aware Entropy"
+title: "KL Boogaloo: Tempered KL Divergence For Metric-Aware Entropy"
 date: 2025-11-04
+tags: [math, information-theory]
 ---
 # KL Boogaloo: Tempered KL Divergence For Metric-Aware Entropy
 
@@ -35,18 +36,20 @@ I'll require two natural criteria: we want a **parametrized family** $K_t$ that:
 
 The canonical choice is the **heat kernel**, i.e., the transition density of the heat semigroup for the Laplacian (Laplace–Beltrami on a manifold). Varadhan’s small-time asymptotics say  
 
-$$  
-\log K_t(x,y) =-\frac{d(x,y)^2}{4t}+O(\log t)\quad(t\to0),  
-$$  
+$$
+\log K_t(x,y) =-\frac{d(x,y)^2}{4t}+O(\log t)\quad(t\to0),
+$$
+
 so the blur scale is $d\sim \sqrt{2t}$ (constants like $\sqrt{2}$ depend on convention and I will inconsistently ignore them as I please). On $\mathbb{R}^n$ with the heat equation $\partial_t u=\Delta u$, $K_t$ is Gaussian with covariance $2t,I$, hence typical displacement $\sim \sqrt{2t}$.
 
 Note that tempering discards information:  
 
-$$  
-D_{\mathrm{KL}}(p_0|p_t)  
-=\int p_0(x)\log\frac{p_0(x)}{(K_t*p_0)(x)}dx  
-= \mathrm{CE}(p_t|p_0)-H(p_0),  
-$$  
+$$
+D_{\mathrm{KL}}(p_0|p_t)
+=\int p_0(x)\log\frac{p_0(x)}{(K_t*p_0)(x)}dx
+= \mathrm{CE}(p_t|p_0)-H(p_0),
+$$
+
 where $H(p)=-\int p\log p$ and $\mathrm{CE}(r|s)=-\int r\log s$.
 
 ---
@@ -64,9 +67,10 @@ Tbh that's all I wanted - a scale-sensitive way to understand information on con
 For the heat kernel (with the convention $\partial_t u=\Delta u$), two key facts hold:
 - **Small-time expansion**  
   
-  $$  
-    D_t(p_0|q_0)=D_{\mathrm{KL}}(p_0|q_0)-t I_{\mathrm{rel}}(p_0|q_0)+o(t)\quad(t\to0),  
-    $$  
+  $$
+    D_t(p_0|q_0)=D_{\mathrm{KL}}(p_0|q_0)-t I_{\mathrm{rel}}(p_0|q_0)+o(t)\quad(t\to0),
+    $$
+
     where the **relative Fisher information** is  
     
     $$  
@@ -109,9 +113,10 @@ Two standard identities:
 2. **Relative kinetic energy = relative Fisher**  
     Evolve $p_t$ and $q_t$ under the **same** heat semigroup. Their velocity fields are $v_p(t)=-\nabla\log p_t$ and $v_q(t)=-\nabla\log q_t$. Define the **relative velocity**  
     
-    $$  
-    w_t = v_p(t)-v_q(t) = -\nabla\log\frac{p_t}{q_t}.  
-    $$  
+    $$
+    w_t = v_p(t)-v_q(t) = -\nabla\log\frac{p_t}{q_t}.
+    $$
+
     Then  
     
     $$  
@@ -122,9 +127,10 @@ Two standard identities:
 
 Equivalently, if $H(\cdot):=D_{\mathrm{KL}}(,\cdot,|,\pi)$ for any fixed reference density $\pi$ (so $\nabla_{W_2}H(p)=\nabla\log(p/\pi)$), then  
 
-$$  
-\nabla_{W_2}H(p_t)-\nabla_{W_2}H(q_t)=\nabla\log\frac{p_t}{q_t},  
-$$  
+$$
+\nabla_{W_2}H(p_t)-\nabla_{W_2}H(q_t)=\nabla\log\frac{p_t}{q_t},
+$$
+
 and the KL dissipation can be written purely in Wasserstein terms:  
 
 $$  
@@ -144,9 +150,10 @@ Let's add a decorative $g$ for the metric to heat kernel $K^g_t$.  For the love 
 Take a change-of-coords / diffeomorphism $\Phi:M\to M$.  
 We'll use $J$ for the jacobian determinant (as opposed to the Jacobian matrix; sue me)  
 
-$$  
-J_\Phi(x) =|\det D\Phi(x)|\text{)}.  
-$$  
+$$
+J_\Phi(x) =|\det D\Phi(x)|\text{)}.
+$$
+
 The pushforward is  
 
 $$  
@@ -155,10 +162,10 @@ $$
 
 Recall the very cringe fact that
 
-$$  
-H(\Phi_\# p) = H(p) + \mathbb{E}_{p}\left[\log J_\Phi\right].  
 $$
-  
+H(\Phi_\# p) = H(p) + \mathbb{E}_{p}\left[\log J_\Phi\right].
+$$
+
 For the scaling $\Phi(x)=a x$ in $\mathbb R^\sigma$, $J_\Phi\equiv a^\sigma$, giving $H(\times_a p)=H(p)+\sigma\log a$.
 This is dumb because you shouldn't be able to increase entropy by changing coordinates.  Yes there's a cope where you talk about it being entropy density or some such, but I don't like that.
 
@@ -170,12 +177,13 @@ $$
 \Phi_\# \big(K_t^{g} p\big) = K_t^{\Phi_\# g}\big(\Phi_\# p\big).  
 $$
 
-$$  
-H_t^{\Phi_\# g}(\Phi_\# p_0)  
-= H\left(K_t^{\Phi_\# g}(\Phi_\# p_0)\right)  
-= H\left(\Phi_\# (K_t^{g} p_0)\right)  
-= H\left(K_t^{g} p_0\right) + \mathbb{E}_{p_t}\left[\log J_\Phi\right].  
-$$  
+$$
+H_t^{\Phi_\# g}(\Phi_\# p_0)
+= H\left(K_t^{\Phi_\# g}(\Phi_\# p_0)\right)
+= H\left(\Phi_\# (K_t^{g} p_0)\right)
+= H\left(K_t^{g} p_0\right) + \mathbb{E}_{p_t}\left[\log J_\Phi\right].
+$$
+
 Okay so that's uhh annoying.  The only difference here that lets us get a kinda maybe satisfactory answer is that we can track $\Delta H_t := H_t - H_0$ instead, which is a little more natural than introducing an arbitrary reference measure.
 
 If we take a sizeable huff of copium we can pretend that that's good enough; the additive term cancels between $H_t$ and $H$
@@ -193,6 +201,7 @@ Note delightfully though that, as $\Delta H_t$ is the entropy lost by convolving
 Next we turn to considering entropy generation for dynamical systems - our formulation here gives us a nice way to characterise the intuitive notion that chaotic systems, to the extent that they are sensitive to initial conditions, should require more effective information to specify their states.  I'm not sure if this is the optimal thing to measure to this effect, but a simple quantity is, for some initial probability density $\phi(x)$,
 
 $$\Upsilon(s,t) := H[K_s \Phi_t \phi] - H[\Phi_t K_s \phi]$$
+
 I named it $\Upsilon$ because I think this is a really awesome application, and I want to have a canonical symbol for it, and I feel bad for $\Upsilon$.  For the sake of naming it, I'll call it the "convective entropy".  Intuitively this is of course the additional entropy accrued by considering our thermalization process as occuring before or after the pushforward.  Just as an aside because I think the formula looks neet, note first that
 
 $$H[\Phi_t \phi] = H[\phi] + \mathbb E_{\phi}\log |D\Phi_{-t}|$$
@@ -218,11 +227,13 @@ So last real quick on FTLEs, and sorta just sharing some cute objects I came acr
 The Cauchy strain under $\Phi$ is
 
 $$C(x,t) = D\Phi^T_t D \Phi_t(x)$$
+
 which is the metric for the finite deformation at $x$.  I would have called it $g$ but it looks like there are already so many named strain tensors that the IUPAC has rules about it...
 
 The finite time Lyapunov exponents (FTLE) $\Lambda(x,t)$ are the log eigenvalues.
 
 $$C = P e^{2\Lambda t}P^T)$$
+
 So, being a little cavalier with our asymptotics for the sake of illustration, for large times $t$, introducing the _instantaneous global_ maximum eigenvalue $\lambda^*(t) = \max_x \bar \lambda(x,t)$
 
 

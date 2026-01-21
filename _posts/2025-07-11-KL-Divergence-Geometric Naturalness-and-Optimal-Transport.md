@@ -1,6 +1,7 @@
 ---
-title: "[Information Theory, High-Effort] KL Divergence, Geometric Naturalness, and Optimal Transport"
+title: "KL Divergence, Geometric Naturalness, and Optimal Transport"
 date: 2025-07-11
+tags: [high-effort, math, information-theory]
 ---
 # KL Divergence, Geometric Naturalness, and Optimal Transport
 

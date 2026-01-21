@@ -1,6 +1,7 @@
 ---
-title: "[Machine Learning] Simple Exercises on Transformers 1: Self-Attention"  
-date: "2025-08-09"  
+title: "[Machine Learning] Simple Exercises on Transformers 1: Self-Attention"
+date: "2025-08-09"
+tags: [ml]
 ---
 I've heard a few times from friends that they're repeatedly surprised to discover they don't actually understand how transformers work as well as they had thought.  Here's a simple exercise I did for myself that I think helped a lot (though with the obvious caveat that I am presumably subject to a similar bias to overestimate my understanding ;) )
 

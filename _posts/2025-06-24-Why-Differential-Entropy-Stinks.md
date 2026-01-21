@@ -1,6 +1,7 @@
 ---
-title: "[Information Theory] Why Differential Entropy Stinks (And What to Do About It)"
+title: "Why Differential Entropy Stinks (And What to Do About It)"
 date: "2025-06-24"
+tags: [math, information-theory]
 ---
 
 # Why Differential Entropy Stinks (And What to Do About It)
@@ -20,11 +21,15 @@ h(X) = -\int p(x) \log p(x) dx
 $$
 
 This definition has several fundamental problems. For one, it can be negative or infinite, unlike the entropy of most discrete distributions.  More irritatingly, the only thing that makes entropy matter is that it satisfies the data-processing inequality:
+
 $$H(X) \geq H(f(X))$$
+
 There is no way to process random variables which increases their entropy.  Entropy is 'the' unique object that counts distinct states and _only_ counts distinct states - it doesn't care what those states are labeled.
 
 Measure theory gives us language to speak of probability distributions which are continuous just as well as it does over discrete.  It is in fact perfectly fine to define the KL-divergence
+
 $$D_{KL}(p||q) = \int ~p(x) \log \frac{p(x)}{q(x)}dx$$
+
 as long as q is nonzero whenever p is.  A hacky solution is obvious: let's take DKL and set q to one, plop a minus sign and call it a day.  That gets you the formula you want, yes.  But it doesn't make any sense - we've lost all the transformation properties that make entropy _meaningful_.  Viz: consider $X$ uniform on [0,1], which "has entropy" zero.  Yikes.  Consider that $Y=aX$ for some constant $a$ has entropy $\log a$ (more than zero!).  Yikes.  Consider the delta distribution, $\delta(X)$, which has entropy ????? (remember that this is basically the continuous analog of the deterministic distribution which has entropy zero).  This problem sorta is solved if you also have $q(x)$ transform, then the entropy isn't well defined at all because you have to specify $q$.
 
 ---
@@ -92,8 +97,11 @@ This formalism captures two main examples we'll consider:
 (and also some weirder ones like harmonic and, in a funky limit, tropical calculus - see my post 'Nonlinear Calculi')
 
 The key insight is that the "natural" measure for an operation depends on the function $f$. For addition, the natural measure is uniform (fixed-point representation). For multiplication, the natural measure is logarithmic.  Specifically, $\mu$ is the Haar measure induced by $f$
+
 $$\mu_{Haar}(x) = \frac{1}{|f'(x)|}$$
+
 In this post we're gonna be a bit wishy-washy about the rigorous way to do this because I don't like trying to order limits if I can help it.  The Haar measure is what you're finite-precision representation wants to be in the limit of infinite bits.  Also, whether the Haar measure is of a point or of an interval is determined from context: $\mu(x) = \mu([x,x+dx])$.  For a finite interval $\mu([a,b]) = \int_{[a,b]} d\mu(x)$
+
 ## Real Irreversibility Measures Many-to-One-ness (Duh!)
 
 The fundamental source of irreversibility is many-to-one mappings, but we're mostly considering invertible functions since that's what's interesting here.  The trick is that invertible functions aren't invertible when they make you lose precision (c.f. nine trillion engineer-hours designing stable matrix inversion algorithms and counting).
@@ -142,8 +150,10 @@ In this framework, any operation that takes a number from where representable nu
 For all that, it's still a hack, obviously.  Entropy is at the end of the day permutation invariant (you can _arbitrarily rearrange_ the points on a Gaussian and it will still have the same entropy).  This is almost always reasonable for discrete things.  It is not for real numbers.  No healthy mind knowingly and willfully uses the topologists' distance where $10^{-100}$ is as different from $0$ as $10^{+100}$.  Real numbers always have a metric attached - they have size and distance.  $\delta(x-1)$ should be closer to $\delta(x - 0)$ than to $\delta(x-153)$.
 
 Strictly speaking, there's a broad family of metric-aware distances, but the most important and most common (and the ones I like the most) are the optimal transport distances like the Wasserstein distance (a superset of the "earth mover's distance").
+
 $$
 W_n(p || q) = \left[\inf_{\gamma \in \Pi(p,q)} \int d\gamma(x,y)~ d(x,y)^n \right]^{1/n}
 $$
+
 (the d inside the integral is the metric - absolute value for $\mathbb{R}$).
 Wasserstein has its own _practical_ problems (c.f. sample complexity, Sinkhorn regularization etc.), but at least theoretically it's a far far cleaner and more principled way to handle continuous data - if you use differential entropy of a continuous random variable, you're probably making a mistake.

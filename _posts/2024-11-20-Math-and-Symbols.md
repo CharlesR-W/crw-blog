@@ -1,6 +1,7 @@
 ---
 title: "[Musing, Math] Math and Symbols"
 date: 2024-11-20
+tags: [math, philosophy]
 ---
 
 #Math and Symbols

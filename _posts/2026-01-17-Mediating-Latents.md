@@ -1,6 +1,7 @@
 ---
 title: "Introducing Mediating Latent Variables for Fun and Profit"
 date: 2026-01-17
+tags: [math]
 ---
 A short note with a cute magic trick: given any joint distribution $p(x_1,...,x_N)$, introduce mediating latent variables $y$ so that the $p(x\|y) = \Pi_i p(x_i \| y)$ (i.e., the x's are conditionally independent).  This is inspired by / a physics bastardization / example of Sam Eisenstat's fun ['condensation' paper](https://www.sameisenstat.net/doc/condensation-25-07.pdf).  Perhaps a post on that later.  I had GPT5.2 write this post based on a note outlining the important equations I wanted to cover.  In this particular case, it was trash, but I will leave you with the following masterpiece:
 
@@ -46,6 +47,7 @@ To elaborate : if you want to achieve a particular $S_{eff}(x)$, you the choose 
 Now let's choose the humble
 
 $$V(x,y) = J(x)\cdot y$$
+
 Now for any free action of $y$, $S_y$ we'll need its cumulant function
 
 $$W(J) := -\log\left\langle e^{J\cdot y}\right\rangle_{S_y}$$
@@ -69,6 +71,7 @@ $$S_{eff} = \frac{1}{2}\|x\|^2 + \mu \cdot J(x) + \frac{1}{2}\Sigma \cdot J(x)^{
 Note that if you're a based sigma terrachad, you can go so far as to set $\Sigma=0$, make $\mu$ the unit field (one index for each $x$), and make $J$ proportional to a delta function, so you get 
 
 $$\mu \cdot J(x) \to \int dx_0 ~\mu_{x_0}J_{x_0}(x)= \int dx_0 ~ \delta(x-x_0) [S_{eff}(x) - \frac{1}{2}\|x\|^2]$$
+
 ey lmao.  What a silly little game we have made for ourselves.  So ye, you basically have so much freedom in introducing these latent variables that even after like 6 simplifying assumptions we can still absorb basically any type of correlations in a nearly-maximally simple model of the interactions.  I thought a little bit about selection principles for these kinds of representations, but nothing productive came out of it.  Eisenstat, iirc, does show that you can get by with at worst $2^N$ latents (one for each subset of interactions).
 
 ---
@@ -78,9 +81,11 @@ ey lmao.  What a silly little game we have made for ourselves.  So ye, you basic
 If we consider more general forms of $V$, we might do some kind of eigenfunction / library expansion
 
 $$V(x,y) = \sum_a ~\phi_a(x) ~\psi_a(y_a)$$
+
 (note the that each term is associated to different latents $y_a$; this just makes the form below work out, its not exactly necessary) Now the effective action is still just 
 
 $$S_{eff}(x) = S_x(x) - \log \left\langle e^{V(x,y)}\right\rangle_{S_y} = S_x(x) + \sum_a W_a(\phi_a(x))$$
+
 With $W_a$ the CGF _of the pushforward by_ $\psi_a$ (not of $y$ directly) under the free action $S_{y_a}$.  If one were in the business of making unwarranted assumptions, one might wish to posit that the $\phi_a = W_a^{-1} \circ \tilde \phi_a$ (the inverse isn't guaranteed to exist but I think it might for nice CGFs), getting
 
 $$S_{eff}(x) = S_x(x) + \sum_a \tilde \phi_a(x)$$

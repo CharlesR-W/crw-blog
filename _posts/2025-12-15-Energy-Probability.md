@@ -1,6 +1,7 @@
 ---
-title: "[Probability Theory, Statistical Physics, High-Effort] Probabilities as Energies; and, Cluster Decomposition of Joint Distributions"
+title: "Probabilities as Energies; and, Cluster Decomposition of Joint Distributions"
 date: 2025-12-16
+tags: [math, information-theory]
 ---
 
 Here I will outline the precise connection between probability and statistical mechanics. This is something I think some people take for granted and others don’t appreciate at all; either way, even after a lot of working in the area, I’ve never seen an explicit correspondence put together in one place. Writing this helped me appreciate some subtleties I wasn’t previously aware of. The biggest one is the role of **cluster decompositions** and **Möbius inversion**: a canonical and fully general way to factorize arbitrary joint distributions into a hierarchy of multi-body interactions.
@@ -24,28 +25,28 @@ $$p(x) = e^{-H(x)}$$
 
 $$H(x) = -\log p(x)$$
 
-**Normalization Condition**  
+**Normalization Condition**
 
 $$\int dx~ e^{-H(x)} = \int dx~p(x) = 1.$$
 
 Again, free energy $F$ is baked into $H$.  Don't worry - there is a canonical way to get it out, I'll show you later.  But for now we'll be a little nonstandard, just for the sake of brevity
 
-**With sources** ($J$)  
+**With sources** ($J$)
 
 $$Z[J] := \int dx~e^{-H(x) - J\cdot x}, \qquad F[J] := -\log Z[J].$$
 
 (so note that $Z[0]=1$ and $F[0]=0$)
-The _probability_ cumulant generating function (CGF) is then the normalized free energy:  
+The _probability_ cumulant generating function (CGF) is then the normalized free energy:
 
 $$\psi(J) := \log \mathbb E_p[e^{J\cdot X}] = \log\left(Z[-J]\right) = -F[-J].$$
 
 (the signs are just an annoying convention, morally they're the same!  I found the other conventions even more annoying, sorry.)
 
-**Expectations**  
+**Expectations**
 
 $$\mathbb E_p[f(X)] = \int dx~p(x)f(x)=\int dx~e^{-H(x)}f(x).$$
 
-**Shannon entropy** (I’m going to use $S$ for entropy as $H$ is taken.  Which sucks because it should be reserved for action, lol):  
+**Shannon entropy** (I'm going to use $S$ for entropy as $H$ is taken.  Which sucks because it should be reserved for action, lol):
 
 $$S[p] := -\int dx~p(x)\log p(x) = \mathbb E_H[H].$$
 
@@ -53,11 +54,11 @@ $$S[p] := -\int dx~p(x)\log p(x) = \mathbb E_H[H].$$
 
 We see that entropy 'is expected energy' in this convention, because $H=-\log p$.  Neat eh?  More to come.
 
-**KL divergence**:  
+**KL divergence**:
 
 $$D_{KL}(p|q)=\int dx~p(x)\log\frac{p(x)}{q(x)}=\mathbb E_{H_p}[H_q - H_p].$$
 
-**Marginalization**  
+**Marginalization**
 
 $$p(x)=\int dy~p(x,y), \qquad H(x)=-\log\int dy~e^{-H(x,y)}.$$
 
@@ -65,13 +66,14 @@ This is cute for sure, but there actually is something novel and interesting tha
 
 ### Warm-up: 2 variables (the mutual information cameo)
 
-Let's inspire ourselves by asking how we might decompose $H$: 
+Let's inspire ourselves by asking how we might decompose $H$:
 
 $$H(x,y) = H_x(x) + H_y(y) + H_{xy}(x,y).$$
 
 Intuitively, we should probably set $H_x$ and $H_y$ by the marginals $-\log p(x)$ and $-\log p(y)$.  Subtract those out and you'll find we have:
 
-$$H_{xy}(x,y)=-\log\frac{p(x,y)}{p(x)p(y)}.$$  
+$$H_{xy}(x,y)=-\log\frac{p(x,y)}{p(x)p(y)}.$$
+
 That is the **pointwise mutual information** (PMI).  Woooah neat, yeah?
 "The 2-body interaction energy is the pointwise mutual information!"
 
@@ -85,7 +87,8 @@ $$H(x_1,\dots,x_N) = \sum_{S\subseteq\{1,\dots,N\}} H_S(x_S),$$
 
 where each $H_S$ encodes the part of the joint that is "irreducibly S" (in physics, we usually have permutation invariance, so we get a bunch of the $H_S$ reduces to something like "$\|S\|$-body potentials".
 
-A term looks like 
+A term looks like
+
 $$H_{1,7,22}(x_1,x_7,x_{22}) = 37x_1^{-2} x_7^{-6} x_{22}^{-4} - \{stuff\}$$
 
 where "stuff" will enforce the "gauge" condition below.  (even powers for no reason except I dislike writing absolute value signs)
@@ -123,11 +126,11 @@ Let $a(S)$ and $b(S)$ be functions on sets $S$ (== quantities "indexed by S").  
 
 $$a(S)=\sum_{T\subseteq S} b(T),$$
 
-Mobius inversion is how you back out $b$:  
+Mobius inversion is how you back out $b$:
 
 $$b(S)=\sum_{T\subseteq S}\mu(S,T)\,a(T),$$
 
-For the case we care about, which is the "subset lattice" $\mu$ is:  
+For the case we care about, which is the "subset lattice" $\mu$ is:
 
 $$\mu(S,T)=(-1)^{|S|-|T|}.$$
 
@@ -136,19 +139,19 @@ $a = 1 * b$ and $b = \mu * a$ .  Here $1$ is the function $1(S,T)=1$, which lets
 
 ### Apply it to probabilities
 
-Let $p_T(x_T)$ be the marginal on $x_T$. Define the marginal log-probability  
+Let $p_T(x_T)$ be the marginal on $x_T$. Define the marginal log-probability
 
 $$V_T(x_T):=-\log p_T(x_T).$$
 
-Then the irreducible interaction term $E_S$ is given by the Möbius inversion:  
+Then the irreducible interaction term $E_S$ is given by the Möbius inversion:
 
 $$H_S(x_S) = \sum_{T\subseteq S} (-1)^{|S|-|T|}~V_T(x_T).$$
 
-This is the canonical “cluster decomposition” I promised: you compute marginal energies, then apply inclusion–exclusion to strip off everything explainable by strict subsets.  You can verify by induction that this satisfies the "gauge" condition from before.  It's just "don't double count" but fancy: $\mathcal{DON'T~ DOUBLE~-~COUNT}$.
+This is the canonical "cluster decomposition" I promised: you compute marginal energies, then apply inclusion–exclusion to strip off everything explainable by strict subsets.  You can verify by induction that this satisfies the "gauge" condition from before.  It's just "don't double count" but fancy: $\mathcal{DON'T~ DOUBLE~-~COUNT}$.
 
 ### The same trick gives you “multi-way information” from subsystem entropies
 
-From the Shannon entropy of a marginal distribution $S[p_T]$, the “connected entropy” / “interaction information” / “co-information”, $I(T)$  
+From the Shannon entropy of a marginal distribution $S[p_T]$, the "connected entropy" / "interaction information" / "co-information", $I(T)$
 
 $$I(T) := \sum_{T'\subseteq T} (-1)^{|T|-|T'|}S(T).$$
 
@@ -164,7 +167,7 @@ Stare at the discussion above until you have convinced yourself that the Mobius 
 
 Now here’s the thing that gives this meaning beyond the combinatorics.
 
-Consider the MaxEnt problem of inferring a distribution given its marginals:  
+Consider the MaxEnt problem of inferring a distribution given its marginals:
 
 $$\text{maximize } S[q] \ \ \text{subject to}\ \ q|_{R_i}=p|_{R_i}\ \ \forall i\in\{1,\dots,m\},$$
 

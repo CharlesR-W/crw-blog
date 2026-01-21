@@ -1,6 +1,7 @@
 ---
-title: "[Math, High-Effort] Scale-Dependent Geometry from Diffusion"
+title: "Scale-Dependent Geometry from Diffusion"
 date: 2025-08-16
+tags: [high-effort, math]
 ---
 # Scale–Dependent Geometry from Diffusion
 \[Please note: Images are not rendering right now.  They're not that good anyways lol = you're not missing out.\]
@@ -25,7 +26,9 @@ Tying it together, then, I'm writing this because I find spectral geometry as ou
 Spectral geometry takes its task as studying linear operators (often the Laplacian) on some space, and relating the eigenvalues of the laplacian to the geometry of the space.  By physical analogy, this corresponds to studying something's shape by examining its vibrational modes; I am obligated to describe this by referencing the archetypal question "Can you hear the shape of a drum?" (the answer is no but you can get _really_ far and its awesome).
 
 Start with some space $\Omega$ (manifold, graph, this is really astonishingly general).  Assuming you can define a Laplacian $\Delta$, you can study the heat-diffusion process, whose PDE is
+
 $$\partial_t u = \Delta u$$
+
 (by the way, we study the Laplacian in particular because, at least in $\mathbb R^n$, you can show that all operators which are equivariant under rotation+translation can be written as a power-series in $\Delta$).
 To make a long story short, you can define the *heat kernel* as the Green's function that solves this equation:
 
@@ -39,11 +42,12 @@ $$dx = 0 dt + \sqrt{2}{dW_t}$$
 
 then you can derive the corresponding Fokker-Planck equation for the probability to go from x --> y in time t
 
+
 $$\partial_t p_t(y|x) = \Delta p_t(y|x)$$
 
 Nice, ain't it!  Dwell on your own time - we have to keep moving.
 
-![[HeatKernel1]]
+<!-- ![[HeatKernel1]] -->
 
 It is the case that, for a manifold with geodesic distance (I'll write it the formula just for comparison later) 
 
@@ -95,15 +99,14 @@ Now basically what I want to do is just absorb the $O(t)$ terms in and redefine 
 
 $$\sigma(x,t) = -2 \frac{\log K(x,x,t)}{\log 4 \pi t}$$
 
-
 $$ d(x,y,t) = \sqrt{4t\log{\frac{K(x,x,t)}{K(x,y,t)}}}$$
 
 So for $t \to 0$, these give us back our "pure geometry" - dimension and distance.
-For $t \to \infty$, you get - hilariously, or cosmically saddeningly - 
+For $t \to \infty$, you get - hilariously, or cosmically saddeningly -
 
 $$K(x,y,\infty) = \frac{Vol(y)}{Vol(\Omega)}$$
 
-Independent of x and t, so 
+Independent of x and t, so
 
 $$\sigma(x, \infty) = 0$$
 
@@ -161,8 +164,7 @@ Okay kinda annoying but it does seem like the natural thing to do - if you think
 Let's do an example:
 ### Example: Quadratic Potential
 
-![[HeatDriftDiffusion]]
-
+<!-- ![[HeatDriftDiffusion]] -->
 
 Let $V(x) = \frac{k}{2}\,\|x\|^2$ in $\mathbb{R}^n$.  
 The SDE is
@@ -301,7 +303,8 @@ Then, $K(t) = t^{-\sigma(t)/2}$ is the definition of the sublevel set scaling ex
 
 ## Saying The Same Stuff But With Different Letters: SGD
 
-![[DiffusionTransport]]
+<!-- ![[DiffusionTransport]] -->
+
 Okay so confession, I don't like physics per se that much, I just like applying mathematics.  For this reason I love machine learning (yes the zeitgeist gets me too; I'm only human).  Let's repeat some stuff in the context of SGD:
 
 $$d\theta = -\nabla_{\theta} L(\theta) dt + \sqrt{\frac{2}{\beta}}dW_t$$
