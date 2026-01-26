@@ -6,6 +6,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>{{ page.title }}</title>
+
+  <!-- Tag styling -->
+  <style>
+    .tags { margin: 0.5em 0 1.5em 0; }
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      margin: 2px;
+      background: #f0f0f0;
+      border-radius: 3px;
+      font-size: 0.85em;
+      text-decoration: none;
+      color: #333;
+    }
+    .tag:hover { background: #e0e0e0; }
+  </style>
+
   <!-- MathJax configuration for LaTeX rendering -->
   <script type="text/javascript">
     window.MathJax = {
@@ -36,9 +53,6 @@
   <script type="text/javascript" async src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script type="text/javascript" async
     src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-svg.js"></script>
-  
-  <!-- Site stylesheet -->
-  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
 </head>
 
 <body>
@@ -48,17 +62,23 @@
     <nav>
       <ul>
         <li><a href="{{ '/' | relative_url }}">Home</a></li>
+        <li><a href="{{ '/seeds/' | relative_url }}">Seeds</a></li>
+        <li><a href="{{ '/tags/' | relative_url }}">Tags</a></li>
+        <li><a href="{{ '/reading/' | relative_url }}">Reading</a></li>
       </ul>
     </nav>
   </header>
 
   <!-- Main content of the page -->
   <main>
-    <div class="site-container">
-      <div class="content">
-        {{ content }}
-      </div>
+    {% if page.tags %}
+    <div class="tags">
+      {% for tag in page.tags %}
+      <a href="{{ '/tags/' | relative_url }}#{{ tag | slugify }}" class="tag">{{ tag }}</a>
+      {% endfor %}
     </div>
+    {% endif %}
+    {{ content }}
   </main>
 
   <!-- Footer with basic info -->

@@ -1,0 +1,234 @@
+---
+title: "Singularities Propagate Along Hamilton Flows"
+date: 2026-01-21
+tags: [seed, math, physics]
+motivation: "WKB gives classical trajectories. Geometrical optics gives light rays. Wave equations have characteristics. There's clearly a pattern—what's the unifying principle?"
+background: "Some PDE exposure, WKB at the 'I've seen the ansatz' level. The key insight is that high-frequency behavior is controlled by the highest-order derivatives, and this naturally gives rise to Hamilton flows."
+llm: "Claude"
+---
+
+# Singularities Propagate Along Hamilton Flows
+
+## The Punchline Up Front
+
+Here's one of the most beautiful facts in the analysis of PDEs: if your PDE has a singularity (a point where the solution or its derivatives blow up), that singularity doesn't just sit there—it *moves*. And it moves along a very specific trajectory: the **Hamilton flow** of the **principal symbol** of your differential operator.
+
+If you're a physicist, you might already have a gut feeling for this. When you do WKB on the Schrödinger equation, you get classical trajectories. When you study geometrical optics, light rays follow geodesics. When you analyze wave equations, wavefronts propagate according to Hamiltonian mechanics. These are all instances of the same underlying phenomenon.
+
+What I want to do here is:
+1. Explain what a "principal symbol" is and why it's natural
+2. Show why this Hamilton-flow-propagation business should feel inevitable from a physics perspective
+3. Connect this to WKB and the semiclassical limit
+
+## Why Should High Frequencies Care About the Highest Derivatives?
+
+Let's start with the key physical intuition. Consider a generic linear PDE:
+
+$$
+\hat{L} u = 0
+$$
+
+where $\hat{L}$ is some differential operator. For concreteness, let's say we're in one spatial dimension and $\hat{L}$ is second-order:
+
+$$
+\hat{L} = a_2(x)\partial_x^2 + a_1(x)\partial_x + a_0(x)
+$$
+
+Now suppose we're interested in **highly oscillatory** solutions—solutions that look like $u(x) \sim e^{i\phi(x)/\epsilon}$ for small $\epsilon$. This is the WKB regime. What happens when we apply $\hat{L}$ to such a solution?
+
+$$
+\partial_x \left( e^{i\phi/\epsilon} \right) = \frac{i}{\epsilon} \phi'(x) e^{i\phi/\epsilon}
+$$
+
+$$
+\partial_x^2 \left( e^{i\phi/\epsilon} \right) = \left( \frac{i}{\epsilon} \phi'' - \frac{1}{\epsilon^2}(\phi')^2 \right) e^{i\phi/\epsilon}
+$$
+
+The punchline: **each derivative brings down a factor of $1/\epsilon$**. So in the limit $\epsilon \to 0$, the highest-order derivatives dominate.
+
+This is why the "principal symbol" (which captures only the highest-order terms) governs the behavior of high-frequency waves. At leading order, only the $\partial_x^2$ term matters:
+
+$$
+\hat{L} u \approx -\frac{1}{\epsilon^2} a_2(x) (\phi'(x))^2 e^{i\phi/\epsilon}
+$$
+
+For this to vanish (i.e., for $u$ to approximately solve the PDE), we need:
+
+$$
+a_2(x) (\phi'(x))^2 = 0
+$$
+
+This is the **eikonal equation**—and it's precisely the equation for characteristic curves of the PDE.
+
+## What Is the Principal Symbol?
+
+Now let's be a bit more precise. The **symbol** of a differential operator is what you get when you replace $\partial_x$ with a variable (call it $\xi$ or $k$ or $p$ depending on your religion). For our operator above:
+
+$$
+\sigma(\hat{L})(x, \xi) = a_2(x)\xi^2 + a_1(x)\xi + a_0(x)
+$$
+
+The **principal symbol** is just the highest-order part:
+
+$$
+\sigma_{\text{prin}}(\hat{L})(x, \xi) = a_2(x)\xi^2
+$$
+
+Why is this natural? Well, the symbol is essentially the Fourier-space representation of the operator. If you Fourier transform $\partial_x$, you get multiplication by $i\xi$ (or $ik$ or whatever). The principal symbol captures what the operator does to high-frequency modes—and as we saw above, that's dominated by the highest derivatives.
+
+### A More Physical Way to Say It
+
+Here's another way to think about this. Consider a wave packet localized around position $x_0$ with wavenumber $k_0$:
+
+$$
+u(x) \sim A(x) e^{ik_0 x}
+$$
+
+where $A$ is slowly varying. The operator $\hat{L}$ acting on this wave packet gives, to leading order:
+
+$$
+\hat{L} u \approx \sigma(\hat{L})(x_0, k_0) \cdot u
+$$
+
+The symbol tells you the "effective multiplier" for a wave packet at $(x_0, k_0)$ in phase space. The principal symbol is this to leading order in $k_0$.
+
+So when physicists work in the "WKB regime" or "geometrical optics limit", they're implicitly using the principal symbol to characterize wave propagation.
+
+## Enter the Hamilton Flow
+
+Okay, so we have the principal symbol $p(x, \xi) = \sigma_{\text{prin}}(\hat{L})(x, \xi)$. Now comes the magic.
+
+**Theorem (Propagation of Singularities):** If $u$ is a solution to $\hat{L}u = 0$ (or more generally $\hat{L}u = f$ for smooth $f$), then the *wavefront set* of $u$ (roughly: the set of $(x, \xi)$ pairs where $u$ is singular with "direction" $\xi$) is invariant under the **Hamilton flow** generated by $p$.
+
+The Hamilton flow is the familiar friend from classical mechanics:
+
+$$
+\frac{dx}{dt} = \frac{\partial p}{\partial \xi}, \qquad \frac{d\xi}{dt} = -\frac{\partial p}{\partial x}
+$$
+
+If $p(x, \xi) = \xi^2/2m + V(x)$ (the classical Hamiltonian for a particle), this gives Newton's equations. More generally, the Hamilton flow preserves the level sets of $p$ (energy conservation!) and describes how disturbances propagate through phase space.
+
+### Why This Should Feel Inevitable
+
+Let me give you the physicist's "proof" of why this must be true.
+
+Consider a solution $u$ that's singular at some point $x_0$. Near $x_0$, the solution is doing something violent—rapid oscillations, discontinuities, whatever. Locally, $u$ looks like it has high-frequency content.
+
+Now, from our WKB analysis, high-frequency components of $u$ propagate according to the principal symbol. The characteristic curves (rays) along which information travels are exactly the curves satisfying:
+
+$$
+\frac{dx}{dt} = \frac{\partial p}{\partial \xi}
+$$
+
+with $\xi$ evolving to maintain $p(x, \xi) = 0$ (for characteristics of a hyperbolic equation) or whatever the appropriate constraint is.
+
+This is the Hamilton flow! The singularity, being made of high-frequency stuff, has to follow where the high-frequency components go. Hence singularities propagate along Hamilton flows.
+
+### Example: The Wave Equation
+
+The wave equation $(\partial_t^2 - c^2 \partial_x^2) u = 0$ has principal symbol:
+
+$$
+p(t, x, \tau, \xi) = \tau^2 - c^2 \xi^2
+$$
+
+The characteristic variety (where $p = 0$) is $\tau = \pm c\xi$. The Hamilton flow gives:
+
+$$
+\frac{dt}{ds} = 2\tau, \quad \frac{dx}{ds} = -2c^2\xi, \quad \frac{d\tau}{ds} = 0, \quad \frac{d\xi}{ds} = 0
+$$
+
+On the characteristic variety, $|\tau| = c|\xi|$, so $dx/dt = \pm c$. Singularities propagate at speed $c$—exactly as expected!
+
+### Example: The Schrödinger Equation
+
+The time-dependent Schrödinger equation $i\hbar \partial_t \psi = -\frac{\hbar^2}{2m}\partial_x^2 \psi + V(x)\psi$ has a wrinkle that we'll get to. But if you naively take the principal symbol to be:
+
+$$
+p = \tau + \frac{\xi^2}{2m}
+$$
+
+(ignoring $V$ for the moment as lower-order), the Hamilton flow is:
+
+$$
+\frac{dx}{dt} = \frac{\xi}{m}, \quad \frac{d\xi}{dt} = 0
+$$
+
+This is free particle motion! A wave packet with central wavenumber $k$ moves with group velocity $\hbar k / m$. The singularities (wave packet centers) propagate classically.
+
+## The Semiclassical Twist: $\hbar$ as the Small Parameter
+
+Now here's where it gets interesting. So far, the "principal symbol" has been defined by counting derivatives. But in semiclassical analysis, we often want to do something different: we want $\hbar$ to be the small parameter, not $1/\xi$.
+
+Consider the semiclassical Schrödinger operator:
+
+$$
+\hat{H} = -\frac{\hbar^2}{2m}\partial_x^2 + V(x)
+$$
+
+If we count derivatives, the principal symbol is $\frac{\hbar^2 \xi^2}{2m}$—which has the awkward $\hbar^2$ factor and doesn't know about $V$ at all.
+
+But if we're doing WKB with the ansatz $\psi = A(x) e^{iS(x)/\hbar}$, we're not just taking $\xi$ large—we're taking $\hbar$ small with $\xi = S'(x)$ fixed as a finite "classical momentum."
+
+In this regime, we want to say that the relevant "principal symbol" is:
+
+$$
+p(x, \xi) = \frac{\xi^2}{2m} + V(x)
+$$
+
+This is the classical Hamiltonian! And now the Hamilton flow gives:
+
+$$
+\frac{dx}{dt} = \frac{\xi}{m}, \quad \frac{d\xi}{dt} = -V'(x)
+$$
+
+which is exactly classical mechanics.
+
+### What's Going On Here?
+
+The key insight is that **what counts as "principal" depends on what you're holding fixed as you take your limit**.
+
+- **Standard analysis**: $\xi \to \infty$ with coefficients fixed. Principal part = highest derivatives.
+- **Semiclassical analysis**: $\hbar \to 0$ with $x$, $\xi$ (and implicitly $S' = \xi$) fixed. Principal part = highest powers of $\hbar^{-1}$.
+
+In the semiclassical setup, the $V(x)$ term is "promoted" to leading order because it's $O(1)$ in $\hbar$, whereas in the high-$\xi$ analysis it would be lower order (no derivatives).
+
+### The Connection to WKB
+
+This is exactly why WKB works. The WKB ansatz $\psi = A e^{iS/\hbar}$ yields, at leading order in $\hbar$:
+
+$$
+\frac{(S')^2}{2m} + V(x) = E
+$$
+
+This is the Hamilton-Jacobi equation! Its characteristics are exactly the classical trajectories. The $O(\hbar^0)$ correction gives the amplitude equation (conservation of probability), and higher-order corrections give quantum corrections.
+
+So when we say "singularities propagate along the Hamilton flow of the principal symbol," the semiclassical version is: "WKB wavefronts propagate along classical trajectories determined by the classical Hamiltonian."
+
+## Why This Matters
+
+Beyond its intrinsic beauty, this machinery is incredibly useful:
+
+1. **Understanding wave propagation**: Geometrical optics, acoustics, seismology—wherever waves go, their singularities follow Hamilton flows.
+
+2. **Quantum-classical correspondence**: The semiclassical version explains why quantum particles approximately follow classical trajectories in the appropriate limit.
+
+3. **Hyperbolic PDEs**: The well-posedness, regularity, and domain of dependence for hyperbolic equations all follow from propagation of singularities.
+
+4. **Scattering theory**: Understanding how waves scatter off potentials or obstacles involves tracking singularities.
+
+## Summary
+
+- The **principal symbol** of a differential operator is the "leading term" when you replace derivatives with momenta. It captures what the operator does to high-frequency waves.
+
+- **Singularities propagate along the Hamilton flow** of the principal symbol. This is because singularities are "made of" high-frequency content, and high-frequency content follows the classical dynamics determined by the principal symbol.
+
+- In **semiclassical analysis**, the "principal" part is determined by powers of $\hbar^{-1}$ rather than the number of derivatives. This promotes the potential $V(x)$ to leading order and recovers classical mechanics as the $\hbar \to 0$ limit.
+
+- **WKB** is the explicit realization of this: the ansatz $\psi = A e^{iS/\hbar}$ gives the Hamilton-Jacobi equation for $S$, whose characteristics are classical trajectories.
+
+The deep unity here is that **classical mechanics is the high-frequency / small-$\hbar$ limit of wave mechanics**, and the principal symbol is the mathematical object that mediates this correspondence.
+
+---
+
+*See also: [WKB and the Art of Matched Asymptotics], [Asymptotics, Borel, and Stokes].*

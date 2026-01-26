@@ -1,0 +1,40 @@
+---
+layout: default
+title: Seeds
+permalink: /seeds/
+---
+
+<style>
+  .seeds-intro { margin-bottom: 2em; }
+  .seed-item { margin-bottom: 2em; padding-left: 1em; border-left: 3px solid #7a9e7a; }
+  .seed-item h4 { margin: 0 0 0.3em 0; }
+  .seed-item .meta { font-size: 0.85em; color: #666; margin-bottom: 0.5em; }
+  .seed-item .context { font-size: 0.9em; margin-bottom: 0.3em; }
+  .seed-item .context strong { color: #555; }
+</style>
+
+<h2>Seeds</h2>
+
+<div class="seeds-intro">
+<p style="background: #fff3cd; padding: 0.8em; border-radius: 4px; border-left: 4px solid #ffc107;"><strong>Experimental:</strong> This section is new. I haven't carefully reviewed these posts yet—they're LLM outputs that I found valuable enough to preserve, but may contain errors or hallucinations. Read with appropriate skepticism.</p>
+
+<p><em>Polished excerpts from LLM conversations—ideas worth preserving that emerged from dialogue rather than solitary writing.</em></p>
+
+<p>These aren't my posts in the usual sense. They're the fruit of back-and-forth with language models: questions I was chewing on, explanations that crystallized something, connections I hadn't seen. The origin is collaborative; I've added context but not yet verified everything.</p>
+
+<p>Each seed includes the <strong>motivation</strong> (what question or confusion prompted it) and <strong>background</strong> (what makes this line of thought natural or important).</p>
+</div>
+
+{% assign seeds = site.posts | where_exp: "post", "post.tags contains 'seed'" %}
+{% for post in seeds %}
+<div class="seed-item">
+  <h4><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h4>
+  <div class="meta">{{ post.date | date: "%B %d, %Y" }}{% if post.llm %} · via {{ post.llm }}{% endif %}</div>
+  {% if post.motivation %}<div class="context"><strong>Motivation:</strong> {{ post.motivation }}</div>{% endif %}
+  {% if post.background %}<div class="context"><strong>Background:</strong> {{ post.background }}</div>{% endif %}
+</div>
+{% endfor %}
+
+{% if seeds.size == 0 %}
+<p><em>No seeds yet.</em></p>
+{% endif %}
