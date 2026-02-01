@@ -53,6 +53,9 @@
   <script type="text/javascript" async src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script type="text/javascript" async
     src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-svg.js"></script>
+
+  <!-- Site stylesheet -->
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
 </head>
 
 <body>
@@ -71,14 +74,18 @@
 
   <!-- Main content of the page -->
   <main>
-    {% if page.tags %}
-    <div class="tags">
-      {% for tag in page.tags %}
-      <a href="{{ '/tags/' | relative_url }}#{{ tag | slugify }}" class="tag">{{ tag }}</a>
-      {% endfor %}
+    <div class="site-container">
+      <div class="content">
+        {% if page.tags %}
+        <div class="tags">
+          {% for tag in page.tags %}
+          <a href="{{ '/tags/' | relative_url }}#{{ tag | slugify }}" class="tag">{{ tag }}</a>
+          {% endfor %}
+        </div>
+        {% endif %}
+        {{ content }}
+      </div>
     </div>
-    {% endif %}
-    {{ content }}
   </main>
 
   <!-- Footer with basic info -->
