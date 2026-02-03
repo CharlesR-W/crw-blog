@@ -8,8 +8,8 @@ title: "Fruit of Preterition"
 
 *Content*: This is the homepage of my blog.  I intend to write about physics, math, information theory and similar, with the occasional humanist divagation.  The plainness of the theming is deliberate.
 
-<div style="margin: 1.5em 0; padding: 1em; background: #f8f8f0; border-left: 4px solid #7a9e7a;">
-<strong><a href="{{ '/seeds/' | relative_url }}">Seeds</a></strong> — polished excerpts from LLM conversations. Ideas that emerged from dialogue rather than solitary writing.
+<div style="margin: 1.5em 0; padding: 1em; background: rgba(255,255,255,0.04); border-left: 4px solid #58a6ff; border-radius: 4px;">
+<strong><a href="{{ '/seeds/' | relative_url }}">Seeds</a></strong> (Experimental) — prompts for exploring topics with your own LLM. <em>Written by Claude, not yet read by me.</em> Under construction; use with appropriate skepticism.
 </div>
 
 Posts:

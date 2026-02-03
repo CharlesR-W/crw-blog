@@ -1,28 +1,28 @@
 ---
 layout: default
-title: Seeds
+title: Seeds (Experimental)
 permalink: /seeds/
 ---
 
 <style>
   .seeds-intro { margin-bottom: 2em; }
-  .seed-item { margin-bottom: 2em; padding-left: 1em; border-left: 3px solid #7a9e7a; }
+  .seed-item { margin-bottom: 2em; padding-left: 1em; border-left: 3px solid var(--accent); }
   .seed-item h4 { margin: 0 0 0.3em 0; }
-  .seed-item .meta { font-size: 0.85em; color: #666; margin-bottom: 0.5em; }
+  .seed-item .meta { font-size: 0.85em; color: var(--muted); margin-bottom: 0.5em; }
   .seed-item .context { font-size: 0.9em; margin-bottom: 0.3em; }
-  .seed-item .context strong { color: #555; }
+  .seed-item .context strong { color: var(--muted); }
 </style>
 
-<h2>Seeds</h2>
+<h2>Seeds (Experimental)</h2>
 
 <div class="seeds-intro">
-<p style="background: #fff3cd; padding: 0.8em; border-radius: 4px; border-left: 4px solid #ffc107;"><strong>Experimental:</strong> This section is new. I haven't carefully reviewed these posts yet—they're LLM outputs that I found valuable enough to preserve, but may contain errors or hallucinations. Read with appropriate skepticism.</p>
+<p style="background: rgba(220,53,69,0.15); padding: 0.8em; border-radius: 4px; border-left: 4px solid #dc3545; color: var(--text);"><strong>Under Construction:</strong> This entire section is <strong>written by Claude</strong> and has <strong>not yet been read or verified by me</strong>. It may contain errors, hallucinations, or misleading explanations. Treat everything here as experimental and unvetted.</p>
 
-<p><em>Polished excerpts from LLM conversations—ideas worth preserving that emerged from dialogue rather than solitary writing.</em></p>
+<p><em>These are prompts for you to explore with your own LLM.</em></p>
 
-<p>These aren't my posts in the usual sense. They're the fruit of back-and-forth with language models: questions I was chewing on, explanations that crystallized something, connections I hadn't seen. The origin is collaborative; I've added context but not yet verified everything.</p>
+<p>The idea: take a seed, feed it to your preferred language model, and walk through the material together. Ask questions, request clarifications, explore tangents. The seeds provide a starting point—a topic and angle of approach—but the real value comes from the dialogue you have with your own model.</p>
 
-<p>Each seed includes the <strong>motivation</strong> (what question or confusion prompted it) and <strong>background</strong> (what makes this line of thought natural or important).</p>
+<p>I haven't read these myself yet. They emerged from conversations with Claude that seemed worth preserving, but I make no claims about their accuracy or completeness. Each seed includes the <strong>motivation</strong> (what question prompted it) and <strong>background</strong> (why this angle seemed natural).</p>
 </div>
 
 {% assign seeds = site.posts | where_exp: "post", "post.tags contains 'seed'" %}
