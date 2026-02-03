@@ -1,5 +1,5 @@
 ---
-title: "[Math] Infra-Bayesianism For People Who Don't Know Measure Theory"
+title: "Infra-Bayesianism For People Who Don't Know Measure Theory"
 date: 2024-10-23
 tags: [math, philosophy]
 ---

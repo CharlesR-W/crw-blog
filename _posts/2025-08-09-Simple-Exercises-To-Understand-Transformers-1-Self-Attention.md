@@ -1,5 +1,5 @@
 ---
-title: "[Machine Learning] Simple Exercises on Transformers 1: Self-Attention"
+title: "Simple Exercises on Transformers 1: Self-Attention"
 date: "2025-08-09"
 tags: [ml]
 ---
