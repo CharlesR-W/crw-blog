@@ -36,6 +36,12 @@ nav ul{ display:flex; gap:16px; justify-content:center; }
 nav li{ display:inline; }
 nav a{ color:var(--muted); text-decoration:none; }
 nav a:hover{ color:var(--accent); }
+.wip-badge{
+  font-size:0.6em;
+  vertical-align:super;
+  color:#f59e0b;
+  letter-spacing:0.05em;
+}
 
 /* Links */
 a{ color:var(--accent); text-decoration:none; }
@@ -73,6 +79,7 @@ a:visited{ color:#a78bfa; }
   box-shadow: 0 8px 30px rgba(0,0,0,0.6);
 }
 .post-link{ font-weight:600; color: var(--text); text-decoration:none; }
+.post-link:visited{ color: var(--text); }
 .post-link:hover{ color: var(--accent); text-decoration:underline; }
 .post-date{ color: var(--muted); font-size:0.95rem; margin-left:16px; white-space:nowrap; }
 
