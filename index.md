@@ -12,7 +12,7 @@ title: "Fruit of Preterition"
 </div>
 
 <div style="margin: 1.5em 0; padding: 1em; background: rgba(255,255,255,0.04); border-left: 4px solid #c9a84c; border-radius: 4px;">
-<strong><a href="{{ '/nulla-die/' | relative_url }}">Nulla Die Sine Linea</a></strong> — short, frequent writings on research and ideas. A daily practice in the spirit of Pliny's maxim: <em>no day without a line.</em>
+<strong><a href="{{ '/nulla-die/' | relative_url }}">Nulla Dies Sine Linea</a></strong> — short, frequent writings on research and ideas. A daily practice in the spirit of Pliny's maxim: <em>no day without a line.</em>
 </div>
 
 <h2 style="margin-bottom: 0.8em;">Posts</h2>
