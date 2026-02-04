@@ -5,7 +5,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>[Information Theory] KL Divergence, Geometric Naturalness, and Optimal Transport</title>
+  <title>KL Divergence, Geometric Naturalness, and Optimal Transport</title>
+
+  <!-- Tag styling -->
+  <style>
+    .tags { margin: 0.5em 0 1.5em 0; }
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      margin: 2px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 3px;
+      font-size: 0.85em;
+      text-decoration: none;
+      color: var(--muted);
+    }
+    .tag:hover { background: rgba(255,255,255,0.15); color: var(--accent); }
+  </style>
 
   <!-- MathJax configuration for LaTeX rendering -->
   <script type="text/javascript">
@@ -37,6 +53,9 @@
   <script type="text/javascript" async src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script type="text/javascript" async
     src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-svg.js"></script>
+
+  <!-- Site stylesheet -->
+  <link rel="stylesheet" href="/crw-blog/assets/css/style.css">
 </head>
 
 <body>
@@ -46,13 +65,30 @@
     <nav>
       <ul>
         <li><a href="/crw-blog/">Home</a></li>
+        <li><a href="/crw-blog/seeds/">Seeds <span class="wip-badge">WIP</span></a></li>
+        <li><a href="/crw-blog/tags/">Tags <span class="wip-badge">WIP</span></a></li>
+        <li><a href="/crw-blog/reading/">Reading <span class="wip-badge">WIP</span></a></li>
+        <li><a href="/crw-blog/nulla-die/">Nulla Die</a></li>
       </ul>
     </nav>
   </header>
 
   <!-- Main content of the page -->
   <main>
-    <h1 id="kl-divergence-geometric-naturalness-and-optimal-transport">KL Divergence, Geometric Naturalness, and Optimal Transport</h1>
+    <div class="site-container">
+      <div class="content">
+        
+        <div class="tags">
+          
+          <a href="/crw-blog/tags/#high-effort" class="tag">high-effort</a>
+          
+          <a href="/crw-blog/tags/#math" class="tag">math</a>
+          
+          <a href="/crw-blog/tags/#information-theory" class="tag">information-theory</a>
+          
+        </div>
+        
+        <h1 id="kl-divergence-geometric-naturalness-and-optimal-transport">KL Divergence, Geometric Naturalness, and Optimal Transport</h1>
 
 <p>In a previous post, I discussed some of the theoretical shortcomings of differential entropy. Tldr it stinks because it doesn’t transform right unless you add a funky scale factor that no one ever does.  I left the KL divergence alone because in that case that funky scale factor canceled, so the whole thing ends up making sense and being okay; now I’m going to bully the KL divergence (applied to continuous distributions) because it doesn’t respect the geometry of the real numbers (or any space with a metric).  KL Divergence applied to discrete categorical distributions is still my buddy and I take no issue with it!</p>
 
@@ -188,11 +224,13 @@ so then,
 
 <p>$W_2$ gives you some really nice geometry - we talked about Otto calculus on the space of probability distributions, and this gives us some really nice PDEs.  Yay I love PDEs!</p>
 
+      </div>
+    </div>
   </main>
 
   <!-- Footer with basic info -->
   <footer>
-    <p>&copy; 2025 Fruit of Preterition. Powered by <a href="https://pages.github.com/">GitHub
+    <p>&copy; 2026 Fruit of Preterition. Powered by <a href="https://pages.github.com/">GitHub
         Pages</a>.</p>
   </footer>
 </body>

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Tags</title>
+
+  <!-- Tag styling -->
+  <style>
+    .tags { margin: 0.5em 0 1.5em 0; }
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      margin: 2px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 3px;
+      font-size: 0.85em;
+      text-decoration: none;
+      color: var(--muted);
+    }
+    .tag:hover { background: rgba(255,255,255,0.15); color: var(--accent); }
+  </style>
+
+  <!-- MathJax configuration for LaTeX rendering -->
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true,
+        tags: 'ams'
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        ignoreHtmlClass: "tex2jax_ignore",
+        processHtmlClass: "tex2jax_process"
+      },
+      svg: {
+        fontCache: 'global'
+      },
+      startup: {
+        pageReady: function () {
+          return MathJax.startup.defaultPageReady().then(function () {
+            console.log('MathJax is loaded and ready');
+          });
+        }
+      }
+    };
+  </script>
+  <script type="text/javascript" async src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-svg.js"></script>
+
+  <!-- Site stylesheet -->
+  <link rel="stylesheet" href="/crw-blog/assets/css/style.css">
+</head>
+
+<body>
+  <!-- Header and site title -->
+  <header>
+    <h1>Fruit of Preterition</h1>
+    <nav>
+      <ul>
+        <li><a href="/crw-blog/">Home</a></li>
+        <li><a href="/crw-blog/seeds/">Seeds <span class="wip-badge">WIP</span></a></li>
+        <li><a href="/crw-blog/tags/">Tags <span class="wip-badge">WIP</span></a></li>
+        <li><a href="/crw-blog/reading/">Reading <span class="wip-badge">WIP</span></a></li>
+        <li><a href="/crw-blog/nulla-die/">Nulla Die</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main content of the page -->
+  <main>
+    <div class="site-container">
+      <div class="content">
+        
+        <h2>Posts by Tag</h2>
+
+
+<h3 id="high-effort">high-effort</h3>
+<ul>
+
+  <li><a href="/crw-blog/Scalar-Dimension/">Scale-Dependent Geometry from Diffusion</a> (2025-08-16)</li>
+
+  <li><a href="/crw-blog/KL-Divergence-Geometric-Naturalness-and-Optimal-Transport/">KL Divergence, Geometric Naturalness, and Optimal Transport</a> (2025-07-11)</li>
+
+  <li><a href="/crw-blog/Bayesian-Entropy/">Bayesian Entropy</a> (2025-03-03)</li>
+
+  <li><a href="/crw-blog/Zero-Measure-Principle-for-Physics-Metatheory/">[Musing] Zero Measure Principle for Physics Metatheory</a> (2024-12-15)</li>
+
+  <li><a href="/crw-blog/Nonlinear-Calculi/">Nonlinear Calculi</a> (2024-12-02)</li>
+
+</ul>
+
+<h3 id="information-theory">information-theory</h3>
+<ul>
+
+  <li><a href="/crw-blog/Alternatives-to-Entropy-Eigenvalues-of-Odd-Things/">Alternatives to Entropy; Eigenvalues of Odd Things</a> (2026-02-03)</li>
+
+  <li><a href="/crw-blog/Small-Zoo-of-Natural-Norms-and-Metrics/">The Surprisingly Small Zoo of Natural Norms and Metrics</a> (2026-01-24)</li>
+
+  <li><a href="/crw-blog/Computational-Mechanics-and-Epsilon-Machines/">Computational Mechanics and Epsilon Machines</a> (2026-01-21)</li>
+
+  <li><a href="/crw-blog/Energy-Probability/">Probabilities as Energies; and, Cluster Decomposition of Joint Distributions</a> (2025-12-16)</li>
+
+  <li><a href="/crw-blog/Tempered-KL/">KL Boogaloo: Tempered KL Divergence For Metric-Aware Entropy</a> (2025-11-04)</li>
+
+  <li><a href="/crw-blog/KL-Divergence-Geometric-Naturalness-and-Optimal-Transport/">KL Divergence, Geometric Naturalness, and Optimal Transport</a> (2025-07-11)</li>
+
+  <li><a href="/crw-blog/Why-Differential-Entropy-Stinks/">Why Differential Entropy Stinks (And What to Do About It)</a> (2025-06-24)</li>
+
+  <li><a href="/crw-blog/Bayesian-Entropy/">Bayesian Entropy</a> (2025-03-03)</li>
+
+  <li><a href="/crw-blog/Appendices-to-Bayesian-Entropy/">Appendices to Bayesian Entropy</a> (2025-03-03)</li>
+
+</ul>
+
+<h3 id="math">math</h3>
+<ul>
+
+  <li><a href="/crw-blog/Alternatives-to-Entropy-Eigenvalues-of-Odd-Things/">Alternatives to Entropy; Eigenvalues of Odd Things</a> (2026-02-03)</li>
+
+  <li><a href="/crw-blog/Small-Zoo-of-Natural-Norms-and-Metrics/">The Surprisingly Small Zoo of Natural Norms and Metrics</a> (2026-01-24)</li>
+
+  <li><a href="/crw-blog/WKB-and-Matched-Asymptotics/">WKB and the Art of Matched Asymptotics</a> (2026-01-21)</li>
+
+  <li><a href="/crw-blog/RMT-Tour/">A Whirlwind Tour of Random Matrix Theory</a> (2026-01-21)</li>
+
+  <li><a href="/crw-blog/Principal-Symbols-and-Singularity-Propagation/">Singularities Propagate Along Hamilton Flows</a> (2026-01-21)</li>
+
+  <li><a href="/crw-blog/Manifolds-for-the-Anti-Mathematician/">Manifolds for the Anti-Mathematician</a> (2026-01-21)</li>
+
+  <li><a href="/crw-blog/Lie-Groups-and-Haar-Measure/">Lie Groups and Haar Measure</a> (2026-01-21)</li>
+
+  <li><a href="/crw-blog/Functional-Equations/">Functional Equations: The Algebra Behind Iteration</a> (2026-01-21)</li>
+
+  <li><a href="/crw-blog/Free-Probability/">Free Probability: The Non-Commutative Central Limit Theorem</a> (2026-01-21)</li>
+
+  <li><a href="/crw-blog/Extreme-Value-Theory/">Extreme Value Theory: Why Maxima Have Universal Statistics</a> (2026-01-21)</li>
+
+  <li><a href="/crw-blog/Computational-Mechanics-and-Epsilon-Machines/">Computational Mechanics and Epsilon Machines</a> (2026-01-21)</li>
+
+  <li><a href="/crw-blog/Asymptotics-Borel-and-Stokes/">Asymptotics, Borel Transforms, and Stokes Phenomena</a> (2026-01-21)</li>
+
+  <li><a href="/crw-blog/Mediating-Latents/">Introducing Mediating Latent Variables for Fun and Profit</a> (2026-01-17)</li>
+
+  <li><a href="/crw-blog/Energy-Probability/">Probabilities as Energies; and, Cluster Decomposition of Joint Distributions</a> (2025-12-16)</li>
+
+  <li><a href="/crw-blog/Tempered-KL/">KL Boogaloo: Tempered KL Divergence For Metric-Aware Entropy</a> (2025-11-04)</li>
+
+  <li><a href="/crw-blog/Scalar-Dimension/">Scale-Dependent Geometry from Diffusion</a> (2025-08-16)</li>
+
+  <li><a href="/crw-blog/KL-Divergence-Geometric-Naturalness-and-Optimal-Transport/">KL Divergence, Geometric Naturalness, and Optimal Transport</a> (2025-07-11)</li>
+
+  <li><a href="/crw-blog/Why-Differential-Entropy-Stinks/">Why Differential Entropy Stinks (And What to Do About It)</a> (2025-06-24)</li>
+
+  <li><a href="/crw-blog/Bayesian-Entropy/">Bayesian Entropy</a> (2025-03-03)</li>
+
+  <li><a href="/crw-blog/Appendices-to-Bayesian-Entropy/">Appendices to Bayesian Entropy</a> (2025-03-03)</li>
+
+  <li><a href="/crw-blog/Nonlinear-Calculi/">Nonlinear Calculi</a> (2024-12-02)</li>
+
+  <li><a href="/crw-blog/Math-and-Symbols/">[Musing] Math and Symbols</a> (2024-11-20)</li>
+
+  <li><a href="/crw-blog/Infra-Bayesianism-Distillation/">Infra-Bayesianism For People Who Don't Know Measure Theory</a> (2024-10-23)</li>
+
+</ul>
+
+<h3 id="ml">ml</h3>
+<ul>
+
+  <li><a href="/crw-blog/Simple-Exercises-To-Understand-Transformers-1-Self-Attention/">Simple Exercises on Transformers 1: Self-Attention</a> (2025-08-09)</li>
+
+</ul>
+
+<h3 id="philosophy">philosophy</h3>
+<ul>
+
+  <li><a href="/crw-blog/Zero-Measure-Principle-for-Physics-Metatheory/">[Musing] Zero Measure Principle for Physics Metatheory</a> (2024-12-15)</li>
+
+  <li><a href="/crw-blog/Math-and-Symbols/">[Musing] Math and Symbols</a> (2024-11-20)</li>
+
+  <li><a href="/crw-blog/Infra-Bayesianism-Distillation/">Infra-Bayesianism For People Who Don't Know Measure Theory</a> (2024-10-23)</li>
+
+  <li><a href="/crw-blog/Everybody-is-a-Quantum-Bayesian/">[Musing] Everybody is a Quantum Bayesian</a> (2024-10-06)</li>
+
+</ul>
+
+<h3 id="physics">physics</h3>
+<ul>
+
+  <li><a href="/crw-blog/Small-Zoo-of-Natural-Norms-and-Metrics/">The Surprisingly Small Zoo of Natural Norms and Metrics</a> (2026-01-24)</li>
+
+  <li><a href="/crw-blog/WKB-and-Matched-Asymptotics/">WKB and the Art of Matched Asymptotics</a> (2026-01-21)</li>
+
+  <li><a href="/crw-blog/RMT-Tour/">A Whirlwind Tour of Random Matrix Theory</a> (2026-01-21)</li>
+
+  <li><a href="/crw-blog/Principal-Symbols-and-Singularity-Propagation/">Singularities Propagate Along Hamilton Flows</a> (2026-01-21)</li>
+
+  <li><a href="/crw-blog/Manifolds-for-the-Anti-Mathematician/">Manifolds for the Anti-Mathematician</a> (2026-01-21)</li>
+
+  <li><a href="/crw-blog/Lie-Groups-and-Haar-Measure/">Lie Groups and Haar Measure</a> (2026-01-21)</li>
+
+  <li><a href="/crw-blog/Extreme-Value-Theory/">Extreme Value Theory: Why Maxima Have Universal Statistics</a> (2026-01-21)</li>
+
+  <li><a href="/crw-blog/Asymptotics-Borel-and-Stokes/">Asymptotics, Borel Transforms, and Stokes Phenomena</a> (2026-01-21)</li>
+
+  <li><a href="/crw-blog/Zero-Measure-Principle-for-Physics-Metatheory/">[Musing] Zero Measure Principle for Physics Metatheory</a> (2024-12-15)</li>
+
+  <li><a href="/crw-blog/Everybody-is-a-Quantum-Bayesian/">[Musing] Everybody is a Quantum Bayesian</a> (2024-10-06)</li>
+
+  <li><a href="/crw-blog/Musings-on-Running-Couplings-and-Invariant-Subspaces/">[Musing] Musings on Running Couplings and Invariant Subspaces</a> (2024-10-03)</li>
+
+</ul>
+
+<h3 id="seed">seed</h3>
+<ul>
+
+  <li><a href="/crw-blog/Small-Zoo-of-Natural-Norms-and-Metrics/">The Surprisingly Small Zoo of Natural Norms and Metrics</a> (2026-01-24)</li>
+
+  <li><a href="/crw-blog/WKB-and-Matched-Asymptotics/">WKB and the Art of Matched Asymptotics</a> (2026-01-21)</li>
+
+  <li><a href="/crw-blog/RMT-Tour/">A Whirlwind Tour of Random Matrix Theory</a> (2026-01-21)</li>
+
+  <li><a href="/crw-blog/Principal-Symbols-and-Singularity-Propagation/">Singularities Propagate Along Hamilton Flows</a> (2026-01-21)</li>
+
+  <li><a href="/crw-blog/Manifolds-for-the-Anti-Mathematician/">Manifolds for the Anti-Mathematician</a> (2026-01-21)</li>
+
+  <li><a href="/crw-blog/Lie-Groups-and-Haar-Measure/">Lie Groups and Haar Measure</a> (2026-01-21)</li>
+
+  <li><a href="/crw-blog/Functional-Equations/">Functional Equations: The Algebra Behind Iteration</a> (2026-01-21)</li>
+
+  <li><a href="/crw-blog/Free-Probability/">Free Probability: The Non-Commutative Central Limit Theorem</a> (2026-01-21)</li>
+
+  <li><a href="/crw-blog/Extreme-Value-Theory/">Extreme Value Theory: Why Maxima Have Universal Statistics</a> (2026-01-21)</li>
+
+  <li><a href="/crw-blog/Computational-Mechanics-and-Epsilon-Machines/">Computational Mechanics and Epsilon Machines</a> (2026-01-21)</li>
+
+  <li><a href="/crw-blog/Asymptotics-Borel-and-Stokes/">Asymptotics, Borel Transforms, and Stokes Phenomena</a> (2026-01-21)</li>
+
+</ul>
+
+<h3 id="spectral-theory">spectral-theory</h3>
+<ul>
+
+  <li><a href="/crw-blog/Alternatives-to-Entropy-Eigenvalues-of-Odd-Things/">Alternatives to Entropy; Eigenvalues of Odd Things</a> (2026-02-03)</li>
+
+</ul>
+
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer with basic info -->
+  <footer>
+    <p>&copy; 2026 Fruit of Preterition. Powered by <a href="https://pages.github.com/">GitHub
+        Pages</a>.</p>
+  </footer>
+</body>
+
+</html>

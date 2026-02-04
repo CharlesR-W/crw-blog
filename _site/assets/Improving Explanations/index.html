@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title></title>
+
+  <!-- Tag styling -->
+  <style>
+    .tags { margin: 0.5em 0 1.5em 0; }
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      margin: 2px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 3px;
+      font-size: 0.85em;
+      text-decoration: none;
+      color: var(--muted);
+    }
+    .tag:hover { background: rgba(255,255,255,0.15); color: var(--accent); }
+  </style>
+
+  <!-- MathJax configuration for LaTeX rendering -->
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true,
+        tags: 'ams'
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        ignoreHtmlClass: "tex2jax_ignore",
+        processHtmlClass: "tex2jax_process"
+      },
+      svg: {
+        fontCache: 'global'
+      },
+      startup: {
+        pageReady: function () {
+          return MathJax.startup.defaultPageReady().then(function () {
+            console.log('MathJax is loaded and ready');
+          });
+        }
+      }
+    };
+  </script>
+  <script type="text/javascript" async src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-svg.js"></script>
+
+  <!-- Site stylesheet -->
+  <link rel="stylesheet" href="/crw-blog/assets/css/style.css">
+</head>
+
+<body>
+  <!-- Header and site title -->
+  <header>
+    <h1>Fruit of Preterition</h1>
+    <nav>
+      <ul>
+        <li><a href="/crw-blog/">Home</a></li>
+        <li><a href="/crw-blog/seeds/">Seeds <span class="wip-badge">WIP</span></a></li>
+        <li><a href="/crw-blog/tags/">Tags <span class="wip-badge">WIP</span></a></li>
+        <li><a href="/crw-blog/reading/">Reading <span class="wip-badge">WIP</span></a></li>
+        <li><a href="/crw-blog/nulla-die/">Nulla Die</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main content of the page -->
+  <main>
+    <div class="site-container">
+      <div class="content">
+        
+        <div class="tags">
+          
+          <a href="/crw-blog/tags/#excalidraw" class="tag">excalidraw</a>
+          
+        </div>
+        
+        <p>==⚠  Switch to EXCALIDRAW VIEW in the MORE OPTIONS menu of this document. ⚠== You can decompress Drawing data with the command palette: ‘Decompress current Excalidraw file’. For more info check in plugin settings under ‘Saving’</p>
+
+<h1 id="excalidraw-data">Excalidraw Data</h1>
+
+<h2 id="text-elements">Text Elements</h2>
+<p>How to make the explanations better?
+(our project) ^fnu290Qb</p>
+
+<ul>
+  <li>Explore how to generate ‘near-miss’ examples
+    <ul>
+      <li>FAISS semantic search?</li>
+      <li>Decoder vector cosine similarity?</li>
+      <li>Non-activating examples?</li>
+    </ul>
+  </li>
+  <li>Explore different explanation pipelines
+    <ul>
+      <li>Fine-tuned explainer model?</li>
+      <li>Should Explainer, Scorer, or both see contrasting examples?</li>
+      <li>Different methods of ‘iterating’ explanations (guided?, k-shot?)</li>
+      <li>Prompt optimization for generating good explanations ^x1r5Btzl</li>
+    </ul>
+  </li>
+</ul>
+
+<p>%%</p>
+<h2 id="drawing">Drawing</h2>
+<pre><code class="language-compressed-json">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
+</code></pre>
+<p>%%</p>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer with basic info -->
+  <footer>
+    <p>&copy; 2026 Fruit of Preterition. Powered by <a href="https://pages.github.com/">GitHub
+        Pages</a>.</p>
+  </footer>
+</body>
+
+</html>

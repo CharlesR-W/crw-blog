@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>A Whirlwind Tour of Random Matrix Theory</title>
+
+  <!-- Tag styling -->
+  <style>
+    .tags { margin: 0.5em 0 1.5em 0; }
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      margin: 2px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 3px;
+      font-size: 0.85em;
+      text-decoration: none;
+      color: var(--muted);
+    }
+    .tag:hover { background: rgba(255,255,255,0.15); color: var(--accent); }
+  </style>
+
+  <!-- MathJax configuration for LaTeX rendering -->
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true,
+        tags: 'ams'
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        ignoreHtmlClass: "tex2jax_ignore",
+        processHtmlClass: "tex2jax_process"
+      },
+      svg: {
+        fontCache: 'global'
+      },
+      startup: {
+        pageReady: function () {
+          return MathJax.startup.defaultPageReady().then(function () {
+            console.log('MathJax is loaded and ready');
+          });
+        }
+      }
+    };
+  </script>
+  <script type="text/javascript" async src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-svg.js"></script>
+
+  <!-- Site stylesheet -->
+  <link rel="stylesheet" href="/crw-blog/assets/css/style.css">
+</head>
+
+<body>
+  <!-- Header and site title -->
+  <header>
+    <h1>Fruit of Preterition</h1>
+    <nav>
+      <ul>
+        <li><a href="/crw-blog/">Home</a></li>
+        <li><a href="/crw-blog/seeds/">Seeds <span class="wip-badge">WIP</span></a></li>
+        <li><a href="/crw-blog/tags/">Tags <span class="wip-badge">WIP</span></a></li>
+        <li><a href="/crw-blog/reading/">Reading <span class="wip-badge">WIP</span></a></li>
+        <li><a href="/crw-blog/nulla-die/">Nulla Die</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main content of the page -->
+  <main>
+    <div class="site-container">
+      <div class="content">
+        
+        <div class="tags">
+          
+          <a href="/crw-blog/tags/#seed" class="tag">seed</a>
+          
+          <a href="/crw-blog/tags/#math" class="tag">math</a>
+          
+          <a href="/crw-blog/tags/#physics" class="tag">physics</a>
+          
+        </div>
+        
+        <h1 id="a-whirlwind-tour-of-random-matrix-theory">A Whirlwind Tour of Random Matrix Theory</h1>
+
+<h2 id="why-rmt-looks-like-statistical-mechanics">Why RMT Looks Like Statistical Mechanics</h2>
+
+<p>Here’s the punchline up front: random matrix theory <em>is</em> statistical mechanics, just for eigenvalues instead of particles. The partition function, the Boltzmann weights, the saddle-point approximations, the diagrammatics—it’s all there, wearing a slightly different hat.</p>
+
+<p>Consider a random $N \times N$ Hermitian matrix $H$ drawn from the Gaussian Unitary Ensemble (GUE):</p>
+
+\[P(H) \propto \exp\left( -\frac{N}{2} \text{Tr}(H^2) \right)\]
+
+<p>This is a Boltzmann weight! The “energy” is $E(H) = \frac{N}{2}\text{Tr}(H^2)$, and we’re at inverse temperature $\beta = 1$.</p>
+
+<p>Now here’s the magic. The eigenvalues ${\lambda_1, \ldots, \lambda_N}$ have a joint distribution:</p>
+
+\[\boxed{P(\lambda_1, \ldots, \lambda_N) \propto \prod_{i &lt; j} |\lambda_i - \lambda_j|^2 \cdot \prod_i e^{-\frac{N}{2}\lambda_i^2}}\]
+
+<table>
+  <tbody>
+    <tr>
+      <td>That $</td>
+      <td>\lambda_i - \lambda_j</td>
+      <td>^2$ factor is the <strong>Vandermonde determinant</strong> squared. It’s a repulsive interaction between eigenvalues—they don’t want to be near each other. This is eigenvalue repulsion, and it’s what makes RMT nontrivial.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Rewrite this in Boltzmann form:</p>
+
+\[P(\boldsymbol{\lambda}) \propto \exp\left( -N \sum_i \frac{\lambda_i^2}{2} + 2\sum_{i &lt; j} \log|\lambda_i - \lambda_j| \right)\]
+
+<p>This is a <strong>log-gas</strong>: particles on a line with quadratic confining potential and logarithmic repulsion. The $N$ in front is like inverse temperature—as $N \to \infty$, we’re in the “cold” limit where fluctuations freeze out and we get a deterministic density.</p>
+
+<h2 id="the-semicircle-law-saddle-point-of-the-log-gas">The Semicircle Law: Saddle Point of the Log-Gas</h2>
+
+<p>In the large-$N$ limit, we can replace the sum over eigenvalues with an integral over a density $\rho(\lambda)$:</p>
+
+\[-\frac{1}{N^2} \log P \approx \int d\lambda \, \frac{\lambda^2}{2} \rho(\lambda) - \int d\lambda \, d\mu \, \rho(\lambda) \rho(\mu) \log|\lambda - \mu|\]
+
+<p>subject to $\int \rho = 1$.</p>
+
+<p>Varying with respect to $\rho$ (with Lagrange multiplier for normalization):</p>
+
+\[\frac{\lambda^2}{2} = \int d\mu \, \rho(\mu) \log|\lambda - \mu| + \text{const}\]
+
+<p>Differentiate both sides:</p>
+
+\[\lambda = \text{P.V.} \int \frac{\rho(\mu)}{\lambda - \mu} d\mu\]
+
+<p>This is a singular integral equation. The solution is the <strong>Wigner semicircle</strong>:</p>
+
+\[\boxed{\rho(\lambda) = \frac{1}{2\pi} \sqrt{4 - \lambda^2}, \quad |\lambda| \leq 2}\]
+
+<p>The eigenvalues pack into a semicircular density, supported on $[-2, 2]$.</p>
+
+<h2 id="diagrammatics-where-the-feynman-rules-come-from">Diagrammatics: Where the Feynman Rules Come From</h2>
+
+<p>The perturbative expansion of matrix integrals gives rise to <strong>ribbon graphs</strong> (fat graphs, maps). Here’s why.</p>
+
+<p>Consider the integral:</p>
+
+\[\langle \text{Tr}(H^{2k}) \rangle = \int \mathcal{D}H \, e^{-\frac{N}{2}\text{Tr} H^2} \text{Tr}(H^{2k})\]
+
+<p>Expand in Wick contractions. The propagator is:</p>
+
+\[\langle H_{ij} H_{kl} \rangle = \frac{1}{N} \delta_{il} \delta_{jk}\]
+
+<p>Each contraction connects index pairs. Because we’re tracing, indices form loops. Each loop gives a factor of $N$ (from $\delta_{ii} = N$).</p>
+
+<p>The combinatorics of which contractions are possible, and how many index loops result, is exactly the combinatorics of <strong>surfaces</strong>:</p>
+
+<ul>
+  <li><strong>Planar diagrams</strong> (genus 0): $O(N^2)$</li>
+  <li><strong>Torus diagrams</strong> (genus 1): $O(N^0)$</li>
+  <li><strong>Higher genus</strong>: $O(N^{2-2g})$</li>
+</ul>
+
+<p>This is the <strong>$1/N$ expansion</strong> = <strong>topological expansion</strong>. The large-$N$ limit picks out planar diagrams, which is why it’s solvable.</p>
+
+<p>The Feynman rules are:</p>
+<ul>
+  <li>Propagator: $\langle H_{ij} H_{kl} \rangle = \frac{1}{N} \delta_{il}\delta_{jk}$ (draw as double line / ribbon)</li>
+  <li>Vertex: $\text{Tr}(H^k)$ (k ribbons meeting at a point, cyclically ordered)</li>
+  <li>Each closed index loop: factor of $N$</li>
+</ul>
+
+<p><strong>This is the origin of free probability:</strong> at large $N$, only planar diagrams survive. The algebraic structure that captures “only planar diagrams contribute” is exactly freeness. Non-crossing partitions in free probability = planar graphs in the $1/N$ expansion.</p>
+
+<h2 id="universality-why-the-details-dont-matter">Universality: Why the Details Don’t Matter</h2>
+
+<p>Here’s the remarkable thing: the local statistics of eigenvalues are <strong>universal</strong>. Near the bulk of the spectrum, the correlations between eigenvalues look the same whether you started with Gaussian, uniform, or whatever—as long as you have the same symmetry class.</p>
+
+<h3 id="the-three-classical-ensembles">The Three Classical Ensembles</h3>
+
+<ul>
+  <li><strong>GUE</strong> (Gaussian Unitary Ensemble): Complex Hermitian matrices, $\beta = 2$</li>
+  <li><strong>GOE</strong> (Gaussian Orthogonal Ensemble): Real symmetric matrices, $\beta = 1$</li>
+  <li><strong>GSE</strong> (Gaussian Symplectic Ensemble): Quaternionic self-dual matrices, $\beta = 4$</li>
+</ul>
+
+<p>The $\beta$ parameter controls the strength of eigenvalue repulsion:</p>
+
+\[P(\boldsymbol{\lambda}) \propto \prod_{i&lt;j} |\lambda_i - \lambda_j|^\beta \cdot \prod_i e^{-\frac{\beta N}{4} \lambda_i^2}\]
+
+<p><strong>Theorem (Dyson):</strong> The Gaussian ensembles are the <em>unique</em> unitarily/orthogonally/symplectically invariant ensembles with independent matrix entries.</p>
+
+<p>This is why Gaussian is special: symmetry + independence = Gaussian. Any other invariant ensemble must have correlated entries.</p>
+
+<h3 id="universality-classes">Universality Classes</h3>
+
+<p><strong>Bulk universality:</strong> In the interior of the spectrum, eigenvalue correlations are described by the <strong>sine kernel</strong>:</p>
+
+\[K(\lambda, \mu) = \frac{\sin(\pi \rho_0 (\lambda - \mu))}{\pi(\lambda - \mu)}\]
+
+<p>where $\rho_0$ is the local density. This holds for <em>any</em> Wigner matrix (iid entries with finite moments).</p>
+
+<p><strong>Edge universality:</strong> At the edge of the spectrum, fluctuations of the largest eigenvalue follow the <strong>Tracy-Widom distribution</strong>:</p>
+
+\[P(\lambda_{\max} \leq 2 + sN^{-2/3}) \to F_\beta(s)\]
+
+<p>where $F_\beta$ is the Tracy-Widom distribution for $\beta = 1, 2, 4$.</p>
+
+<h3 id="rg-perspective-on-universality">RG Perspective on Universality</h3>
+
+<p>Why universality? Think renormalization group.</p>
+
+<p>The “microscopic” theory is specified by the matrix distribution $P(H)$. As we coarse-grain (integrate out high-energy modes / look at longer wavelength correlations), we flow to a fixed point.</p>
+
+<p>For invariant ensembles, the flow is governed by:</p>
+<ol>
+  <li><strong>Symmetry class</strong> (determines $\beta$)</li>
+  <li><strong>Confining potential</strong> (determines bulk density)</li>
+  <li><strong>Nothing else</strong> at long wavelengths</li>
+</ol>
+
+<p>The irrelevant operators (higher moments, fine structure of the distribution) get washed out. Only the “relevant” information—symmetry and mean density—survives.</p>
+
+<p>This is exactly like the central limit theorem being an RG fixed point for sums of random variables, or like critical phenomena having universal exponents.</p>
+
+<h2 id="edge-fluctuations-and-tracy-widom">Edge Fluctuations and Tracy-Widom</h2>
+
+<p>The Tracy-Widom distributions $F_\beta$ describe the fluctuations of the largest eigenvalue. They’re remarkable: they appear everywhere—longest increasing subsequences, growth processes, KPZ universality class, etc.</p>
+
+<p>For GUE ($\beta = 2$), Tracy-Widom is defined via a Painlevé equation. The PDF looks roughly like:</p>
+
+<ul>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>Left tail: $f(s) \sim e^{-</td>
+          <td>s</td>
+          <td>^3/12}$ (superexponential decay)</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>Right tail: $f(s) \sim e^{-\frac{2}{3}s^{3/2}}$ (stretched exponential)</li>
+</ul>
+
+<p>The asymmetry reflects that eigenvalues can fluctuate inward easily (other eigenvalues push back less) but outward is suppressed by the potential.</p>
+
+<h2 id="connection-to-free-probability">Connection to Free Probability</h2>
+
+<p>As $N \to \infty$, random matrices become <strong>free random variables</strong> in Voiculescu’s sense.</p>
+
+<p>Two random matrices $A$ and $B$ (from independent ensembles) are “free” in the large-$N$ limit. Their joint distribution is determined by their individual spectral distributions plus the freeness relation.</p>
+
+<p>The key tool: instead of characteristic function $\mathbb{E}[e^{itX}]$, use the <strong>Cauchy transform</strong>:</p>
+
+\[G_X(z) = \mathbb{E}\left[\frac{1}{z - X}\right]\]
+
+<p>For free random variables, there’s an additive convolution formula involving the <strong>R-transform</strong>:</p>
+
+\[R_{X+Y}(z) = R_X(z) + R_Y(z)\]
+
+<p>And a multiplicative one involving the <strong>S-transform</strong>:</p>
+
+\[S_{XY}(z) = S_X(z) \cdot S_Y(z)\]
+
+<p>The semicircle law is the free analog of the Gaussian. Marcenko-Pastur is the spectral distribution of $\frac{1}{N} X X^T$ where $X$ is $N \times M$ with iid entries, as $N, M \to \infty$ with $M/N \to \gamma$.</p>
+
+<p>Free probability = non-commutative probability = large-$N$ limit of random matrices.</p>
+
+<h2 id="what-we-didnt-cover">What We Didn’t Cover</h2>
+
+<ul>
+  <li><strong>Determinantal point processes</strong> and their role in exact formulas</li>
+  <li><strong>Orthogonal polynomial methods</strong> (the workhorse for exact computations)</li>
+  <li><strong>$\beta$-ensembles</strong> for general $\beta$ (not just 1, 2, 4)</li>
+  <li><strong>Sparse matrices</strong> and their different universality classes</li>
+  <li><strong>Products of random matrices</strong> and Lyapunov exponents</li>
+  <li><strong>Non-Hermitian random matrices</strong> (Ginibre ensemble, circular law)</li>
+  <li><strong>Connections to number theory</strong> (Montgomery-Odlyzko, zeros of zeta)</li>
+</ul>
+
+<p>For the comprehensive treatment, see Mehta’s book or the lecture notes by various Italian mathematicians (you know the ones).</p>
+
+<hr />
+
+<p><em>See also: [Free Probability], [Extreme Value Theory].</em></p>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer with basic info -->
+  <footer>
+    <p>&copy; 2026 Fruit of Preterition. Powered by <a href="https://pages.github.com/">GitHub
+        Pages</a>.</p>
+  </footer>
+</body>
+
+</html>

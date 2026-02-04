@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Nulla Die Sine Linea</title>
+
+  <!-- Tag styling -->
+  <style>
+    .tags { margin: 0.5em 0 1.5em 0; }
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      margin: 2px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 3px;
+      font-size: 0.85em;
+      text-decoration: none;
+      color: var(--muted);
+    }
+    .tag:hover { background: rgba(255,255,255,0.15); color: var(--accent); }
+  </style>
+
+  <!-- MathJax configuration for LaTeX rendering -->
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true,
+        tags: 'ams'
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        ignoreHtmlClass: "tex2jax_ignore",
+        processHtmlClass: "tex2jax_process"
+      },
+      svg: {
+        fontCache: 'global'
+      },
+      startup: {
+        pageReady: function () {
+          return MathJax.startup.defaultPageReady().then(function () {
+            console.log('MathJax is loaded and ready');
+          });
+        }
+      }
+    };
+  </script>
+  <script type="text/javascript" async src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-svg.js"></script>
+
+  <!-- Site stylesheet -->
+  <link rel="stylesheet" href="/crw-blog/assets/css/style.css">
+</head>
+
+<body>
+  <!-- Header and site title -->
+  <header>
+    <h1>Fruit of Preterition</h1>
+    <nav>
+      <ul>
+        <li><a href="/crw-blog/">Home</a></li>
+        <li><a href="/crw-blog/seeds/">Seeds <span class="wip-badge">WIP</span></a></li>
+        <li><a href="/crw-blog/tags/">Tags <span class="wip-badge">WIP</span></a></li>
+        <li><a href="/crw-blog/reading/">Reading <span class="wip-badge">WIP</span></a></li>
+        <li><a href="/crw-blog/nulla-die/">Nulla Die</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main content of the page -->
+  <main>
+    <div class="site-container">
+      <div class="content">
+        
+        <style>
+  .nulla-die-intro { margin-bottom: 2em; }
+  .nulla-die-intro blockquote {
+    border-left: 3px solid #c9a84c;
+    color: var(--muted);
+    font-style: italic;
+    padding: 0.5em 1em;
+    margin: 1.2em 0;
+    background: rgba(201, 168, 76, 0.05);
+  }
+  .nulla-die-intro blockquote cite {
+    display: block;
+    margin-top: 0.5em;
+    font-style: normal;
+    font-size: 0.9em;
+    color: var(--muted);
+  }
+</style>
+
+<h2>Nulla Die Sine Linea</h2>
+
+<div class="nulla-die-intro">
+
+<blockquote>
+<p>Nulla dies sine linea.</p>
+<p>No day without a line.</p>
+<cite>— Pliny the Elder, <em>Naturalis Historia</em> XXXV.84, on the painter Apelles</cite>
+</blockquote>
+
+<p>Pliny records that Apelles of Kos, the greatest painter of antiquity, made it his invariable practice never to let a day pass without drawing at least one line. The maxim has since become a byword for creative discipline: the idea that regular, even modest output is the surest path to mastery.</p>
+
+<p>These posts are my version of that practice — short, frequent pieces written as part of a self-imposed writing challenge. The goals are simple:</p>
+
+<ul>
+  <li><strong>Improve my writing</strong> by making it a daily habit rather than an occasional ordeal.</li>
+  <li><strong>Record research progress</strong> — half-formed ideas, small results, open questions — that would otherwise evaporate from working memory.</li>
+  <li><strong>Lower the bar</strong> for what counts as worth writing down. Not every post needs to be a polished essay; sometimes a line is enough.</li>
+</ul>
+
+<p>Expect rough edges, incomplete thoughts, and varying lengths. That's the point.</p>
+
+</div>
+
+<h3>Entries</h3>
+
+<div class="posts-list">
+<ul>
+
+
+</ul>
+</div>
+
+
+<p style="color: var(--muted); font-style: italic;">No entries yet. The first line awaits.</p>
+
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer with basic info -->
+  <footer>
+    <p>&copy; 2026 Fruit of Preterition. Powered by <a href="https://pages.github.com/">GitHub
+        Pages</a>.</p>
+  </footer>
+</body>
+
+</html>

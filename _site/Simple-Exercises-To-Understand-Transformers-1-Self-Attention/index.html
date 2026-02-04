@@ -5,7 +5,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>[Machine Learning] Simple Exercises on Transformers 1: Self-Attention</title>
+  <title>Simple Exercises on Transformers 1: Self-Attention</title>
+
+  <!-- Tag styling -->
+  <style>
+    .tags { margin: 0.5em 0 1.5em 0; }
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      margin: 2px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 3px;
+      font-size: 0.85em;
+      text-decoration: none;
+      color: var(--muted);
+    }
+    .tag:hover { background: rgba(255,255,255,0.15); color: var(--accent); }
+  </style>
 
   <!-- MathJax configuration for LaTeX rendering -->
   <script type="text/javascript">
@@ -37,6 +53,9 @@
   <script type="text/javascript" async src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script type="text/javascript" async
     src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-svg.js"></script>
+
+  <!-- Site stylesheet -->
+  <link rel="stylesheet" href="/crw-blog/assets/css/style.css">
 </head>
 
 <body>
@@ -46,13 +65,26 @@
     <nav>
       <ul>
         <li><a href="/crw-blog/">Home</a></li>
+        <li><a href="/crw-blog/seeds/">Seeds <span class="wip-badge">WIP</span></a></li>
+        <li><a href="/crw-blog/tags/">Tags <span class="wip-badge">WIP</span></a></li>
+        <li><a href="/crw-blog/reading/">Reading <span class="wip-badge">WIP</span></a></li>
+        <li><a href="/crw-blog/nulla-die/">Nulla Die</a></li>
       </ul>
     </nav>
   </header>
 
   <!-- Main content of the page -->
   <main>
-    <p>I’ve heard a few times from friends that they’re repeatedly surprised to discover they don’t actually understand how transformers work as well as they had thought.  Here’s a simple exercise I did for myself that I think helped a lot (though with the obvious caveat that I am presumably subject to a similar bias to overestimate my understanding ;) )</p>
+    <div class="site-container">
+      <div class="content">
+        
+        <div class="tags">
+          
+          <a href="/crw-blog/tags/#ml" class="tag">ml</a>
+          
+        </div>
+        
+        <p>I’ve heard a few times from friends that they’re repeatedly surprised to discover they don’t actually understand how transformers work as well as they had thought.  Here’s a simple exercise I did for myself that I think helped a lot (though with the obvious caveat that I am presumably subject to a similar bias to overestimate my understanding ;) )</p>
 
 <p>To do this, you should have an understanding of the transformer architecture - there are millions of tutorials that teach this and you’ll profit by studying them - if you want to spend some time reflecting on it, the famous “<a href="https://transformer-circuits.pub/2021/framework/index.html">A Mathematical Framewok for Transformer Circuits</a>” is very good.  Also, the transformers circuit thread also includes <a href="https://transformer-circuits.pub/2021/exercises/index.html">these exercises</a>.  I haven’t done more than glanced at them, but they’re doubtless quite good.</p>
 
@@ -207,11 +239,13 @@ Easy as cake:</p>
 \end{bmatrix}
 \propto \mathrm{encode}(B) + \mathrm{intermediate~state}.\]
 
+      </div>
+    </div>
   </main>
 
   <!-- Footer with basic info -->
   <footer>
-    <p>&copy; 2025 Fruit of Preterition. Powered by <a href="https://pages.github.com/">GitHub
+    <p>&copy; 2026 Fruit of Preterition. Powered by <a href="https://pages.github.com/">GitHub
         Pages</a>.</p>
   </footer>
 </body>

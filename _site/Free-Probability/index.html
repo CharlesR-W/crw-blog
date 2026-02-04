@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Free Probability: The Non-Commutative Central Limit Theorem</title>
+
+  <!-- Tag styling -->
+  <style>
+    .tags { margin: 0.5em 0 1.5em 0; }
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      margin: 2px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 3px;
+      font-size: 0.85em;
+      text-decoration: none;
+      color: var(--muted);
+    }
+    .tag:hover { background: rgba(255,255,255,0.15); color: var(--accent); }
+  </style>
+
+  <!-- MathJax configuration for LaTeX rendering -->
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true,
+        tags: 'ams'
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        ignoreHtmlClass: "tex2jax_ignore",
+        processHtmlClass: "tex2jax_process"
+      },
+      svg: {
+        fontCache: 'global'
+      },
+      startup: {
+        pageReady: function () {
+          return MathJax.startup.defaultPageReady().then(function () {
+            console.log('MathJax is loaded and ready');
+          });
+        }
+      }
+    };
+  </script>
+  <script type="text/javascript" async src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-svg.js"></script>
+
+  <!-- Site stylesheet -->
+  <link rel="stylesheet" href="/crw-blog/assets/css/style.css">
+</head>
+
+<body>
+  <!-- Header and site title -->
+  <header>
+    <h1>Fruit of Preterition</h1>
+    <nav>
+      <ul>
+        <li><a href="/crw-blog/">Home</a></li>
+        <li><a href="/crw-blog/seeds/">Seeds <span class="wip-badge">WIP</span></a></li>
+        <li><a href="/crw-blog/tags/">Tags <span class="wip-badge">WIP</span></a></li>
+        <li><a href="/crw-blog/reading/">Reading <span class="wip-badge">WIP</span></a></li>
+        <li><a href="/crw-blog/nulla-die/">Nulla Die</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main content of the page -->
+  <main>
+    <div class="site-container">
+      <div class="content">
+        
+        <div class="tags">
+          
+          <a href="/crw-blog/tags/#seed" class="tag">seed</a>
+          
+          <a href="/crw-blog/tags/#math" class="tag">math</a>
+          
+        </div>
+        
+        <h1 id="free-probability-the-non-commutative-central-limit-theorem">Free Probability: The Non-Commutative Central Limit Theorem</h1>
+
+<h2 id="what-free-probability-is">What Free Probability Is</h2>
+
+<p>Classical probability theory studies commutative random variables. You can always think of them as functions on some probability space, and $XY = YX$.</p>
+
+<p>Free probability is what happens when you take non-commutative random variables seriously—operators on a Hilbert space, matrices, elements of a C*-algebra—and ask: what’s the analog of independence?</p>
+
+<p>The answer is <strong>freeness</strong>, discovered by Voiculescu in the 1980s while studying operator algebras. The miracle is that freeness is exactly what emerges in the large-$N$ limit of random matrix theory. Two independent random matrices become “free” as $N \to \infty$.</p>
+
+<p><strong>The diagrammatic perspective:</strong> If you’ve seen the $1/N$ expansion in RMT, you know that planar diagrams dominate at large $N$. Free probability is the algebraic structure that captures “only planar diagrams contribute.” The non-crossing partition combinatorics of freeness is exactly the combinatorics of planar graphs.</p>
+
+<h2 id="the-basic-setup">The Basic Setup</h2>
+
+<p>A <strong>non-commutative probability space</strong> is a pair $(\mathcal{A}, \varphi)$ where:</p>
+<ul>
+  <li>$\mathcal{A}$ is a unital algebra (think: matrices, operators)</li>
+  <li>$\varphi: \mathcal{A} \to \mathbb{C}$ is a linear functional with $\varphi(1) = 1$ (think: $\varphi(X) = \frac{1}{N}\text{Tr}(X)$)</li>
+</ul>
+
+<p>The <strong>moments</strong> of $X \in \mathcal{A}$ are $\varphi(X^n)$, which determine the “distribution” of $X$.</p>
+
+<p>For self-adjoint $X$, there’s a measure $\mu_X$ on $\mathbb{R}$ such that:</p>
+
+\[\varphi(X^n) = \int \lambda^n \, d\mu_X(\lambda)\]
+
+<p>This $\mu_X$ is the <strong>spectral distribution</strong>—for matrices, it’s the empirical eigenvalue distribution.</p>
+
+<h2 id="freeness-the-non-commutative-independence">Freeness: The Non-Commutative Independence</h2>
+
+<p>Two subalgebras $\mathcal{A}_1, \mathcal{A}_2 \subset \mathcal{A}$ are <strong>free</strong> if:</p>
+
+\[\varphi(a_1 a_2 \cdots a_n) = 0\]
+
+<p>whenever:</p>
+<ul>
+  <li>Each $a_i$ belongs to $\mathcal{A}_1$ or $\mathcal{A}_2$</li>
+  <li>Adjacent elements come from different subalgebras</li>
+  <li>Each $\varphi(a_i) = 0$ (centered)</li>
+</ul>
+
+<p>This is strange! It says mixed moments of centered elements vanish—but the elements don’t commute, so the order matters.</p>
+
+<p><strong>Example:</strong> If $X, Y$ are free and centered, then:</p>
+<ul>
+  <li>$\varphi(XY) = 0$</li>
+  <li>$\varphi(XYXY) = 0$</li>
+  <li>But $\varphi(XXYY) = \varphi(X^2)\varphi(Y^2)$ (not zero in general!)</li>
+</ul>
+
+<p>Compare to classical independence where $\mathbb{E}[XY] = \mathbb{E}[X]\mathbb{E}[Y]$ regardless of order.</p>
+
+<h2 id="the-free-central-limit-theorem">The Free Central Limit Theorem</h2>
+
+<p>Classical CLT: if $X_1, X_2, \ldots$ are iid with mean 0, variance 1, then $\frac{1}{\sqrt{N}}\sum_{i=1}^N X_i \to \mathcal{N}(0,1)$.</p>
+
+<p><strong>Free CLT:</strong> If $X_1, X_2, \ldots$ are free, identically distributed, with $\varphi(X_i) = 0$, $\varphi(X_i^2) = 1$, then:</p>
+
+\[\frac{1}{\sqrt{N}}\sum_{i=1}^N X_i \xrightarrow{d} \text{Semicircle}\]
+
+<p>The semicircle distribution $\rho(\lambda) = \frac{1}{2\pi}\sqrt{4 - \lambda^2}$ is the free analog of the Gaussian!</p>
+
+<p>This is why the Wigner semicircle appears in random matrix theory: a GUE matrix is (roughly) a sum of many free rank-1 projections.</p>
+
+<h2 id="transforms-the-computational-toolkit">Transforms: The Computational Toolkit</h2>
+
+<h3 id="the-cauchy-transform">The Cauchy Transform</h3>
+
+<p>For a measure $\mu$, define:</p>
+
+\[G_\mu(z) = \int \frac{d\mu(\lambda)}{z - \lambda} = \sum_{n=0}^\infty \frac{m_n}{z^{n+1}}\]
+
+<p>where $m_n = \int \lambda^n d\mu$ are the moments.</p>
+
+<p>The measure is recovered by:</p>
+
+\[d\mu(\lambda) = -\frac{1}{\pi} \text{Im} \, G_\mu(\lambda + i0^+) \, d\lambda\]
+
+<h3 id="the-r-transform-for-addition">The R-Transform (for Addition)</h3>
+
+<p>Define the <strong>functional inverse</strong> $K_\mu$ such that $G_\mu(K_\mu(z)) = z$.</p>
+
+<p>The <strong>R-transform</strong> is:</p>
+
+\[R_\mu(z) = K_\mu(z) - \frac{1}{z}\]
+
+<p><strong>Theorem (Voiculescu):</strong> If $X$ and $Y$ are free, then:</p>
+
+\[\boxed{R_{X+Y}(z) = R_X(z) + R_Y(z)}\]
+
+<p>The R-transform linearizes free additive convolution, just like the log of the characteristic function linearizes classical convolution.</p>
+
+<h3 id="computing-the-r-transform">Computing the R-Transform</h3>
+
+<p>For the semicircle: $G(z) = \frac{z - \sqrt{z^2 - 4}}{2}$.</p>
+
+<p>Inverting: if $G(K) = z$, then $K - \sqrt{K^2 - 4} = 2z$, giving $K = z + \frac{1}{z}$.</p>
+
+<p>So $R(z) = K(z) - \frac{1}{z} = z$. The semicircle has $R(z) = z$!</p>
+
+<p>This means: <strong>semicircle + semicircle = stretched semicircle</strong>. If $X, Y$ are free semicircles with variance 1, then $X + Y$ has R-transform $2z$, corresponding to semicircle with variance 2.</p>
+
+<h3 id="the-s-transform-for-multiplication">The S-Transform (for Multiplication)</h3>
+
+<p>For multiplication of free positive random variables, we use the <strong>S-transform</strong>.</p>
+
+<p>Define the <strong>moment generating function</strong>:</p>
+
+\[\psi_\mu(z) = \int \frac{z\lambda}{1 - z\lambda} d\mu(\lambda) = \sum_{n=1}^\infty m_n z^n\]
+
+<p>Let $\chi_\mu$ be its functional inverse.</p>
+
+<p>The <strong>S-transform</strong> is:</p>
+
+\[S_\mu(z) = \frac{1 + z}{z} \chi_\mu(z)\]
+
+<p><strong>Theorem:</strong> If $X$ and $Y$ are free, then:</p>
+
+\[\boxed{S_{XY}(z) = S_X(z) \cdot S_Y(z)}\]
+
+<h2 id="paradigm-example-marcenko-pastur">Paradigm Example: Marcenko-Pastur</h2>
+
+<p>Let $X$ be an $N \times M$ matrix with iid entries of variance $1/N$. Consider $W = XX^T$ (or $X^T X$), an $N \times N$ (or $M \times M$) matrix.</p>
+
+<p>As $N, M \to \infty$ with $M/N \to \gamma$, the eigenvalue distribution of $W$ converges to the <strong>Marcenko-Pastur distribution</strong>:</p>
+
+\[\rho_{MP}(\lambda) = \frac{\sqrt{(\lambda_+ - \lambda)(\lambda - \lambda_-)}}{2\pi \gamma \lambda} \cdot \mathbf{1}_{[\lambda_-, \lambda_+]}\]
+
+<p>where $\lambda_\pm = (1 \pm \sqrt{\gamma})^2$.</p>
+
+<p>For $\gamma &lt; 1$, there’s also a point mass $(1 - \gamma)\delta_0$ at zero (more columns than rows means null space).</p>
+
+<h3 id="free-probability-derivation">Free Probability Derivation</h3>
+
+<p>Think of $XX^T$ as a product of free things. In the free probability setup:</p>
+
+<ul>
+  <li>$X$ is a “rectangular free random variable”</li>
+  <li>$XX^T$ is its “free square”</li>
+</ul>
+
+<p>The S-transform of Marcenko-Pastur is:</p>
+
+\[S_{MP}(z) = \frac{1}{1 + \gamma z}\]
+
+<p>This simple form reflects the factorization property of free multiplication.</p>
+
+<h2 id="free-poisson-marcenko-pastur-as-gamma-to-0">Free Poisson (Marcenko-Pastur as $\gamma \to 0$)</h2>
+
+<p>When $\gamma \to 0$ with $\gamma N$ fixed, Marcenko-Pastur becomes the <strong>free Poisson</strong> (or Marchenko-Pastur with rate parameter).</p>
+
+<p>The free Poisson is to free probability what the Poisson distribution is to classical probability—the limit of sums of many small free Bernoulli-like variables.</p>
+
+<h2 id="other-key-distributions">Other Key Distributions</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Classical</th>
+      <th>Free Analog</th>
+      <th>R-transform</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Gaussian</td>
+      <td>Semicircle</td>
+      <td>$R(z) = z$</td>
+    </tr>
+    <tr>
+      <td>Poisson</td>
+      <td>Free Poisson</td>
+      <td>$R(z) = \frac{1}{1-z}$</td>
+    </tr>
+    <tr>
+      <td>Bernoulli</td>
+      <td>Free Bernoulli</td>
+      <td>$R(z) = pz$</td>
+    </tr>
+    <tr>
+      <td>Cauchy</td>
+      <td>Free Cauchy</td>
+      <td>$R(z) = i$ (constant!)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="freeness-from-random-matrices">Freeness from Random Matrices</h2>
+
+<p><strong>Theorem (Voiculescu):</strong> Let $A_N$ and $B_N$ be $N \times N$ random matrices such that:</p>
+<ul>
+  <li>$A_N$ is diagonal with empirical eigenvalue distribution converging to $\mu_A$</li>
+  <li>$B_N = U_N D_N U_N^*$ where $U_N$ is Haar-distributed unitary, independent of $A_N$, and $D_N$ diagonal with empirical distribution converging to $\mu_B$</li>
+</ul>
+
+<p>Then $(A_N, B_N)$ converge in distribution to free random variables with distributions $(\mu_A, \mu_B)$.</p>
+
+<p>In other words: <strong>conjugating by a random unitary makes things free</strong>.</p>
+
+<p>This is why freeness appears in random matrix theory: independent random matrices, when multiplied or added, behave as if free in the large-$N$ limit.</p>
+
+<h2 id="connection-to-classical-probability">Connection to Classical Probability</h2>
+
+<p>There’s a beautiful parallel:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Classical</th>
+      <th>Free</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Independence</td>
+      <td>Freeness</td>
+    </tr>
+    <tr>
+      <td>Gaussian</td>
+      <td>Semicircle</td>
+    </tr>
+    <tr>
+      <td>Fourier/char function</td>
+      <td>Cauchy/R-transform</td>
+    </tr>
+    <tr>
+      <td>Convolution</td>
+      <td>Free convolution</td>
+    </tr>
+    <tr>
+      <td>CLT</td>
+      <td>Free CLT</td>
+    </tr>
+    <tr>
+      <td>Poisson limit</td>
+      <td>Free Poisson limit</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The theories are not isomorphic—freeness is genuinely different from independence—but they share the same structural skeleton.</p>
+
+<h2 id="what-we-didnt-cover">What We Didn’t Cover</h2>
+
+<ul>
+  <li><strong>Free entropy</strong> and connections to von Neumann algebras</li>
+  <li><strong>Operator-valued free probability</strong> (matrix-valued distributions)</li>
+  <li><strong>Free stochastic calculus</strong> and free Brownian motion</li>
+  <li><strong>Boolean and monotone independence</strong> (other notions of non-commutative independence)</li>
+  <li><strong>Combinatorics of non-crossing partitions</strong> (the enumerative backbone)</li>
+</ul>
+
+<hr />
+
+<p><em>See also: [Random Matrix Theory Tour], [Extreme Value Theory].</em></p>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer with basic info -->
+  <footer>
+    <p>&copy; 2026 Fruit of Preterition. Powered by <a href="https://pages.github.com/">GitHub
+        Pages</a>.</p>
+  </footer>
+</body>
+
+</html>

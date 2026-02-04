@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Computational Mechanics and Epsilon Machines</title>
+
+  <!-- Tag styling -->
+  <style>
+    .tags { margin: 0.5em 0 1.5em 0; }
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      margin: 2px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 3px;
+      font-size: 0.85em;
+      text-decoration: none;
+      color: var(--muted);
+    }
+    .tag:hover { background: rgba(255,255,255,0.15); color: var(--accent); }
+  </style>
+
+  <!-- MathJax configuration for LaTeX rendering -->
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true,
+        tags: 'ams'
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        ignoreHtmlClass: "tex2jax_ignore",
+        processHtmlClass: "tex2jax_process"
+      },
+      svg: {
+        fontCache: 'global'
+      },
+      startup: {
+        pageReady: function () {
+          return MathJax.startup.defaultPageReady().then(function () {
+            console.log('MathJax is loaded and ready');
+          });
+        }
+      }
+    };
+  </script>
+  <script type="text/javascript" async src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-svg.js"></script>
+
+  <!-- Site stylesheet -->
+  <link rel="stylesheet" href="/crw-blog/assets/css/style.css">
+</head>
+
+<body>
+  <!-- Header and site title -->
+  <header>
+    <h1>Fruit of Preterition</h1>
+    <nav>
+      <ul>
+        <li><a href="/crw-blog/">Home</a></li>
+        <li><a href="/crw-blog/seeds/">Seeds <span class="wip-badge">WIP</span></a></li>
+        <li><a href="/crw-blog/tags/">Tags <span class="wip-badge">WIP</span></a></li>
+        <li><a href="/crw-blog/reading/">Reading <span class="wip-badge">WIP</span></a></li>
+        <li><a href="/crw-blog/nulla-die/">Nulla Die</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main content of the page -->
+  <main>
+    <div class="site-container">
+      <div class="content">
+        
+        <div class="tags">
+          
+          <a href="/crw-blog/tags/#seed" class="tag">seed</a>
+          
+          <a href="/crw-blog/tags/#math" class="tag">math</a>
+          
+          <a href="/crw-blog/tags/#information-theory" class="tag">information-theory</a>
+          
+        </div>
+        
+        <h1 id="computational-mechanics-and-epsilon-machines">Computational Mechanics and Epsilon Machines</h1>
+
+<h2 id="the-question">The Question</h2>
+
+<p>You’re observing a stochastic process—a sequence of symbols $\ldots X_{-2}, X_{-1}, X_0, X_1, X_2, \ldots$ drawn from some alphabet. You want to <strong>predict the future</strong> given the past.</p>
+
+<p>What’s the minimal amount of information about the past that you need to retain?</p>
+
+<p>Not “all the information”—that’s typically infinite for a long history. And not “nothing”—then you couldn’t predict. There’s something in between: the <strong>minimal sufficient statistic for prediction</strong>.</p>
+
+<p>Computational mechanics, developed by Crutchfield and collaborators, makes this precise. The answer is the <strong>epsilon machine</strong>—a canonical, minimal, optimal predictor for any stationary stochastic process.</p>
+
+<h2 id="the-setup">The Setup</h2>
+
+<p>Let $\overleftarrow{X} = \ldots X_{-2}, X_{-1}, X_0$ be the past (a semi-infinite sequence).
+Let $\overrightarrow{X} = X_1, X_2, X_3, \ldots$ be the future.</p>
+
+<p>We want to find a function $\epsilon: \text{pasts} \to \text{states}$ such that:</p>
+
+<ol>
+  <li><strong>Sufficiency</strong>: Knowing $\epsilon(\overleftarrow{X})$ is as good as knowing $\overleftarrow{X}$ for predicting $\overrightarrow{X}$.</li>
+</ol>
+
+\[P(\overrightarrow{X} | \overleftarrow{X}) = P(\overrightarrow{X} | \epsilon(\overleftarrow{X}))\]
+
+<ol>
+  <li><strong>Minimality</strong>: $\epsilon$ has the smallest range (fewest states) among all sufficient statistics.</li>
+</ol>
+
+<h2 id="causal-states">Causal States</h2>
+
+<p>The key construction is the <strong>causal equivalence relation</strong> on pasts:</p>
+
+\[\overleftarrow{x} \sim_\epsilon \overleftarrow{x}' \iff P(\overrightarrow{X} | \overleftarrow{X} = \overleftarrow{x}) = P(\overrightarrow{X} | \overleftarrow{X} = \overleftarrow{x}')\]
+
+<p>Two pasts are equivalent if and only if they give the same conditional distribution over futures.</p>
+
+<p>The equivalence classes are called <strong>causal states</strong>. The set of all causal states is denoted $\mathcal{S}$.</p>
+
+<p><strong>Theorem</strong>: The causal states form a sufficient statistic for prediction, and among all sufficient statistics, they have minimal entropy.</p>
+
+<p>This is the <strong>epsilon machine</strong>: the causal states plus the transition structure between them.</p>
+
+<h2 id="why-epsilon-machine">Why “Epsilon Machine”?</h2>
+
+<p>The name comes from the equivalence relation $\sim_\epsilon$. The “machine” part is because the causal states, together with the transitions induced by observing new symbols, form a (possibly infinite) hidden Markov model.</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>Given current causal state $s$ and observed symbol $x$, there’s a deterministic transition to a new causal state $s’ = T(s, x)$ and a probability $P(x</td>
+      <td>s)$ for that symbol.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The epsilon machine is:</p>
+<ul>
+  <li><strong>Unifilar</strong>: Given the current state and the next symbol, the next state is determined</li>
+  <li><strong>Minimal</strong>: No other unifilar HMM with the same output process has fewer states</li>
+  <li><strong>Canonical</strong>: It’s uniquely determined by the process (up to state relabeling)</li>
+</ul>
+
+<h2 id="statistical-complexity">Statistical Complexity</h2>
+
+<p>The <strong>statistical complexity</strong> $C_\mu$ is the entropy of the causal state distribution:</p>
+
+\[C_\mu = H[\mathcal{S}] = -\sum_{s \in \mathcal{S}} P(s) \log P(s)\]
+
+<p>This measures how much memory the process has—how much information about the past is relevant for predicting the future.</p>
+
+<p><strong>Key properties:</strong></p>
+<ul>
+  <li>$C_\mu = 0$ iff the process is iid (no memory needed)</li>
+  <li>$C_\mu$ can be finite even for processes with infinite-range correlations</li>
+  <li>$C_\mu$ is bounded below by the <strong>excess entropy</strong> $E = I(\overleftarrow{X}; \overrightarrow{X})$</li>
+</ul>
+
+<p>The excess entropy $E$ measures total correlation between past and future. Statistical complexity $C_\mu$ measures how much you need to <em>store</em>. Generally $C_\mu \geq E$, with equality for certain “simple” processes.</p>
+
+<h2 id="example-the-golden-mean-process">Example: The Golden Mean Process</h2>
+
+<p>Consider a process over ${0, 1}$ where $11$ is forbidden—you can never have two 1’s in a row.</p>
+
+<p>The causal states are:</p>
+<ul>
+  <li><strong>State A</strong>: Last symbol was 0 (or we’re at the start)</li>
+  <li><strong>State B</strong>: Last symbol was 1</li>
+</ul>
+
+<p>From A: can emit 0 (stay in A) or 1 (go to B)
+From B: must emit 0 (go to A)</p>
+
+<p>This is a two-state epsilon machine. The statistical complexity is $C_\mu = H(p_A, p_B)$ where the stationary distribution is $(p_A, p_B) = (2/3, 1/3)$.</p>
+
+<p>So $C_\mu = H(2/3, 1/3) \approx 0.918$ bits.</p>
+
+<h2 id="example-the-even-process">Example: The Even Process</h2>
+
+<p>Consider a process over ${0, 1}$ where 1’s come in pairs—every run of 1’s has even length.</p>
+
+<p>The causal states:</p>
+<ul>
+  <li><strong>State A</strong>: We’re in a context where the next 1 (if any) starts a new pair</li>
+  <li><strong>State B</strong>: We’ve seen an odd number of 1’s; the next symbol must be 1</li>
+</ul>
+
+<p>This is also a two-state machine, but with different structure than Golden Mean.</p>
+
+<h2 id="crypticity-when-the-past-doesnt-look-like-the-future">Crypticity: When the Past Doesn’t Look Like the Future</h2>
+
+<p>An interesting phenomenon: for some processes, knowing the causal state tells you more about the future than about the past (or vice versa).</p>
+
+<p>The <strong>crypticity</strong> measures this asymmetry. A process is <strong>cryptic</strong> if the past contains information about the causal state that the future doesn’t reveal.</p>
+
+<p>Cryptic processes have a gap between $C_\mu$ and the “reverse” statistical complexity (computed by predicting the past from the future).</p>
+
+<h2 id="the-epsilon-machine-is-optimal">The Epsilon Machine Is Optimal</h2>
+
+<p><strong>Theorem</strong>: Among all models of a process (HMMs, predictive state representations, etc.), the epsilon machine minimizes stored information while achieving optimal prediction.</p>
+
+<p>More precisely:</p>
+<ul>
+  <li>Any sufficient statistic for prediction has entropy $\geq C_\mu$</li>
+  <li>The epsilon machine achieves this bound</li>
+  <li>It’s the unique (up to isomorphism) minimal sufficient statistic</li>
+</ul>
+
+<p>This makes computational mechanics “canonical” in a way that other modeling approaches aren’t.</p>
+
+<h2 id="connections-to-information-theory">Connections to Information Theory</h2>
+
+<h3 id="the-information-bottleneck">The Information Bottleneck</h3>
+
+<p>The epsilon machine is related to the <strong>information bottleneck</strong> method: find a representation $T$ of $X$ that maximizes $I(T; Y)$ (information about target $Y$) while minimizing $I(T; X)$ (complexity of representation).</p>
+
+<p>For prediction, $X$ = past, $Y$ = future, and the optimal bottleneck is the causal state.</p>
+
+<h3 id="excess-entropy-and-mutual-information">Excess Entropy and Mutual Information</h3>
+
+<p>The <strong>excess entropy</strong> is:</p>
+
+\[E = I(\overleftarrow{X}; \overrightarrow{X}) = H[\overrightarrow{X}] - H[\overrightarrow{X} | \overleftarrow{X}]\]
+
+<p>This measures how much the past tells you about the future. It’s a lower bound on statistical complexity:</p>
+
+\[E \leq C_\mu\]
+
+<p>The gap $C_\mu - E$ is called the <strong>crypticity</strong> or <strong>gauge information</strong>.</p>
+
+<h3 id="entropy-rate">Entropy Rate</h3>
+
+<p>The <strong>entropy rate</strong> is:</p>
+
+\[h_\mu = \lim_{n \to \infty} \frac{1}{n} H[X_1, \ldots, X_n] = H[X_n | X_1, \ldots, X_{n-1}]\]
+
+<p>This measures the intrinsic randomness of the process—how unpredictable it is even with perfect knowledge of the causal state.</p>
+
+<h2 id="beyond-epsilon-machines-mixed-states-and-upsilon-machines">Beyond Epsilon Machines: Mixed States and Upsilon Machines</h2>
+
+<p>For some purposes, we want to allow <strong>probabilistic</strong> state representations. Given a new observation, we don’t deterministically transition to a new state—we update a probability distribution over states.</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>The <strong>upsilon machine</strong> or <strong>mixed-state presentation</strong> generalizes this. You track a distribution $P(s</td>
+      <td>\overleftarrow{x})$ over causal states, and update it Bayesianly with each observation.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>This is relevant for:</p>
+<ul>
+  <li><strong>Filtering</strong>: When observations are noisy</li>
+  <li><strong>Partially observed processes</strong>: When you see a function of the underlying process</li>
+  <li><strong>Transient behavior</strong>: Before the system has “synchronized” to a causal state</li>
+</ul>
+
+<h2 id="what-epsilon-machines-measure">What Epsilon Machines Measure</h2>
+
+<p>Statistical complexity $C_\mu$ captures something different from entropy rate $h_\mu$:</p>
+
+<ul>
+  <li>$h_\mu$: How random is the process? (unpredictability)</li>
+  <li>$C_\mu$: How complex is the process? (structure/memory)</li>
+</ul>
+
+<p>A process can have high entropy but low complexity (iid fair coin: $h = 1$ bit, $C_\mu = 0$).</p>
+
+<p>A process can have low entropy but high complexity (a deterministic but complicated sequence: $h = 0$, $C_\mu$ can be large).</p>
+
+<p>The epsilon machine separates <strong>randomness</strong> from <strong>structure</strong>.</p>
+
+<h2 id="applications">Applications</h2>
+
+<ul>
+  <li><strong>Time series analysis</strong>: Infer the epsilon machine from data; $C_\mu$ measures “how much structure” is present</li>
+  <li><strong>Physics</strong>: Statistical complexity of spin chains, dynamical systems, cellular automata</li>
+  <li><strong>Neuroscience</strong>: Complexity of neural spike trains</li>
+  <li><strong>Linguistics</strong>: Structure of language viewed as a stochastic process</li>
+  <li><strong>Machine learning</strong>: Connections to recurrent neural networks and state-space models</li>
+</ul>
+
+<h2 id="summary">Summary</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Concept</th>
+      <th>What It Measures</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Causal states</strong></td>
+      <td>Equivalence classes of pasts with same predictive distribution</td>
+    </tr>
+    <tr>
+      <td><strong>Epsilon machine</strong></td>
+      <td>Minimal unifilar HMM generating the process</td>
+    </tr>
+    <tr>
+      <td><strong>Statistical complexity</strong> $C_\mu$</td>
+      <td>Memory needed for optimal prediction</td>
+    </tr>
+    <tr>
+      <td><strong>Excess entropy</strong> $E$</td>
+      <td>Total past-future mutual information</td>
+    </tr>
+    <tr>
+      <td><strong>Entropy rate</strong> $h_\mu$</td>
+      <td>Intrinsic randomness</td>
+    </tr>
+    <tr>
+      <td><strong>Crypticity</strong></td>
+      <td>Gap between $C_\mu$ and $E$</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>The philosophy</strong>: Every stochastic process has a canonical “machine” that generates it—the epsilon machine. Its size measures intrinsic complexity. This gives a principled, information-theoretic notion of structure that separates randomness from computation.</p>
+
+<hr />
+
+<p><em>See also: [Information Geometry and Fisher Metric], [Bayesian Entropy].</em></p>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer with basic info -->
+  <footer>
+    <p>&copy; 2026 Fruit of Preterition. Powered by <a href="https://pages.github.com/">GitHub
+        Pages</a>.</p>
+  </footer>
+</body>
+
+</html>

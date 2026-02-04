@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Lie Groups and Haar Measure</title>
+
+  <!-- Tag styling -->
+  <style>
+    .tags { margin: 0.5em 0 1.5em 0; }
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      margin: 2px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 3px;
+      font-size: 0.85em;
+      text-decoration: none;
+      color: var(--muted);
+    }
+    .tag:hover { background: rgba(255,255,255,0.15); color: var(--accent); }
+  </style>
+
+  <!-- MathJax configuration for LaTeX rendering -->
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true,
+        tags: 'ams'
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        ignoreHtmlClass: "tex2jax_ignore",
+        processHtmlClass: "tex2jax_process"
+      },
+      svg: {
+        fontCache: 'global'
+      },
+      startup: {
+        pageReady: function () {
+          return MathJax.startup.defaultPageReady().then(function () {
+            console.log('MathJax is loaded and ready');
+          });
+        }
+      }
+    };
+  </script>
+  <script type="text/javascript" async src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-svg.js"></script>
+
+  <!-- Site stylesheet -->
+  <link rel="stylesheet" href="/crw-blog/assets/css/style.css">
+</head>
+
+<body>
+  <!-- Header and site title -->
+  <header>
+    <h1>Fruit of Preterition</h1>
+    <nav>
+      <ul>
+        <li><a href="/crw-blog/">Home</a></li>
+        <li><a href="/crw-blog/seeds/">Seeds <span class="wip-badge">WIP</span></a></li>
+        <li><a href="/crw-blog/tags/">Tags <span class="wip-badge">WIP</span></a></li>
+        <li><a href="/crw-blog/reading/">Reading <span class="wip-badge">WIP</span></a></li>
+        <li><a href="/crw-blog/nulla-die/">Nulla Die</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main content of the page -->
+  <main>
+    <div class="site-container">
+      <div class="content">
+        
+        <div class="tags">
+          
+          <a href="/crw-blog/tags/#seed" class="tag">seed</a>
+          
+          <a href="/crw-blog/tags/#math" class="tag">math</a>
+          
+          <a href="/crw-blog/tags/#physics" class="tag">physics</a>
+          
+        </div>
+        
+        <h1 id="lie-groups-and-haar-measure">Lie Groups and Haar Measure</h1>
+
+<h2 id="whats-a-lie-group">What’s a Lie Group?</h2>
+
+<p>A <strong>Lie group</strong> is a group that’s also a manifold, where the group operations (multiplication, inverse) are smooth.</p>
+
+<p><strong>Translation:</strong> A continuous family of symmetries that you can differentiate.</p>
+
+<h3 id="examples">Examples</h3>
+
+<ul>
+  <li>$\mathbb{R}$ under addition: translations on a line</li>
+  <li>$SO(3)$: rotations in 3D</li>
+  <li>$SU(2)$: unitary $2 \times 2$ matrices with determinant 1 (spin rotations)</li>
+  <li>$GL(n)$: invertible $n \times n$ matrices</li>
+  <li>$U(N)$: unitary $N \times N$ matrices</li>
+</ul>
+
+<p>These aren’t just abstract groups—they’re smooth manifolds. $SO(3)$ is diffeomorphic to $\mathbb{RP}^3$. $SU(2)$ is diffeomorphic to $S^3$ (the 3-sphere). You can do calculus on them.</p>
+
+<h2 id="the-lie-algebra">The Lie Algebra</h2>
+
+<p>Near the identity element $e$ of a Lie group $G$, infinitesimal group elements look like:</p>
+
+\[g \approx e + \epsilon X\]
+
+<p>where $X$ is in the <strong>Lie algebra</strong> $\mathfrak{g} = T_e G$.</p>
+
+<p>The Lie algebra is a vector space with an extra operation: the <strong>Lie bracket</strong> $[X, Y]$.</p>
+
+<p>For matrix groups: $[X, Y] = XY - YX$ (the commutator).</p>
+
+<p><strong>Punchline:</strong> The Lie algebra is the “linearization” of the Lie group near the identity. You can often work with the algebra (linear!) instead of the group (nonlinear).</p>
+
+<h3 id="exponential-map">Exponential Map</h3>
+
+<p>You go from algebra to group via the <strong>exponential map</strong>:</p>
+
+\[\exp(tX) = \text{the group element you get by flowing in direction } X \text{ for time } t\]
+
+<p>For matrices: this is literally $\exp(tX) = \sum_{n=0}^\infty \frac{(tX)^n}{n!}$.</p>
+
+<p><strong>Example:</strong> For $SO(3)$, the Lie algebra is antisymmetric $3 \times 3$ matrices. $\exp(t J_z)$ where $J_z$ is the generator of rotation about $z$, gives you rotation by angle $t$ about the $z$-axis.</p>
+
+<h3 id="why-physicists-care">Why Physicists Care</h3>
+
+<p>Noether’s theorem: continuous symmetries $\leftrightarrow$ conservation laws.</p>
+
+<p>The symmetries form a Lie group. The conserved quantities are related to the Lie algebra generators.</p>
+
+<p>Angular momentum operators $J_x, J_y, J_z$? They’re the Lie algebra of $SO(3)$, with $[J_i, J_j] = i\epsilon_{ijk} J_k$.</p>
+
+<hr />
+
+<h2 id="haar-measure-the-right-way-to-integrate-over-a-group">Haar Measure: The “Right” Way to Integrate Over a Group</h2>
+
+<p>Here’s the fundamental question: if I want to “average over all rotations” or “integrate over all unitaries,” how do I do it?</p>
+
+<p>I need a measure on the group. But not just any measure—I want one that respects the group structure.</p>
+
+<h3 id="left-invariance">Left-Invariance</h3>
+
+<p>A measure $\mu$ on $G$ is <strong>left-invariant</strong> if:</p>
+
+\[\mu(gS) = \mu(S)\]
+
+<p>for all $g \in G$ and measurable sets $S$.</p>
+
+<p>Here $gS = {gh : h \in S}$ is the set $S$ “translated” by $g$.</p>
+
+<p>In words: the measure of a set doesn’t change if you multiply every element by a fixed group element.</p>
+
+<p><strong>Example:</strong> On $(\mathbb{R}, +)$, Lebesgue measure is left-invariant: $\mu([a,b]) = \mu([a+c, b+c])$ for any $c$.</p>
+
+<p><strong>Example:</strong> On $(\mathbb{R}<em>{&gt;0}, \times)$, the measure $d\mu = dx/x$ is left-invariant: if you scale by $c$, then $\mu([a,b]) = \int_a^b dx/x = \ln(b/a)$ and $\mu([ca, cb]) = \int</em>{ca}^{cb} dx/x = \ln(cb/ca) = \ln(b/a)$.</p>
+
+<h3 id="the-haar-theorem">The Haar Theorem</h3>
+
+<p><strong>Theorem (Haar):</strong> On any locally compact topological group $G$, there exists a nonzero left-invariant measure, and it is <strong>unique up to overall scale</strong>.</p>
+
+<p>This is remarkable. The group structure essentially <em>determines</em> the measure. You don’t choose it—it’s forced on you by the symmetry.</p>
+
+<p>For compact groups (like $SO(3)$, $SU(N)$), you can normalize to have total measure 1:</p>
+
+\[\int_G d\mu(g) = 1\]
+
+<p>This is the <strong>normalized Haar measure</strong>.</p>
+
+<h3 id="right-invariance-and-unimodularity">Right-Invariance and Unimodularity</h3>
+
+<p>Similarly, you can define <strong>right-invariant</strong> measures: $\mu(Sg) = \mu(S)$.</p>
+
+<p>Left and right Haar measures don’t always coincide. But on:</p>
+<ul>
+  <li>Compact groups</li>
+  <li>Abelian groups</li>
+  <li>Semisimple Lie groups</li>
+</ul>
+
+<p>they do. Such groups are called <strong>unimodular</strong>.</p>
+
+<p>For non-unimodular groups (like the affine group $ax + b$), left and right Haar measures differ by a factor called the <strong>modular function</strong>.</p>
+
+<h3 id="computing-haar-measure">Computing Haar Measure</h3>
+
+<p>For matrix Lie groups, there are standard formulas.</p>
+
+<p><strong>On $U(N)$:</strong> The Haar measure can be written in terms of eigenvalues ${e^{i\theta_j}}$:</p>
+
+\[d\mu(U) \propto \prod_{j &lt; k} |e^{i\theta_j} - e^{i\theta_k}|^2 \cdot \prod_j d\theta_j\]
+
+<table>
+  <tbody>
+    <tr>
+      <td>That Vandermonde factor $\prod_{j&lt;k}</td>
+      <td>e^{i\theta_j} - e^{i\theta_k}</td>
+      <td>^2$ is eigenvalue repulsion—the same factor that appears in random matrix theory!</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>On $SO(3)$:</strong> Using axis-angle parametrization, the Haar measure is:</p>
+
+\[d\mu \propto \sin^2(\theta/2) \, d\theta \, d\hat{n}\]
+
+<p>where $\theta$ is the rotation angle and $\hat{n}$ is the axis (a point on $S^2$).</p>
+
+<h3 id="why-haar-measure-matters">Why Haar Measure Matters</h3>
+
+<ol>
+  <li>
+    <p><strong>Averaging over symmetries</strong>: If you want to compute “the average of $f$ over all rotations,” you need Haar measure:
+\(\langle f \rangle = \int_{SO(3)} f(R) \, d\mu(R)\)</p>
+  </li>
+  <li>
+    <p><strong>Random matrix theory</strong>: A “uniformly random” unitary or orthogonal matrix means Haar-distributed. This is the starting point for random matrix theory.</p>
+  </li>
+  <li>
+    <p><strong>Representation theory</strong>: Peter-Weyl theorem says $L^2(G)$ (with Haar measure) decomposes into irreducible representations. Orthogonality of characters uses Haar measure.</p>
+  </li>
+  <li>
+    <p><strong>Physics</strong>: Gauge theory uses Haar measure for path integrals over gauge configurations. Lattice QCD integrates over $SU(3)$ at each link.</p>
+  </li>
+</ol>
+
+<hr />
+
+<h2 id="the-weyl-integration-formula">The Weyl Integration Formula</h2>
+
+<p>For compact Lie groups, there’s a beautiful formula that reduces integration over the whole group to integration over a maximal torus.</p>
+
+<p>Let $G$ be a compact connected Lie group with maximal torus $T$ (e.g., diagonal unitaries in $U(N)$). Let $W$ be the Weyl group (permutations of eigenvalues, for $U(N)$).</p>
+
+<p><strong>Weyl Integration Formula:</strong></p>
+
+\[\int_G f(g) \, d\mu(g) = \frac{1}{|W|} \int_T f(t) \, |\Delta(t)|^2 \, d\mu_T(t)\]
+
+<p>where $\Delta(t)$ is the Weyl denominator—a product over positive roots that encodes the Jacobian from $G$ to $T$.</p>
+
+<p>For $U(N)$, this is:</p>
+
+\[\int_{U(N)} f(U) \, dU = \frac{1}{N!} \int_{[0,2\pi]^N} f(\text{diag}(e^{i\theta_1}, \ldots, e^{i\theta_N})) \prod_{j&lt;k} |e^{i\theta_j} - e^{i\theta_k}|^2 \frac{d\theta_1 \cdots d\theta_N}{(2\pi)^N}\]
+
+<p>The Vandermonde determinant is doing all the work.</p>
+
+<hr />
+
+<h2 id="invariant-vector-fields-and-the-maurer-cartan-form">Invariant Vector Fields and the Maurer-Cartan Form</h2>
+
+<p>On a Lie group, there’s a canonical way to define vector fields: <strong>left-invariant vector fields</strong>.</p>
+
+<p>Given $X \in \mathfrak{g}$ (a tangent vector at the identity), define a vector field $\tilde{X}$ on all of $G$ by:</p>
+
+\[\tilde{X}_g = (L_g)_* X\]
+
+<p>where $L_g: h \mapsto gh$ is left multiplication and $(L_g)_*$ is its pushforward.</p>
+
+<p>This is left-invariant: $\tilde{X}<em>{gh} = (L_g)</em>* \tilde{X}_h$.</p>
+
+<p><strong>Maurer-Cartan form:</strong> The dual notion. A left-invariant 1-form $\omega$ on $G$ with values in $\mathfrak{g}$:</p>
+
+\[\omega_g(v) = (L_{g^{-1}})_* v\]
+
+<p>It satisfies the <strong>Maurer-Cartan equation</strong>:</p>
+
+\[d\omega + \frac{1}{2}[\omega, \omega] = 0\]
+
+<p>This is the infinitesimal version of the group axioms, and it’s fundamental for gauge theory.</p>
+
+<hr />
+
+<h2 id="connection-to-random-matrix-theory">Connection to Random Matrix Theory</h2>
+
+<p>When we say “random unitary matrix,” we mean Haar-distributed. This is the unique measure that treats all unitaries “the same.”</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>The eigenvalue repulsion factor $\prod_{j&lt;k}</td>
+      <td>e^{i\theta_j} - e^{i\theta_k}</td>
+      <td>^2$ in the Haar measure is exactly why random matrices exhibit level repulsion. It’s not put in by hand—it comes from the geometry of the group.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The Weyl integration formula says: <strong>integrating over the group = integrating over eigenvalues with a Jacobian</strong>. That Jacobian is the source of all the interesting random matrix statistics.</p>
+
+<hr />
+
+<h2 id="summary">Summary</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Concept</th>
+      <th>What It Is</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Lie group</td>
+      <td>Smooth group (symmetries you can differentiate)</td>
+    </tr>
+    <tr>
+      <td>Lie algebra</td>
+      <td>Tangent space at identity; infinitesimal symmetries</td>
+    </tr>
+    <tr>
+      <td>Exponential map</td>
+      <td>Goes from algebra to group</td>
+    </tr>
+    <tr>
+      <td>Haar measure</td>
+      <td>Unique (up to scale) invariant measure on a group</td>
+    </tr>
+    <tr>
+      <td>Unimodular</td>
+      <td>Left = right Haar (true for compact, abelian, semisimple)</td>
+    </tr>
+    <tr>
+      <td>Weyl formula</td>
+      <td>Reduces group integration to torus + Jacobian</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>The philosophy:</strong> Group structure determines the measure. When you average over symmetries, there’s essentially one right way to do it.</p>
+
+<hr />
+
+<p><em>See also: [Manifolds for the Anti-Mathematician], [Random Matrix Theory Tour].</em></p>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer with basic info -->
+  <footer>
+    <p>&copy; 2026 Fruit of Preterition. Powered by <a href="https://pages.github.com/">GitHub
+        Pages</a>.</p>
+  </footer>
+</body>
+
+</html>

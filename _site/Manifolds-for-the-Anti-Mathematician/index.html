@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Manifolds for the Anti-Mathematician</title>
+
+  <!-- Tag styling -->
+  <style>
+    .tags { margin: 0.5em 0 1.5em 0; }
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      margin: 2px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 3px;
+      font-size: 0.85em;
+      text-decoration: none;
+      color: var(--muted);
+    }
+    .tag:hover { background: rgba(255,255,255,0.15); color: var(--accent); }
+  </style>
+
+  <!-- MathJax configuration for LaTeX rendering -->
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true,
+        tags: 'ams'
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        ignoreHtmlClass: "tex2jax_ignore",
+        processHtmlClass: "tex2jax_process"
+      },
+      svg: {
+        fontCache: 'global'
+      },
+      startup: {
+        pageReady: function () {
+          return MathJax.startup.defaultPageReady().then(function () {
+            console.log('MathJax is loaded and ready');
+          });
+        }
+      }
+    };
+  </script>
+  <script type="text/javascript" async src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-svg.js"></script>
+
+  <!-- Site stylesheet -->
+  <link rel="stylesheet" href="/crw-blog/assets/css/style.css">
+</head>
+
+<body>
+  <!-- Header and site title -->
+  <header>
+    <h1>Fruit of Preterition</h1>
+    <nav>
+      <ul>
+        <li><a href="/crw-blog/">Home</a></li>
+        <li><a href="/crw-blog/seeds/">Seeds <span class="wip-badge">WIP</span></a></li>
+        <li><a href="/crw-blog/tags/">Tags <span class="wip-badge">WIP</span></a></li>
+        <li><a href="/crw-blog/reading/">Reading <span class="wip-badge">WIP</span></a></li>
+        <li><a href="/crw-blog/nulla-die/">Nulla Die</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main content of the page -->
+  <main>
+    <div class="site-container">
+      <div class="content">
+        
+        <div class="tags">
+          
+          <a href="/crw-blog/tags/#seed" class="tag">seed</a>
+          
+          <a href="/crw-blog/tags/#math" class="tag">math</a>
+          
+          <a href="/crw-blog/tags/#physics" class="tag">physics</a>
+          
+        </div>
+        
+        <h1 id="manifolds-for-the-anti-mathematician">Manifolds for the Anti-Mathematician</h1>
+
+<h2 id="the-problem">The Problem</h2>
+
+<p>Differential geometry is by nature scary. Physicists who are dedicated to understanding what they’re learning get stuck in a widening pile of formal mathematics—they feel they need to grip what it means to say a manifold is a “second-countable Hausdorff space locally homeomorphic to $\mathbb{R}^n$” (with further definitions for differentiable manifolds, atlases, transition maps…).</p>
+
+<p>It’s important that someone knows and works with that stuff. But it ain’t me, and if you want it to be not you (at least to start with), this post is for you.</p>
+
+<h2 id="the-punchline">The Punchline</h2>
+
+<p>A manifold is a calculus-thing.</p>
+
+<p>That’s it. That easy. Drop the topology, draw the upside-down triangle next to your function, and turn your frown upside-down.</p>
+
+<p>What I mean when I say “manifold” is: <strong>a thing where I can use a slightly jacked-up version of calculus</strong>. You get “calculus in whacky coordinate systems” for free. Ever wanted to compute a parabolic derivative? You should probably learn numerics or do something else instead, but manifolds will let you do that if you insist.</p>
+
+<p>Even better: integration is actually much more robust to define than differentiation. You can slap an integral on basically any space you want. We only <em>need</em> manifolds for derivative-y stuff.</p>
+
+<h2 id="the-game">The Game</h2>
+
+<p>Here’s how we play:</p>
+
+<ol>
+  <li>I’ll say a thing from calculus in Cartesian coordinates on $\mathbb{R}^n$</li>
+  <li>We’ll make a big deal about how to write this in different coordinates</li>
+  <li>We’ll pretend we’re fancy mathematicians and write it “coordinate-free”</li>
+  <li>Then the actual manifold-y stuff is just icing</li>
+</ol>
+
+<hr />
+
+<h2 id="part-1-vectors-live-at-points">Part 1: Vectors Live at Points</h2>
+
+<h3 id="the-lie-about-vectors">The Lie About Vectors</h3>
+
+<p>You learned: “A vector is a list of numbers.” Or maybe: “A vector is an arrow.”</p>
+
+<p>Both are half-truths. Here’s what’s actually going on.</p>
+
+<p><strong>The adult version:</strong> Vectors live at points, and <strong>you cannot move them</strong>.</p>
+
+<p>Seriously. You. Cannot. Move. Them.</p>
+
+<p>In flat $\mathbb{R}^n$ with Cartesian coordinates, you can <em>pretend</em> to move vectors around because the space looks the same everywhere. But on a curved surface? A vector at the North Pole and a vector at the equator don’t live in the same vector space. They can’t be added. They can’t be compared directly.</p>
+
+<h3 id="tangent-spaces">Tangent Spaces</h3>
+
+<p>At each point $p$ on your manifold, there’s a vector space $T_p M$ called the <strong>tangent space</strong>. Think of it as all the possible “directions you could go” starting from $p$.</p>
+
+<p>For $\mathbb{R}^n$: $T_p \mathbb{R}^n \cong \mathbb{R}^n$ (a copy of $\mathbb{R}^n$ attached at $p$).</p>
+
+<p>For a sphere: $T_p S^2$ is the plane tangent to the sphere at $p$.</p>
+
+<p><strong>Morally:</strong> A vector at $p$ says “this direction!” with a magnitude attached. Vectors point <em>in</em> directions, they don’t point <em>to</em> distant points.</p>
+
+<h3 id="basis-vectors-and-coordinates">Basis Vectors and Coordinates</h3>
+
+<p>At each point, pick a basis for $T_p M$. Now vectors become lists of numbers again—their components in that basis.</p>
+
+<p><strong>Choosing coordinates = choosing bases at every point (in a smooth way).</strong></p>
+
+<p>In Cartesian coordinates on $\mathbb{R}^2$: basis vectors are $\hat{e}_x$, $\hat{e}_y$ everywhere.</p>
+
+<p>In polar coordinates: basis vectors are $\hat{e}<em>r$, $\hat{e}</em>\theta$—and these <strong>depend on where you are</strong>.</p>
+
+<p>At $(r, \theta) = (1, 0)$: $\hat{e}<em>r$ points in the $+x$ direction, $\hat{e}</em>\theta$ points in the $+y$ direction.</p>
+
+<p>At $(r, \theta) = (1, \pi/2)$: $\hat{e}<em>r$ points in the $+y$ direction, $\hat{e}</em>\theta$ points in the $-x$ direction.</p>
+
+<p>Different points, different bases. LIST OF NUMBERS IS BACK THANK GOD—but the list means different things at different points.</p>
+
+<h3 id="example-velocity-in-polar-coordinates">Example: Velocity in Polar Coordinates</h3>
+
+<p>A particle spirals outward: $r(t) = t$, $\theta(t) = t$.</p>
+
+<p>Velocity: $\vec{v} = \dot{r} \hat{e}<em>r + r\dot{\theta} \hat{e}</em>\theta = 1 \cdot \hat{e}<em>r + t \cdot \hat{e}</em>\theta$</p>
+
+<p>At $t = 1$: the velocity is $\hat{e}<em>r + \hat{e}</em>\theta$.</p>
+
+<p>In Cartesian, you’d write:</p>
+
+\[\vec{v} = \dot{x}\hat{e}_x + \dot{y}\hat{e}_y\]
+
+<p>with $x = r\cos\theta = t\cos t$, $y = r\sin t$, so $\dot{x} = \cos t - t\sin t$, etc.</p>
+
+<p>The vector is the same object. The <em>components</em> depend on your basis choice.</p>
+
+<hr />
+
+<h2 id="part-2-derivatives-get-weird">Part 2: Derivatives Get Weird</h2>
+
+<h3 id="the-1d-case">The 1D Case</h3>
+
+<p>Derivative: $f’(x) = \lim_{\epsilon \to 0} \frac{f(x+\epsilon) - f(x)}{\epsilon}$</p>
+
+<p>No problems here. (Well, actually there are, but never mind.)</p>
+
+<h3 id="higher-dimensions">Higher Dimensions</h3>
+
+<p>In $\mathbb{R}^n$: “same but for any direction.”</p>
+
+<p>Directional derivative in direction $\vec{v}$:</p>
+
+\[D_{\vec{v}} f = \lim_{\epsilon \to 0} \frac{f(p + \epsilon \vec{v}) - f(p)}{\epsilon}\]
+
+<p>The gradient $\nabla f$ is the object such that $D_{\vec{v}} f = \nabla f \cdot \vec{v}$.</p>
+
+<p><strong>But wait.</strong> We said vectors live at points. What does “$p + \epsilon \vec{v}$” mean?</p>
+
+<p>In flat $\mathbb{R}^n$, it’s fine—there’s a canonical way to turn “direction from $p$” into “nearby point.” On a curved manifold, there isn’t. You need more structure.</p>
+
+<h3 id="the-connection-problem">The Connection Problem</h3>
+
+<p>Suppose I want to take the derivative of a <em>vector field</em> $\vec{V}(x)$—a vector at every point.</p>
+
+\[\frac{d\vec{V}}{dx} = \lim_{\epsilon \to 0} \frac{\vec{V}(x + \epsilon) - \vec{V}(x)}{\epsilon}\]
+
+<p><strong>Uh oh.</strong> $\vec{V}(x + \epsilon)$ lives in $T_{x+\epsilon}M$. $\vec{V}(x)$ lives in $T_x M$. These are different vector spaces. You can’t subtract vectors from different spaces!</p>
+
+<p>In Cartesian coordinates on flat $\mathbb{R}^n$: the basis vectors $\hat{e}_i$ are the same everywhere, so you can pretend this isn’t a problem. Just differentiate component-by-component.</p>
+
+<p>In curvilinear coordinates: the basis vectors $\hat{e}_i(x)$ depend on $x$. When you differentiate $\vec{V} = V^i \hat{e}_i$, you get:</p>
+
+\[\frac{d\vec{V}}{dx^j} = \frac{\partial V^i}{\partial x^j} \hat{e}_i + V^i \frac{\partial \hat{e}_i}{\partial x^j}\]
+
+<p>That second term is the problem. How do basis vectors at one point relate to basis vectors at another?</p>
+
+<h3 id="enter-the-connection">Enter the Connection</h3>
+
+<p>A <strong>connection</strong> tells you how to “parallel transport” vectors from one tangent space to another.</p>
+
+<p>Write: $\frac{\partial \hat{e}<em>i}{\partial x^j} = \Gamma^k</em>{ij} \hat{e}_k$</p>
+
+<p>These $\Gamma^k_{ij}$ are the <strong>Christoffel symbols</strong>. They encode “how the coordinate basis twists as you move.”</p>
+
+<p>The <strong>covariant derivative</strong> is:</p>
+
+\[\nabla_j V^i = \frac{\partial V^i}{\partial x^j} + \Gamma^i_{jk} V^k\]
+
+<p>This is the “correct” derivative—it transforms properly under coordinate changes.</p>
+
+<h3 id="the-invariance-principle">The Invariance Principle</h3>
+
+<p><strong>If I change coordinates, my answers shouldn’t change.</strong></p>
+
+<p>The partial derivative $\partial_j V^i$ transforms badly (picks up extra terms from chain rule on the basis).</p>
+
+<p>The Christoffel symbols also transform badly.</p>
+
+<p>But $\nabla_j V^i$? Transforms like a tensor. The bad transformations cancel.</p>
+
+<p>This is the point of covariant derivatives: they’re coordinate-independent notions dressed up in coordinate-dependent clothing.</p>
+
+<hr />
+
+<h2 id="part-3-what-a-manifold-actually-is">Part 3: What a Manifold Actually Is</h2>
+
+<p>Now we can say what a manifold is without the topology jargon:</p>
+
+<p><strong>A manifold is a space where:</strong></p>
+<ol>
+  <li>At each point, there’s a tangent space (directions you can go)</li>
+  <li>You can choose coordinates (smoothly varying bases)</li>
+  <li>You can do calculus (derivatives, integrals) in any coordinates and get consistent answers</li>
+</ol>
+
+<p>The formal definition (charts, atlases, Hausdorff, second-countable) is just making this precise. It ensures:</p>
+<ul>
+  <li>Coordinates exist and are well-behaved</li>
+  <li>Different coordinate systems are compatible</li>
+  <li>The space doesn’t have pathological points</li>
+</ul>
+
+<p>For physics: if you can parametrize your thing smoothly and take derivatives, it’s a manifold. Don’t overthink it.</p>
+
+<h3 id="metrics-measuring-stuff">Metrics: Measuring Stuff</h3>
+
+<p>A <strong>metric</strong> $g_{ij}$ tells you how to measure lengths and angles.</p>
+
+\[ds^2 = g_{ij} dx^i dx^j\]
+
+<p>In Cartesian $\mathbb{R}^n$: $g_{ij} = \delta_{ij}$ (the identity matrix).</p>
+
+<p>In polar coordinates: $g_{rr} = 1$, $g_{\theta\theta} = r^2$, off-diagonals zero. So $ds^2 = dr^2 + r^2 d\theta^2$.</p>
+
+<p>The metric is what turns your manifold from a floppy topological thing into a rigid geometric thing.</p>
+
+<p><strong>Bonus:</strong> The Christoffel symbols for the “Levi-Civita connection” (the natural one) can be computed from the metric:</p>
+
+\[\Gamma^k_{ij} = \frac{1}{2} g^{k\ell}(\partial_i g_{j\ell} + \partial_j g_{i\ell} - \partial_\ell g_{ij})\]
+
+<p>Memorize this if you want, or derive it every time from “parallel transport preserves lengths and is torsion-free.”</p>
+
+<hr />
+
+<h2 id="part-4-the-payoff">Part 4: The Payoff</h2>
+
+<h3 id="example-calculus-on-probability-space">Example: Calculus on Probability Space</h3>
+
+<p>Here’s a wicked example that’ll make all this seem not useless.</p>
+
+<p>The space of probability distributions on $\mathbb{R}^n$ is infinite-dimensional, but it’s a manifold! The <strong>Wasserstein geometry</strong> (from optimal transport) gives it a metric.</p>
+
+<ul>
+  <li><strong>Points:</strong> probability distributions $\rho(x)$</li>
+  <li><strong>Tangent vectors:</strong> velocity fields $v(x)$ that describe how $\rho$ could flow</li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td><strong>Metric:</strong> $|v|^2 = \int</td>
+          <td>v(x)</td>
+          <td>^2 \rho(x) dx$</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+</ul>
+
+<p>The “gradient” of a functional $F[\rho]$ in this geometry is:</p>
+
+\[\nabla_W F = -\nabla \cdot \left( \rho \nabla \frac{\delta F}{\delta \rho} \right)\]
+
+<p>This is the <strong>Otto calculus</strong>. Gradient flow in Wasserstein space gives you the Fokker-Planck equation, heat equation, etc.</p>
+
+<p>All the manifold machinery—tangent spaces, metrics, covariant derivatives—applies to this infinite-dimensional space. That’s the power of the abstraction.</p>
+
+<h3 id="example-configuration-space">Example: Configuration Space</h3>
+
+<p>A robot arm with $n$ joints lives on a manifold: the configuration space.</p>
+
+<p>Each joint angle $\theta_i$ is an element of $S^1$ (a circle). The full configuration space is $(S^1)^n$, a torus.</p>
+
+<p>The metric comes from the kinetic energy:</p>
+
+\[T = \frac{1}{2} g_{ij}(\theta) \dot{\theta}^i \dot{\theta}^j\]
+
+<p>where $g_{ij}$ depends on the mass distribution.</p>
+
+<p>Equations of motion? Geodesics on this manifold (plus whatever forces you apply).</p>
+
+<hr />
+
+<h2 id="summary">Summary</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Concept</th>
+      <th>Plain English</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Manifold</td>
+      <td>Space where you can do calculus</td>
+    </tr>
+    <tr>
+      <td>Tangent space</td>
+      <td>Directions at a point</td>
+    </tr>
+    <tr>
+      <td>Coordinates</td>
+      <td>A choice of basis at each point</td>
+    </tr>
+    <tr>
+      <td>Connection</td>
+      <td>How to compare vectors at different points</td>
+    </tr>
+    <tr>
+      <td>Christoffel symbols</td>
+      <td>The “twisting” of coordinate bases</td>
+    </tr>
+    <tr>
+      <td>Covariant derivative</td>
+      <td>The coordinate-independent derivative</td>
+    </tr>
+    <tr>
+      <td>Metric</td>
+      <td>How to measure length</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>The philosophy:</strong> Work in coordinates when computing, but understand that the answer doesn’t depend on your choice. The formal machinery exists to make “doesn’t depend on choice” precise.</p>
+
+<hr />
+
+<h2 id="what-we-didnt-cover">What We Didn’t Cover</h2>
+
+<ul>
+  <li><strong>Curvature tensors</strong> (Riemann, Ricci, scalar curvature)</li>
+  <li><strong>Differential forms</strong> and exterior calculus</li>
+  <li><strong>Fiber bundles</strong> (gauge theory, principal bundles)</li>
+  <li><strong>Riemannian vs. pseudo-Riemannian</strong> (GR uses the latter)</li>
+  <li><strong>Symplectic manifolds</strong> (Hamiltonian mechanics)</li>
+</ul>
+
+<p>For these, read a real book. But now you know what you’re getting into.</p>
+
+<hr />
+
+<p><em>“The reader who has followed me to this point will find no difficulty in understanding the matter.”</em> — Every differential geometry textbook, lying</p>
+
+<p><em>See also: [Lie Groups and Haar Measure].</em></p>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer with basic info -->
+  <footer>
+    <p>&copy; 2026 Fruit of Preterition. Powered by <a href="https://pages.github.com/">GitHub
+        Pages</a>.</p>
+  </footer>
+</body>
+
+</html>

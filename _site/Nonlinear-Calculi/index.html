@@ -5,7 +5,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>[Math] Nonlinear Calculi</title>
+  <title>Nonlinear Calculi</title>
+
+  <!-- Tag styling -->
+  <style>
+    .tags { margin: 0.5em 0 1.5em 0; }
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      margin: 2px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 3px;
+      font-size: 0.85em;
+      text-decoration: none;
+      color: var(--muted);
+    }
+    .tag:hover { background: rgba(255,255,255,0.15); color: var(--accent); }
+  </style>
 
   <!-- MathJax configuration for LaTeX rendering -->
   <script type="text/javascript">
@@ -37,6 +53,9 @@
   <script type="text/javascript" async src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script type="text/javascript" async
     src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-svg.js"></script>
+
+  <!-- Site stylesheet -->
+  <link rel="stylesheet" href="/crw-blog/assets/css/style.css">
 </head>
 
 <body>
@@ -46,13 +65,28 @@
     <nav>
       <ul>
         <li><a href="/crw-blog/">Home</a></li>
+        <li><a href="/crw-blog/seeds/">Seeds <span class="wip-badge">WIP</span></a></li>
+        <li><a href="/crw-blog/tags/">Tags <span class="wip-badge">WIP</span></a></li>
+        <li><a href="/crw-blog/reading/">Reading <span class="wip-badge">WIP</span></a></li>
+        <li><a href="/crw-blog/nulla-die/">Nulla Die</a></li>
       </ul>
     </nav>
   </header>
 
   <!-- Main content of the page -->
   <main>
-    <h1 id="nonlinear-calculi">Nonlinear Calculi</h1>
+    <div class="site-container">
+      <div class="content">
+        
+        <div class="tags">
+          
+          <a href="/crw-blog/tags/#high-effort" class="tag">high-effort</a>
+          
+          <a href="/crw-blog/tags/#math" class="tag">math</a>
+          
+        </div>
+        
+        <h1 id="nonlinear-calculi">Nonlinear Calculi</h1>
 
 <p>Inciting thought: (c.f. Carl Bender lectures) Taylor series also determine lots of continued function representations (e.g., continued fraction $f(x) = \frac{b_0}{1 - \frac{b_1 x}{1 - \frac{b_2 x}{\dots}}}$). I also was reading some of Scott Garrabrant’s stuff about geometric expectations/calculus, which got me to thinking about what completes the analogy</p>
 
@@ -452,11 +486,13 @@ x &amp; \text{if } x \in P \\
   <li>Are there any neat tricks you can use for multivariable equations? Like “transforming one variable but not the other”?</li>
 </ul>
 
+      </div>
+    </div>
   </main>
 
   <!-- Footer with basic info -->
   <footer>
-    <p>&copy; 2025 Fruit of Preterition. Powered by <a href="https://pages.github.com/">GitHub
+    <p>&copy; 2026 Fruit of Preterition. Powered by <a href="https://pages.github.com/">GitHub
         Pages</a>.</p>
   </footer>
 </body>

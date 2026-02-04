@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>The Surprisingly Small Zoo of Natural Norms and Metrics</title>
+
+  <!-- Tag styling -->
+  <style>
+    .tags { margin: 0.5em 0 1.5em 0; }
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      margin: 2px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 3px;
+      font-size: 0.85em;
+      text-decoration: none;
+      color: var(--muted);
+    }
+    .tag:hover { background: rgba(255,255,255,0.15); color: var(--accent); }
+  </style>
+
+  <!-- MathJax configuration for LaTeX rendering -->
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true,
+        tags: 'ams'
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        ignoreHtmlClass: "tex2jax_ignore",
+        processHtmlClass: "tex2jax_process"
+      },
+      svg: {
+        fontCache: 'global'
+      },
+      startup: {
+        pageReady: function () {
+          return MathJax.startup.defaultPageReady().then(function () {
+            console.log('MathJax is loaded and ready');
+          });
+        }
+      }
+    };
+  </script>
+  <script type="text/javascript" async src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-svg.js"></script>
+
+  <!-- Site stylesheet -->
+  <link rel="stylesheet" href="/crw-blog/assets/css/style.css">
+</head>
+
+<body>
+  <!-- Header and site title -->
+  <header>
+    <h1>Fruit of Preterition</h1>
+    <nav>
+      <ul>
+        <li><a href="/crw-blog/">Home</a></li>
+        <li><a href="/crw-blog/seeds/">Seeds <span class="wip-badge">WIP</span></a></li>
+        <li><a href="/crw-blog/tags/">Tags <span class="wip-badge">WIP</span></a></li>
+        <li><a href="/crw-blog/reading/">Reading <span class="wip-badge">WIP</span></a></li>
+        <li><a href="/crw-blog/nulla-die/">Nulla Die</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main content of the page -->
+  <main>
+    <div class="site-container">
+      <div class="content">
+        
+        <div class="tags">
+          
+          <a href="/crw-blog/tags/#seed" class="tag">seed</a>
+          
+          <a href="/crw-blog/tags/#math" class="tag">math</a>
+          
+          <a href="/crw-blog/tags/#physics" class="tag">physics</a>
+          
+          <a href="/crw-blog/tags/#information-theory" class="tag">information-theory</a>
+          
+        </div>
+        
+        <h1 id="the-surprisingly-small-zoo-of-natural-norms-and-metrics">The Surprisingly Small Zoo of Natural Norms and Metrics</h1>
+
+<p>When you first encounter the theory of norms and metrics, you might despair: there are <em>so many</em>. Every textbook introduces a new one. Matrix norms alone fill entire chapters. Surely any structure this promiscuous can’t have much to say.</p>
+
+<p>But here’s the thing—once you commit to what “natural” means in your setting, the sea of possibilities collapses dramatically. The right question isn’t “which norm should I use?” but rather “what structure do I want my norm to respect?” Symmetries, composition rules, monotonicity under coarse-graining, operational interpretability—pick your desiderata and the answer often becomes nearly unique.</p>
+
+<p>This post surveys the main characterization theorems that constrain the zoo. Think of it as a field guide: given your symmetry requirements, here’s what you’re allowed to have.</p>
+
+<hr />
+
+<h2 id="vector-space-norms-when-does-a-norm-really-come-from-geometry">Vector Space Norms: When Does a Norm “Really Come From Geometry”?</h2>
+
+<h3 id="inner-product-structure-forces-itself-on-you">Inner Product Structure Forces Itself on You</h3>
+
+<p>If you want angles, orthogonality, and Pythagoras—i.e., if you want your norm to arise from an inner product—there’s a remarkably clean characterization:</p>
+
+<p><strong>Jordan–von Neumann Theorem:</strong> A norm $|\cdot|$ comes from an inner product if and only if it satisfies the <strong>parallelogram law</strong>:</p>
+
+\[\|x+y\|^2 + \|x-y\|^2 = 2\|x\|^2 + 2\|y\|^2\]
+
+<p>When this holds, the inner product is recovered by polarization.</p>
+
+<p><strong>Physics punchline:</strong> If you assume “Euclidean” structure (rotational invariance + Pythagoras-type additivity of squared lengths), you’re essentially forced into $L^2$ / Hilbert space. The parallelogram law <em>is</em> the Pythagorean theorem in disguise.</p>
+
+<h3 id="finite-dimensions-dont-overthink-it">Finite Dimensions: Don’t Overthink It</h3>
+
+<p>On $\mathbb{R}^n$, all norms are equivalent—they induce the same topology. So “naturalness” isn’t about convergence or existence of limits; it’s about <em>symmetry and operational meaning</em>. The topology doesn’t care, but the physics does.</p>
+
+<hr />
+
+<h2 id="matrix-norms-unitary-invariance-classifies-almost-everything">Matrix Norms: Unitary Invariance Classifies (Almost) Everything</h2>
+
+<p>For physics applications, you almost always want <strong>basis-independence</strong>: the norm shouldn’t change under a change of orthonormal basis. This is the key constraint.</p>
+
+<h3 id="the-classification-theorem">The Classification Theorem</h3>
+
+<p>Let $A \in \mathbb{C}^{n \times n}$ with singular values $\sigma(A) = (\sigma_1, \ldots, \sigma_n)$.</p>
+
+<p><strong>Theorem (von Neumann / Ky Fan / Schatten):</strong> A norm $|\cdot|$ is <strong>unitarily invariant</strong> (UIN),</p>
+
+\[\|UAV\| = \|A\| \quad \forall \text{ unitary } U, V\]
+
+<p>if and only if there exists a <strong>symmetric gauge norm</strong> $g$ on $\mathbb{R}^n$ such that</p>
+
+\[\|A\| = g(\sigma(A))\]
+
+<p>Translation: choosing a unitarily invariant norm is equivalent to choosing a permutation- and sign-invariant norm on singular values. The whole infinite-dimensional space of possible matrix norms collapses to something parameterized by functions on vectors of singular values.</p>
+
+<h3 id="the-canonical-families">The Canonical Families</h3>
+
+<p>Within unitarily invariant norms, the most principled ones come from $\ell_p$ gauges on singular values:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Definition</th>
+      <th>$p$</th>
+      <th>When to Use</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Operator/Spectral</strong></td>
+      <td>$|A|_\infty = \sigma_1$</td>
+      <td>$\infty$</td>
+      <td>Worst-case amplification, dynamics</td>
+    </tr>
+    <tr>
+      <td><strong>Frobenius/Hilbert-Schmidt</strong></td>
+      <td>$|A|_2 = \sqrt{\mathrm{Tr}(A^*A)}$</td>
+      <td>$2$</td>
+      <td>RMS error, Fourier-friendly</td>
+    </tr>
+    <tr>
+      <td><strong>Trace/Nuclear</strong></td>
+      <td>$|A|_1 = \sum_i \sigma_i$</td>
+      <td>$1$</td>
+      <td>Total mass, low-rank optimization</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Other named UINs (Ky Fan $k$-norms, etc.) are also symmetric gauges, but the Schatten $p$-norms are the backbone.</p>
+
+<h3 id="submultiplicativity-compatibility-with-composition">Submultiplicativity: Compatibility with Composition</h3>
+
+<p>If you want your norm to play nicely with composition of linear maps—crucial for dynamics, where you care about $|A^n|$—you want <strong>submultiplicativity</strong>: $|AB| \leq |A| |B|$.</p>
+
+<p>The canonical way to get this is via an <strong>induced operator norm</strong>:</p>
+
+\[\|A\|_{v \to v} = \sup_{x \neq 0} \frac{\|Ax\|_v}{\|x\|_v}\]
+
+<p>For $\ell_p$ vector norms, this gives the standard induced operator norms. The cases $p = 1, 2, \infty$ have especially clean interpretations (max column sum, spectral radius, max row sum respectively for $p = 1, 2, \infty$… well, $p=2$ is the spectral norm).</p>
+
+<hr />
+
+<h2 id="measures-and-symmetry-haar-is-the-archetype">Measures and Symmetry: Haar Is the Archetype</h2>
+
+<p>If matrix norms are constrained by unitary invariance, measures are constrained by group invariance. The poster child is Haar measure.</p>
+
+<p><strong>Haar Measure Theorem:</strong> On any locally compact topological group $G$, there exists a nonzero left-invariant measure, and it is unique up to scale.</p>
+
+<p>Group structure + invariance requirement → essential uniqueness. This is the template.</p>
+
+<hr />
+
+<h2 id="riemannian-metrics-on-lie-groups-algebraic-control">Riemannian Metrics on Lie Groups: Algebraic Control</h2>
+
+<p>If you want a metric compatible with a symmetry group acting transitively (the typical situation in physics), then metrics correspond to algebraic data.</p>
+
+<p>On a Lie group $G$:</p>
+<ul>
+  <li><strong>Left-invariant Riemannian metrics</strong> ↔ <strong>inner products on the Lie algebra</strong> $\mathfrak{g}$</li>
+</ul>
+
+<p>If you demand <strong>bi-invariance</strong> (left <em>and</em> right), existence becomes restrictive. For compact semisimple groups it exists and is closely tied to the Killing form.</p>
+
+<p>On homogeneous spaces $G/H$, $G$-invariant metrics correspond to $H$-invariant inner products on the tangent space at the identity coset.</p>
+
+<p><strong>Physics punchline:</strong> If your system has a big symmetry group, “natural” metrics are exactly those invariant under that group—often a finite-parameter family, or unique up to scale.</p>
+
+<hr />
+
+<h2 id="information-geometry-monotonicity-picks-out-canonical-metrics">Information Geometry: Monotonicity Picks Out Canonical Metrics</h2>
+
+<p>This is where things get really satisfying for physics applications.</p>
+
+<h3 id="classical-fisher-is-essentially-unique">Classical: Fisher Is Essentially Unique</h3>
+
+<p>If you want a Riemannian metric on probability distributions that is invariant under sufficient statistics / coarse-graining (Markov morphisms), then:</p>
+
+<p><strong>Čencov’s Theorem:</strong> The Fisher information metric is (essentially) the unique monotone Riemannian metric, up to overall scale.</p>
+
+<p>This is remarkable. Among all possible ways to measure distances between probability distributions, requiring that “distinguishability shouldn’t increase under coarse-graining” leaves you with essentially one choice.</p>
+
+<h3 id="quantum-a-classified-family">Quantum: A Classified Family</h3>
+
+<p>For density matrices, if you want a Riemannian metric monotone under CPTP maps (quantum channels), uniqueness fails—but there’s a complete classification:</p>
+
+<p><strong>Petz Classification:</strong> Monotone quantum Riemannian metrics correspond to operator monotone functions.</p>
+
+<p>Special cases include:</p>
+<ul>
+  <li><strong>Bures / Quantum Fisher:</strong> Minimal monotone metric; tied to state distinguishability</li>
+  <li><strong>Kubo-Mori / Bogoliubov:</strong> Linked to linear response / relative entropy Hessian</li>
+</ul>
+
+<p>Requiring “distinguishability should not increase under noisy processing” basically forces you into the Fisher/Bures family.</p>
+
+<hr />
+
+<h2 id="selection-principles-a-cheat-sheet">Selection Principles: A Cheat Sheet</h2>
+
+<p>Here’s my attempt at a taxonomy. Given your desiderata, here’s what you get:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Principle</th>
+      <th>What It Picks Out</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Basis/coordinate independence</strong></td>
+      <td>Unitarily invariant norms → symmetric gauges on singular values</td>
+    </tr>
+    <tr>
+      <td><strong>Composition/dynamics</strong></td>
+      <td>Induced operator norms; spectral norm canonical in Hilbert space</td>
+    </tr>
+    <tr>
+      <td><strong>Energy/Parseval structure</strong></td>
+      <td>$L^2$, Hilbert-Schmidt/Frobenius; inner-product norms via parallelogram law</td>
+    </tr>
+    <tr>
+      <td><strong>Operational distinguishability</strong></td>
+      <td>Fisher (classical, unique), Bures/quantum Fisher (quantum)</td>
+    </tr>
+    <tr>
+      <td><strong>Convex optimization / low-rank</strong></td>
+      <td>Trace norm as convex proxy for rank; $\ell_1$ for sparsity</td>
+    </tr>
+    <tr>
+      <td><strong>Worst-case vs average-case</strong></td>
+      <td>Operator norm (worst), trace norm (total), Frobenius (RMS)</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="the-real-message">The Real Message</h2>
+
+<p>The zoo isn’t that big once you know what you’re looking for.</p>
+
+<p>If you want <strong>unitary invariance + inner-product geometry</strong> → Frobenius / Hilbert-Schmidt</p>
+
+<p>If you want <strong>unitary invariance + operational distinguishability</strong> → trace norm (discrimination bounds) and Bures/quantum Fisher (infinitesimal distinguishability)</p>
+
+<p>If you want <strong>dynamics control</strong> → operator norm (spectral norm), induced norms</p>
+
+<p>If you want <strong>monotonicity under coarse-graining</strong> → Fisher (classical) / Petz family (quantum)</p>
+
+<p>The point isn’t to memorize norms—it’s to recognize that <em>asking for natural structure constrains you heavily</em>. This is philosophically satisfying: the mathematical universe isn’t arbitrary. Impose reasonable requirements and you land on a small number of distinguished objects.</p>
+
+<p>(As usual in physics, “reasonable” is doing a lot of work in that sentence. But that’s fine. Figuring out what’s reasonable for your problem <em>is</em> the problem.)</p>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer with basic info -->
+  <footer>
+    <p>&copy; 2026 Fruit of Preterition. Powered by <a href="https://pages.github.com/">GitHub
+        Pages</a>.</p>
+  </footer>
+</body>
+
+</html>
