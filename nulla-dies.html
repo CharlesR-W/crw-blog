@@ -1,12 +1,12 @@
 ---
 layout: default
 title: Nulla Dies Sine Linea
-permalink: /nulla-die/
+permalink: /nulla-dies/
 ---
 
 <style>
-  .nulla-die-intro { margin-bottom: 2em; }
-  .nulla-die-intro blockquote {
+  .nulla-dies-intro { margin-bottom: 2em; }
+  .nulla-dies-intro blockquote {
     border-left: 3px solid #c9a84c;
     color: var(--muted);
     font-style: italic;
@@ -14,7 +14,7 @@ permalink: /nulla-die/
     margin: 1.2em 0;
     background: rgba(201, 168, 76, 0.05);
   }
-  .nulla-die-intro blockquote cite {
+  .nulla-dies-intro blockquote cite {
     display: block;
     margin-top: 0.5em;
     font-style: normal;
@@ -25,7 +25,7 @@ permalink: /nulla-die/
 
 <h2>Nulla Dies Sine Linea</h2>
 
-<div class="nulla-die-intro">
+<div class="nulla-dies-intro">
 
 <blockquote>
 <p>Nulla dies sine linea.</p>
@@ -51,7 +51,7 @@ permalink: /nulla-die/
 
 <div class="posts-list">
 <ul>
-{% assign nulla_posts = site.posts | where_exp: "post", "post.tags contains 'nulla-die'" %}
+{% assign nulla_posts = site.posts | where_exp: "post", "post.tags contains 'nulla-dies'" %}
 {% for post in nulla_posts %}
 <li class="post-item">
   <a href="{{ site.baseurl }}{{ post.url }}" class="post-link">{{ post.title }}</a>
