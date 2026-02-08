@@ -1,7 +1,7 @@
 ---
 title: "The Immune System as Anti-Optimizer"
 date: 2026-02-08
-tags: [shortform, optimization, alignment, biology]
+tags: [shortform]
 ---
 
 # The Immune System as Anti-Optimizer

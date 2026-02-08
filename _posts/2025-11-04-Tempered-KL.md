@@ -1,7 +1,7 @@
 ---
 title: "KL Boogaloo: Tempered KL Divergence For Metric-Aware Entropy"
 date: 2025-11-04
-tags: [math, information-theory]
+math: true
 ---
 # KL Boogaloo: Tempered KL Divergence For Metric-Aware Entropy
 

@@ -1,10 +1,11 @@
 ---
 title: "Computational Mechanics and Epsilon Machines"
 date: 2026-01-21
-tags: [seed, math, information-theory]
 motivation: "What's the 'right' way to model a stochastic process? Not just any model—the minimal one that captures all the predictive information. This turns out to have deep connections to information theory and complexity."
 background: "Basic probability, some information theory (entropy, mutual information). The key insight is that 'minimal sufficient statistic for prediction' defines a canonical object—the epsilon machine—that measures intrinsic computational structure."
 llm: "Claude"
+tags: [seed]
+math: true
 ---
 
 # Computational Mechanics and Epsilon Machines

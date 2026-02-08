@@ -1,7 +1,7 @@
 ---
 title: "[Musing] Musings on Running Couplings and Invariant Subspaces"
 date: 2024-10-03
-tags: [physics]
+math: true
 ---
 
 In this post I want to outline a connection between the renormalization-semigroup and invariant subspaces in renormalization theory. It's written mostly for fun / to share and discuss with friends.  Consider this water-cooler brainstorming.

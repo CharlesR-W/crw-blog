@@ -1,7 +1,7 @@
 ---
 title: "Bayesian Entropy"
 date: 2025-03-03
-tags: [high-effort, math, information-theory]
+math: true
 ---
 
 # Thermodynamics as Approximate Bayesian Inference

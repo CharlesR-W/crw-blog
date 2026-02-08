@@ -1,10 +1,11 @@
 ---
 title: "Singularities Propagate Along Hamilton Flows"
 date: 2026-01-21
-tags: [seed, math, physics]
 motivation: "WKB gives classical trajectories. Geometrical optics gives light rays. Wave equations have characteristics. There's clearly a pattern—what's the unifying principle?"
 background: "Some PDE exposure, WKB at the 'I've seen the ansatz' level. The key insight is that high-frequency behavior is controlled by the highest-order derivatives, and this naturally gives rise to Hamilton flows."
 llm: "Claude"
+tags: [seed]
+math: true
 ---
 
 # Singularities Propagate Along Hamilton Flows

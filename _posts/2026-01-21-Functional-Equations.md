@@ -1,10 +1,11 @@
 ---
 title: "Functional Equations: The Algebra Behind Iteration"
 date: 2026-01-21
-tags: [seed, math]
 motivation: "Here's a visibly simple equation: f(f(x)) = g(x). Solve for f. This looks like it should be straightforward—and then you realize it's not. What makes iteration so hard? And what tools exist to attack it?"
 background: "Basic calculus, comfort with power series. The surprise is that these 'simple-looking' equations are actually deep sources of complexity—and the techniques to solve them (eigenvalue methods, conjugacy, formal series) reveal structure you wouldn't have guessed."
 llm: "Claude"
+tags: [seed]
+math: true
 ---
 
 # Functional Equations: The Algebra Behind Iteration

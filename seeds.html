@@ -29,7 +29,7 @@ permalink: /seeds/
 {% for post in seeds %}
 <div class="seed-item">
   <h4><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h4>
-  <div class="meta">{{ post.date | date: "%B %d, %Y" }}{% if post.llm %} · via {{ post.llm }}{% endif %}</div>
+  <div class="meta">{{ post.date | date: "%B %d, %Y" }}{% if post.llm %} · via {{ post.llm }}{% endif %} {% if post.math %}<span class="badge">math</span>{% endif %}{% assign wc = post.content | number_of_words %}{% if wc > 3000 %}<span class="badge">long</span>{% endif %}</div>
   {% if post.motivation %}<div class="context"><strong>Motivation:</strong> {{ post.motivation }}</div>{% endif %}
   {% if post.background %}<div class="context"><strong>Background:</strong> {{ post.background }}</div>{% endif %}
 </div>

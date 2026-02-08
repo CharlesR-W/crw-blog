@@ -27,6 +27,8 @@ title: "Fruit of Preterition"
 <li class="post-item">
   <a href="{{ site.baseurl }}{{ post.url }}" class="post-link">{{ post.title }}</a>
   <span class="post-date">{{ post.date | date: "%B %d, %Y" }}</span>
+  {% if post.math %}<span class="badge">math</span>{% endif %}
+  {% assign wc = post.content | number_of_words %}{% if wc > 3000 %}<span class="badge">long</span>{% endif %}
 </li>
 {% endunless %}{% endfor %}
 </ul>

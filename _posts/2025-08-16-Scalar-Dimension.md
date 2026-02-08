@@ -1,7 +1,7 @@
 ---
 title: "Scale-Dependent Geometry from Diffusion"
 date: 2025-08-16
-tags: [high-effort, math]
+math: true
 ---
 # Scale–Dependent Geometry from Diffusion
 \[Please note: Images are not rendering right now.  They're not that good anyways lol = you're not missing out.\]

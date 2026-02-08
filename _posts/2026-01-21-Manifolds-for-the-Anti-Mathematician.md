@@ -1,10 +1,11 @@
 ---
 title: "Manifolds for the Anti-Mathematician"
 date: 2026-01-21
-tags: [seed, math, physics]
 motivation: "I keep hitting differential geometry prerequisites and bouncing off. Topology-first presentations lose me. What's the minimum I need to actually compute things?"
 background: "Calculus, linear algebra, physics intuition. Frustrated by formal definitions when you just want to know: what IS a tangent vector, and why do Christoffel symbols exist?"
 llm: "Claude"
+tags: [seed]
+math: true
 ---
 
 # Manifolds for the Anti-Mathematician

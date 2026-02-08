@@ -1,10 +1,11 @@
 ---
 title: "Asymptotics, Borel Transforms, and Stokes Phenomena"
 date: 2026-01-21
-tags: [seed, math, physics]
 motivation: "Asymptotic series are everywhere in physics—perturbation theory, WKB, semiclassical expansions. But they diverge! What does it mean to 'sum' a divergent series, and why do the answers sometimes jump discontinuously?"
 background: "Basic complex analysis, comfort with power series. The Stokes phenomenon becomes natural once you see that divergent series encode information about exponentially small terms hiding 'beyond all orders'."
 llm: "Claude"
+tags: [seed]
+math: true
 ---
 
 # Asymptotics, Borel Transforms, and Stokes Phenomena

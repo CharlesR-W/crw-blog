@@ -7,20 +7,18 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>{{ page.title }}</title>
 
-  <!-- Tag styling -->
+  <!-- Badge styling -->
   <style>
-    .tags { margin: 0.5em 0 1.5em 0; }
-    .tag {
+    .badges { margin: 0.5em 0 1.5em 0; }
+    .badge {
       display: inline-block;
       padding: 2px 8px;
       margin: 2px;
       background: rgba(255,255,255,0.08);
       border-radius: 3px;
       font-size: 0.85em;
-      text-decoration: none;
       color: var(--muted);
     }
-    .tag:hover { background: rgba(255,255,255,0.15); color: var(--accent); }
   </style>
 
   <!-- MathJax configuration for LaTeX rendering -->
@@ -66,7 +64,6 @@
       <ul>
         <li><a href="{{ '/' | relative_url }}">Home</a></li>
         <li><a href="{{ '/seeds/' | relative_url }}">Seeds <span class="wip-badge">WIP</span></a></li>
-        <li><a href="{{ '/tags/' | relative_url }}">Tags <span class="wip-badge">WIP</span></a></li>
         <li><a href="{{ '/reading/' | relative_url }}">Reading <span class="wip-badge">WIP</span></a></li>
         <li><a href="{{ '/shortform/' | relative_url }}">Shortform</a></li>
         <li><a href="{{ '/nulla-dies/' | relative_url }}">Nulla Dies</a></li>
@@ -78,11 +75,11 @@
   <main>
     <div class="site-container">
       <div class="content">
-        {% if page.tags %}
-        <div class="tags">
-          {% for tag in page.tags %}
-          <a href="{{ '/tags/' | relative_url }}#{{ tag | slugify }}" class="tag">{{ tag }}</a>
-          {% endfor %}
+        {% assign wordcount = content | number_of_words %}
+        {% if page.math or wordcount > 3000 %}
+        <div class="badges">
+          {% if page.math %}<span class="badge">math</span>{% endif %}
+          {% if wordcount > 3000 %}<span class="badge">long</span>{% endif %}
         </div>
         {% endif %}
         {{ content }}

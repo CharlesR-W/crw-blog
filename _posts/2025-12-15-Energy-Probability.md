@@ -1,7 +1,7 @@
 ---
 title: "Probabilities as Energies; and, Cluster Decomposition of Joint Distributions"
 date: 2025-12-16
-tags: [math, information-theory]
+math: true
 ---
 
 Here I will outline the precise connection between probability and statistical mechanics. This is something I think some people take for granted and others don’t appreciate at all; either way, even after a lot of working in the area, I’ve never seen an explicit correspondence put together in one place. Writing this helped me appreciate some subtleties I wasn’t previously aware of. The biggest one is the role of **cluster decompositions** and **Möbius inversion**: a canonical and fully general way to factorize arbitrary joint distributions into a hierarchy of multi-body interactions.

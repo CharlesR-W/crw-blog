@@ -1,7 +1,7 @@
 ---
 title: "Alternatives to Entropy; Eigenvalues of Odd Things"
 date: "2026-02-03"
-tags: [math, information-theory, spectral-theory]
+math: true
 ---
 
 # Alternatives to Entropy; Eigenvalues of Odd Things

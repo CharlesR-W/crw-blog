@@ -1,7 +1,7 @@
 ---
 title: Appendices to Bayesian Entropy
 date: 2025-03-03
-tags: [math, information-theory]
+math: true
 ---
 
 # Physics Flavored Appendices to 'Thermodynamics as Approximate Bayesian Inference'

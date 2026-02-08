@@ -1,10 +1,11 @@
 ---
 title: "WKB and the Art of Matched Asymptotics"
 date: 2026-01-21
-tags: [seed, math, physics]
 motivation: "Matched asymptotic expansions are one of the most beautiful techniques in applied mathematics—a symphony of approximations that fit together with stunning precision. WKB is the canonical example."
 background: "Quantum mechanics at the Griffiths level, basic complex analysis. The goal isn't to derive Bohr-Sommerfeld (that's a consequence)—it's to see asymptotic matching as a way of thinking."
 llm: "Claude"
+tags: [seed]
+math: true
 ---
 
 # WKB and the Art of Matched Asymptotics

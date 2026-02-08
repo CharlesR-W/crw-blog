@@ -1,7 +1,7 @@
 ---
 title: "Every Measurement Has a Scale"
 date: 2026-02-08
-tags: [math, physics, epistemology]
+math: true
 ---
 
 # Every Measurement Has a Scale

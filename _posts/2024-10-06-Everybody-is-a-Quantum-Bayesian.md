@@ -1,7 +1,7 @@
 ---
 title: "[Musing] Everybody is a Quantum Bayesian"
 date: 2024-10-06
-tags: [physics, philosophy]
+math: true
 ---
 # Everyone is a Quantum Bayesian
 (and no interpretations of QM meaningfully contradict this)

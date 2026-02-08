@@ -1,10 +1,11 @@
 ---
 title: "The Surprisingly Small Zoo of Natural Norms and Metrics"
 date: 2026-01-24
-tags: [seed, math, physics, information-theory]
 motivation: "Feeling overwhelmed by the proliferation of norms and metrics in physics and matrix analysis—surely there's some underlying structure that explains why certain ones keep showing up?"
 background: "Basic linear algebra and functional analysis. Some exposure to information geometry (Fisher metric, quantum state spaces). The question becomes natural once you've seen enough 'here's another norm' discussions and start wondering if there's a pattern."
 llm: "GPT-4"
+tags: [seed]
+math: true
 ---
 
 # The Surprisingly Small Zoo of Natural Norms and Metrics

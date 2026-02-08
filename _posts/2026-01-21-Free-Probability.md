@@ -1,10 +1,11 @@
 ---
 title: "Free Probability: The Non-Commutative Central Limit Theorem"
 date: 2026-01-21
-tags: [seed, math]
 motivation: "The semicircle law keeps appearing in random matrix theory. And I know from the RMT diagrammatics that planar diagrams dominate at large N. What's the algebraic structure that emerges when you take N → ∞ seriously?"
 background: "Some exposure to RMT, especially the diagrammatic/$1/N$ expansion where planar diagrams dominate. The connection to 'freeness' becomes natural once you see that 'independent random matrices become free at large N' is the algebraic expression of 'only planar diagrams survive'."
 llm: "Claude"
+tags: [seed]
+math: true
 ---
 
 # Free Probability: The Non-Commutative Central Limit Theorem

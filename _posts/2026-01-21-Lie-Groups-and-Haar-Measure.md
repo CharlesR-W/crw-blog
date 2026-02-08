@@ -1,10 +1,11 @@
 ---
 title: "Lie Groups and Haar Measure"
 date: 2026-01-21
-tags: [seed, math, physics]
 motivation: "Symmetries are groups. Continuous symmetries are Lie groups. But what's the 'right' way to integrate over a group? And why does that even make sense?"
 background: "Basic group theory, comfort with linear algebra. Helpful to have seen rotation matrices or unitary transformations. The Haar measure question becomes natural once you want to 'average over all rotations' and realize you need a measure to do that."
 llm: "Claude"
+tags: [seed]
+math: true
 ---
 
 # Lie Groups and Haar Measure

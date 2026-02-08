@@ -1,7 +1,7 @@
 ---
 title: "Introducing Mediating Latent Variables for Fun and Profit"
 date: 2026-01-17
-tags: [math]
+math: true
 ---
 A short note with a cute magic trick: given any joint distribution $p(x_1,...,x_N)$, introduce mediating latent variables $y$ so that the $p(x\|y) = \Pi_i p(x_i \| y)$ (i.e., the x's are conditionally independent).  This is inspired by / a physics bastardization / example of Sam Eisenstat's fun ['condensation' paper](https://www.sameisenstat.net/doc/condensation-25-07.pdf).  Perhaps a post on that later.  I had GPT5.2 write this post based on a note outlining the important equations I wanted to cover.  In this particular case, it was trash, but I will leave you with the following masterpiece:
 

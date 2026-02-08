@@ -1,7 +1,7 @@
 ---
 title: "Nonlinear Calculi"
 date: 2024-12-02
-tags: [high-effort, math]
+math: true
 ---
 
 # Nonlinear Calculi

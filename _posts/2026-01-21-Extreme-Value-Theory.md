@@ -1,10 +1,11 @@
 ---
 title: "Extreme Value Theory: Why Maxima Have Universal Statistics"
 date: 2026-01-21
-tags: [seed, math, physics]
 motivation: "CLT tells me about sums converging to Gaussians—is there an analogous story for maxima? Surely 'take the max of N things' is as natural an operation as 'sum N things'."
 background: "Basic probability, familiarity with CLT. The question becomes natural when you realize sums and maxima are both aggregation operations that might have universal limits."
 llm: "Claude"
+tags: [seed]
+math: true
 ---
 
 # Extreme Value Theory: Why Maxima Have Universal Statistics
