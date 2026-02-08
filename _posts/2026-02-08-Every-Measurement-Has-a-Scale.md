@@ -73,6 +73,6 @@ Here are some places where this thinking has been relevant to me lately:
 
 The common thread in all of these is that 'exactly equal to', 'is a minimum', etc. are all claims which cannot survive contact with finite-precision measurement.  The fix is always the same: replace the binary question with a quantitative one, and state the scale at which you're asking it.
 
-I'll add the obvious caveat that there are times in life when this is true - if little Billy has 3 apples then it would be asinine to assert we should think of this as coming with an error bar.  I think most of discrete math and computer science fall into this category, with information theory falling somewhere in between.  In physics, I topological phenomena and group-theoretic things are "sorta" discrete - story for another day.
+I'll add the obvious caveat that there are times in life when this is true - if little Billy has 3 apples then it would be asinine to assert we should think of this as coming with an error bar.  I think most of discrete math and computer science fall into this category, with information theory falling somewhere in between.  In physics, topological phenomena and group-theoretic things are "sorta" discrete - story for another day.
 
 Heraclitus said "All things flow, and nothing remains the same".  So too it is of constants - there are no constants, only scales at which things may be regarded as constant.  I find this deeply humbling - the search for knowledge should feel something like trying to bootstrap our way out of quicksand.
