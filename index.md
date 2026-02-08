@@ -7,17 +7,7 @@ title: "Fruit of Preterition"
 
 *Content*: This is the homepage of my blog.  I intend to write about physics, math, information theory and similar, with the occasional humanist divagation.  The plainness of the theming is deliberate.
 
-<div style="margin: 1.5em 0; padding: 1em; background: rgba(255,255,255,0.04); border-left: 4px solid var(--accent); border-radius: 4px;">
-<strong><a href="{{ '/seeds/' | relative_url }}">Seeds</a></strong> (Experimental) — prompts for exploring topics with your own LLM. <em>Written by Claude, not yet read by me.</em> Under construction; use with appropriate skepticism.
-</div>
-
-<div style="margin: 1.5em 0; padding: 1em; background: rgba(255,255,255,0.04); border-left: 4px solid var(--accent); border-radius: 4px;">
-<strong><a href="{{ '/shortform/' | relative_url }}">Shortform</a></strong> — shorter pieces: observations, half-baked ideas, things that don't warrant a full essay.
-</div>
-
-<div style="margin: 1.5em 0; padding: 1em; background: rgba(255,255,255,0.04); border-left: 4px solid #c9a84c; border-radius: 4px;">
-<strong><a href="{{ '/nulla-dies/' | relative_url }}">Nulla Dies Sine Linea</a></strong> — short, frequent writings on research and ideas. A daily practice in the spirit of Pliny's maxim: <em>no day without a line.</em>
-</div>
+See also: <a href="{{ '/seeds/' | relative_url }}">Seeds</a> · <a href="{{ '/shortform/' | relative_url }}">Shortform</a> · <a href="{{ '/nulla-dies/' | relative_url }}">Nulla Dies</a>
 
 <h2 style="margin-bottom: 0.8em;">Posts</h2>
 
