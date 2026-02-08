@@ -34,7 +34,7 @@ $$
 \text{degree}[f] = \lim_{x \to \infty} \frac{x f'(x)}{f(x)}
 $$
 
-You can check that in the infinite limit, the two cases discussed will give us degrees 3 and 26, respectively for our two examples above.
+You can check that in the infinite limit, this gives us degrees 3 and 26 respectively.
 
 The definition above is unphysical, in that of course our beam cannot be made infinitely long - the point precisely!  We will kill one unphysicality with another!  Instead of taking the limit $x \to \infty$, we will make an 'operational definition' of the degree, observed at scale $L$:
 
@@ -42,13 +42,13 @@ $$
 \text{degree}_L[f] = \frac{L f'(L)}{f(L)}
 $$
 
+In words: instead of asking "what is the degree?", we ask "what does the degree look like at scale $L$?" — and get a perfectly sensible answer.
+
 (If you're an economics enjoyer, you may note that this is the same as the log-log derivative $\frac{d \log f}{ d \log x}\big\vert_{x=L}$ used in defining elasticities.)
 
-If you wanted to be thorough about it, you could take each of our two proposed $f$'s and plot this value as $L$ is increased.  We don't really have to bother with this - we can make a crude estimate of what scales $L$ are required to see the $x^{26}$.
+You could plot this for increasing $L$ and watch the answer change, but we can just estimate what scale is required to see the $x^{26}$.
 
-Let's first try just plugging in a big number: for $L$ around $10^5$, $f_{true}(x) = 10^{-1000}x^{26} + 0.3x^{3} + 7x^2 +2 \sim (10^{-870}) + (10^{14}) + (10^{11}) + (1)$
-
-So clearly the competition will be between the two highest terms, but it's not even close yet at $10^5$.  Let's just take the ratio and see when they're about the same:
+Plugging in $L = 10^5$: the $x^{26}$ term contributes about $10^{-870}$, while the $x^3$ term contributes about $10^{14}$.  Not even close.  Setting the two equal:
 
 $$
 1 = \frac{10^{-1000}L^{26}}{0.3 L^3} \to L \sim10^{43}
@@ -58,7 +58,7 @@ In order to start really seeing the effect of the $x^{26}$ term (or to conclude 
 
 The epistemological point is that, while we can't say "the polynomial degree of the beam's shape is \_\_\_\_", because of the sensitivity problem, we can back off, ask what that degree was a proxy for, and say "at scales of 10s of meters, the effective polynomial degree of the beam is 3".
 
-Physicists speak this language in reverse; they imagine a particular 'family of theories' $f_{true}(x) = \epsilon x^{26} + 0.3x^{3} + 7x^2 +2$, and say things like "at great expense and after decades of work, CERN was able to build a steel beam 10,000 meters long, and we can confirm that $\epsilon \leq 10^{-114}$"
+Physicists speak this language in reverse; they imagine a particular 'family of theories' $f_{true}(x) = \epsilon x^{26} + 0.3x^{3} + 7x^2 +2$, and say things like "at great expense and after decades of work, CERN was able to build a steel beam 10,000 meters long, and we can confirm that $\epsilon \leq 10^{-114}$."
 
 ## Conclusion
 
@@ -67,7 +67,7 @@ So the takeaway is that we like to use math to describe the world, but not every
 Exercise: Imagine you are a big Charles' law enjoyer, and think that $\frac{V}{T} = \text{const}$ (i.e. the volume of a gas is proportional to its temperature) describes how gases behave.  Your measurements are good but not great - what perturbations might you write down?  What does it feel like when you realize you'd forgotten to vary some quantity you'd been holding fixed?  Try and convince yourself that "$= \text{const}$" is always a joke.
 
 Here are some places where this thinking has been relevant to me lately:
-- Loss landscapes of neural networks, $L(\theta)$ - typically defined in the limit where you measure the loss on all data samples; instead, the number of data-points you use determines the resolution at which you can know $L$.
+- Loss landscapes of neural networks, $L(\theta)$ - the 'true' loss is defined as an expectation over all possible data, but you only ever evaluate it on a finite sample.  The number of samples you use determines the scale at which you can resolve the landscape.
     - Exercise: for this reason, you can't ever ask if $\theta_0$ "is a minimum" - what's the smarter version to ask?  How might you measure it?
 - Emergent Modularity: a theory goes that biological systems evolve to be modular as a response to a changing environment.  There are two timescales - the timescale of environmental variability and the timescale of selection; if either is much faster than the other, selection for modularity does not occur.  Can you say how strongly modularity should be selected for as a function of the ratio between the two timescales?
 
