@@ -11,6 +11,10 @@ title: "Fruit of Preterition"
 <strong><a href="{{ '/seeds/' | relative_url }}">Seeds</a></strong> (Experimental) — prompts for exploring topics with your own LLM. <em>Written by Claude, not yet read by me.</em> Under construction; use with appropriate skepticism.
 </div>
 
+<div style="margin: 1.5em 0; padding: 1em; background: rgba(255,255,255,0.04); border-left: 4px solid var(--accent); border-radius: 4px;">
+<strong><a href="{{ '/shortform/' | relative_url }}">Shortform</a></strong> — shorter pieces: observations, half-baked ideas, things that don't warrant a full essay.
+</div>
+
 <div style="margin: 1.5em 0; padding: 1em; background: rgba(255,255,255,0.04); border-left: 4px solid #c9a84c; border-radius: 4px;">
 <strong><a href="{{ '/nulla-dies/' | relative_url }}">Nulla Dies Sine Linea</a></strong> — short, frequent writings on research and ideas. A daily practice in the spirit of Pliny's maxim: <em>no day without a line.</em>
 </div>
@@ -19,7 +23,7 @@ title: "Fruit of Preterition"
 
 <div class="posts-list">
 <ul>
-{% for post in site.posts %}{% unless post.tags contains "seed" or post.tags contains "nulla-dies" %}
+{% for post in site.posts %}{% unless post.tags contains "seed" or post.tags contains "nulla-dies" or post.tags contains "shortform" %}
 <li class="post-item">
   <a href="{{ site.baseurl }}{{ post.url }}" class="post-link">{{ post.title }}</a>
   <span class="post-date">{{ post.date | date: "%B %d, %Y" }}</span>

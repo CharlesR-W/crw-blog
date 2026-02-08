@@ -1,0 +1,27 @@
+---
+layout: default
+title: Shortform
+permalink: /shortform/
+---
+
+<h2>Shortform</h2>
+
+<div style="margin-bottom: 2em;">
+<p>Shorter pieces — observations, half-baked ideas, and things that don't warrant a full essay but are worth writing down.</p>
+</div>
+
+<div class="posts-list">
+<ul>
+{% assign shortform_posts = site.posts | where_exp: "post", "post.tags contains 'shortform'" %}
+{% for post in shortform_posts %}
+<li class="post-item">
+  <a href="{{ site.baseurl }}{{ post.url }}" class="post-link">{{ post.title }}</a>
+  <span class="post-date">{{ post.date | date: "%B %d, %Y" }}</span>
+</li>
+{% endfor %}
+</ul>
+</div>
+
+{% if shortform_posts.size == 0 %}
+<p style="color: var(--muted); font-style: italic;">Nothing here yet.</p>
+{% endif %}
