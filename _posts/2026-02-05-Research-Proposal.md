@@ -1,6 +1,7 @@
 ---
 title: "Research Proposal"
 date: "2026-02-05"
+tags: [nulla-dies]
 ---
 
 # Research Proposal
