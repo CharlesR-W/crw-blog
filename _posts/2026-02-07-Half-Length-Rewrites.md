@@ -24,6 +24,6 @@ The 'fundamental problem of causal inference' is that causal effects are measure
 
 > There is a deep connection between the geometry of a parameter space and the statistical properties of the models that live on it. The Fisher information matrix defines a Riemannian metric on the space of probability distributions, and this metric has the remarkable property that it is the unique metric (up to a constant factor) that is invariant under sufficient statistics. What this means in practice is that distances in parameter space, when measured using the Fisher metric, correspond to how statistically distinguishable two nearby models are, regardless of how we happen to have parameterized them.
 
-Model-space is a Riemannian space with the Fisher information matrix as its metric.  The Fisher information is the unique metric which is invariant under reparametrizations of the underlying model.  The induced Fisher-Rao distance therefore furnishes a parametrization-independent measure of statistical distance between two models of the family in question.
+Model-space is a Riemannian space with the Fisher information matrix as its metric.  The Fisher information is the unique metric (up to a constant) invariant under sufficient statistics.  The induced Fisher-Rao distance therefore furnishes a canonical, parametrization-independent measure of statistical distance between models.
 
 *Written with Claude.*
