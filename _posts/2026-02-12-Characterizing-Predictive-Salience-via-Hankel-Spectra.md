@@ -1,5 +1,5 @@
 ---
-title: "Characterizing Predictive Salience via Hankel Spectra — MATS 9.0 Interim Report"
+title: "Characterizing Predictive Salience via Hankel Spectra"
 date: 2026-02-12
 math: true
 ---
