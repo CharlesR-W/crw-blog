@@ -10,6 +10,8 @@ math: true
 
 **The argument in brief:**  Neural scaling laws — the power-law improvement of loss with model size, data, and compute — can be derived essentially from the second-order statistics (covariance) of the data distribution.  Any data with the right spectral decay produces the same scaling behavior, regardless of whether it has any deeper structure  The low-dimensional manifold structure of natural data explains *why* we get power-law scaling, but not why we get 'capabilities'.  Power laws are real, but they are not, by themselves, deep.  There is depth, and power laws are a signature thereof, but they do not suffice to explain the 'miracle of deep learning'.
 
+This argument is well-enough known in particular corners, but I want to present my own synthesis of how the puzzle-pieces fit together.  At least ime many ML/alignment folks are not aware of this part of the scaling deep lore.
+
 ---
 
 The standard scaling laws picture: train a bigger model on more data, and loss improves as a power law in model size, dataset size, and compute (Kaplan et al. 2020):
@@ -44,13 +46,13 @@ Intuitively, we recognize that NNs generalize and are useful because they learn 
 
 ## Three interesting observations
 
-I don't have deep expertise in any of these results, but they each seem to point in the same direction.
+I haven't yet sat deeply with any of these papers but they seem important in light of the above.
 
 **Emergent capabilities.**  Wei et al. (2022) found that certain capabilities appear sharply as models scale — performance jumps from near-chance to competent over a narrow range of sizes, while loss curves remain smooth.  There's debate about how much of this is metric artifact (Schaeffer et al. 2023), but either way: smooth loss improvement doesn't straightforwardly predict when or whether specific capabilities appear.  Loss and capabilities are measuring different things.
 
 **Distributional simplicity bias.**  Belrose et al. (2024) found that networks learn statistics of increasing complexity during training, starting with low-order moments.  If I understand correctly, early training is well-approximated by matching the data's covariance — the higher-order structure that makes a language model more than an autocorrelation machine comes later.
 
-**Data pruning.**  Sorscher et al. (2022) showed that keeping only the most informative training examples can beat power-law scaling entirely — exponential improvement as a function of pruned dataset size.  I don't fully understand this result, so I won't overstate it.  But it's suggestive: power-law scaling may be what you get when you treat data as interchangeable, exploiting only spectral structure.  Selecting *which* data points matter means leveraging something the power law doesn't see.
+**Data pruning.**  Sorscher et al. (2022) showed that keeping only the most informative training examples can beat power-law scaling entirely — exponential improvement as a function of pruned dataset size.  Their story would seem to go like: power-law scaling is be what you get when you treat data as interchangeable, exploiting only spectral structure; selecting *which* data points matter means leveraging something the power law doesn't see.  I don't really understand yet what this means, but would be surprised if it meant nothing.
 
 ## The question
 
