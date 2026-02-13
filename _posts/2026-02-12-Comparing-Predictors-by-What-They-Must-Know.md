@@ -30,15 +30,15 @@ The SVD of $H_f$ gives a projector $\Pi_f$ onto $f$'s state space. Apply it to $
 
 $$\|H_g\|^2 = \|\Pi_f H_g\|^2 + \|(I - \Pi_f) H_g\|^2$$
 
-The residual $\|(I - \Pi_f) H_g\|^2$ — **directional Hankel salience** — is predictive structure of $g$ that $f$'s representation cannot see at any rank. This is asymmetric: a rich objective is a wide net; a narrow one misses most of a richer one's structure. The salience tells you exactly how much.
+The residual $\lVert(I - \Pi_f) H_g\rVert^2$ — **directional Hankel salience** — is predictive structure of $g$ that $f$'s representation cannot see at any rank. This is asymmetric: a rich objective is a wide net; a narrow one misses most of a richer one's structure. The salience tells you exactly how much.
 
-Crucially for interpretation, you can take SVD truncations of this statement, and compare mode-by-mode. Define a **capture function** $\mathcal{C}(r, M) = \|\Pi_f^{(r)} H_g^{(M)}\|^2 / \|H_g^{(M)}\|^2$, which measures: of $g$'s top $M$ predictive modes, what fraction lives in $f$'s top $r$ directions? This gives you an "exchange rate" — how many $f$-modes to capture $M$ $g$-modes. Aligned objectives have $\mathcal{C}(M, M) \approx 1$; structurally incompatible ones have $\mathcal{C}(r, M) \ll 1$ for all $r$.
+Crucially for interpretation, you can take SVD truncations of this statement, and compare mode-by-mode. Define a **capture function** $\mathcal{C}(r, M) = \lVert\Pi_f^{(r)} H_g^{(M)}\rVert^2 / \lVert H_g^{(M)}\rVert^2$, which measures: of $g$'s top $M$ predictive modes, what fraction lives in $f$'s top $r$ directions? This gives you an "exchange rate" — how many $f$-modes to capture $M$ $g$-modes. Aligned objectives have $\mathcal{C}(M, M) \approx 1$; structurally incompatible ones have $\mathcal{C}(r, M) \ll 1$ for all $r$.
 
 As an example of the kind of thing I'm thinking about: a toy operationalization of the "platonic representation hypothesis"/"natural latents" might claim that broad classes of macroscopic functions have common spectral 'bands', where a handful of features are enormously important to prediction, with a sharp decline in marginal prediction gains after these features are exhausted.  Then these modes would correspond to the Platonic forms / natural latents. (that's obviously a super-philosophically-fraught statement but I had an opportunity to say bullshit like "the Platonic forms are just eigenmodes of this here matrix" and so of course I couldn't help myself... :) )
 
 ## Connection to information theory
 
-One thing that makes me think this framework is tracking something real: the observable $f$ induces a kernel on the state space — $k_f(x, x') = f(x) f(x')$ for scalar $f$ — and $\|H_f\|_F^2$ turns out to equal $\text{HSIC}(\text{past}, \text{future}; k_f)$, the Hilbert-Schmidt Independence Criterion measuring past-future dependence in that kernel. HSIC in turn equals $\text{MMD}^2(P_{\text{joint}},\, P_{\text{past}} \otimes P_{\text{future}})$ — the kernel analogue of KL divergence between joint and product of marginals. And MMD² has the structure of a Rényi-2 divergence. So $\|H_f\|_F^2$ is a **Rényi-2 mutual information** between past and future, as seen through $f$. The directional salience $\|(I - \Pi_f) H_g\|^2$ is the conditional version: MI in $g$ that survives after conditioning on $f$'s state representation.
+One thing that makes me think this framework is tracking something real: the observable $f$ induces a kernel on the state space — $k_f(x, x') = f(x) f(x')$ for scalar $f$ — and $\lVert H_f\rVert_F^2$ turns out to equal $\text{HSIC}(\text{past}, \text{future}; k_f)$, the Hilbert-Schmidt Independence Criterion measuring past-future dependence in that kernel. HSIC in turn equals $\text{MMD}^2(P_{\text{joint}},\, P_{\text{past}} \otimes P_{\text{future}})$ — the kernel analogue of KL divergence between joint and product of marginals. And MMD² has the structure of a Rényi-2 divergence. So $\lVert H_f\rVert_F^2$ is a **Rényi-2 mutual information** between past and future, as seen through $f$. The directional salience $\lVert(I - \Pi_f) H_g\rVert^2$ is the conditional version: MI in $g$ that survives after conditioning on $f$'s state representation.
 
 This isn't an analogy — it's a chain of exact identities (Fukumizu-Bach-Jordan, Gretton et al.). The spectral decomposition really is decomposing *how much the past tells you about the future*, mode by mode, in the metric that $f$ defines on states.
 
@@ -48,8 +48,8 @@ This is a more speculative connection to reinforcement learning and real problem
 
 If an agent acts in a POMDP environment, you can build a Hankel-like object $H_\pi$ from its action-observation sequences and compare it to the environment's full predictive structure $H_{\text{env}}$ (formalized via predictive state representations). The projector decomposition should then give you:
 
-- $\|\Pi_\pi H_{\text{env}}\|^2$ = environment structure the policy's implicit model *can* represent
-- $\|(I - \Pi_\pi) H_{\text{env}}\|^2$ = environment structure the policy *doesn't* represent
+- $\lVert\Pi_\pi H_{\text{env}}\rVert^2$ = environment structure the policy's implicit model *can* represent
+- $\lVert(I - \Pi_\pi) H_{\text{env}}\rVert^2$ = environment structure the policy *doesn't* represent
 
 The extension I find most interesting: **reward-differential salience**. Different reward functions $R, R'$ select different predictive modes. Given a proxy reward $R$ and true reward $R'$, I think there are ways to spectrally characterize 'how much $H_\pi$ knows about $R$ vs $R'$'.  This could mean a possible **spectral diagnostic of reward hacking**. The math should be a straightforward application of the framework above, but I haven't verified whether the RL-specific parts (action-conditioning, closed-loop identification) play nicely with the spectral machinery.
 
