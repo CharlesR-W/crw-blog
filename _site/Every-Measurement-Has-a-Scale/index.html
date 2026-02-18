@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Every Measurement Has a Scale</title>
+
+  <!-- Badge styling -->
+  <style>
+    .badges { margin: 0.5em 0 1.5em 0; }
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      margin: 2px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 3px;
+      font-size: 0.85em;
+      color: var(--muted);
+    }
+  </style>
+
+  <!-- MathJax configuration for LaTeX rendering -->
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true,
+        tags: 'ams'
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        ignoreHtmlClass: "tex2jax_ignore",
+        processHtmlClass: "tex2jax_process"
+      },
+      svg: {
+        fontCache: 'global'
+      },
+      startup: {
+        pageReady: function () {
+          return MathJax.startup.defaultPageReady().then(function () {
+            console.log('MathJax is loaded and ready');
+          });
+        }
+      }
+    };
+  </script>
+  <script type="text/javascript" async src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-svg.js"></script>
+
+  <!-- Site stylesheet -->
+  <link rel="stylesheet" href="/crw-blog/assets/css/style.css">
+</head>
+
+<body>
+  <!-- Header and site title -->
+  <header>
+    <h1>Fruit of Preterition</h1>
+    <nav>
+      <ul>
+        <li><a href="/crw-blog/">Home</a></li>
+        <li><a href="/crw-blog/seeds/">Seeds <span class="wip-badge">WIP</span></a></li>
+        <li><a href="/crw-blog/shortform/">Shortform</a></li>
+        <li><a href="/crw-blog/nulla-dies/">Nulla Dies</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main content of the page -->
+  <main>
+    <div class="site-container">
+      <div class="content">
+        
+        
+        <div class="badges">
+          <span class="badge">math</span>
+          
+        </div>
+        
+        <h1 id="every-measurement-has-a-scale">Every Measurement Has a Scale</h1>
+
+<p>In this post I will try to outline an idea which I have imbibed by studying physics, but which I think is generally applicable as a tool for thinking.  This is the idea: because we can only observe imperfectly, we cannot assert that any measurement is ‘exactly zero’.  The crucial consequence is that, for a number to measure something meaningful, it must not be arbitrarily sensitive to unobservable changes.</p>
+
+<p>(This same idea is what makes questions like “is this neural network loss at a minimum?” or “is this gene regulatory network modular?” malformed as stated — and suggests what to ask instead.)</p>
+
+<p>As our example, we’ll imagine an engineer has developed a theory that a beam of some length $L$, loaded with a particular weight, will, at coordinate $x$ along its length, bend an amount given by $f(x)$.  A mathematician (a group theorist, say), has looked at the engineer’s measurements of $f$ and asked what the polynomial degree of $f$ is.  Here’s why this doesn’t work:</p>
+
+<h2 id="example-degree-of-a-polynomial">Example: Degree of a Polynomial</h2>
+
+<p>Consider polynomials like $f(x) = 0.3x^{3} + 7x^2 +2$.  The power of the highest term is the ‘degree’ of the polynomial - in this case, 3.  I claim that ‘degree of the polynomial’ is not a good measurement.  Why?  If $f$ is to model the shape of our beam, we will have chosen the coefficients by taking some measurements.  These measurements might be taken for, say, $x$ between $x=0$ and $x=5$.  The problem with taking ‘degree’ of the polynomial as having anything to do with the real beam is that, for all we know, the true answer could be</p>
+
+\[f_{true}(x) = 10^{-1000}x^{26} + 0.3x^{3} + 7x^2 +2\]
+
+<p>This new polynomial has degree 26 instead of 3; but along the whole beam, it makes predictions which are functionally identical.  Because no practical measurement can tell which of these models is ‘correct’, any measurement which requires distinguishing between them is a bad one.</p>
+
+<p>Now of course, the ‘degree of the polynomial describing this beam’ is unimportant to the engineer.  I claim that the engineer’s studied indifference comes not from a professional distaste for abstract mathematics, but a subconscious recognition of the distinction I want to outline - that some measurements are ‘good’ and others are ‘bad’, and that we can often fix bad ones if we try.</p>
+
+<h2 id="fixing-the-degree--measurements-have-scale">Fixing the ‘degree’ : Measurements have scale</h2>
+
+<p>There are a few ways to fix such a problem.  One might try to devise a new measurement entirely, or perhaps study the property which we had taken ‘degree of the polynomial’ to be a proxy for, and see if we can’t do better.  The simplest and most general, though, is to caveat our measurement with a notion of ‘scale’.</p>
+
+<p>We ask ourselves what we might really have meant by ‘degree’ of the polynomial - the most likely meaning is “if I had a very long beam, how rapidly would the shape change for large values of $x$”.  So now we might write</p>
+
+\[\text{degree}[f] = \lim_{x \to \infty} \frac{x f'(x)}{f(x)}\]
+
+<p>You can check that in the infinite limit, this gives us degrees 3 and 26 respectively.</p>
+
+<p>The definition above is unphysical, in that of course our beam cannot be made infinitely long - the point precisely!  We will kill one unphysicality with another!  Instead of taking the limit $x \to \infty$, we will make an ‘operational definition’ of the degree, observed at scale $L$:</p>
+
+\[\text{degree}_L[f] = \frac{L f'(L)}{f(L)}\]
+
+<p>In words: instead of asking “what is the degree?”, we ask “what does the degree look like at scale $L$?” — and get a perfectly sensible answer.</p>
+
+<p>(If you’re an economics enjoyer, you may note that this is the same as the log-log derivative $\frac{d \log f}{ d \log x}\big\vert_{x=L}$ used in defining elasticities.)</p>
+
+<p>You could plot this for increasing $L$ and watch the answer change, but we can just estimate what scale is required to see the $x^{26}$.</p>
+
+<p>Plugging in $L = 10^5$: the $x^{26}$ term contributes about $10^{-870}$, while the $x^3$ term contributes about $10^{14}$.  Not even close.  Setting the two equal:</p>
+
+\[1 = \frac{10^{-1000}L^{26}}{0.3 L^3} \to L \sim10^{43}\]
+
+<p>In order to start really seeing the effect of the $x^{26}$ term (or to conclude that it’s really not there), we’d need to look at beams of $L=10^{43}$ meters - longer than $10^{41}$ football fields!</p>
+
+<p>The epistemological point is that, while we can’t say “the polynomial degree of the beam’s shape is ____”, because of the sensitivity problem, we can back off, ask what that degree was a proxy for, and say “at scales of 10s of meters, the effective polynomial degree of the beam is 3”.</p>
+
+<p>Physicists speak this language in reverse; they imagine a particular ‘family of theories’ $f_{true}(x) = \epsilon x^{26} + 0.3x^{3} + 7x^2 +2$, and say things like “at great expense and after decades of work, CERN was able to build a steel beam 10,000 meters long, and we can confirm that $\epsilon \leq 10^{-114}$.”</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>So the takeaway is that we like to use math to describe the world, but not every property of a math object is a meaningful reflection of the thing it models.  Instead, we build a model, try to list a few perturbations to that model, and ask how well we can bound those perturbations based on our current measurements.</p>
+
+<p>Exercise: Imagine you are a big Charles’ law enjoyer, and think that $\frac{V}{T} = \text{const}$ (i.e. the volume of a gas is proportional to its temperature) describes how gases behave.  Your measurements are good but not great - what perturbations might you write down?  What does it feel like when you realize you’d forgotten to vary some quantity you’d been holding fixed?  Try and convince yourself that “$= \text{const}$” is always a joke.</p>
+
+<p>Here are some places where this thinking has been relevant to me lately:</p>
+<ul>
+  <li>Loss landscapes of neural networks, $L(\theta)$ - the ‘true’ loss is defined as an expectation over all possible data, but you only ever evaluate it on a finite sample.  The number of samples you use determines the scale at which you can resolve the landscape.
+    <ul>
+      <li>Exercise: for this reason, you can’t ever ask if $\theta_0$ “is a minimum” - what’s the smarter version to ask?  How might you measure it?</li>
+    </ul>
+  </li>
+  <li>Emergent Modularity: a theory goes that biological systems evolve to be modular as a response to a changing environment.  There are two timescales - the timescale of environmental variability and the timescale of selection; if either is much faster than the other, selection for modularity does not occur.  Can you say how strongly modularity should be selected for as a function of the ratio between the two timescales?</li>
+</ul>
+
+<p>The common thread in all of these is that ‘exactly equal to’, ‘is a minimum’, etc. are all claims which cannot survive contact with finite-precision measurement.  The fix is always the same: replace the binary question with a quantitative one, and state the scale at which you’re asking it.</p>
+
+<p>I’ll add the obvious caveat that there are times in life when this is true - if little Billy has 3 apples then it would be asinine to assert we should think of this as coming with an error bar.  I think most of discrete math and computer science fall into this category, with information theory falling somewhere in between.  In physics, topological phenomena and group-theoretic things are “sorta” discrete - story for another day.</p>
+
+<p>Heraclitus said “All things flow, and nothing remains the same”.  So too it is of constants - there are no constants, only scales at which things may be regarded as constant.  I find this deeply humbling - the search for knowledge should feel something like trying to bootstrap our way out of quicksand.</p>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer with basic info -->
+  <footer>
+    <p>&copy; 2026 Fruit of Preterition. Powered by <a href="https://pages.github.com/">GitHub
+        Pages</a>.</p>
+  </footer>
+</body>
+
+</html>

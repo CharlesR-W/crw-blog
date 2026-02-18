@@ -7,7 +7,7 @@ title: "Fruit of Preterition"
 
 *Content*: This is the homepage of my blog.  I intend to write about physics, math, information theory and similar, with the occasional humanist divagation.  The plainness of the theming is deliberate.
 
-See also: <a href="{{ '/seeds/' | relative_url }}">Seeds</a> · <a href="{{ '/shortform/' | relative_url }}">Shortform</a> · <a href="{{ '/nulla-dies/' | relative_url }}">Nulla Dies</a>
+See also: <a href="{{ '/seeds/' | relative_url }}">Seeds</a> · <a href="{{ '/shortform/' | relative_url }}">Shortform</a><!-- hidden: · <a href="{{ '/nulla-dies/' | relative_url }}">Nulla Dies</a> -->
 
 <h2 style="margin-bottom: 0.8em;">Posts</h2>
 

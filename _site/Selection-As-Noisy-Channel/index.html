@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Selection As Noisy Channel</title>
+
+  <!-- Badge styling -->
+  <style>
+    .badges { margin: 0.5em 0 1.5em 0; }
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      margin: 2px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 3px;
+      font-size: 0.85em;
+      color: var(--muted);
+    }
+  </style>
+
+  <!-- MathJax configuration for LaTeX rendering -->
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true,
+        tags: 'ams'
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        ignoreHtmlClass: "tex2jax_ignore",
+        processHtmlClass: "tex2jax_process"
+      },
+      svg: {
+        fontCache: 'global'
+      },
+      startup: {
+        pageReady: function () {
+          return MathJax.startup.defaultPageReady().then(function () {
+            console.log('MathJax is loaded and ready');
+          });
+        }
+      }
+    };
+  </script>
+  <script type="text/javascript" async src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-svg.js"></script>
+
+  <!-- Site stylesheet -->
+  <link rel="stylesheet" href="/crw-blog/assets/css/style.css">
+</head>
+
+<body>
+  <!-- Header and site title -->
+  <header>
+    <h1>Fruit of Preterition</h1>
+    <nav>
+      <ul>
+        <li><a href="/crw-blog/">Home</a></li>
+        <li><a href="/crw-blog/seeds/">Seeds <span class="wip-badge">WIP</span></a></li>
+        <li><a href="/crw-blog/shortform/">Shortform</a></li>
+        <li><a href="/crw-blog/nulla-dies/">Nulla Dies</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main content of the page -->
+  <main>
+    <div class="site-container">
+      <div class="content">
+        
+        
+        <div class="badges">
+          <span class="badge">math</span>
+          <span class="badge">long</span>
+        </div>
+        
+        <h1 id="selection-as-noisy-channel">Selection As Noisy Channel</h1>
+
+<p><em>This work was done as part of <a href="https://www.matsprogram.org/">MATS 9.0</a> under the mentorship of Richard Ngo.  This post is pedagogical; I’m collecting and reframing known results (Haldane, Fisher, Kimura, and others) in a way that I think makes the connections between them clearer.  I intend to refer to this post in later work.</em></p>
+
+<hr />
+
+<p><strong>BLUF</strong>: Natural selection is a noisy channel from environment to population.  Fixing a new allele starting at frequency $p_0$ costs exactly $-\ln p_0$ nats — its surprisal.  Information gain per generation is bounded by $\frac{1}{2}\ln(1 + \text{SNR})$ nats, where the signal-to-noise ratio (SNR) is set by the effective population size $N_e$.</p>
+
+<hr />
+
+<p>Natural selection is an optimizing process.  There’s a web of results connecting it to information theory that deserves to be better known.</p>
+
+<p>Three threads (for brevity, eliding some important caveats):</p>
+
+<ul>
+  <li><a href="https://link.springer.com/article/10.1007/BF02984069"><strong>Haldane</strong> (1957)</a>: the total ‘cost’ of an adaptation is its surprisal</li>
+  <li><a href="https://en.wikipedia.org/wiki/The_Genetical_Theory_of_Natural_Selection"><strong>Fisher</strong> (1930)</a>: the rate of adaptation is the fitness variance</li>
+  <li><strong>The channel picture</strong>: finite populations make selection a noisy channel, with capacity set by the population $N_e$</li>
+</ul>
+
+<p>These fit together into a picture where selection has a finite, calculable throughput — and this throughput constrains what evolution can and can’t do.  I’ll develop the noiseless case first (Haldane, Fisher), then add the finite-population noise that makes the channel picture precise.</p>
+
+<p>I’ll assume you’re comfortable with probability distributions and have a rough sense of KL divergence (“extra bits from using the wrong code”).</p>
+
+<h2 id="selection-is-reweighting">Selection is reweighting</h2>
+
+<p><em>The one equation that defines selection: reweight by fitness, renormalize.  This is Bayes’ theorem.</em></p>
+
+<p>Let the population have a distribution $p$ over types $i$.  Each type has fitness $w_i \geq 0$ (definitionally satisfying the equation below).  Selection produces a new generation with distribution $q$:</p>
+
+\[q_i = \frac{p_i \, w_i}{\bar{w}}, \qquad \bar{w} = \sum_j p_j w_j\]
+
+<p>“Reweight by fitness, then renormalize”.  Note that in using distributions, we are tracking only type <em>ratios</em>, not the absolute population.</p>
+
+<p>This is Bayes’ theorem: $p$ is the prior, $w_i/\bar{w}$ is the likelihood ratio, and $q$ is the posterior.  Selection updates a population the way evidence updates a belief.  (This is also the redistribution rule for a market of Kelly bettors — wealth flows to strategies in proportion to their payoff, then renormalizes.  See Garrabrant’s <a href="https://www.lesswrong.com/s/4hmf7rdfuXDJkxhfg">Geometric Rationality</a> for more.)</p>
+
+<p>For now, the types can be anything — organisms, hairstyles, hypotheses; but nothing that has sex (recombination breaks this simple replicator structure).  The environment has structure, reflected in $w_i$, and selection writes that structure into the population.  Actually modeling $w_i$ is tricky, so for now we will assume they are fixed and given, and we will focus on the dynamics of selection.</p>
+
+<p>We will answer the following:</p>
+<ul>
+  <li>What is the cost of selection?</li>
+  <li>How long does selection take?</li>
+  <li>Are there information-theoretic limits to how selection can act?  (yes, of course)</li>
+</ul>
+
+<h2 id="the-cost-of-a-substitution">The cost of a substitution</h2>
+
+<p><em>The total cost (measured in growth shortfall) to fix a new allele is $-\ln p_0$ nats — the surprisal of its initial frequency — independent of selection strength.</em></p>
+
+<p>Consider a favoured allele with <strong>selective advantage</strong> $s$: carriers have fitness $1+s$, non-carriers have fitness 1 (so $s$ is the fractional fitness benefit, typically small).  The allele starts at population frequency $p_0$ and will eventually fix (reach frequency 1).  Write $p_t$ for its frequency in generation $t$.</p>
+
+<p>While fixation is incomplete, the population pays a <strong>genetic load</strong> — the fractional shortfall in mean fitness relative to a population where everyone carries the favoured allele.  It’s a dimensionless number between 0 and 1, measuring the fraction of potential fitness “wasted” each generation because some individuals still carry the inferior variant.  If we were tracking population, it would be the ‘lost’ population due to suboptimality.  With the favoured allele at frequency $p_t$, the mean fitness is $\bar{w}_t = 1 + sp_t$ while the maximum possible is $1 + s$, giving:</p>
+
+\[L_t = 1 -\frac{\bar{w}_t}{w_{\textrm{max}}} = \frac{s(1 - p_t)}{1 + s} \approx s(1 - p_t) \quad \text{(for small } s\text{)}\]
+
+<p>Large when the favoured allele is rare, zero at fixation.</p>
+
+<p>Haldane’s insight was to ask: what is the <strong>total cost</strong> — the load accumulated across all generations from initial appearance to fixation?  Again, if we were working in terms of population, it would be like the total population loss due to suboptimality.  To convert this sum over generations into an integral over frequency, we use the standard selection dynamics: under selection alone, the per-generation frequency change is $\Delta p \approx sp(1-p)$, so one generation corresponds to $dp/[sp(1-p)]$.  Substituting $L \approx s(1-p)$:</p>
+
+\[C = \int_{p_0}^{1}\frac{s(1-p)}{sp(1-p)}\,dp = \int_{p_0}^{1}\frac{dp}{p} = -\ln p_0\]
+
+<p>The $s$ cancels.  Strong selection means high load per generation but fewer generations; weak selection is the reverse.  The total depends only on initial frequency — and it’s a pure number, measured in nats (natural logarithm units), interpretable as a dimensionless “information cost.”</p>
+
+<p>This is the <strong>surprisal</strong> — the same quantity that shows up in information theory as the information content of an event with probability $p_0$.  Learning that a rare event occurred (or, equivalently, driving a rare allele to fixation) costs an amount set by how improbable that starting point was.  (This is exact in the simplest genetic models; sexual reproduction and dominance effects introduce correction factors, but the key point — cost = surprisal, independent of $s$ — is robust.)</p>
+
+<h2 id="information-per-generation">Information per generation</h2>
+
+<p><em>Parent and offspring distributions differ by $D_{\textrm{KL}}(q|p)$ per generation.</em></p>
+
+<p>How much information does one round of selection extract?  The KL divergence from post- to pre-selection (q, and p, resp.):</p>
+
+\[D_{\text{KL}}(q \| p) = \sum_i q_i \ln\frac{q_i}{p_i} = \mathbb{E}_q[\ln w] - \ln\bar{w}\]
+
+<p>Always non-negative, zero when all fitnesses are equal — nats of information written per generation.  (We use $D_{\text{KL}}(q | p)$ — information gained by updating from prior $p$ to posterior $q$ — the direction measuring information gained in the update.)</p>
+
+<p>Perhaps a little more enlightening, for a very weak selection ($w_i \approx 1 + s_i$, $s_i$ small), this simplifies:</p>
+
+\[D_{\text{KL}} \approx \tfrac{1}{2}\,\text{Var}_p(\ln w)\]
+
+<p>No fitness variance, no information.  More variance, more per round.  This is <a href="https://en.wikipedia.org/wiki/Fisher%27s_fundamental_theorem_of_natural_selection">Fisher’s fundamental theorem (1930)</a> — “the rate of increase of fitness equals the variance in fitness” — reread as an information-theoretic statement.  A subtlety: Fisher’s precise claim is about the <em>partial</em> change in mean fitness due to natural selection alone, holding environment constant and excluding frequency-dependent effects.  Total mean fitness can decrease (e.g., if the environment deteriorates).  The theorem says selection’s <em>contribution</em> is always non-negative and equal to the fitness variance.  (Precisely: Fisher gives $\Delta\bar{w}/\bar{w} \approx \text{Var}(\ln w)$, which is twice the per-generation KL — the factor of 2 comes directly from $D_{\text{KL}} \approx \frac{1}{2}\text{Var}(\ln w)$ in the weak-selection expansion above.  See <a href="https://arxiv.org/abs/1211.4037">Frank (2012)</a>, who handles the partial/total distinction carefully, for the full information-theoretic reading.)</p>
+
+<h2 id="selection-as-a-noisy-channel">Selection as a noisy channel</h2>
+
+<p><em>Finite populations add drift noise to the selection signal.  This section derives the exact noise, shows when it’s well-approximated by a Gaussian channel, and identifies the capacity.</em></p>
+
+<p>Everything above was the infinite-population limit — deterministic selection, no noise.  Real populations are finite, and the reach of selection thereby constrained.</p>
+
+<h3 id="the-exact-picture-binomial-noise">The exact picture: binomial noise</h3>
+
+<p>In a population of effective size $N_e$ ($N_e$ is ‘effective population’ seen by drift, basically shunts some complexities we don’t want to care about for now to the difference between $N$ and $N_e$), selection computes ideal next-generation frequencies $q_i = p_i w_i / \bar{w}$.  But the actual next generation is formed by <strong>sampling</strong>: each of $N_e$ offspring independently draws its type from the distribution $q$ — individual $k$ is type $i$ with probability $q_i$, independently across all $N_e$ individuals.  (This is the ‘Wright-Fisher’ model.)  The realized frequencies therefore fluctuate around $q$.  This is <strong>genetic drift</strong>: the information-destroying noise in the selection channel.  (well, <em>one</em> form of noise.)</p>
+
+<p>For a single allele at frequency $q$, the number of copies in the next generation is drawn from a binomial distribution, so the realized frequency $\hat{q}$ has:</p>
+
+\[\mathbb{E}[\hat{q}] = q, \qquad \text{Var}(\hat{q}) = \frac{q(1-q)}{N_e}\]
+
+<p>Formulating the problem as a noisy channel is exact — below we’ll introduce some pretty reasonable approximations to make things tractable.</p>
+
+<h3 id="the-channel-formally">The channel, formally</h3>
+
+<p>In information-theoretic terms, the selection channel is:</p>
+
+<ul>
+  <li><strong>Input</strong>: the post-selection frequency $q = p \cdot w / \bar{w}$ (what selection prescribes)</li>
+  <li><strong>Output</strong>: the realized frequency $\hat{q}$ (what drift delivers)</li>
+  <li><strong>Transition kernel</strong>: $P(\hat{q} \mid q) = \text{Bin}(N_e, q) / N_e$</li>
+</ul>
+
+<p>The information transmitted per generation is the mutual information $I(q;\, \hat{q})$ — how much knowing the prescribed frequency reduces uncertainty about the realized frequency.  The channel capacity is:</p>
+
+\[C = \max_{p(q)} I(q;\, \hat{q})\]
+
+<p>maximized over possible input distributions (i.e., over selection regimes).  This relationship is well-defined in great generality.  Below we’ll specify to the Gaussian case to get a look-see at what a closed form would look like.</p>
+
+<h3 id="the-gaussian-approximation">The Gaussian approximation</h3>
+
+<p>The exact distribution is discrete: the count of allele copies is $k \sim \text{Bin}(N_e, q)$, so the realized frequency $\hat{q} = k/N_e$ can only take values $0, 1/N_e, 2/N_e, \ldots, 1$.  But since $\hat{q}$ is the mean of $N_e$ independent Bernoulli$(q)$ draws (each individual either carries the allele or doesn’t), the central limit theorem gives us, for large $N_e$ and $q$ away from 0 and 1:</p>
+
+\[\hat{q} \;\approx\; \mathcal{N}\!\left(q, \;\frac{q(1-q)}{N_e}\right) \qquad \text{(Gaussian approximation to } \text{Bin}(N_e, q)/N_e\text{)}\]
+
+<p>This replaces the exact discrete, bounded binomial with a continuous, unbounded Gaussian.  The approximation is good when $N_e q$ and $N_e(1-q)$ are both large — the regime that matters most, since alleles at intermediate frequency in large populations carry the bulk of information transmission.  It breaks down near fixation ($q \approx 0$ or $1$), where the binomial is skewed.</p>
+
+<p>Under this approximation, the channel decomposes cleanly.  The <strong>signal</strong> is the deterministic frequency shift imposed by selection: $\Delta p = q - p \approx sp(1-p)$ (from the selection equation in the previous section, where $s$ is the selective advantage).  The <strong>noise</strong> is the drift fluctuation $\hat{q} - q$, with standard deviation $\sqrt{q(1-q)/N_e}$.  The per-generation signal-to-noise ratio for a single allele is therefore of order $s\sqrt{N_e}$ — this is an <em>amplitude</em> ratio (signal divided by noise standard deviation).  The capacity formula below uses a <em>power</em> SNR, which is the square of this: $N_e \cdot \text{Var}(\ln w) \sim N_e s^2$.  In any single generation the noise can swamp the signal.  But this is Shannon’s setting: what rate of <em>reliable</em> transmission does the noise permit?</p>
+
+<h3 id="three-kinds-of-randomness">Three kinds of randomness</h3>
+
+<p>Biological populations have several sources of randomness playing structurally different roles in the channel.  By analogy with a communication system: there is noise at the input, during transmission, and at readout.</p>
+
+<p><strong>Drift</strong> (sampling noise in reproduction) is <strong>channel noise</strong> — noise during transmission.  The next generation is a finite sample from the ideal post-selection distribution, so the realized frequencies deviate from what selection prescribed.  Drift destroys information already in transit.  Its magnitude is set by $N_e$, and it’s what gives the channel its finite capacity.</p>
+
+<p><strong>Phenotype noise</strong> ($V_E$) is <strong>readout noise</strong>.  Selection acts on phenotype, but only genotype is inherited.  Since phenotype = genotype + noise ($z = g + \epsilon$), selection can only “read” the genetic signal through a noisy phenotypic measurement.  This degrades the effective SNR — it reduces how strongly genetic fitness differences translate into frequency changes — without being channel noise in the drift sense.  (I say “phenotype noise” rather than “environmental variance” deliberately: later we’ll want to model time-varying fitness landscapes, which is a different kind of environmental variation.  Just beware that ‘environmental variance’ is commonly used for this)</p>
+
+<p><strong>Mutations</strong> are <strong>input noise</strong> — or more precisely, they alter the input distribution.  Mutation is uniquely important: it is the only force that prevents the absorbing-state (fixation) steady state.  Without mutation, every locus eventually fixes regardless of $N_e$ — drift guarantees it.  But all three sources shape the steady-state distribution jointly: drift broadens the frequency spectrum toward the fixation boundaries, phenotype noise weakens the effective selection that would otherwise concentrate probability at the optimum, and mutation maintains standing variation by creating flux away from those boundaries.</p>
+
+<p>The distinction matters because these sources respond to different parameters.  Increasing $N_e$ reduces channel noise (and sharpens the steady-state distribution around its selective peak).  Reducing $V_E$ sharpens the readout (strengthening effective selection).  Mutation rate controls the input variance and, critically, whether polymorphism persists at all.</p>
+
+<h3 id="the-mapping">The mapping</h3>
+
+<p>The selection channel, exact and under the Gaussian approximation (with a bit of duct tape).  The main piece of duct tape: the standard capacity formula $\frac{1}{2}\ln(1 + \text{SNR})$ assumes signal-independent additive noise, but the drift variance $q(1-q)/N_e$ depends on the allele frequency $q$ itself.  The approximation is reasonable because the alleles carrying most of the information are at intermediate frequencies, where $q(1-q)$ varies slowly (it’s within a factor of 2 of its maximum $1/4$ for $q \in [0.15, 0.85]$).  Near fixation the noise vanishes and the channel becomes nearly noiseless — which is actually favorable, since it means drift can’t easily undo a nearly-fixed allele.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th>Selection (exact)</th>
+      <th>Gaussian approximation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Channel</td>
+      <td>$q \to \hat{q} \sim \text{Bin}(N_e, q)/N_e$</td>
+      <td>$\hat{q} \approx \mathcal{N}(q,\; q(1-q)/N_e)$</td>
+    </tr>
+    <tr>
+      <td>Signal</td>
+      <td>Selective shift $q - p$</td>
+      <td>Power: $\text{Var}(\ln w)$</td>
+    </tr>
+    <tr>
+      <td>Noise</td>
+      <td>$\text{Var}(\hat{q} \mid q) = q(1-q)/N_e$</td>
+      <td>$\approx 1/N_e$ (order of magnitude)</td>
+    </tr>
+    <tr>
+      <td>SNR</td>
+      <td>—</td>
+      <td>$\approx N_e \cdot \text{Var}(\ln w)$</td>
+    </tr>
+    <tr>
+      <td>Capacity</td>
+      <td>$\max_{p(q)} I(q;\, \hat{q})$ (no closed form)</td>
+      <td>$\frac{1}{2}\ln(1 + N_e \cdot \text{Var}(\ln w))$ nats/gen</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>In the exact column, the noise variance $q(1-q)/N_e$ depends on allele frequency; $1/N_e$ is the order of magnitude.  Signal power and SNR don’t decompose as cleanly for the discrete binomial, so the exact column goes directly from noise to capacity via mutual information.</p>
+
+<p>The boundary between neutral and selected variation — the most important divide in population genetics — is the <strong>SNR $\approx$ 1 threshold</strong>.  When $N_e s \ll 1$, drift dominates and selection can’t resolve the fitness difference.  When $N_e s \gg 1$, the signal gets through.  The classical criterion $N_e s \approx 1$ is the channel’s noise floor.</p>
+
+<p>This also connects back to Haldane.  The channel capacity bounds the throughput in nats per generation; Haldane’s cost gives the price per substitution ($-\ln p_0$ nats).  Together: the maximum rate of adaptive substitution $\approx$ capacity $/ (-\ln p_0)$.  You can’t fix alleles faster than the channel allows.</p>
+
+<h2 id="why-gaussian--and-why-you-can-predict-the-width">Why Gaussian — and why you can predict the width</h2>
+
+<p><em>Under stabilizing selection, the channel argument predicts not just the shape of trait distributions but their equilibrium variance.</em></p>
+
+<p>Most complex traits sit under <strong>stabilizing selection</strong>: there’s an optimal value $z^*$, and fitness falls off for deviations from it.  Near the optimum, the fitness function is well-approximated by a quadratic penalty:</p>
+
+\[\ln w(z) \approx \text{const} - \frac{H}{2}(z - z^*)^2\]
+
+<p>where $H$ measures the curvature of the fitness landscape (stronger stabilizing selection = larger $H$).  This quadratic log-fitness is precisely a Gaussian channel: the “noise” from environmental variance and drift is additive, and the penalty for deviating from the optimum is quadratic in the deviation.</p>
+
+<p>For Gaussian channels, information theory tells us the capacity-achieving input distribution is Gaussian.  So the CLT gives you the <em>mechanism</em> (many small genetic contributions sum to a Gaussian), and the channel argument gives you the <em>optimality condition</em> (a Gaussian input distribution maximizes the information selection extracts per generation).  Populations under stabilizing selection converge to the distribution that makes best use of the available channel capacity.</p>
+
+<p>The punchline is that the argument predicts the <strong>width</strong>, not just the shape.  Every generation, mutation injects new genetic variance at rate $V_m$ (the mutational variance).  Stabilizing selection removes variance — alleles far from the optimum are selected against.  At equilibrium, input balances removal.  <a href="https://www.cambridge.org/core/journals/genetics-research/article/maintenance-of-genetic-variability-by-mutation-in-a-polygenic-character-with-linked-loci/D12E61BA54B9B4BE2480C13E15757432">Lande (1975)</a> showed the equilibrium genetic variance is:</p>
+
+\[V_G \approx \sqrt{V_m / H}\]
+
+<p>Here $V_G$ is the total genetic variance of the trait (summed across loci), $V_m$ is the total per-generation mutational variance, and $H$ is the curvature of the fitness landscape.  Tighter stabilizing selection (larger $H$) or lower mutational input (smaller $V_m$) means a narrower trait distribution.  This is a quantitative, testable prediction — but it’s sensitive to assumptions about the distribution of mutational effect sizes.  Lande’s result assumes a Gaussian model where each mutation has a small effect.  <a href="https://doi.org/10.1016/0040-5809(84)90006-X">Turelli (1984)</a> showed that under a “house of cards” approximation — where each mutation’s phenotypic effect is large relative to standing variation — the equilibrium shifts to $V_G \propto V_m$ instead.  Real populations likely live somewhere between these regimes, so the square-root scaling is a useful benchmark rather than a universal law.</p>
+
+<p>One qualifier: this is the equilibrium result under stabilizing selection.  Directional selection — where the optimum is shifting — is a different regime with different dynamics, and is the setting where the channel capacity bound on adaptation rate bites hardest.</p>
+
+<h2 id="consequences">Consequences</h2>
+
+<p>The channel picture gives population genetics a budget.  $N_e$ sets the bandwidth; everything else follows from how that bandwidth is spent.</p>
+
+<p><strong>Most variation is neutral — forced by the throughput limit.</strong>  This is <a href="https://www.nature.com/articles/217624a0">Kimura’s neutral theory (1968)</a>, and the channel argument shows it’s a consequence of the capacity bound — not just an empirical observation, but forced by the throughput limit.  The channel capacity bounds the rate of adaptive substitution; Haldane’s cost sets the price per substitution.  Together they imply that selection can only act on a small fraction of loci at once.  Most variation <em>must</em> drift neutrally — there isn’t enough bandwidth.  Kimura was originally motivated by Haldane’s cost calculation: the observed rate of molecular substitution in mammals (~1 substitution per 300 generations; <a href="https://www.nature.com/articles/217624a0">Kimura 1968</a>) seemed too high for all substitutions to be adaptive, given the genetic load each one imposes (<a href="https://link.springer.com/article/10.1007/BF02984069">Haldane 1957</a>).  A further prediction: neutral substitutions accumulate at a rate equal to the per-individual per-generation mutation rate $\mu$, independent of population size — a population produces $2N\mu$ new neutral mutations per generation, each fixing with probability $1/(2N)$, giving a substitution rate of $\mu$.  The $N$ cancels.  This is the molecular clock, derived from neutral theory and broadly confirmed.</p>
+
+<p><strong>Most of the bandwidth goes to maintenance.</strong>  Most mutations are deleterious, and most of what selection actually does is remove them — Miller’s “black rain” of mutation constantly degrading the genome, with purifying selection constantly bailing it out.  The channel capacity that remains for <em>adaptive</em> innovation is what’s left after this upkeep.  (Miller’s <a href="https://en.wikipedia.org/wiki/The_Mating_Mind"><em>The Mating Mind</em> (2000)</a> is the best popular treatment of what this implies.  Its thesis about sexual selection is self-admittedly speculative, but the underlying model of how mutation load, purifying selection, and honest signaling fit together is carefully argued and genuinely illuminating.  See also Malmesbury’s <a href="https://www.lesswrong.com/posts/yA8DWsHJeFZhDcQuo/the-talk-a-brief-explanation-of-sexual-dimorphism">The Talk</a> on LessWrong for a concise version.)</p>
+
+<h2 id="where-next">Where Next?</h2>
+
+<p>My ultimate interest is in neural networks - so whither Darwin?  I am exploring a selectionist theory of how structured computation arises when learners are trained on structured data.  I have two lines of thinking here:</p>
+<ol>
+  <li>Robustness to ‘noise’ should encourage ‘modularity’, and for different noise models, we should be able to estimate an ‘effective loss’ which encourages modularity.  This is the justification for why we add regularizers to our loss, but hopefully from a more top-down perspective.</li>
+  <li>Circuits arise out of competition between multiple contemporary circuits with different generalization properties - as data comes in, the poor-generalizers are ‘outcompeted’.  <a href="https://arxiv.org/abs/2404.16367">Ahuja et al. (2024)</a> find this occurs in transformers trained on synthetic grammars.</li>
+</ol>
+
+<p>The relation to alignment is twofold - one, I want an account of how structured <em>data</em> induces structured <em>computation</em> in a learner, and for the moment this seems a promising way to reason about this.  Ideally this would let us predict <em>how structured</em> a network should be.  Two, much more speculatively, I think that <em>hierarchical</em> selection (e.g., selection over circuits-of-circuits) might be a good way to think about ‘higher levels of organization’ in neural networks.</p>
+
+<p>I’m still working out the math, and the best way to correspond the selection picture to the traditional SGD picture.</p>
+
+<p><strong>Further reading:</strong> Steven Frank’s <a href="https://stevefrank.org/natsel/natsel.html"><em>Natural Selection</em></a> series develops many of these information-theoretic connections with more depth and rigor than I have here.  I haven’t read it thoroughly, but from what I’ve seen it covers similar ground from the perspective of someone who has spent decades on this — worth checking out if this post resonated.</p>
+
+<hr />
+
+<p><em>Written with help from Claude.</em></p>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer with basic info -->
+  <footer>
+    <p>&copy; 2026 Fruit of Preterition. Powered by <a href="https://pages.github.com/">GitHub
+        Pages</a>.</p>
+  </footer>
+</body>
+
+</html>

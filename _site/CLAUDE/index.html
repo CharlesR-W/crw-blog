@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>CRW Blog</title>
+
+  <!-- Badge styling -->
+  <style>
+    .badges { margin: 0.5em 0 1.5em 0; }
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      margin: 2px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 3px;
+      font-size: 0.85em;
+      color: var(--muted);
+    }
+  </style>
+
+  <!-- MathJax configuration for LaTeX rendering -->
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true,
+        tags: 'ams'
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        ignoreHtmlClass: "tex2jax_ignore",
+        processHtmlClass: "tex2jax_process"
+      },
+      svg: {
+        fontCache: 'global'
+      },
+      startup: {
+        pageReady: function () {
+          return MathJax.startup.defaultPageReady().then(function () {
+            console.log('MathJax is loaded and ready');
+          });
+        }
+      }
+    };
+  </script>
+  <script type="text/javascript" async src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-svg.js"></script>
+
+  <!-- Site stylesheet -->
+  <link rel="stylesheet" href="/crw-blog/assets/css/style.css">
+</head>
+
+<body>
+  <!-- Header and site title -->
+  <header>
+    <h1>Fruit of Preterition</h1>
+    <nav>
+      <ul>
+        <li><a href="/crw-blog/">Home</a></li>
+        <li><a href="/crw-blog/seeds/">Seeds <span class="wip-badge">WIP</span></a></li>
+        <li><a href="/crw-blog/shortform/">Shortform</a></li>
+        <li><a href="/crw-blog/nulla-dies/">Nulla Dies</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main content of the page -->
+  <main>
+    <div class="site-container">
+      <div class="content">
+        
+        
+        <h1 id="crw-blog">CRW Blog</h1>
+
+<p>Jekyll blog. Posts go in <code class="language-plaintext highlighter-rouge">_posts/</code> with format <code class="language-plaintext highlighter-rouge">YYYY-MM-DD-Title.md</code>.</p>
+
+<h2 id="writing-style">Writing Style</h2>
+
+<p><strong>Read <code class="language-plaintext highlighter-rouge">STYLE.md</code> in this directory before writing any post.</strong> It contains CRW’s voice, vocabulary, structural patterns, and a NEVER list. Follow it closely.</p>
+
+<p>The style file is iteratively refined — when CRW corrects your writing during a session, update STYLE.md with the correction so future sessions benefit.</p>
+
+<h2 id="front-matter">Front Matter</h2>
+
+<p>Posts use YAML front matter:</p>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">---</span>
+<span class="na">title</span><span class="pi">:</span> <span class="s2">"</span><span class="s">Post</span><span class="nv"> </span><span class="s">Title"</span>
+<span class="na">date</span><span class="pi">:</span> <span class="s">YYYY-MM-DD</span>
+<span class="na">math</span><span class="pi">:</span> <span class="no">true</span>        <span class="c1"># include if post has LaTeX</span>
+<span class="na">tags</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">shortform</span><span class="pi">]</span>  <span class="c1"># optional: nulla-dies, shortform, seed, math</span>
+<span class="nn">---</span>
+</code></pre></div></div>
+
+<h2 id="attribution">Attribution</h2>
+
+<p>All Claude-assisted posts must include attribution (e.g. “Written with Claude.” or “Revised with Claude.”) — see STYLE.md for details.</p>
+
+<h2 id="eag-writeup-plans">EAG Writeup Plans</h2>
+
+<p>Current writing project plans are at <code class="language-plaintext highlighter-rouge">~/Documents/Vault/MATS/EAG-writeup-plans.md</code>. Each post has a list of context files to read before starting work.</p>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer with basic info -->
+  <footer>
+    <p>&copy; 2026 Fruit of Preterition. Powered by <a href="https://pages.github.com/">GitHub
+        Pages</a>.</p>
+  </footer>
+</body>
+
+</html>

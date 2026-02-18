@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Half-Length Rewrites</title>
+
+  <!-- Badge styling -->
+  <style>
+    .badges { margin: 0.5em 0 1.5em 0; }
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      margin: 2px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 3px;
+      font-size: 0.85em;
+      color: var(--muted);
+    }
+  </style>
+
+  <!-- MathJax configuration for LaTeX rendering -->
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true,
+        tags: 'ams'
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        ignoreHtmlClass: "tex2jax_ignore",
+        processHtmlClass: "tex2jax_process"
+      },
+      svg: {
+        fontCache: 'global'
+      },
+      startup: {
+        pageReady: function () {
+          return MathJax.startup.defaultPageReady().then(function () {
+            console.log('MathJax is loaded and ready');
+          });
+        }
+      }
+    };
+  </script>
+  <script type="text/javascript" async src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-svg.js"></script>
+
+  <!-- Site stylesheet -->
+  <link rel="stylesheet" href="/crw-blog/assets/css/style.css">
+</head>
+
+<body>
+  <!-- Header and site title -->
+  <header>
+    <h1>Fruit of Preterition</h1>
+    <nav>
+      <ul>
+        <li><a href="/crw-blog/">Home</a></li>
+        <li><a href="/crw-blog/seeds/">Seeds <span class="wip-badge">WIP</span></a></li>
+        <li><a href="/crw-blog/shortform/">Shortform</a></li>
+        <li><a href="/crw-blog/nulla-dies/">Nulla Dies</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main content of the page -->
+  <main>
+    <div class="site-container">
+      <div class="content">
+        
+        
+        <h1 id="half-length-rewrites">Half-Length Rewrites</h1>
+
+<p>Today’s writing exercise: take a verbose paragraph and rewrite it in half the words or fewer, preserving all claims.</p>
+
+<h2 id="1-renormalization-group-97--31-words">1. Renormalization Group (97 → 31 words)</h2>
+
+<blockquote>
+  <p>The key insight behind renormalization group methods is essentially that when you are trying to understand the behavior of a physical system at large scales, it turns out that you don’t actually need to keep track of all of the microscopic details. What you can do instead is to systematically integrate out the short-distance degrees of freedom, and in doing so you obtain an effective description that captures all of the relevant physics at the scale you care about. It is perhaps worth noting that this procedure also reveals which quantities are universal and which are not.</p>
+</blockquote>
+
+<p>Renormalization methods permit systematically ignoring dynamics below a specified scale.  The result is an effective theory for physics above that scale.  We call ‘universal’ quantities which approach a definite value for very large scales.</p>
+
+<h2 id="2-causal-inference-89--32-words">2. Causal Inference (89 → 32 words)</h2>
+
+<blockquote>
+  <p>A fundamental difficulty with causal inference is that we can never directly observe counterfactual outcomes. When we say that a treatment caused an effect, what we really mean is that the outcome that was observed under treatment differs from the outcome that would have been observed had the treatment not been administered, but of course we cannot observe both of these outcomes for the same individual. This is sometimes referred to as the “fundamental problem of causal inference,” and it means that causal claims always require some form of untestable assumptions.</p>
+</blockquote>
+
+<p>The ‘fundamental problem of causal inference’ is that causal effects are measured against counterfactual outcomes.  We cannot observe counterfactuals, so we must make untestable assertions of them in order to proceed.</p>
+
+<h2 id="3-fisher-information-103--49-words">3. Fisher Information (103 → 49 words)</h2>
+
+<blockquote>
+  <p>There is a deep connection between the geometry of a parameter space and the statistical properties of the models that live on it. The Fisher information matrix defines a Riemannian metric on the space of probability distributions, and this metric has the remarkable property that it is the unique metric (up to a constant factor) that is invariant under sufficient statistics. What this means in practice is that distances in parameter space, when measured using the Fisher metric, correspond to how statistically distinguishable two nearby models are, regardless of how we happen to have parameterized them.</p>
+</blockquote>
+
+<p>Model-space is a Riemannian space with the Fisher information matrix as its metric.  The Fisher information is the unique metric which is invariant under reparametrizations of the underlying model.  The induced Fisher-Rao distance therefore furnishes a parametrization-independent measure of statistical distance between two models of the family in question.</p>
+
+<p><em>Written with Claude.</em></p>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer with basic info -->
+  <footer>
+    <p>&copy; 2026 Fruit of Preterition. Powered by <a href="https://pages.github.com/">GitHub
+        Pages</a>.</p>
+  </footer>
+</body>
+
+</html>
