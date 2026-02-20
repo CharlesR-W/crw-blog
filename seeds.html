@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Seeds (Experimental)
+title: Seeds
 permalink: /seeds/
 ---
 
@@ -13,16 +13,10 @@ permalink: /seeds/
   .seed-item .context strong { color: var(--muted); }
 </style>
 
-<h2>Seeds (Experimental)</h2>
+<h2>Seeds</h2>
 
 <div class="seeds-intro">
-<p style="background: rgba(220,53,69,0.15); padding: 0.8em; border-radius: 4px; border-left: 4px solid #dc3545; color: var(--text);"><strong>Under Construction:</strong> This entire section is <strong>written by Claude</strong> and has <strong>not yet been read or verified by me</strong>. It may contain errors, hallucinations, or misleading explanations. Treat everything here as experimental and unvetted.</p>
-
-<p><em>These are prompts for you to explore with your own LLM.</em></p>
-
-<p>The idea: take a seed, feed it to your preferred language model, and walk through the material together. Ask questions, request clarifications, explore tangents. The seeds provide a starting point—a topic and angle of approach—but the real value comes from the dialogue you have with your own model.</p>
-
-<p>I haven't read these myself yet. They emerged from conversations with Claude that seemed worth preserving, but I make no claims about their accuracy or completeness. Each seed includes the <strong>motivation</strong> (what question prompted it) and <strong>background</strong> (why this angle seemed natural).</p>
+<p>Bite-sized mini-curricula on math and physics topics I find interesting.  Each one is a curated entry point into a subject: the motivation for caring, the right angle of approach, and enough material to get started.  Written with Claude.</p>
 </div>
 
 {% assign seeds = site.posts | where_exp: "post", "post.tags contains 'seed'" %}
