@@ -1,6 +1,7 @@
 ---
 title: "[Poetry] The Infernal Denizens"
 date: "2025-07-04"
+tags: [personal]
 ---
 
 That old-rood god on wooden throne has gone away,  
