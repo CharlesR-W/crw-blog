@@ -16,7 +16,7 @@ First a brief description of the format to give you an idea what I'm talking abo
 ## What Is BP Debate?
 
 <p style="text-align:center"><img src="{{ site.baseurl }}/images/2026-02-19-debate/bp-diagram.png" style="max-width:450px" /></p>
-<p style="text-align:center"><em>The BP debate format.  Four teams, two on each side, speaking in order.  You don't choose your position.</em></p>
+<p style="text-align:center; font-size:0.85em"><em>The BP debate format.  Four teams, two on each side, speaking in order.  You don't choose your position.</em></p>
 
 In British Parliamentary (BP) debate, four teams of two speakers each compete on a motion announced fifteen minutes before the round.  The teams are divided into two "halves" - Opening and Closing - and two "sides" - Government (for the motion) and Opposition (against).  Each speaker gets seven minutes.  A panel of judges ranks all four teams from first to last.  Crucially, you don't choose your side - it's assigned at random.
 
@@ -40,7 +40,7 @@ First, being able to present an exhaustive list of _good_ reasons that the thing
 Second, the random assignment of which side you argue.  This isn't because it makes you a hypocrite rhetorician, but because every time you make an argument, you can see in real time how saying these things makes you _really intensely believe_ that the Dutch _fucking definitely obviously should_ privatize their railroads for about 30 minutes after the curtain falls.  This is, to the reflective person, deeply humbling - you get to watch, live, repeatedly, as the gap between "feeling right" and "being right" looks you in the eye and laughs at you for placing last.
 
 <p style="text-align:center"><img src="{{ site.baseurl }}/images/2026-02-19-debate/ns-train.jpg" style="max-width:450px" /></p>
-<p style="text-align:center">"The mice don't know why the cheese is free."</p>
+<p style="text-align:center; font-size:0.85em"><em>"The mice don't know why the cheese is free."</em></p>
 
 # Rigour
 
@@ -81,7 +81,7 @@ For a quite different kind of humility, back to the "THW be the partner that lov
 Door A:  swallow your pride and argue as if you didn't think it nonsense - you'll quickly learn you were wrong to be _that_ certain, it's at least not _that_ nonsensical.  Also you probably still will lose.  Serves you right for _believing things_.
 
 <p style="text-align:center"><img src="{{ site.baseurl }}/images/2026-02-19-debate/facts-logic.png" style="max-width:400px" /></p>
-<p style="text-align:center">"That which can be destroyed by Facts and Logic should be."</p>
+<p style="text-align:center; font-size:0.85em"><em>"That which can be destroyed by Facts and Logic should be."</em></p>
 
 Door B(ased): if you _really definitely_ think you're right, you can bet it all - you can try to prove, beyond a shadow of a doubt - the judges nod, the pen falls from your opponent's hand as their jaw drops, your crush in the audience swoons - that this motion is a category error.  I doubt this ever happens in real competitive debate, but the idea, the challenge, always electrified me.  I often think I'm right - am I so obviously transparently right that I could argue and win in the teeth of "debating the motion is assholeish-until-proven-otherwise"?  Lol.  So you learn.  My friends will tell you I am notoriously bad at "ontological generosity" - thinking about things in someone else's terms rather than how I would.  But I used to be even worse!!!
 
