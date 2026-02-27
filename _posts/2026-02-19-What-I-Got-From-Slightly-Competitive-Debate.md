@@ -15,13 +15,19 @@ First a brief description of the format to give you an idea what I'm talking abo
 
 ## What Is BP Debate?
 
+<p style="text-align:center"><img src="{{ site.baseurl }}/images/2026-02-19-debate/bp-diagram.png" style="max-width:450px" /></p>
+<p style="text-align:center"><em>The BP debate format.  Four teams, two on each side, speaking in order.  You don't choose your position.</em></p>
+
 In British Parliamentary (BP) debate, four teams of two speakers each compete on a motion announced fifteen minutes before the round.  The teams are divided into two "halves" - Opening and Closing - and two "sides" - Government (for the motion) and Opposition (against).  Each speaker gets seven minutes.  A panel of judges ranks all four teams from first to last.  Crucially, you don't choose your side - it's assigned at random.
 
 Example motions:
-"This House Would abolish the EU's Common Agricultural Policy"
-"This House Believes That it is immoral to become a billionaire"
 
-The one in which I received a truly unforgettable asswhooping: "In a monogamous romantic relationship, insofar as partners cannot love each other an exactly equal amount, THP to be the one which loves the other more." (paraphrased)
+*   "This House Would abolish the EU's Common Agricultural Policy"  (typically with an 'info slide' with some basic facts)
+*   "This House Believes That it is immoral to become a billionaire"
+
+The one in which I received a truly unforgettable asswhooping:
+
+*   "In a monogamous romantic relationship, insofar as partners cannot love each other an exactly equal amount, This House Prefers to be the one which loves the other more." (paraphrased)
 
 ## Truth-Seeking and Memetic Vaccination
 
@@ -33,6 +39,8 @@ First, being able to present an exhaustive list of _good_ reasons that the thing
 
 Second, the random assignment of which side you argue.  This isn't because it makes you a hypocrite rhetorician, but because every time you make an argument, you can see in real time how saying these things makes you _really intensely believe_ that the Dutch _fucking definitely obviously should_ privatize their railroads for about 30 minutes after the curtain falls.  This is, to the reflective person, deeply humbling - you get to watch, live, repeatedly, as the gap between "feeling right" and "being right" looks you in the eye and laughs at you for placing last.
 
+<p style="text-align:center"><img src="{{ site.baseurl }}/images/2026-02-19-debate/ns-train.jpg" style="max-width:450px" /></p>
+<p style="text-align:center">"The mice don't know why the cheese is free."</p>
 
 # Rigour
 
@@ -40,7 +48,7 @@ Second, the random assignment of which side you argue.  This isn't because it ma
 
 This one is simple but important; there are other ways to get this, but debate is a good one.  Debate helps you build a feel for something which feels like "what evidence would I have to adduce to change the mind of someone I regard as an intellectual equal."  Importantly, as you get better at arguing, this standard goes up - I can tell you exactly what you would have to show _me_ to get me to disbelieve the second law of thermodynamics.  I also have an estimate for how likely there are to be _good_ arguments I don't know on either side.
 
-(for the second law, see Grandy, [*Entropy and the Time Evolution of Macroscopic Systems*](https://global.oup.com/academic/product/entropy-and-the-time-evolution-of-macroscopic-systems-9780199655434) - he doesn't exactly argue that it's untrue so much as show you how conceptually fraught the claim actually is)
+(for the second law, see Grandy, [_Entropy and the Time Evolution of Macroscopic Systems_](https://global.oup.com/academic/product/entropy-and-the-time-evolution-of-macroscopic-systems-9780199655434) - he doesn't exactly argue that it's untrue so much as show you how conceptually fraught the claim actually is)
 
 ## Argument Literacy
 
@@ -57,19 +65,23 @@ The classical rationalists and the superforecasters ought to nod here - if I am 
 
 Most people arrive at their beliefs by receiving some input, passively evaluating it, and either endorsing or discarding it.  This isn't necessarily an ignoble thing - life is short, time expensive, time to just think rare.  When you start debating, the first few times you get whooped, you can blame it on the topic, or having the wrong side.  Eventually, you'll hit jackpot and get to argue pro for something you believe in very strongly.  You will stand up, stutter for 90 seconds, and gesture wanly to perhaps two things that could be arguments (of the "war is bad" variety), and then sit down shamefacedly as you realize that you cannot actually justify your beliefs.  Optionally, if you're not speaking first, you can spend the rest of your time saying why your opponent is definitely wrong - this can feel a lot like being right, so you'll think it's bullshit the first few times you take last place.  But still, get dunked on enough times by someone visibly-better-at-this-than-you and you'll get the idea.
 
+
 ### Epistemic Humility
 
 It is a fact of life that nontrivial non-science questions ("should I ask so-and-so on a date?") are not very truth-asymmetric - there _should be_ good arguments for either side (see Yudkowsky, [Policy Debates Should Not Appear One-Sided](https://www.lesswrong.com/posts/PeSzc9JTBxhaYRp9b/policy-debates-should-not-appear-one-sided)).  By default, people tacitly assume that being right "feels like" having 10 good reasons to believe as you do, and there being essentially no good reasons to think the other thing.  A subtler version of this is to assume that the marginal piece of evidence will make you look more right with high probability - some things, e.g., atoms, only begin to be evidenced after centuries of collective physics-doing.
 
 Put yourself in the shoes of, say, Newton.  You want to figure out if things are made from atoms, so you think, read, and perhaps come to a tentative conclusion.  But we _know_ that the evidence that mattered was not available - the correct answer wasn't a tepid "yeah, probably, but I'm not sure", it was "I definitely don't know and I think I shouldn't know based on my current read of the evidence" (pace Bayesians).
 
-To what percent of 'important questions' do we have the guts to give a hard 'I don't know'?  Arguendo, the median American has an opinion on tariffs - should they?  Are they reasonably well-informed, at least enough to make an honest guess?  Lmao, you tell me.
+To what percent of 'important questions' do we have the guts to give a hard 'I don't know'?  Arguendo, the median American has an opinion on tariffs - should they?  Are they reasonably well-informed, at least enough to make an honest guess?  Lmao.
 
 ### Ontological Humility
 
 For a quite different kind of humility, back to the "THW be the partner that loves more."  Suppose you think this is a category error, that love is obviously incommensurable between people.  You are faced with a stark, and really quite fun, choice:
 
 Door A:  swallow your pride and argue as if you didn't think it nonsense - you'll quickly learn you were wrong to be _that_ certain, it's at least not _that_ nonsensical.  Also you probably still will lose.  Serves you right for _believing things_.
+
+<p style="text-align:center"><img src="{{ site.baseurl }}/images/2026-02-19-debate/facts-logic.png" style="max-width:400px" /></p>
+<p style="text-align:center">"That which can be destroyed by Facts and Logic should be."</p>
 
 Door B(ased): if you _really definitely_ think you're right, you can bet it all - you can try to prove, beyond a shadow of a doubt - the judges nod, the pen falls from your opponent's hand as their jaw drops, your crush in the audience swoons - that this motion is a category error.  I doubt this ever happens in real competitive debate, but the idea, the challenge, always electrified me.  I often think I'm right - am I so obviously transparently right that I could argue and win in the teeth of "debating the motion is assholeish-until-proven-otherwise"?  Lol.  So you learn.  My friends will tell you I am notoriously bad at "ontological generosity" - thinking about things in someone else's terms rather than how I would.  But I used to be even worse!!!
 
@@ -86,10 +98,13 @@ Pause.
 Breathe.
 
 Let the normie finish their tariff thing.
+
 Nod thoughtfully.
+
 Smile warmly.
 
 People can learn if you help them - isn't that how you got here?
+
 Try to make a new friend.
 
 
@@ -97,7 +112,9 @@ Try to make a new friend.
 
 Debate is not the art of fatuous rhetoric.  It is one of few things where, even modulo selection effects, I think it reliably _makes people smarter_ to do it somewhat seriously for a few years.  I'm probably on the far end of the bell curve for how useful I've found it (I'm writing about it - _that_ selection effect is real ofc), but I think that the friends I've seen stick with it grew more _as people_ than their peers.  I hope I gave some visceral feel for why this is the case.
 
-Everything I've described is contingent on the community of practice - I remember seeing a quote from an American judge to the approximate effect that their convictions as a Maoist meant they could not count arguments based on reactionary-imperialist propaganda.  This commitment to argumentative technique as a propaedeutic to truth-seeking is not the default outcome - it is a deliberately, imperfectly, cultivated living tradition.  There are not many public fora where one could advocate violently establishing a repressive military dictatorship to a handful of slightly-left-of-center white-collar workers and _probably_ still be welcome at drinks after.  This is a fragile and beautiful thing.
+Everything I've described is contingent on the community of practice - I remember seeing a quote from an American judge to the approximate effect that their convictions as a Maoist meant they could not count arguments based on reactionary-imperialist propaganda.  This commitment to argumentative technique as a propaedeutic to truth-seeking is not the default outcome - it is a deliberately, imperfectly, cultivated living tradition.
+
+There are not many public fora where one could advocate violently establishing a repressive military dictatorship to a handful of slightly-left-of-center white-collar workers and _probably_ still be welcome at drinks after.  This is a fragile and beautiful thing.
 
 In a world friendly to all beautiful things, I would say that the experience of debating is so Damascene that anyone who sticks around long enough to run a debate tournament will have internalized these values.  And this is maybe even a little true!  But I do _not_ think debate is so intellectually robustifying that the torch cannot be put out; there are ways to do debate that _are_ exercises in spouting fatuous nonsense very quickly; my guess is if you started a debate club without experienced debaters, it becomes this by default - the difference is a community of practice.  If you have tried debating and found copper rather than gold, I hope now you will find it plausible that there is at least a version of competitive debate which is deeply enriching.
 
