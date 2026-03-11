@@ -42,7 +42,7 @@ Take any distribution, give it a power-law covariance spectrum matching natural 
 
 The Maloney et al. derivation doesn't require feature learning — random features suffice.  Any data with the right spectral decay produces the right scaling behavior.  The covariance structure alone is enough for loss to improve on schedule.  Capabilities don't follow from the covariance spectrum alone; something else is doing the work.
 
-Intuitively, we recognize that NNs generalize and are useful because they learn "good representations".  Power laws do not indicate that we are learning good representations.  There is presumably some structural property about these representations (hierarchy/compositionality is part of the story), but those properties are _not_ encoded in the second order correlators which give rise to scaling.
+Intuitively, we recognize that NNs generalize and are useful because they learn "good representations".  Power laws do not indicate that we are learning good representations.  There is presumably some structural property about these representations (hierarchy/compositionality is part of the story), but those properties are *not* encoded in the second order correlators which give rise to scaling.
 
 ## Three interesting observations
 
@@ -77,4 +77,4 @@ I'm confident there still is some essential structure to be understood - there i
 
 ---
 
-Written with Claude
+Written with edits from Claude
