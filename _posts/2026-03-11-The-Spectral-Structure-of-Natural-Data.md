@@ -1,10 +1,10 @@
 ---
-title: "The Spectral Structure of Natural Data"
+title: "[Notes] The Spectral Structure of Natural Data"
 date: 2026-03-11
 math: true
 ---
 
-*Research notes from [MATS](https://www.matsprogram.org/) 9.0, under the mentorship of Richard Ngo.  These are Claude-generated documents that I have not fully vetted; I'm posting them mainly to give people a sense of what I'm working on.  Feedback welcome.*
+*Research notes from [MATS](https://www.matsprogram.org/) 9.0, under the mentorship of Richard Ngo.  These are Claude-generated documents that I roughly 80% endorse; treat them as research notes rather than polished publications.  I'm posting them mainly to give people a sense of what I'm working on.  Feedback welcome.*
 
 ---
 

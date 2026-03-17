@@ -1,12 +1,12 @@
 ---
-title: "Learning, Order by Order: Technical Foundations"
+title: "[Notes] Learning, Order by Order: Technical Foundations"
 subtitle: "Resolvent algebra, spectral perturbation theory, Fock space, and renormalization group methods"
 date: 2026-03-10
 math: true
 status: "Technical companion"
 ---
 
-*Research notes from [MATS](https://www.matsprogram.org/) 9.0, under the mentorship of Richard Ngo.  These are Claude-generated documents that I have not fully vetted; I'm posting them mainly to give people a sense of what I'm working on.  Feedback welcome.  Technical companion to [Learning, Order by Order]({{ site.baseurl }}/Learning-Order-by-Order/) - each section here is self-contained and develops one piece of the mathematical machinery.  Prerequisite: the main note's setup (learner tensors $$\mathcal{K}_n$$, graded dual pairing, two hat matrices).*
+*Research notes from [MATS](https://www.matsprogram.org/) 9.0, under the mentorship of Richard Ngo.  These are Claude-generated documents that I roughly 80% endorse; treat them as research notes rather than polished publications.  I'm posting them mainly to give people a sense of what I'm working on.  Feedback welcome.  Technical companion to [Learning, Order by Order]({{ site.baseurl }}/Learning-Order-by-Order/) - each section here is self-contained and develops one piece of the mathematical machinery.  Prerequisite: the main note's setup (learner tensors $$\mathcal{K}_n$$, graded dual pairing, two hat matrices).*
 
 ---
 

@@ -1,8 +1,9 @@
 ---
-title: "The Immune System as Anti-Optimizer"
+title: "[Notes] The Immune System as Anti-Optimizer"
 date: 2026-02-08
-tags: [shortform]
 ---
+
+*I roughly 80% endorse the material in this post; Claude wrote most of it.  Treat this as a research note rather than a polished publication.*
 
 # The Immune System as Anti-Optimizer
 

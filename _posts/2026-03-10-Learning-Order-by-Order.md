@@ -1,12 +1,12 @@
 ---
-title: "Learning, Order by Order"
+title: "[Notes] Learning, Order by Order"
 subtitle: "Decomposing how data structure enters learning algorithms via the Volterra series"
 date: 2026-03-10
 math: true
 status: "Research note"
 ---
 
-*Research notes from [MATS](https://www.matsprogram.org/) 9.0, under the mentorship of Richard Ngo.  These are Claude-generated documents that I have not fully vetted; I'm posting them mainly to give people a sense of what I'm working on.  Feedback welcome.  A [technical companion]({{ site.baseurl }}/Learning-Order-by-Order-Technical-Foundations/) develops the heavier machinery (resolvent algebra, Fock space, RG flow).*
+*Research notes from [MATS](https://www.matsprogram.org/) 9.0, under the mentorship of Richard Ngo.  These are Claude-generated documents that I roughly 80% endorse; treat them as research notes rather than polished publications.  I'm posting them mainly to give people a sense of what I'm working on.  Feedback welcome.  A [technical companion]({{ site.baseurl }}/Learning-Order-by-Order-Technical-Foundations/) develops the heavier machinery (resolvent algebra, Fock space, RG flow).*
 
 ---
 
