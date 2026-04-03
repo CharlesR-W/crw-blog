@@ -16,7 +16,7 @@ Posts use YAML front matter:
 title: "Post Title"
 date: YYYY-MM-DD
 math: true        # include if post has LaTeX
-tags: [shortform]  # optional: nulla-dies, shortform, seed, math
+tags: [seed]       # optional: nulla-dies, seed, personal, math
 ---
 ```
 
