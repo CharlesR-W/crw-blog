@@ -17,6 +17,7 @@ permalink: /seeds/
 
 <div class="seeds-intro">
 <p>Bite-sized mini-curricula on math and physics topics I find interesting.  Each one is a curated entry point into a subject: the motivation for caring, the right angle of approach, and enough material to get started.  I picked the topics and angles; Claude fleshed them out into full curricula.</p>
+<p>The idea is that you take a seed and feed it to your own LLM of choice, asking it to expand any section into a full tutorial, work examples, quiz you, or branch into the "what's next" pointers.  The seed is the map; you and your LLM walk the terrain.</p>
 </div>
 
 {% assign seeds = site.posts | where_exp: "post", "post.tags contains 'seed'" %}
