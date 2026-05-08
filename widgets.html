@@ -1,0 +1,35 @@
+---
+layout: default
+title: Widgets
+permalink: /widgets/
+---
+
+<style>
+  .widgets-intro { margin-bottom: 2em; }
+  .widget-item { margin-bottom: 2em; padding-left: 1em; border-left: 3px solid var(--accent); }
+  .widget-item h4 { margin: 0 0 0.3em 0; }
+  .widget-item .meta { font-size: 0.85em; color: var(--muted); margin-bottom: 0.5em; }
+  .widget-item .context { font-size: 0.9em; margin-bottom: 0.3em; }
+  .widget-item .context strong { color: var(--muted); }
+</style>
+
+<h2>Widgets</h2>
+
+<div class="widgets-intro">
+<p>Small interactive things — pharmacokinetics calculators, dynamical-systems toys, math demos.  Each one is a self-contained page you can fiddle with directly in the browser.  No accounts, no tracking, no server round-trips: the math runs in your tab.</p>
+<p>Built with D3 and a little hand-rolled glue.  If something does not match your intuition, that is often where the interesting modeling assumption is hiding — the controls expose the parameters I made educated guesses about.</p>
+</div>
+
+{% assign widgets = site.posts | where_exp: "post", "post.tags contains 'widget'" %}
+{% for post in widgets %}
+<div class="widget-item">
+  <h4><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h4>
+  <div class="meta">{{ post.date | date: "%B %d, %Y" }}{% if post.llm %} · via {{ post.llm }}{% endif %} {% if post.math %}<span class="badge">math</span>{% endif %}</div>
+  {% if post.motivation %}<div class="context"><strong>Motivation:</strong> {{ post.motivation }}</div>{% endif %}
+  {% if post.background %}<div class="context"><strong>Background:</strong> {{ post.background }}</div>{% endif %}
+</div>
+{% endfor %}
+
+{% if widgets.size == 0 %}
+<p><em>No widgets yet.</em></p>
+{% endif %}

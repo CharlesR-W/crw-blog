@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Caffeine PK Widget</title>
+<style>
+  /* Dark palette tuned for crw-blog. Scoped under #caf-widget so this is safe
+     to embed via iframe or {% include %}. */
+  html, body { background: #000; margin: 0; }
+  #caf-widget {
+    --bg: #0b0b0b;
+    --panel: #111;
+    --ink: #f5f5f5;
+    --muted: #9ca3af;
+    --line: rgba(255,255,255,0.12);
+    --line-soft: rgba(255,255,255,0.06);
+    --caf:  #93c5fd;
+    --par:  #fbbf24;
+    --eff:  #fca5a5;
+    --bed:  #9ca3af;
+    --accent: #58a6ff;
+    --accent-bg: rgba(88,166,255,0.15);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: var(--ink);
+    background: linear-gradient(180deg, rgba(20,20,20,0.9), rgba(10,10,10,0.95));
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 14px 16px 18px;
+    max-width: 880px;
+    margin: 1em auto;
+    line-height: 1.45;
+    font-size: 14px;
+    box-sizing: border-box;
+  }
+  #caf-widget * { box-sizing: border-box; }
+  #caf-widget h3 {
+    margin: 0 0 8px;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  #caf-widget .controls {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 8px 14px;
+    margin-bottom: 10px;
+  }
+  #caf-widget .ctrl { display: flex; flex-direction: column; gap: 2px; }
+  #caf-widget .ctrl label {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  #caf-widget .ctrl input[type="number"],
+  #caf-widget .ctrl input[type="time"] {
+    padding: 4px 6px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: var(--panel);
+    color: var(--ink);
+    font-size: 13px;
+    width: 100%;
+  }
+  #caf-widget input[type="checkbox"] { accent-color: var(--accent); }
+  #caf-widget ::-webkit-calendar-picker-indicator { filter: invert(0.7); }
+  #caf-widget .toggles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin: 4px 0 10px;
+    align-items: center;
+  }
+  #caf-widget .toggles label { display: flex; align-items: center; gap: 4px; cursor: pointer; }
+  #caf-widget .toggles input[type="number"] {
+    width: 60px;
+    padding: 2px 4px;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    font-size: 12px;
+  }
+  #caf-widget .doseSrc {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    background: var(--accent-bg);
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 16px;
+    cursor: grab;
+    user-select: none;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  #caf-widget .doseSrc:active { cursor: grabbing; }
+  #caf-widget .hint {
+    font-size: 11px;
+    color: var(--muted);
+    margin-left: auto;
+  }
+  #caf-widget svg { display: block; width: 100%; height: auto; background: var(--panel); border: 1px solid var(--line); border-radius: 6px; }
+  #caf-widget .axis path, #caf-widget .axis line { stroke: var(--line); }
+  #caf-widget .axis text { fill: var(--muted); font-size: 11px; }
+  #caf-widget .grid line { stroke: var(--line-soft); stroke-dasharray: 2 3; }
+  #caf-widget .grid path { stroke: none; }
+  #caf-widget .curve-caf { fill: none; stroke: var(--caf); stroke-width: 2; }
+  #caf-widget .curve-par { fill: none; stroke: var(--par); stroke-width: 1.6; }
+  #caf-widget .curve-eff { fill: none; stroke: var(--eff); stroke-width: 1.6; stroke-dasharray: 5 3; }
+  #caf-widget .bedline { stroke: var(--bed); stroke-width: 1; stroke-dasharray: 4 4; }
+  #caf-widget .bedlabel { fill: var(--bed); font-size: 11px; }
+  #caf-widget .bolus { cursor: ew-resize; }
+  #caf-widget .bolus circle { fill: var(--accent); stroke: #000; stroke-width: 1.4; }
+  #caf-widget .ghost circle { fill: var(--accent); opacity: 0.5; }
+  #caf-widget .legend {
+    display: flex; gap: 14px; align-items: center; flex-wrap: wrap;
+    font-size: 12px; color: var(--ink); margin: 4px 0 6px;
+  }
+  #caf-widget .legend .sw { display: inline-block; width: 18px; height: 2px; vertical-align: middle; margin-right: 4px; }
+  #caf-widget .stats {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 18px;
+    font-size: 12px;
+    color: var(--ink);
+  }
+  #caf-widget .stats b { color: var(--caf); font-weight: 600; }
+  #caf-widget .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 6px; }
+  #caf-widget button.clear {
+    border: 1px solid var(--line); background: var(--panel); color: var(--ink);
+    padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 12px;
+  }
+  #caf-widget button.clear:hover { background: rgba(255,255,255,0.06); }
+  #caf-widget .footnote {
+    font-size: 11px; color: var(--muted); margin-top: 8px; line-height: 1.5;
+  }
+</style>
+</head>
+<body>
+
+<div id="caf-widget">
+  <h3>Caffeine in body — drag a dose onto the timeline</h3>
+
+  <div class="controls">
+    <div class="ctrl"><label>Body weight (kg)</label><input id="caf-weight" type="number" min="20" max="200" step="1" value="70"></div>
+    <div class="ctrl"><label>Caffeine half-life (h)</label><input id="caf-thalf" type="number" min="1" max="12" step="0.1" value="5"></div>
+    <div class="ctrl"><label>Bolus size (mg)</label><input id="caf-dose" type="number" min="10" max="1000" step="10" value="100"></div>
+    <div class="ctrl"><label>Bedtime</label><input id="caf-bed" type="time" value="23:00"></div>
+  </div>
+
+  <div class="toggles">
+    <label><input id="caf-showpar" type="checkbox"> Show paraxanthine</label>
+    <label>t½ par <input id="caf-tpar" type="number" min="1" max="10" step="0.1" value="3.1"></label>
+    <label><input id="caf-showeff" type="checkbox"> Effective caffeine</label>
+    <label>par equiv <input id="caf-fpar" type="number" min="0" max="2" step="0.05" value="0.5"></label>
+  </div>
+
+  <div class="row">
+    <div id="caf-src" class="doseSrc" draggable="false">☕ drag me — adds <span id="caf-srcdose">100</span>&nbsp;mg</div>
+    <button class="clear" id="caf-clear">Clear all</button>
+    <span class="hint">Drag pills to retime · double-click to remove</span>
+  </div>
+
+  <div class="legend" id="caf-legend">
+    <span><span class="sw" style="background:#93c5fd"></span>caffeine</span>
+    <span id="caf-leg-par" style="display:none"><span class="sw" style="background:#fbbf24"></span>paraxanthine</span>
+    <span id="caf-leg-eff" style="display:none"><span class="sw" style="background:repeating-linear-gradient(90deg,#fca5a5 0 5px,transparent 5px 8px)"></span>effective</span>
+    <span style="color:var(--muted)"><span class="sw" style="background:repeating-linear-gradient(90deg,#9ca3af 0 4px,transparent 4px 8px)"></span>bedtime</span>
+  </div>
+
+  <svg id="caf-svg" viewBox="0 0 880 360" preserveAspectRatio="xMidYMid meet"></svg>
+
+  <div class="stats" id="caf-stats"></div>
+
+  <div class="footnote">
+    One-compartment PK with first-order absorption (k<sub>a</sub> ≈ 4 h⁻¹). Y-axis is body load in mg/kg, summed across boluses (linear PK assumed). Paraxanthine modeled as a cascade with f ≈ 0.84 of caffeine elimination feeding it. "Effective caffeine" = caffeine + (par equiv) · paraxanthine. Defaults are population averages; individual variation is large (CYP1A2 polymorphism, smoking, oral contraceptives, pregnancy all matter).
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script>
+(function () {
+  const W = 880, H = 360;
+  const M = { top: 20, right: 18, bottom: 38, left: 50 };
+  const innerW = W - M.left - M.right;
+  const innerH = H - M.top - M.bottom;
+
+  // Time grid (hours since midnight). Show 6am day-1 to 6am day-2 plus a head room.
+  const T_START = 0;     // midnight
+  const T_END   = 30;    // 6 am next day
+  const dt = 1 / 60;     // 1-minute steps
+  const N = Math.round((T_END - T_START) / dt) + 1;
+  const tGrid = d3.range(N).map(i => T_START + i * dt);
+
+  // Pharmacokinetic parameters
+  const k_a = 4.0;                 // 1/h, fast absorption (peak ~50 min)
+  const f_par = 0.84;              // fraction of caffeine elimination → paraxanthine
+
+  // State
+  let boluses = [];                // [{id, t (hours since midnight), dose (mg)}]
+  let nextId = 1;
+
+  // ---- Element handles ----
+  const $ = sel => document.querySelector(sel);
+  const elWeight = $('#caf-weight');
+  const elThalf  = $('#caf-thalf');
+  const elDose   = $('#caf-dose');
+  const elBed    = $('#caf-bed');
+  const elShowPar= $('#caf-showpar');
+  const elTpar   = $('#caf-tpar');
+  const elShowEff= $('#caf-showeff');
+  const elFpar   = $('#caf-fpar');
+  const elClear  = $('#caf-clear');
+  const elSrc    = $('#caf-src');
+  const elSrcDose= $('#caf-srcdose');
+  const elStats  = $('#caf-stats');
+
+  const svg = d3.select('#caf-svg');
+  const root = svg.append('g').attr('transform', `translate(${M.left},${M.top})`);
+
+  // Scales
+  const x = d3.scaleLinear().domain([T_START, T_END]).range([0, innerW]);
+  const y = d3.scaleLinear().range([innerH, 0]);
+
+  // Axes
+  const fmtHour = h => {
+    const wrap = ((h % 24) + 24) % 24;
+    const hh = Math.floor(wrap);
+    const mm = Math.round((wrap - hh) * 60);
+    const s = mm === 0 ? `${hh}:00` : `${hh}:${String(mm).padStart(2,'0')}`;
+    return s;
+  };
+  const xAxis = d3.axisBottom(x).tickValues(d3.range(0, T_END + 1, 3)).tickFormat(fmtHour);
+  const yAxis = d3.axisLeft(y).ticks(5);
+
+  const gridX = root.append('g').attr('class', 'grid').attr('transform', `translate(0,${innerH})`);
+  const gridY = root.append('g').attr('class', 'grid');
+  const gxAxis = root.append('g').attr('class', 'axis').attr('transform', `translate(0,${innerH})`);
+  const gyAxis = root.append('g').attr('class', 'axis');
+
+  // Y label
+  root.append('text')
+    .attr('transform', `rotate(-90)`)
+    .attr('x', -innerH / 2).attr('y', -36)
+    .attr('text-anchor', 'middle').attr('fill', 'var(--muted)').attr('font-size', 11)
+    .text('mg / kg in body');
+
+  // Curves
+  const pathCaf = root.append('path').attr('class', 'curve-caf');
+  const pathPar = root.append('path').attr('class', 'curve-par').style('display', 'none');
+  const pathEff = root.append('path').attr('class', 'curve-eff').style('display', 'none');
+
+  // Bedtime line
+  const gBed = root.append('g');
+
+  // Bolus markers layer (above curves)
+  const gBol = root.append('g');
+
+  // Drop target rectangle (covers plot area). Inserted BEFORE the bolus and curve
+  // groups so it doesn't steal pointer events from them.
+  const dropTarget = root.insert('rect', ':first-child')
+    .attr('x', 0).attr('y', 0).attr('width', innerW).attr('height', innerH)
+    .attr('fill', 'transparent').attr('pointer-events', 'all');
+
+  // ---- PK math ----
+  // Mass in body for a single bolus of dose D taken at t=0, evaluated at t (h, t>=0).
+  // m(t) = D * k_a / (k_a - k_e) * (exp(-k_e t) - exp(-k_a t))
+  function singleCaf(D, k_e, t) {
+    if (t < 0) return 0;
+    const c = D * k_a / (k_a - k_e);
+    return c * (Math.exp(-k_e * t) - Math.exp(-k_a * t));
+  }
+
+  // Compute caffeine and paraxanthine on the grid for the current state.
+  // Returns { caf: Float64Array (mg), par: Float64Array (mg) }
+  function computeCurves() {
+    const k_e = Math.log(2) / parseFloat(elThalf.value || 5);
+    const k_par = Math.log(2) / parseFloat(elTpar.value || 3.1);
+
+    const caf = new Float64Array(N);
+    for (const b of boluses) {
+      for (let i = 0; i < N; i++) {
+        const dt_h = tGrid[i] - b.t;
+        if (dt_h >= 0) caf[i] += singleCaf(b.dose, k_e, dt_h);
+      }
+    }
+    // Paraxanthine via Euler
+    const par = new Float64Array(N);
+    let m = 0;
+    for (let i = 1; i < N; i++) {
+      // dm/dt = f * k_e * caf - k_par * m
+      const dm = (f_par * k_e * caf[i-1] - k_par * m) * dt;
+      m += dm;
+      if (m < 0) m = 0;
+      par[i] = m;
+    }
+    return { caf, par, k_e, k_par };
+  }
+
+  // ---- Render ----
+  function render() {
+    const weight = Math.max(1, parseFloat(elWeight.value || 70));
+    const showPar = elShowPar.checked;
+    const showEff = elShowEff.checked;
+    const fEff = parseFloat(elFpar.value || 0.5);
+    elSrcDose.textContent = parseFloat(elDose.value || 100);
+
+    const { caf, par } = computeCurves();
+
+    // Convert mg → mg/kg for plotting
+    const cafKg = new Float64Array(N);
+    const parKg = new Float64Array(N);
+    const effKg = new Float64Array(N);
+    let yMax = 0.0001;
+    for (let i = 0; i < N; i++) {
+      cafKg[i] = caf[i] / weight;
+      parKg[i] = par[i] / weight;
+      effKg[i] = (caf[i] + fEff * par[i]) / weight;
+      const m = Math.max(cafKg[i], showPar ? parKg[i] : 0, showEff ? effKg[i] : 0);
+      if (m > yMax) yMax = m;
+    }
+    y.domain([0, yMax * 1.1]);
+
+    // Axes
+    gxAxis.call(xAxis);
+    gyAxis.call(yAxis);
+    gridX.call(d3.axisBottom(x).tickValues(d3.range(0, T_END + 1, 3)).tickSize(-innerH).tickFormat(''));
+    gridY.call(d3.axisLeft(y).ticks(5).tickSize(-innerW).tickFormat(''));
+
+    const line = (arr) => d3.line()
+      .x((_, i) => x(tGrid[i]))
+      .y((_, i) => y(arr[i]))
+      .curve(d3.curveMonotoneX)(arr);
+
+    pathCaf.attr('d', line(cafKg));
+    pathPar.style('display', showPar ? null : 'none').attr('d', line(parKg));
+    pathEff.style('display', showEff ? null : 'none').attr('d', line(effKg));
+
+    // Bedtime line
+    const bed = parseBed(elBed.value);
+    gBed.selectAll('*').remove();
+    gBed.append('line').attr('class', 'bedline')
+      .attr('x1', x(bed)).attr('x2', x(bed))
+      .attr('y1', 0).attr('y2', innerH);
+    gBed.append('text').attr('class', 'bedlabel')
+      .attr('x', x(bed) + 4).attr('y', 12).text('bedtime');
+
+    // Boluses (draggable, double-click to remove). Marker radius scales with dose.
+    const sel = gBol.selectAll('g.bolus').data(boluses, d => d.id);
+    sel.exit().remove();
+    const enter = sel.enter().append('g').attr('class', 'bolus')
+      .on('dblclick', (event, d) => {
+        event.stopPropagation();
+        boluses = boluses.filter(b => b.id !== d.id);
+        render();
+      })
+      .call(d3.drag()
+        .on('drag', function(event, d) {
+          d.t = clampT(x.invert(event.x));
+          render();
+        }));
+    enter.append('circle');
+    enter.append('title');
+    const merged = enter.merge(sel);
+    merged.attr('transform', d => `translate(${x(d.t)},${innerH - 7})`);
+    merged.select('circle').attr('r', d => 4 + Math.sqrt(d.dose / 100) * 2);
+    merged.select('title').text(d => `${d.dose} mg at ${fmtHour(d.t)}`);
+
+    // Legend visibility (HTML)
+    document.querySelector('#caf-leg-par').style.display = showPar ? '' : 'none';
+    document.querySelector('#caf-leg-eff').style.display = showEff ? '' : 'none';
+
+    // Stats
+    const totalMg = boluses.reduce((s, b) => s + b.dose, 0);
+    const peakMg = d3.max(caf) || 0;
+    const tBed = bed;
+    const iBed = Math.round((tBed - T_START) / dt);
+    const cafBedMg = caf[iBed] || 0;
+    const effBedMg = (caf[iBed] || 0) + fEff * (par[iBed] || 0);
+    elStats.innerHTML = `
+      <div>Total dose: <b>${totalMg.toFixed(0)} mg</b> (${(totalMg/weight).toFixed(2)} mg/kg)</div>
+      <div>Peak in body: <b>${peakMg.toFixed(0)} mg</b> (${(peakMg/weight).toFixed(2)} mg/kg)</div>
+      <div>At bedtime: <b>${cafBedMg.toFixed(0)} mg caffeine</b> (${(cafBedMg/weight).toFixed(2)} mg/kg)</div>
+      ${showEff ? `<div>Effective at bedtime: <b>${effBedMg.toFixed(0)} mg-eq</b> (${(effBedMg/weight).toFixed(2)} mg/kg)</div>` : ''}
+      <div>Boluses placed: <b>${boluses.length}</b></div>
+    `;
+  }
+
+  // ---- Helpers ----
+  function parseBed(s) {
+    if (!s) return 23;
+    const [h, m] = s.split(':').map(Number);
+    return h + (m || 0) / 60;
+  }
+  function clampT(t) { return Math.max(T_START, Math.min(T_END, t)); }
+
+  // ---- Drag-and-drop add ----
+  // Drag the source pill onto the plot to spawn a new bolus.
+  let ghost = null;
+  d3.select(elSrc).call(
+    d3.drag()
+      .on('start', (event) => {
+        const dose = parseFloat(elDose.value || 100);
+        ghost = root.append('g').attr('class', 'ghost').attr('pointer-events', 'none');
+        ghost.append('circle').attr('r', 7);
+        const ptr = d3.pointer(event, root.node());
+        ghost.attr('transform', `translate(${ptr[0]},${ptr[1]})`);
+        elSrc.style.cursor = 'grabbing';
+      })
+      .on('drag', (event) => {
+        if (!ghost) return;
+        const ptr = d3.pointer(event, root.node());
+        ghost.attr('transform', `translate(${ptr[0]},${ptr[1]})`);
+      })
+      .on('end', (event) => {
+        elSrc.style.cursor = 'grab';
+        if (!ghost) return;
+        const ptr = d3.pointer(event, root.node());
+        const inside = ptr[0] >= 0 && ptr[0] <= innerW && ptr[1] >= 0 && ptr[1] <= innerH;
+        ghost.remove(); ghost = null;
+        if (inside) {
+          const t = clampT(x.invert(ptr[0]));
+          const dose = parseFloat(elDose.value || 100);
+          boluses.push({ id: nextId++, t, dose });
+          render();
+        }
+      })
+  );
+
+  // Click on plot area also adds a bolus (convenience).
+  dropTarget.on('click', function(event) {
+    const ptr = d3.pointer(event, root.node());
+    const t = clampT(x.invert(ptr[0]));
+    const dose = parseFloat(elDose.value || 100);
+    boluses.push({ id: nextId++, t, dose });
+    render();
+  });
+
+  // ---- Wire controls ----
+  [elWeight, elThalf, elDose, elBed, elTpar, elFpar].forEach(el => {
+    el.addEventListener('input', render);
+  });
+  [elShowPar, elShowEff].forEach(el => {
+    el.addEventListener('change', render);
+  });
+  elClear.addEventListener('click', () => { boluses = []; render(); });
+
+  // Seed: one example bolus at 8:00 AM so the widget isn't empty.
+  boluses.push({ id: nextId++, t: 8, dose: 100 });
+  render();
+})();
+</script>
+</body>
+</html>
