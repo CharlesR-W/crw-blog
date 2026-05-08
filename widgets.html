@@ -16,8 +16,7 @@ permalink: /widgets/
 <h2>Widgets</h2>
 
 <div class="widgets-intro">
-<p>Small interactive things — pharmacokinetics calculators, dynamical-systems toys, math demos.  Each one is a self-contained page you can fiddle with directly in the browser.  No accounts, no tracking, no server round-trips: the math runs in your tab.</p>
-<p>Built with D3 and a little hand-rolled glue.  If something does not match your intuition, that is often where the interesting modeling assumption is hiding — the controls expose the parameters I made educated guesses about.</p>
+<p>Interactive widgets for math, physics and other topics.  Each is a self-contained page that runs in your browser.  100% Claude-driven: I describe the model and the controls I want; Claude builds it.</p>
 </div>
 
 {% assign widgets = site.posts | where_exp: "post", "post.tags contains 'widget'" %}
