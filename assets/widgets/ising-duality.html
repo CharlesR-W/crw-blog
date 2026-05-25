@@ -406,8 +406,110 @@
     console.log('[ising-widget] Lattice self-tests passed');
   })();
 
-  // Scaffold; logic added in subsequent tasks.
-  console.log('[ising-widget] scaffold loaded');
+  // ---------- Configuration ----------
+  const L = 96;
+  const PALETTE = {
+    spinUp:   [0x93, 0xc5, 0xfd, 255],  // cyan, --spin-up
+    spinDn:   [0x1f, 0x29, 0x37, 255],  // near-black, --spin-dn
+    spinUpDim:[0x93, 0xc5, 0xfd, 100],
+    spinDnDim:[0x1f, 0x29, 0x37, 100],
+    wall:     [0xfc, 0xa5, 0xa5, 255],  // soft red, --wall
+  };
+
+  // ---------- Spin renderer ----------
+  // Draw spins as 1 pixel per site on a Canvas of native size L x L; CSS scales
+  // it up with `image-rendering: pixelated`.
+  function drawSpins(ctx, lat, mode /* 'spins' | 'walls' | 'both' */) {
+    const L = lat.L, s = lat.s;
+    const img = ctx.createImageData(L, L);
+    const data = img.data;
+    if (mode === 'spins' || mode === 'both') {
+      const up = mode === 'both' ? PALETTE.spinUpDim : PALETTE.spinUp;
+      const dn = mode === 'both' ? PALETTE.spinDnDim : PALETTE.spinDn;
+      for (let i = 0; i < L * L; i++) {
+        const c = s[i] === 1 ? up : dn;
+        const k = i * 4;
+        data[k] = c[0]; data[k+1] = c[1]; data[k+2] = c[2]; data[k+3] = c[3];
+      }
+    } else {
+      // Walls-only: dark background.
+      for (let i = 0; i < L * L; i++) {
+        const k = i * 4;
+        data[k] = 11; data[k+1] = 11; data[k+2] = 11; data[k+3] = 255;
+      }
+    }
+    ctx.putImageData(img, 0, 0);
+    // Walls overlay drawn in Task 9; for now this function ignores them.
+  }
+
+  // ---------- App state ----------
+  const state = {
+    lat: new Lattice(L, parseFloat(document.getElementById('slider-T').value)),
+    latStar: null,                            // initialised below
+    view: 'spins',
+    dyn: 'wolff',
+    speed: 4,
+    paused: false,
+  };
+  state.latStar = new Lattice(L, dualT(state.lat.T));
+
+  const canvasT = document.getElementById('canvas-T');
+  const canvasTstar = document.getElementById('canvas-Tstar');
+  const ctxT = canvasT.getContext('2d');
+  const ctxTstar = canvasTstar.getContext('2d');
+  // Disable smoothing so pixelated rendering survives the CSS upscale.
+  ctxT.imageSmoothingEnabled = false;
+  ctxTstar.imageSmoothingEnabled = false;
+
+  const slider = document.getElementById('slider-T');
+  const sliderReadout = document.getElementById('slider-readout');
+  const tReadout = document.getElementById('T-readout');
+  const tStarReadout = document.getElementById('Tstar-readout');
+
+  function fmt(x, d=3) { return Number(x).toFixed(d); }
+
+  function updateReadouts() {
+    const T = state.lat.T, Ts = state.latStar.T;
+    sliderReadout.textContent = `T = ${fmt(T)}`;
+    tReadout.textContent = `T = ${fmt(T)}`;
+    tStarReadout.textContent = isFinite(Ts) ? `T* = ${fmt(Ts)}` : 'T* = ∞';
+  }
+
+  slider.addEventListener('input', () => {
+    const T = parseFloat(slider.value);
+    state.lat.setT(T);
+    state.latStar.setT(dualT(T));
+    updateReadouts();
+  });
+
+  // ---------- Main loop ----------
+  function step() {
+    if (state.paused) return;
+    const sweepsPerFrame = state.speed;
+    for (let k = 0; k < sweepsPerFrame; k++) {
+      if (state.dyn === 'wolff') {
+        state.lat.sweepWolff();
+        state.latStar.sweepWolff();
+      } else {
+        state.lat.sweepMetropolis();
+        state.latStar.sweepMetropolis();
+      }
+    }
+    drawSpins(ctxT, state.lat, state.view);
+    drawSpins(ctxTstar, state.latStar, state.view);
+  }
+
+  function loop() {
+    step();
+    requestAnimationFrame(loop);
+  }
+
+  updateReadouts();
+  drawSpins(ctxT, state.lat, state.view);
+  drawSpins(ctxTstar, state.latStar, state.view);
+  requestAnimationFrame(loop);
+
+  console.log('[ising-widget] main loop running');
 })();
 </script>
 </body>
