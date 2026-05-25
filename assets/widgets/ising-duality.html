@@ -463,29 +463,90 @@
   };
 
   // ---------- Spin renderer ----------
-  // Draw spins as 1 pixel per site on a Canvas of native size L x L; CSS scales
-  // it up with `image-rendering: pixelated`.
+  // Native render scale: 1 pixel per spin for spins, 2 pixels per spin for
+  // walls (so wall segments can appear between adjacent spin pixels).
+  function ensureScale(canvas, ctx, lat, mode) {
+    const targetSide = (mode === 'spins') ? lat.L : lat.L * 2;
+    if (canvas.width !== targetSide) {
+      canvas.width = targetSide;
+      canvas.height = targetSide;
+      ctx.imageSmoothingEnabled = false;
+    }
+  }
+
   function drawSpins(ctx, lat, mode /* 'spins' | 'walls' | 'both' */) {
+    const canvas = ctx.canvas;
+    ensureScale(canvas, ctx, lat, mode);
     const L = lat.L, s = lat.s;
-    const img = ctx.createImageData(L, L);
-    const data = img.data;
-    if (mode === 'spins' || mode === 'both') {
-      const up = mode === 'both' ? PALETTE.spinUpDim : PALETTE.spinUp;
-      const dn = mode === 'both' ? PALETTE.spinDnDim : PALETTE.spinDn;
+
+    if (mode === 'spins') {
+      const img = ctx.createImageData(L, L);
+      const data = img.data;
+      const up = PALETTE.spinUp, dn = PALETTE.spinDn;
       for (let i = 0; i < L * L; i++) {
         const c = s[i] === 1 ? up : dn;
         const k = i * 4;
         data[k] = c[0]; data[k+1] = c[1]; data[k+2] = c[2]; data[k+3] = c[3];
       }
-    } else {
-      // Walls-only: dark background.
-      for (let i = 0; i < L * L; i++) {
-        const k = i * 4;
-        data[k] = 11; data[k+1] = 11; data[k+2] = 11; data[k+3] = 255;
+      ctx.putImageData(img, 0, 0);
+      return;
+    }
+
+    // mode = 'walls' or 'both': render on 2L x 2L grid.
+    const W = L * 2;
+    const img = ctx.createImageData(W, W);
+    const data = img.data;
+    const bg = [11, 11, 11, 255];
+    const up = mode === 'both' ? PALETTE.spinUpDim : bg;
+    const dn = mode === 'both' ? PALETTE.spinDnDim : bg;
+    const wall = PALETTE.wall;
+
+    // Fill the 2x2 block per spin with that spin's colour (or background).
+    for (let y = 0; y < L; y++) {
+      for (let x = 0; x < L; x++) {
+        const c = s[y * L + x] === 1 ? up : dn;
+        for (let dy = 0; dy < 2; dy++) {
+          for (let dx = 0; dx < 2; dx++) {
+            const k = ((2 * y + dy) * W + (2 * x + dx)) * 4;
+            data[k] = c[0]; data[k+1] = c[1]; data[k+2] = c[2]; data[k+3] = c[3];
+          }
+        }
       }
     }
+
+    // Draw walls: an edge of the dual lattice where two adjacent original
+    // spins disagree. A "right" disagreement at (x, y) means the right column
+    // of the (x, y) block AND the left column of the (x+1, y) block become
+    // wall-coloured. A "down" disagreement: the bottom row of (x, y) and the
+    // top row of (x, y+1).
+    const setPx = (px, py, c) => {
+      if (px < 0 || px >= W || py < 0 || py >= W) return;
+      const k = (py * W + px) * 4;
+      data[k] = c[0]; data[k+1] = c[1]; data[k+2] = c[2]; data[k+3] = c[3];
+    };
+    for (let y = 0; y < L; y++) {
+      for (let x = 0; x < L; x++) {
+        const sij = s[y * L + x];
+        const sR = s[y * L + ((x + 1) % L)];
+        const sD = s[((y + 1) % L) * L + x];
+        if (sij !== sR) {
+          // Vertical wall between column x and x+1 at row y.
+          for (let dy = 0; dy < 2; dy++) {
+            setPx(2 * x + 1, 2 * y + dy, wall);
+            setPx((2 * x + 2) % W, 2 * y + dy, wall);
+          }
+        }
+        if (sij !== sD) {
+          // Horizontal wall between row y and y+1 at column x.
+          for (let dx = 0; dx < 2; dx++) {
+            setPx(2 * x + dx, 2 * y + 1, wall);
+            setPx(2 * x + dx, (2 * y + 2) % W, wall);
+          }
+        }
+      }
+    }
+
     ctx.putImageData(img, 0, 0);
-    // Walls overlay drawn in Task 9; for now this function ignores them.
   }
 
   // ---------- App state ----------
@@ -632,6 +693,30 @@
 
   // Reset the EMA when the user changes temperature.
   slider.addEventListener('input', () => { corrEmaT = null; corrEmaS = null; });
+
+  // Segmented control wiring.
+  function setSeg(segId, value, attr, onPick) {
+    const seg = document.getElementById(segId);
+    seg.querySelectorAll('button').forEach(b => {
+      b.classList.toggle('on', b.dataset[attr] === value);
+    });
+    onPick(value);
+  }
+  document.getElementById('seg-view').addEventListener('click', (e) => {
+    const v = e.target?.dataset?.view;
+    if (!v) return;
+    setSeg('seg-view', v, 'view', (x) => { state.view = x; });
+  });
+  document.getElementById('seg-dyn').addEventListener('click', (e) => {
+    const v = e.target?.dataset?.dyn;
+    if (!v) return;
+    setSeg('seg-dyn', v, 'dyn', (x) => { state.dyn = x; });
+  });
+  document.getElementById('seg-speed').addEventListener('click', (e) => {
+    const v = e.target?.dataset?.speed;
+    if (!v) return;
+    setSeg('seg-speed', v, 'speed', (x) => { state.speed = parseInt(x, 10); });
+  });
 
   // Estimate correlation length ξ from the (already EMA-smoothed) correlator
   // by subtracting the long-r plateau and fitting log of the residual.
@@ -811,6 +896,10 @@
     drawXiPlot();
   }
   requestAnimationFrame(loop);
+
+  // Expose internals for verification and debugging.
+  window.state = state;
+  window.step = step;
 
   console.log('[ising-widget] main loop running');
 })();
