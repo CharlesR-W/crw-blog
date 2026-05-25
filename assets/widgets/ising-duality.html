@@ -897,9 +897,45 @@
   }
   requestAnimationFrame(loop);
 
-  // Expose internals for verification and debugging.
-  window.state = state;
-  window.step = step;
+  const btnPause = document.getElementById('btn-pause');
+  const btnReset = document.getElementById('btn-reset');
+
+  btnPause.addEventListener('click', () => {
+    state.paused = !state.paused;
+    btnPause.textContent = state.paused ? 'play' : 'pause';
+  });
+
+  btnReset.addEventListener('click', () => {
+    // Randomise lattices fresh and clear accumulated ξ.
+    for (let i = 0; i < state.lat.N; i++) state.lat.s[i] = Math.random() < 0.5 ? 1 : -1;
+    for (let i = 0; i < state.latStar.N; i++) state.latStar.s[i] = Math.random() < 0.5 ? 1 : -1;
+    state.xiSamples.T.length = 0;
+    state.xiSamples.Tstar.length = 0;
+    corrEmaT = null;
+    corrEmaS = null;
+    // Redraw plots so the cleared state is reflected immediately.
+    {
+      corrEmaT = updateCorrEma(state.lat.correlator(RMAX), corrEmaT);
+      corrEmaS = updateCorrEma(state.latStar.correlator(RMAX), corrEmaS);
+      drawCorrPlot(corrEmaT, corrEmaS);
+    }
+    drawXiPlot();
+    drawPhaseStrip();
+  });
+
+  window.addEventListener('keydown', (e) => {
+    // Don't capture keys when an input/textarea is focused.
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (e.key === ' ') { e.preventDefault(); btnPause.click(); }
+    else if (e.key === 'r' || e.key === 'R') btnReset.click();
+    else if (e.key === '[') {
+      slider.value = Math.max(T_MIN, parseFloat(slider.value) - 0.05).toFixed(3);
+      slider.dispatchEvent(new Event('input'));
+    } else if (e.key === ']') {
+      slider.value = Math.min(T_MAX, parseFloat(slider.value) + 0.05).toFixed(3);
+      slider.dispatchEvent(new Event('input'));
+    }
+  });
 
   console.log('[ising-widget] main loop running');
 })();
