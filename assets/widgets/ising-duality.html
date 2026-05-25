@@ -244,6 +244,124 @@
     console.log('[ising-widget] dualT self-tests passed; Tc =', TC.toFixed(6));
   })();
 
+  // 2D Ising lattice with periodic boundary conditions.
+  // Spins stored as Int8Array of values in {+1, -1}.
+  class Lattice {
+    constructor(L, T) {
+      this.L = L;
+      this.N = L * L;
+      this.T = T;
+      this.beta = 1 / T;
+      this.s = new Int8Array(this.N);
+      // Random initial state.
+      for (let i = 0; i < this.N; i++) this.s[i] = Math.random() < 0.5 ? 1 : -1;
+    }
+
+    setT(T) {
+      this.T = T;
+      this.beta = 1 / T;
+    }
+
+    idx(x, y) {
+      // Wrap to [0, L) with periodic BCs.
+      const L = this.L;
+      return ((y % L) + L) % L * L + ((x % L) + L) % L;
+    }
+
+    // Sum of 4 nearest neighbours of site (x, y).
+    nnSum(x, y) {
+      const L = this.L;
+      const s = this.s;
+      const xp = (x + 1) % L, xm = (x - 1 + L) % L;
+      const yp = (y + 1) % L, ym = (y - 1 + L) % L;
+      return s[y * L + xp] + s[y * L + xm] + s[yp * L + x] + s[ym * L + x];
+    }
+
+    // Total magnetisation per site.
+    magnetisation() {
+      let m = 0;
+      for (let i = 0; i < this.N; i++) m += this.s[i];
+      return m / this.N;
+    }
+
+    // Energy per site: E = -J sum_<ij> s_i s_j, with J=1.
+    // Each bond counted once.
+    energy() {
+      const L = this.L;
+      const s = this.s;
+      let e = 0;
+      for (let y = 0; y < L; y++) {
+        for (let x = 0; x < L; x++) {
+          const sij = s[y * L + x];
+          const sR = s[y * L + ((x + 1) % L)];
+          const sD = s[((y + 1) % L) * L + x];
+          e -= sij * (sR + sD);
+        }
+      }
+      return e / this.N;
+    }
+
+    // One Metropolis sweep = N flip attempts.
+    sweepMetropolis() {
+      const L = this.L, N = this.N, s = this.s, beta = this.beta;
+      for (let k = 0; k < N; k++) {
+        const x = (Math.random() * L) | 0;
+        const y = (Math.random() * L) | 0;
+        const i = y * L + x;
+        const dE = 2 * s[i] * this.nnSum(x, y);  // +2 * s_i * h_i
+        if (dE <= 0 || Math.random() < Math.exp(-beta * dE)) {
+          s[i] = -s[i];
+        }
+      }
+    }
+
+    // Fill with all spin up. Useful for tests and as a "cold" start.
+    fillAligned(value = 1) {
+      this.s.fill(value);
+    }
+  }
+
+  (function selfTestLattice() {
+    const L = 16;
+    const lat = new Lattice(L, 2.0);
+
+    // Aligned state has m = ±1 and energy per site = -2 (each site contributes
+    // -2J from two outgoing bonds).
+    lat.fillAligned(1);
+    console.assert(Math.abs(lat.magnetisation() - 1) < 1e-12,
+      `aligned-up m should be 1, got ${lat.magnetisation()}`);
+    console.assert(Math.abs(lat.energy() - (-2)) < 1e-12,
+      `aligned energy/site should be -2, got ${lat.energy()}`);
+
+    lat.fillAligned(-1);
+    console.assert(Math.abs(lat.magnetisation() - (-1)) < 1e-12,
+      `aligned-down m should be -1, got ${lat.magnetisation()}`);
+    console.assert(Math.abs(lat.energy() - (-2)) < 1e-12,
+      `aligned-down energy/site should be -2, got ${lat.energy()}`);
+
+    // Half-and-half stripes: half of bonds frustrated, energy should be 0.
+    for (let y = 0; y < L; y++)
+      for (let x = 0; x < L; x++)
+        lat.s[y * L + x] = (x % 2 === 0) ? 1 : -1;
+    console.assert(Math.abs(lat.energy() - 0) < 1e-12,
+      `striped energy/site should be 0, got ${lat.energy()}`);
+
+    // At very high T, Metropolis should drive m toward 0 from a cold start.
+    lat.setT(100);
+    lat.fillAligned(1);
+    for (let i = 0; i < 50; i++) lat.sweepMetropolis();
+    console.assert(Math.abs(lat.magnetisation()) < 0.2,
+      `at T=100 after 50 sweeps from aligned start, |m| should be ~0, got ${lat.magnetisation()}`);
+
+    // At very low T, from a random start Metropolis should grow |m| toward 1.
+    const lat2 = new Lattice(L, 0.5);
+    for (let i = 0; i < 200; i++) lat2.sweepMetropolis();
+    console.assert(Math.abs(lat2.magnetisation()) > 0.9,
+      `at T=0.5 after 200 sweeps, |m| should be > 0.9, got ${lat2.magnetisation()}`);
+
+    console.log('[ising-widget] Lattice self-tests passed');
+  })();
+
   // Scaffold; logic added in subsequent tasks.
   console.log('[ising-widget] scaffold loaded');
 })();
