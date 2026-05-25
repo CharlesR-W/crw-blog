@@ -315,6 +315,37 @@
       }
     }
 
+    // One Wolff cluster update: grow a cluster of aligned spins from a random
+    // seed, add neighbours with probability p = 1 - exp(-2 beta J), flip whole
+    // cluster at the end. Beats critical slowing down near Tc.
+    sweepWolff() {
+      const L = this.L, s = this.s, beta = this.beta;
+      const padd = 1 - Math.exp(-2 * beta);
+      const x0 = (Math.random() * L) | 0;
+      const y0 = (Math.random() * L) | 0;
+      const seedSpin = s[y0 * L + x0];
+      const stack = [y0 * L + x0];
+      const inCluster = new Uint8Array(this.N);
+      inCluster[y0 * L + x0] = 1;
+      while (stack.length) {
+        const i = stack.pop();
+        const x = i % L, y = (i / L) | 0;
+        const neighbours = [
+          y * L + ((x + 1) % L),
+          y * L + ((x - 1 + L) % L),
+          ((y + 1) % L) * L + x,
+          ((y - 1 + L) % L) * L + x,
+        ];
+        for (const j of neighbours) {
+          if (!inCluster[j] && s[j] === seedSpin && Math.random() < padd) {
+            inCluster[j] = 1;
+            stack.push(j);
+          }
+        }
+      }
+      for (let i = 0; i < this.N; i++) if (inCluster[i]) s[i] = -s[i];
+    }
+
     // Fill with all spin up. Useful for tests and as a "cold" start.
     fillAligned(value = 1) {
       this.s.fill(value);
@@ -358,6 +389,19 @@
     for (let i = 0; i < 200; i++) lat2.sweepMetropolis();
     console.assert(Math.abs(lat2.magnetisation()) > 0.9,
       `at T=0.5 after 200 sweeps, |m| should be > 0.9, got ${lat2.magnetisation()}`);
+
+    // Wolff: at very low T (T < Tc), |m| should saturate from a random start
+    // within a small number of sweeps (no critical slowing down).
+    const wlow = new Lattice(L, 1.0);
+    for (let i = 0; i < 30; i++) wlow.sweepWolff();
+    console.assert(Math.abs(wlow.magnetisation()) > 0.95,
+      `Wolff at T=1.0 after 30 sweeps: |m| should be > 0.95, got ${wlow.magnetisation()}`);
+
+    // Wolff: at very high T (T >> Tc), |m| should stay near 0.
+    const whigh = new Lattice(L, 6.0);
+    for (let i = 0; i < 30; i++) whigh.sweepWolff();
+    console.assert(Math.abs(whigh.magnetisation()) < 0.4,
+      `Wolff at T=6.0 after 30 sweeps: |m| should be < 0.4, got ${whigh.magnetisation()}`);
 
     console.log('[ising-widget] Lattice self-tests passed');
   })();
