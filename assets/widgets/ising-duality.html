@@ -158,7 +158,7 @@
 
   <div class="diag" id="diag-corr">
     <div class="title-row" style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:6px">
-      <span>Connected correlator C(r) — log-log</span>
+      <span>Two-point correlator C(r) — log-log</span>
       <span class="readout" id="eta-readout">η = —</span>
     </div>
     <svg id="svg-corr" viewBox="0 0 600 180" preserveAspectRatio="none" style="width:100%;height:auto;display:block"></svg>
@@ -301,17 +301,14 @@
       return e / this.N;
     }
 
-    // Connected two-point function C(r) = <s_0 s_r> - <s>^2, averaged along
-    // both lattice axes for separations r = 1..rmax. Returns Float64Array of
-    // length rmax+1; index 0 is variance ≈ 1 - m^2.
-    connectedCorrelator(rmax) {
+    // Two-point function C(r) = <s_0 s_r>, averaged along both lattice axes
+    // for separations r = 0..rmax. NOT m^2-subtracted: with a single snapshot,
+    // m fluctuates too much for that to give a clean curve. The unconnected
+    // correlator decays to <s>^2 at long r in the ordered phase (plateau =
+    // long-range order) and decays to 0 in the disordered phase.
+    correlator(rmax) {
       const L = this.L, s = this.s, N = this.N;
       const out = new Float64Array(rmax + 1);
-      let m = 0;
-      for (let i = 0; i < N; i++) m += s[i];
-      m /= N;
-      // Sum of s_i * s_{i+r} for each separation r along x and y, then
-      // average and subtract m^2.
       for (let r = 0; r <= rmax; r++) {
         let sum = 0;
         for (let y = 0; y < L; y++) {
@@ -323,7 +320,7 @@
             sum += sij * s[((y + r) % L) * L + x];
           }
         }
-        out[r] = sum / (2 * N) - m * m;
+        out[r] = sum / (2 * N);
       }
       return out;
     }
@@ -430,22 +427,22 @@
     console.assert(Math.abs(whigh.magnetisation()) < 0.4,
       `Wolff at T=6.0 after 30 sweeps: |m| should be < 0.4, got ${whigh.magnetisation()}`);
 
-    // Connected correlator on an all-aligned lattice should be 0 at every r
-    // (variance is 0).
+    // Correlator on an all-aligned lattice should be 1 at every r (perfect
+    // correlation).
     const lc = new Lattice(8, 2.0);
     lc.fillAligned(1);
-    const c0 = lc.connectedCorrelator(4);
+    const c0 = lc.correlator(4);
     for (let r = 0; r <= 4; r++) {
-      console.assert(Math.abs(c0[r]) < 1e-12,
-        `aligned C(${r}) should be 0, got ${c0[r]}`);
+      console.assert(Math.abs(c0[r] - 1) < 1e-12,
+        `aligned C(${r}) should be 1, got ${c0[r]}`);
     }
-    // On a striped lattice (x even = +1, x odd = -1), m = 0; C(r) = 1 for
-    // even r, -1 for odd r along x, but along y C(r) = 1 for all r. The
-    // average is (1 + (-1)^r) / 2.
+    // On a striped lattice (x even = +1, x odd = -1): along x, C(r) is +1 for
+    // even r, -1 for odd r. Along y, C(r) is +1 for all r. The average across
+    // the two axes is (1 + (-1)^r) / 2.
     for (let y = 0; y < 8; y++)
       for (let x = 0; x < 8; x++)
         lc.s[y * 8 + x] = (x % 2 === 0) ? 1 : -1;
-    const c1 = lc.connectedCorrelator(4);
+    const c1 = lc.correlator(4);
     for (let r = 0; r <= 4; r++) {
       const expected = (1 + ((-1) ** r)) / 2;  // 1, 0, 1, 0, 1
       console.assert(Math.abs(c1[r] - expected) < 1e-12,
@@ -577,7 +574,7 @@
     let pts = [];
     for (let r = 1; r <= RMAX; r++) {
       const c = Math.abs(arr[r]);
-      if (c > 1e-4) pts.push([xLog(r), yLog(c)]);
+      if (c > 1e-3) pts.push([xLog(r), yLog(c)]);
     }
     if (pts.length < 2) return '';
     return `<polyline points="${pts.map(p => p.join(',')).join(' ')}" fill="none" stroke="${colour}" stroke-width="1.5"/>`;
@@ -589,16 +586,51 @@
     svg += corrPath(cT, '#93c5fd');
     svg += corrPath(cS, '#fbbf24');
     svgCorr.innerHTML = svg;
-    // Display approximate η from a 2-point log-log slope between r=2 and r=8.
-    const r1 = 2, r2 = 8;
-    const y1 = cT[r1], y2 = cT[r2];
-    if (y1 > 1e-3 && y2 > 1e-3) {
-      const eta = -(Math.log(y2) - Math.log(y1)) / (Math.log(r2) - Math.log(r1));
-      etaReadout.textContent = `η ≈ ${eta.toFixed(2)}`;
+    // Estimate η from a log-log least-squares fit, using shell-averaged values
+    // C_shell(r) = mean of cT[r-1..r+1] to suppress discrete-lattice
+    // oscillations. Fit range r=3..L/6, well within the power-law regime and
+    // away from PBC wrap-around artifacts. Require at least 3 valid shells.
+    const R_ETA_MAX = Math.floor(L / 6);  // ≈ 16 for L=96
+    let sx = 0, sy = 0, sxx = 0, sxy = 0, n = 0;
+    for (let r = 3; r <= R_ETA_MAX; r++) {
+      // Shell average over r-1, r, r+1 (all within bounds).
+      const c = (cT[r - 1] + cT[r] + cT[r + 1]) / 3;
+      if (c > 1e-3) {
+        const lx = Math.log(r), ly = Math.log(c);
+        sx += lx; sy += ly; sxx += lx * lx; sxy += lx * ly;
+        n++;
+      }
+    }
+    if (n >= 3) {
+      const slope = (n * sxy - sx * sy) / (n * sxx - sx * sx);
+      etaReadout.textContent = `η ≈ ${(-slope).toFixed(2)}`;
     } else {
       etaReadout.textContent = `η ≈ —`;
     }
   }
+
+  // ---------- Correlator EMA ----------
+  // Exponential moving average of the correlator arrays, reset on T change.
+  // Alpha = 0.05 gives roughly a 20-frame memory, smoothing Wolff fluctuations
+  // while still tracking the current temperature.
+  const CORR_ALPHA = 0.05;
+  let corrEmaT  = null;  // Float64Array or null
+  let corrEmaS  = null;
+
+  function updateCorrEma(raw, ema) {
+    if (ema === null) {
+      // First sample: seed the EMA.
+      const out = new Float64Array(raw.length);
+      for (let i = 0; i < raw.length; i++) out[i] = raw[i];
+      return out;
+    }
+    for (let i = 0; i < raw.length; i++)
+      ema[i] += CORR_ALPHA * (raw[i] - ema[i]);
+    return ema;
+  }
+
+  // Reset the EMA when the user changes temperature.
+  slider.addEventListener('input', () => { corrEmaT = null; corrEmaS = null; });
 
   // ---------- Main loop ----------
   let frameCount = 0;
@@ -617,9 +649,9 @@
     drawSpins(ctxT, state.lat, state.view);
     drawSpins(ctxTstar, state.latStar, state.view);
     if ((frameCount++ % 6) === 0) {
-      const cT = state.lat.connectedCorrelator(RMAX);
-      const cS = state.latStar.connectedCorrelator(RMAX);
-      drawCorrPlot(cT, cS);
+      corrEmaT = updateCorrEma(state.lat.correlator(RMAX), corrEmaT);
+      corrEmaS = updateCorrEma(state.latStar.correlator(RMAX), corrEmaS);
+      drawCorrPlot(corrEmaT, corrEmaS);
     }
   }
 
@@ -632,9 +664,9 @@
   drawSpins(ctxT, state.lat, state.view);
   drawSpins(ctxTstar, state.latStar, state.view);
   {
-    const cT0 = state.lat.connectedCorrelator(RMAX);
-    const cS0 = state.latStar.connectedCorrelator(RMAX);
-    drawCorrPlot(cT0, cS0);
+    corrEmaT = updateCorrEma(state.lat.correlator(RMAX), corrEmaT);
+    corrEmaS = updateCorrEma(state.latStar.correlator(RMAX), corrEmaS);
+    drawCorrPlot(corrEmaT, corrEmaS);
   }
   requestAnimationFrame(loop);
 
