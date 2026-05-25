@@ -207,6 +207,43 @@
 <script>
 (function () {
   'use strict';
+
+  // Physical constants
+  const TC = 2 / Math.log(1 + Math.sqrt(2));   // ≈ 2.26918531...
+  const BETA_C = Math.log(1 + Math.sqrt(2)) / 2; // ≈ 0.44068679...
+
+  // Kramers-Wannier duality on temperature.
+  // sinh(2 beta) * sinh(2 beta*) = 1, beta = 1/T.
+  // => beta* = (1/2) * arcsinh(1 / sinh(2 beta))
+  // => T*    = 2 / arcsinh(1 / sinh(2/T))
+  function dualT(T) {
+    const s = Math.sinh(2 / T);
+    if (!isFinite(s) || s <= 0) return Infinity;
+    const inv = 1 / s;
+    const x = Math.asinh(inv);
+    if (x === 0) return Infinity;
+    return 2 / x;
+  }
+
+  // Self-tests for dualT (analytic invariants).
+  (function selfTestDualT() {
+    const eps = 1e-9;
+    // Self-dual at Tc.
+    console.assert(Math.abs(dualT(TC) - TC) < eps,
+      `dualT(Tc) should equal Tc, got ${dualT(TC)}`);
+    // Involution: dualT(dualT(T)) = T.
+    for (const T of [1.2, 1.8, 2.0, 2.5, 3.0, 3.5]) {
+      console.assert(Math.abs(dualT(dualT(T)) - T) < 1e-7,
+        `dualT involution failed at T=${T}: got ${dualT(dualT(T))}`);
+    }
+    // Low T <-> high T: dualT of a low T should be high.
+    console.assert(dualT(1.0) > TC,
+      `dualT(1.0) should be > Tc, got ${dualT(1.0)}`);
+    console.assert(dualT(4.0) < TC,
+      `dualT(4.0) should be < Tc, got ${dualT(4.0)}`);
+    console.log('[ising-widget] dualT self-tests passed; Tc =', TC.toFixed(6));
+  })();
+
   // Scaffold; logic added in subsequent tasks.
   console.log('[ising-widget] scaffold loaded');
 })();
