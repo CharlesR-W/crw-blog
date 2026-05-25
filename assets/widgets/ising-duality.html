@@ -301,6 +301,33 @@
       return e / this.N;
     }
 
+    // Connected two-point function C(r) = <s_0 s_r> - <s>^2, averaged along
+    // both lattice axes for separations r = 1..rmax. Returns Float64Array of
+    // length rmax+1; index 0 is variance ≈ 1 - m^2.
+    connectedCorrelator(rmax) {
+      const L = this.L, s = this.s, N = this.N;
+      const out = new Float64Array(rmax + 1);
+      let m = 0;
+      for (let i = 0; i < N; i++) m += s[i];
+      m /= N;
+      // Sum of s_i * s_{i+r} for each separation r along x and y, then
+      // average and subtract m^2.
+      for (let r = 0; r <= rmax; r++) {
+        let sum = 0;
+        for (let y = 0; y < L; y++) {
+          for (let x = 0; x < L; x++) {
+            const sij = s[y * L + x];
+            // +x neighbour at distance r
+            sum += sij * s[y * L + ((x + r) % L)];
+            // +y neighbour at distance r
+            sum += sij * s[((y + r) % L) * L + x];
+          }
+        }
+        out[r] = sum / (2 * N) - m * m;
+      }
+      return out;
+    }
+
     // One Metropolis sweep = N flip attempts.
     sweepMetropolis() {
       const L = this.L, N = this.N, s = this.s, beta = this.beta;
@@ -403,6 +430,28 @@
     console.assert(Math.abs(whigh.magnetisation()) < 0.4,
       `Wolff at T=6.0 after 30 sweeps: |m| should be < 0.4, got ${whigh.magnetisation()}`);
 
+    // Connected correlator on an all-aligned lattice should be 0 at every r
+    // (variance is 0).
+    const lc = new Lattice(8, 2.0);
+    lc.fillAligned(1);
+    const c0 = lc.connectedCorrelator(4);
+    for (let r = 0; r <= 4; r++) {
+      console.assert(Math.abs(c0[r]) < 1e-12,
+        `aligned C(${r}) should be 0, got ${c0[r]}`);
+    }
+    // On a striped lattice (x even = +1, x odd = -1), m = 0; C(r) = 1 for
+    // even r, -1 for odd r along x, but along y C(r) = 1 for all r. The
+    // average is (1 + (-1)^r) / 2.
+    for (let y = 0; y < 8; y++)
+      for (let x = 0; x < 8; x++)
+        lc.s[y * 8 + x] = (x % 2 === 0) ? 1 : -1;
+    const c1 = lc.connectedCorrelator(4);
+    for (let r = 0; r <= 4; r++) {
+      const expected = (1 + ((-1) ** r)) / 2;  // 1, 0, 1, 0, 1
+      console.assert(Math.abs(c1[r] - expected) < 1e-12,
+        `striped C(${r}) should be ${expected}, got ${c1[r]}`);
+    }
+
     console.log('[ising-widget] Lattice self-tests passed');
   })();
 
@@ -482,7 +531,77 @@
     updateReadouts();
   });
 
+  // ---------- SVG plot for C(r) ----------
+  const svgCorr = document.getElementById('svg-corr');
+  const etaReadout = document.getElementById('eta-readout');
+  const CORR_VB_W = 600, CORR_VB_H = 180;
+  const CORR_MARGIN = { l: 36, r: 12, t: 8, b: 26 };
+  const RMAX = L / 2;  // 48
+  // log-log axes: x in [1, RMAX], y in [1e-3, 1].
+  const xLog = (r) => {
+    const u = Math.log10(r) / Math.log10(RMAX);  // [0, 1]
+    return CORR_MARGIN.l + u * (CORR_VB_W - CORR_MARGIN.l - CORR_MARGIN.r);
+  };
+  const yLog = (c) => {
+    const v = c <= 0 ? 1 : (Math.log10(c) + 3) / 3;  // [-3, 0] -> [0, 1]
+    const yPx = CORR_MARGIN.t + (1 - Math.max(0, Math.min(1, v))) * (CORR_VB_H - CORR_MARGIN.t - CORR_MARGIN.b);
+    return yPx;
+  };
+
+  function drawCorrAxes() {
+    let s = '';
+    // Frame.
+    s += `<rect x="${CORR_MARGIN.l}" y="${CORR_MARGIN.t}" width="${CORR_VB_W - CORR_MARGIN.l - CORR_MARGIN.r}" height="${CORR_VB_H - CORR_MARGIN.t - CORR_MARGIN.b}" fill="none" stroke="rgba(255,255,255,0.12)"/>`;
+    // x ticks at 1, 2, 4, 8, 16, 32.
+    for (const r of [1, 2, 4, 8, 16, 32]) {
+      const x = xLog(r);
+      s += `<line x1="${x}" y1="${CORR_VB_H - CORR_MARGIN.b}" x2="${x}" y2="${CORR_VB_H - CORR_MARGIN.b + 4}" stroke="rgba(255,255,255,0.5)"/>`;
+      s += `<text x="${x}" y="${CORR_VB_H - 8}" fill="#9ca3af" font-size="10" text-anchor="middle">${r}</text>`;
+    }
+    s += `<text x="${(CORR_VB_W) / 2}" y="${CORR_VB_H - 0}" fill="#9ca3af" font-size="10" text-anchor="middle">r</text>`;
+    // y ticks at 1, 0.1, 0.01, 0.001.
+    for (const c of [1, 0.1, 0.01, 0.001]) {
+      const y = yLog(c);
+      s += `<line x1="${CORR_MARGIN.l - 4}" y1="${y}" x2="${CORR_MARGIN.l}" y2="${y}" stroke="rgba(255,255,255,0.5)"/>`;
+      s += `<text x="${CORR_MARGIN.l - 6}" y="${y + 3}" fill="#9ca3af" font-size="10" text-anchor="end">${c}</text>`;
+    }
+    // Reference slope r^{-1/4} anchored at (r=1, C=1).
+    const xRef = [];
+    for (const r of [1, 2, 4, 8, 16, 32, 48]) xRef.push([xLog(r), yLog(Math.pow(r, -0.25))]);
+    s += `<polyline points="${xRef.map(p => p.join(',')).join(' ')}" fill="none" stroke="rgba(252,165,165,0.5)" stroke-dasharray="3 3"/>`;
+    s += `<text x="${xLog(48)}" y="${yLog(Math.pow(48, -0.25)) - 4}" fill="#fca5a5" font-size="10" text-anchor="end">slope -1/4</text>`;
+    return s;
+  }
+
+  function corrPath(arr, colour) {
+    let pts = [];
+    for (let r = 1; r <= RMAX; r++) {
+      const c = Math.abs(arr[r]);
+      if (c > 1e-4) pts.push([xLog(r), yLog(c)]);
+    }
+    if (pts.length < 2) return '';
+    return `<polyline points="${pts.map(p => p.join(',')).join(' ')}" fill="none" stroke="${colour}" stroke-width="1.5"/>`;
+  }
+
+  // Takes precomputed correlator arrays (so the loop doesn't double-compute).
+  function drawCorrPlot(cT, cS) {
+    let svg = drawCorrAxes();
+    svg += corrPath(cT, '#93c5fd');
+    svg += corrPath(cS, '#fbbf24');
+    svgCorr.innerHTML = svg;
+    // Display approximate η from a 2-point log-log slope between r=2 and r=8.
+    const r1 = 2, r2 = 8;
+    const y1 = cT[r1], y2 = cT[r2];
+    if (y1 > 1e-3 && y2 > 1e-3) {
+      const eta = -(Math.log(y2) - Math.log(y1)) / (Math.log(r2) - Math.log(r1));
+      etaReadout.textContent = `η ≈ ${eta.toFixed(2)}`;
+    } else {
+      etaReadout.textContent = `η ≈ —`;
+    }
+  }
+
   // ---------- Main loop ----------
+  let frameCount = 0;
   function step() {
     if (state.paused) return;
     const sweepsPerFrame = state.speed;
@@ -497,6 +616,11 @@
     }
     drawSpins(ctxT, state.lat, state.view);
     drawSpins(ctxTstar, state.latStar, state.view);
+    if ((frameCount++ % 6) === 0) {
+      const cT = state.lat.connectedCorrelator(RMAX);
+      const cS = state.latStar.connectedCorrelator(RMAX);
+      drawCorrPlot(cT, cS);
+    }
   }
 
   function loop() {
@@ -507,6 +631,11 @@
   updateReadouts();
   drawSpins(ctxT, state.lat, state.view);
   drawSpins(ctxTstar, state.latStar, state.view);
+  {
+    const cT0 = state.lat.connectedCorrelator(RMAX);
+    const cS0 = state.latStar.connectedCorrelator(RMAX);
+    drawCorrPlot(cT0, cS0);
+  }
   requestAnimationFrame(loop);
 
   console.log('[ising-widget] main loop running');
