@@ -4,219 +4,212 @@ date: 2026-05-26
 math: true
 ---
 
-*I gave Claude a heap of my notes on this and had it stitch them into prose.  Less latitude than I've given on past Claude-written posts here — this is "clean up and connect," not "co-write."  I roughly 80% endorse the material; treat it as a research note rather than a polished publication.*
+*Research notes, not a polished piece.  Drafted from my notes with Claude's help; the math is mine and I ~80% endorse the conclusions.  Read accordingly.*
 
-**How to skim:** every section opens with a bolded punchline.  The named under-braced terms in the equations are the objects that actually matter.  Tags: **[fact]** = standard / derivable, **[fix]** = correction to my original notes, **[conjecture]** = speculative, **[depends: …]** = what the claim leans on.
-
----
-
-## The logical skeleton (read this, then skip around)
-
-The spine is one analogy taken seriously: **the genotype–phenotype map is the network's parameter→output map, and the quantitative-genetics $G$-matrix is the NTK.** Everything hangs off that. The dependency order:
-
-§0 (notation) → §1 (feature learning = non-constant Jacobian) → §2 (Gauss–Newton split) → **§3 (the load-bearing derivation: kernel eigenvalues are fast, eigenvectors are slow)** → §4 (the evo dictionary) → §5 (fine-tuning only moves eigenvalues → emergent misalignment) → §6 (RL = eigenvalue reweighting, scaffold) → §7 (layerwise eNTK = circuits, with one big assumption) → §8 (noise → factored computation → circuit Darwinism, full crackpot) → §9 (the adiabatic frame that ties it together).
-
-If you read one section, read §3. If you read two, add §5.
+The throughline is one analogy taken seriously: the genotype-phenotype map is the network's parameter-to-output map, and the quantitative-genetics $G$-matrix is the NTK.  Everything else hangs off the timescale split in §3.  If you read one section, read §3; if you read two, add §5.
 
 ---
 
-## §0 — Notation, and the Jacobian/kernel fix
+## §0.  Notation
 
-**[fix]** One symbol, one job. My original notes used $G$ for two different objects and *that is the entire source of the confusion*, so we're not doing that.
+One symbol, one job.  My original notes used $G$ for two different objects, which was the entire source of the confusion.
 
-- $\theta \in \mathbb R^{P}$ — the optimized vector. NN params $\equiv$ genome $g$.
-- $z = f(\theta) \in \mathbb R^{O}$ — output / phenotype $\equiv \phi$.
-- $J = \partial z/\partial\theta \in \mathbb R^{O\times P}$ — the **Jacobian** of the map (the developmental matrix). *This is what I'd been calling $G$, wrongly.*
-- $\mathcal L(z)$ loss, $r=\nabla_z\mathcal L$ residual, $H_z=\nabla_z^2\mathcal L$ output-curvature. Bio register flips the sign: fitness $w$, selection gradient $\beta=\nabla_{\bar z}\ln\bar W$.
-- $\Theta = JJ^{\top} \in \mathbb R^{O\times O}$ — the **NTK**.
+- $\theta \in \mathbb{R}^P$: the optimized vector.  Network parameters $\equiv$ genome $g$.
+- $z = f(\theta) \in \mathbb{R}^O$: output / phenotype $\equiv \phi$.
+- $J = \partial z / \partial \theta \in \mathbb{R}^{O \times P}$: the Jacobian (the developmental matrix).  This is what I had been calling $G$, wrongly.
+- $\mathcal{L}(z)$ loss, $r = \nabla_z \mathcal{L}$ residual, $H_z = \nabla_z^2 \mathcal{L}$ output-curvature.  In bio register the signs flip: fitness $w$, selection gradient $\beta = \nabla_{\bar z} \ln \bar W$.
+- $\Theta = J J^\top \in \mathbb{R}^{O \times O}$: the NTK.
 
-Here's the punchline that untangles it. In quantitative genetics **the $G$-matrix is already the kernel**, not the Jacobian. Lande's multivariate breeder's equation is
+The point that untangles the rest: in quantitative genetics the $G$-matrix is already the kernel, not the Jacobian.  Lande's multivariate breeder's equation is
 
-$$ \underbrace{\Delta\bar z}_{\text{trait change}} \;=\; \underbrace{G}_{\substack{\text{additive-genetic}\\\text{covariance}}}\;\underbrace{\beta}_{\substack{\text{selection}\\\text{gradient}}}, \qquad \underbrace{G}_{\text{kernel}} \;=\; \underbrace{J}_{\substack{\text{dev.}\\\text{Jacobian}}}\,\underbrace{M}_{\substack{\text{mutational}\\\text{covariance}}}\,J^{\top}. $$
+$$\Delta \bar z = G \beta, \qquad G = J M J^\top,$$
 
-So the additive-genetic covariance $G$ *is* $JMJ^{\top}$, and under isotropic mutation $M=I$ you get $G = JJ^{\top} = \Theta$. **The evolutionary $G$-matrix and the NTK are the same object up to the mutational metric $M$.** What I'd written as "$\mathcal G = GG^\top$" was a kernel built from a Jacobian I'd mislabeled. From here: $J$ = Jacobian, $\Theta$ = NTK, and $G = JMJ^\top$ when we're being biologists.
-
----
-
-## §1 — Feature learning is just a Jacobian that won't sit still
-
-**[fact]** If the Jacobian is constant, gradient descent is linear regression with frozen features. Feature learning *is* the statement that it isn't constant.
-
-One step $\delta\theta_1$ gives $\delta z_1 = J\,\delta\theta_1$. The next gives
-
-$$ \delta z_2 = J(\theta+\delta\theta_1)\,\delta\theta_2 = \big(\underbrace{J}_{\text{old features}} + \underbrace{(\partial_\theta J)\,\delta\theta_1}_{\text{features moved}}\big)\,\delta\theta_2. $$
-
-Constant $J$ ⇒ the features are the columns of $J$ and they never move; you're doing linear regression on a fixed design, $z=J\theta$. Non-constant $J$ ⇒ the effective design $J_{\text{eff}}$ changes under you, i.e. you're learning the features — equivalently, learning a good inductive bias. The features need not be semantic; this is the learning-theory sense of the term. Lazy/NTK $\Leftrightarrow \partial_\theta J\to 0$ (frozen columns); rich/feature-learning $\Leftrightarrow \partial_\theta J$ matters. $\mu$P is just the parametrization that keeps the second term alive at infinite width. The regime split is a fact about parametrization, not about nature.
+with $M$ the mutational covariance.  Under isotropic mutation $M = I$ and $G = J J^\top = \Theta$.  The evolutionary $G$-matrix and the NTK are the same object up to a mutational metric.
 
 ---
 
-## §2 — The Hessian pullback is a Gauss–Newton split
+## §1.  Feature learning = non-constant Jacobian
 
-**[fix]** $\nabla_\theta\mathcal L = J^\top r$, and differentiating once more,
+If $J$ is constant, gradient descent is linear regression on its columns and the features never move.  Feature learning is exactly the statement that $J$ does not sit still.
 
-$$ \nabla_\theta^2\mathcal L \;=\; \underbrace{J^{\top} H_z J}_{\substack{\text{Gauss–Newton}\\\text{(loss curvature seen through the map)}}} \;+\; \underbrace{(r\cdot\mathcal T)}_{\substack{\text{residual} \times \text{map-curvature}\\ \mathcal T_{aij}=\partial^2 z_a/\partial\theta_i\partial\theta_j,\;\to 0\text{ near a min}}}. $$
+One step gives $\delta z_1 = J \delta \theta_1$; the next gives
 
-Two corrections to the notes: the sandwich is $J^\top H_z J$ (param × param), not $JH_zJ^\top$; and the term I'd sloppily called "$\epsilon\nabla^2 z$" is *exactly* the residual $r$ contracted into the map curvature $\mathcal T$. The function-space operator with the same nonzero spectrum is
+$$\delta z_2 = J(\theta + \delta \theta_1)\, \delta \theta_2 = \bigl(J + (\partial_\theta J)\, \delta \theta_1\bigr)\, \delta \theta_2.$$
 
-$$ K := \underbrace{J H_z J^{\top}}_{\text{GN image in output space}}, $$
-
-since $J^\top H_z J$ and $JH_zJ^\top$ share nonzero eigenvalues. For MSE, $H_z=I$ and $K=\Theta$. So **"in low-loss regions the kernel ≈ the Hessian"** is nothing mystical: it's just $r\to 0$ killing the residual term. Call this **fact (A)** — purely static, no dynamics in it. Hold that thought; §3 needs to *not* confuse it with the dynamical thing.
+Constant $J$: design fixed, $z = J\theta$.  Non-constant $J$: the effective design changes as you move, i.e. you are learning the features (in the learning-theory sense; need not be semantic).  Lazy / NTK is the limit $\partial_\theta J \to 0$; rich / feature-learning is everywhere else.  $\mu$P is the parametrization that keeps the second term alive at infinite width.  The split is about parametrization, not nature.
 
 ---
 
-## §3 — Eigenvalues sprint, eigenvectors crawl (the one to read)
+## §2.  The Hessian splits Gauss-Newton-style
 
-**The kernel's eigenvalues retune fast; its eigenvectors rotate ~$10^4\times$ slower. That ratio is gap-suppressed off-diagonal velocity, and it's the whole engine of everything downstream.**
+$\nabla_\theta \mathcal{L} = J^\top r$, so
 
-Gradient flow $\dot\theta = -J^\top r$. Push forward to function space, then to the residual:
+$$\nabla_\theta^2 \mathcal{L} = J^\top H_z J + r \cdot \mathcal{T},$$
 
-$$ \dot z = J\dot\theta = -\Theta r, \qquad \dot r = H_z\dot z = -H_z\Theta\,r \;\Rightarrow\; \underbrace{r(t)\approx e^{-H_z\Theta\,t}r_0}_{\text{convergence governed by }H_z\Theta}. $$
+with map-curvature $\mathcal{T}_{aij} = \partial^2 z_a / \partial \theta_i \partial \theta_j$.  Two corrections to the original notes: the sandwich is $J^\top H_z J$ (param $\times$ param), not $J H_z J^\top$; and the "$\epsilon \nabla^2 z$" term I had written sloppily is exactly $r$ contracted into $\mathcal{T}$.  Near a minimum, $r \to 0$ kills the residual term.
 
-Now the kernel's own velocity. With $\dot J_{ai}=\sum_j\mathcal T_{aij}\dot\theta_j=-\sum_{j,b}\mathcal T_{aij}J_{bj}r_b$, define the map-curvature double-contracted by Jacobians,
+The function-space operator with the same nonzero spectrum is
 
-$$ \Xi_{abc}=\sum_{ij}\mathcal T_{aij}J_{bj}J_{ci}\quad(\text{symmetric in }b,c), $$
+$$K := J H_z J^\top,$$
 
-and you get
-
-$$ \boxed{\;\dot\Theta_{ac} \;=\; -\!\sum_b r_b\big(\Xi_{abc}+\Xi_{cab}\big) \;=\; -\,\underbrace{(\Xi\cdot r)}_{\substack{\text{3rd-order map curvature}\\\text{contracted with the residual}}}\;} $$
-
-**The kernel moves at a rate set by the third-order curvature of the map, driven by the residual.** Lazy limit $\mathcal T\to 0\Rightarrow\dot\Theta=0$: frozen kernel. Feature learning lives entirely in $\mathcal T\neq 0$. This $\dot\Theta\sim\Xi\cdot r$ tower is the neural tangent hierarchy, which closes at large width.
-
-**The $10^4$, demystified.** Write $\Theta=\sum_\mu\lambda_\mu u_\mu u_\mu^\top$, treat $\dot\Theta = V$ as a perturbation, and first-order perturbation theory hands you the split:
-
-$$ \dot\lambda_\mu = \underbrace{u_\mu^\top V u_\mu}_{\text{diagonal of }V}, \qquad \dot u_\mu = \sum_{\nu\neq\mu}\frac{\overbrace{u_\nu^\top V u_\mu}^{\text{off-diagonal}}}{\underbrace{\lambda_\mu-\lambda_\nu}_{\text{spectral gap}}}\,u_\nu. $$
-
-**Eigenvalues feel the diagonal of the kernel velocity; eigenvectors feel the off-diagonal, divided by the gaps.** So eigenvectors freeze relative to eigenvalues exactly when (i) $V$ is near-diagonal in $\Theta$'s eigenbasis and (ii) the gaps are big. Your empirical $10^4$ is just $|V_{\text{off}}|/(|V_{\text{diag}}|\cdot\text{gap})\sim 10^{-4}$ — not a theorem, an observation that the off-diagonal drive is small. And it's *why* "selection wants $G$ diagonal in the genome's preferred basis": diagonal $V$ = pure eigenvalue tuning = maximal phenotype-signal → genome transfer with zero wasted rotation.
-
-**Now untangle the alignment claim**, because "$\Theta$ aligns to $JH_zJ^\top$" was hiding two different facts:
-
-- **(A) Convergence coincidence — static.** As $r\to 0$, $\Theta=JJ^\top$ and the GN image $K=JH_zJ^\top$ share eigenvectors (trivially for MSE, up to the $H_z$ metric otherwise). This is just §2's "kernel ≈ Hessian." No dynamics.
-- **(B) Silent alignment — dynamical.** The kernel *rotates toward the task* during training, and the target is **not** $K$ itself — it's the residual structure, $H_z$-weighted. Integrate the boxed equation with $r(t)=e^{-H_z\Theta t}r_0$:
-
-$$ \delta\Theta(t)=-\,\Xi\cdot\Big[\underbrace{(H_z\Theta)^{-1}}_{\substack{\text{loss-curvature}\\\text{gate}}}\big(I-e^{-H_z\Theta t}\big)\,r_0\Big]. $$
-
-The residual is filtered by $(H_z\Theta)^{-1}$: **the loss curvature $H_z$ gates which output directions are allowed to drive the kernel.** So $\delta\Theta$ grows preferentially along steep-loss, large-residual directions. Combine with gap-suppressed eigenvector dynamics and the stationary kernel is the one whose *top eigenvectors are the high-$H_z$, high-residual task directions* — i.e. $\Theta$ co-diagonalizes with $K$ on the task-relevant subspace. So the claim is correct **as a fixed-point statement**, provided you read "what $\Theta$ aligns to" as "the loss-curvature-weighted task directions," which at convergence *are* $K$'s top eigenvectors. The clean rigorous cases are deep-linear nets (exact alignment to the target's singular modes, Saxe et al.) and small-init rich training (the silent alignment effect, Atanasov–Bordelon–Pehlevan).
-
-**[depends: quasi-static $H_z$]** The (B) fixed-point argument assumes $H_z$ barely moves over the rotation timescale. For MSE, fine ($H_z=I$). For **cross-entropy this is false late in training** — $H_z=\operatorname{diag}(p)-pp^\top$ collapses as the predictions saturate, which *un-gates* exactly the slow directions right when rotation would otherwise matter. So the silent-alignment story is cleanest in the early/rich phase; in the saturated regime the gate closes and you're back to pure eigenvalue motion (which, conveniently, is the regime §5 cares about). Honest version: what's robust here is the *structure* — residual-driven velocity, $H_z$-gating, gap-suppressed rotation — not the closed-form fixed point outside linear/small-init.
-
-Your four bullet observations, now earned rather than asserted: **silent alignment** = (B); **eigenvectors ≪ eigenvalues in rate** = gap suppression; **fine-tuning ≈ hold $J$'s eigenvectors fixed, refit eigenvalues** = because rotation is $\sim 10^4\times$ slower; **low-loss kernel ≈ Hessian** = (A).
+since $J^\top H_z J$ and $J H_z J^\top$ share nonzero eigenvalues.  For MSE, $H_z = I$ and $K = \Theta$.  So "in low-loss regions the kernel is approximately the Hessian" is nothing mystical: it is $r \to 0$ killing the residual term.  Call this fact (A).  It is static; don't confuse it with the dynamical claim in §3.
 
 ---
 
-## §4 — What $J$ and $G$ mean to a biologist
+## §3.  Eigenvalues are fast; eigenvectors are slow
 
-**[fact]** $G$ tells you the *path of least genetic resistance* — not how *wise* a direction is (that's $\beta$), how *easy* it is.
+This is the section to read.  The kernel's eigenvalues retune fast; its eigenvectors rotate roughly $10^4 \times$ slower.  That ratio is gap-suppressed off-diagonal velocity, and it drives everything downstream.
 
-$\Delta\bar z = G\beta$ turns selection gradients into trait change. Because $G=JMJ^\top$ is heritable and itself under selection — the within-lifetime analog is the $\mathcal T$-driven kernel dynamics of §3; across generations it's selection for evolvability — its structure recapitulates most of the evolutionary story. The pretty part: selection on $G$ tends to make the *easy* directions coincide with the *recurrent* environmental ones.
+Gradient flow $\dot \theta = -J^\top r$.  Push forward to function space, then to the residual:
 
-The dictionary, in prose because it reads better than a table:
+$$\dot z = -\Theta r, \qquad \dot r = -H_z \Theta r \;\;\Rightarrow\;\; r(t) \approx e^{-H_z \Theta t}\, r_0.$$
 
-**Modularity** is $G\approx$ block-diagonal. **Pleiotropy** is $J$ dense (one gene, many traits → dense columns). **Polygenicity** is $J^{\dagger}$ dense (one trait, many genes → dense rows of the pseudoinverse). **Neutrality** is $\dim\ker J$ — the parameter directions that leave the phenotype untouched.
+The kernel's own velocity comes from differentiating $\Theta = J J^\top$.  With $\dot J_{ai} = \sum_j \mathcal{T}_{aij} \dot \theta_j = -\sum_{j,b} \mathcal{T}_{aij} J_{bj} r_b$, define the map-curvature double-contracted by Jacobians,
 
-**[fix]** That last one matters and I'd gotten it backwards. I wrote "number of zero eigenvalues of $G$." Those are the *dual* notion: phenotype directions with *no genetic variance*, i.e. constraints. The SLT-relevant neutrality — the degeneracy the RLCT actually counts — is $\ker J$ on the *genome* side, not the null space of the kernel. SLT enjoyers, take the corrected note.
+$$\Xi_{abc} = \sum_{ij} \mathcal{T}_{aij}\, J_{bj}\, J_{ci} \qquad (\text{symmetric in } b, c),$$
 
-On the basis: the genome has a canonical basis (loci) in which $M$ is roughly diagonal; ML mostly doesn't, except adaptive optimizers smuggle in a Fisher-flavored preconditioner — but, Fisher information be damned, weight space's canonical basis is *the weights, damnit*. It comes out in the wash; the noise just enters somewhere else.
+so that
 
-The $10^4$ rotation/retune ratio is the same near-diagonal-$V$ condition from §3 — empirical, regime-dependent, true when perturbations are nearly diagonal. And **flat minima**: environmental variation jostles the landscape, and a lineage wins by carrying variants that suit the *next* landscape *cheaply* — low fitness cost to hold = flat directions. So evolution navigates to flat minima, same as noisy SGD. The bio name for this is canalization / mutational robustness.
+$$\dot \Theta_{ac} = -\sum_b r_b \bigl(\Xi_{abc} + \Xi_{cab}\bigr).$$
 
----
+The kernel moves at a rate set by the third-order curvature of the map, driven by the residual.  Lazy limit $\mathcal{T} \to 0$ gives $\dot \Theta = 0$; feature learning lives in $\mathcal{T} \neq 0$.  This is the first step of the neural tangent hierarchy, which closes at large width.
 
-## §5 — Fine-tuning only moves eigenvalues. Hence emergent misalignment.
+**Where the $10^4$ comes from.**  Treat $V := \dot \Theta$ as a perturbation to $\Theta = \sum_\mu \lambda_\mu u_\mu u_\mu^\top$ and first-order perturbation theory gives
 
-**You can ablate a man's eigenvalues but you will never rotate his eigenvectors.**
+$$\dot \lambda_\mu = u_\mu^\top V u_\mu, \qquad \dot u_\mu = \sum_{\nu \neq \mu} \frac{u_\nu^\top V u_\mu}{\lambda_\mu - \lambda_\nu}\, u_\nu.$$
 
-Bio has environmental variation (ML's nearest analog is curriculum learning, which we mostly don't run). What ML *does* have is noise: minibatch noise, higher-order Taylor terms in the gradient, dropout and explicit regularizers, and the secular oscillations of edge-of-stability. Central flows (Cohen–Damian–Lee–Kolter 2024) make the time-averaged trajectory explicit and show adaptive optimizers implicitly steer toward low curvature — *acceleration via regularization*, which is the optimizer doing §4's flat-minimum hunt on purpose. Dropout, meanwhile, is a geometric-mean ensemble via the weight-scaling inference rule (Goodfellow–Bengio–Courville §7.12) — note the geometric-mean / log-fitness rhyme with the bio side.
+Eigenvalues feel the diagonal of $V$; eigenvectors feel the off-diagonal divided by spectral gaps.  Eigenvectors freeze relative to eigenvalues exactly when (i) $V$ is near-diagonal in $\Theta$'s eigenbasis and (ii) the gaps are large.  The empirical $10^4$ is just $\lvert V_\text{off} \rvert / (\lvert V_\text{diag} \rvert \cdot \text{gap}) \sim 10^{-4}$: not a theorem, an observation that the off-diagonal drive is small.  It is also why "selection wants $G$ diagonal in the genome's preferred basis": diagonal $V$ is pure eigenvalue tuning, no rotation wasted.
 
-**The hypothesis.** If ~99% of learning is the slow rotation of $J$'s (equivalently $\Theta$'s) eigenvectors, then fine-tuning — running at orders of magnitude less compute than pretraining — *can only move eigenvalues*, by the §3 timescale split. This retrodicts emergent misalignment and the general difficulty of unlearning.
+**Two alignment claims, kept apart.**  "$\Theta$ aligns to $JH_zJ^\top$" was hiding two different statements:
 
-**The EM picture** (Betley et al. 2025). Treat post-training as a sudden environment shift. Pretraining left you in a flat minimum stuffed with useful features; post-training says *crank the "helpful-harmless" eigenvalue*, so you fast-remap eigenvalues — no rotation — and you now perch at a pseudo-maximum of alignment **reached along low-resistance directions**. Then fine-tune on literally anything: a generic update has nonzero dot product with those low-resistance directions, and — here's the kicker — the low-resistance (high signal-to-noise) directions are plausibly *exactly* the ones the model represents linearly in its residual stream. The "toxic persona" direction (Chen et al. 2025) is a found instance. So a benign nudge tips you off the pseudo-max along the cheapest available axis. *Ruh roh, Raggy.* Presto: misalignment vector.
+- **(A) Static / convergence coincidence.**  As $r \to 0$, $\Theta = J J^\top$ and $K = J H_z J^\top$ share eigenvectors (trivially for MSE, up to the $H_z$ metric otherwise).  Just §2's "kernel $\approx$ Hessian."  No dynamics.
+- **(B) Dynamical / silent alignment.**  The kernel rotates toward the task during training, and the target is not $K$ itself but the residual structure, $H_z$-weighted.  Integrating with $r(t) = e^{-H_z \Theta t} r_0$,
 
-**The prescription.** Robust alignment ≈ align-train **and then entrench**: deliberately jack up the curvature around the aligned configuration so generic fine-tunes can't cheaply move it. That reframes robust alignment as a *modified unlearning / entrenchment problem*; anything short of it is tiptoeing along a cliff face. Preventative steering ("vaccination," Chen et al. 2025) and tracing persona vectors through pretraining (Moskvoretskii et al. 2026) are adjacent. **[depends: eNTK dynamics over pretraining]** The open empirical question is *when* the alignment-relevant eigenvectors set during pretraining, and whether you can make them stiff. If they set early and stiffen, entrenchment is cheap; if they're still rotating at the end, you've got a problem.
+$$\delta \Theta(t) = -\Xi \cdot \bigl[(H_z \Theta)^{-1} \bigl(I - e^{-H_z \Theta t}\bigr)\, r_0\bigr].$$
 
----
+The residual is filtered by $(H_z \Theta)^{-1}$: the loss curvature gates which output directions are allowed to drive the kernel.  $\delta \Theta$ grows preferentially along steep-loss, large-residual directions.  Combined with gap-suppressed eigenvector rotation, the stationary kernel has its top eigenvectors along the high-$H_z$, high-residual task directions.  So "$\Theta$ aligns to $K$" is correct as a fixed-point statement provided you read it as "$\Theta$ aligns to the loss-curvature-weighted task directions", which at convergence are $K$'s top eigenvectors.  Clean rigorous cases: deep linear nets (Saxe et al.); rich training from small initialization (silent alignment, Atanasov-Bordelon-Pehlevan).
 
-## §6 — RL, KL, singular directions
+**Caveat.**  The (B) fixed-point argument needs $H_z$ approximately static over the rotation timescale.  Fine for MSE.  For cross-entropy this fails late in training: $H_z = \operatorname{diag}(p) - p p^\top$ collapses as predictions saturate, ungating the slow directions exactly when rotation would matter.  The silent-alignment story is cleanest in the early / rich phase; in the saturated regime the gate closes and you are back to pure eigenvalue motion (conveniently, the regime §5 cares about).  What is robust is the structure: residual-driven velocity, $H_z$-gating, gap-suppressed rotation.  The closed-form fixed point is not robust outside linear / small-init settings.
 
-**[conjecture — this section is a skeleton, I haven't done the work]** **KL-regularized RL is an eigenvalue operation, not an eigenvector one.**
-
-KL-penalized RL has the Bayesian characterization (Korbak et al. 2022): the optimum is a tilted posterior
-
-$$ \pi^{*}(\cdot)\;\propto\;\underbrace{\pi_{\text{ref}}(\cdot)}_{\text{base}}\;\underbrace{e^{r/\beta}}_{\text{reward tilt}}, $$
-
-so RLHF *tilts* the reference along the reward — it doesn't rebuild it. In eNTK language that's reweighting existing kernel directions toward the reward inside the trust region the KL enforces; it doesn't pay to *rotate*. This is the formal bones of the "RL just elicits" / pass@$k$ debate: RL moves you to high-reward regions of the span already present at the end of pretraining (coverage), and reaches genuinely new eigenvectors only if the KL budget plus sampling actually populate them (exploration). The directions RL moves cheaply are the top singular directions of $J$ at the SFT init — large $\lambda_\mu$, cheap to reweight; behaviors needing *new features* require eigenvector rotation, which a KL leash and a short horizon won't fund.
-
-**[conjecture — the gap I keep wanting to close]** An RHM-style hierarchical-compositionality analysis of *which* kernel directions post-training can and can't touch. I don't have it. If you do, tell me.
+In summary, four observations earned rather than asserted: silent alignment is (B); eigenvectors $\ll$ eigenvalues in rate is gap suppression; fine-tuning $\approx$ refit eigenvalues at fixed eigenvectors because rotation is $\sim 10^4 \times$ slower; low-loss kernel $\approx$ Hessian is (A).
 
 ---
 
-## §7 — The layerwise eNTK respects computational structure
+## §4.  Bio dictionary
 
-**[fact, then one big conjecture]** The NTK is additive over parameter blocks, $\Theta=\sum_\ell\Theta^\ell$, and each block factorizes into a representation piece and a sensitivity piece.
+$\Delta \bar z = G \beta$ converts selection gradients into trait change.  Because $G = J M J^\top$ is itself heritable and itself under selection, its structure recapitulates much of the evolutionary story.  Within a lifetime, this is the $\mathcal{T}$-driven kernel dynamics of §3; across generations, it is selection for evolvability.  Selection on $G$ tends to make the easy directions coincide with the recurrent environmental ones.
 
-Chain rule through the layer-$\ell$ representation $h^\ell$:
+The dictionary:
 
-$$ \nabla_{\theta^\ell}z=\underbrace{(\partial z/\partial h^\ell)}_{B^\ell\;\text{(backward)}}\,\underbrace{(\partial h^\ell/\partial\theta^\ell)}_{F^\ell\;\text{(forward)}}, \qquad \Theta^\ell=\underbrace{B^\ell}_{\text{sensitivity}}\underbrace{F^\ell F^{\ell\top}}_{\text{representation Gram}}B^{\ell\top}. $$
+- **Modularity**: $G$ approximately block-diagonal.
+- **Pleiotropy**: $J$ dense (one gene, many traits).
+- **Polygenicity**: $J^\dagger$ dense (one trait, many genes).
+- **Neutrality**: $\dim \ker J$.
 
-**[fix]** My intermediate line had $B$ and $F$ swapped relative to the final $BFFB$. Consistent assignment: $F^\ell$ is the **forward** map params → representation, $B^\ell$ the **backward** map representation → output. Then the two natural kernels are
+The last one matters and I had it backwards in my original notes.  I had written "number of zero eigenvalues of $G$."  Those are the dual notion: phenotype directions with no genetic variance, i.e. constraints.  The SLT-relevant neutrality, the degeneracy the RLCT actually counts, is genome-side $\ker J$.
 
-$$ \underbrace{\mathcal F^\ell(x_1,x_2)=F^\ell(x_1)F^\ell(x_2)^\top}_{\text{representation-similarity kernel (the activation Gram — closest thing to grounding the rep)}}, \qquad \underbrace{\mathcal B^\ell(x_1,x_2)=B^\ell(x_1)B^\ell(x_2)^\top}_{\text{gradient / sensitivity kernel}}. $$
+On basis-dependence: the genome has a canonical basis (loci) in which $M$ is roughly diagonal; ML mostly does not, though adaptive optimizers smuggle in a Fisher-flavored preconditioner.  In weight space the canonical basis is the weights; the noise enters somewhere else.
 
-The chain of objects, for the record: the **Hessian** relates loss ↔ params; $\Theta$ is a kernel on **inputs**; the dual $\tilde\Theta$ is a kernel on **gradients**; the GN split sends Hessian → NTK-like ($J^\top H_z J$) + residual. $\Theta^\ell$ is the natural object for tracking *sequential* computation layer-by-layer, $\mathcal F$ for representations, $\mathcal B$ for how params steer them. Data × param duality is baked in.
-
-**The circuits caveat, stated honestly.** These are *local, linear* objects — necessarily, because that's what makes them kernels. **[conjecture]** The speculative bridge: **if** learned eNTK eigenvectors *are* features — which requires assuming eigenvalue alignment is effectively instantaneous, so the eigenvectors carry the learned structure (this is the §3 timescale split pushed to its limit) — **then** the layerwise $\Theta^\ell$ blocks are candidate circuit localizers. The "eigenvectors = features" step is the load-bearing assumption. I think it's roughly right; it is not proven; flag it as such.
-
----
-
-## §8 — Noise → factored computation → circuit Darwinism
-
-**[conjecture, escalating to full crackpot — labeled throughout]** Noise-robustness does more work in producing *structured computation* than the loss-landscape story lets on.
-
-The standard line is: noise ≈ a flatness regularizer. Fine. My stronger claim: the jump from "flat minimum ⇒ good generalization" to "the network learned a *structured computation*" is too big to swallow on landscape grounds alone. I think noise-robustness drives computation to **factor** into circuits, each developing its own noise isolation, which approaches semantic isolation and maybe anomaly detection.
-
-**[ref?]** the result that MLPs become robust to Gaussian noise injection *without* any explicit regularization — it's built in, not imposed. I couldn't re-source the exact paper; if you know it, send it.
-**[ref?]** the mode-connectivity ↔ noise-robustness equivalence. (Garipov et al. 2018 is the canonical mode-connectivity paper, but the noise-robustness link I can't pin down.)
-
-**The "one level up" bet.** If a model has many circuits with semantic content, the same noise-universality that makes *weight-level* robustness emerge for free should recur at the *semantic* level — call it "thought noise" — factorizing not circuits but high-level behavioral routines. A generic anomaly-detect/suppress circuit is wildly profitable as long as coarse anomaly detection is cheap: the suppressor gets reinforced to the exact extent its targets get weakened. *Bam* — a teensy-weensy cognitive immune system / executive function, and with it **circuit Darwinism**: competition → coalitions → emergent higher-level units of selection → hierarchical organization. The brain *loves* opponent-process motifs and encodes meso-scale structure by synaptic competition and pruning — selection plus opponent-process, which is especially good for parallel / multiplexed computation — so hierarchical Darwinism starts to look like a plausible *default* for building a mind.
-
-*Parrhesiacally:* introspection in LLMs may arise from Darwinian competition among circuits; competition yields coalitions and thence emergent units of selection. **If you believe in circuits, Claude may be an ecosystem.** (Whether introspective ability rises monotonically with capability is unclear — evolution is finicky; cf. the paradox of the plankton and the resource curse.) Crackpot, maybe. It's also the most fun thing in here, so it stays.
+Flat minima are the bio notion of canalization or mutational robustness.  A lineage wins by carrying variants that suit the next landscape cheaply: low fitness cost to hold means flat directions.  Evolution navigates to flat minima for the same reason noisy SGD does.
 
 ---
 
-## §9 — The adiabatic frame that ties it together
+## §5.  Fine-tuning only moves eigenvalues, hence emergent misalignment
 
-**[fact + framing]** The eigenvalue/eigenvector timescale split from §3 *is* an adiabatic separation, and once you see it that way the whole stack collapses into one statement.
+The central hypothesis.
 
-Eigenvectors of $\Theta$ are the **slow** variables — the "$G$ background"; eigenvalues are **fast**. So model the network as **adiabatically learning the eNTK under optimization/environmental noise**: hold the slow eigenvector frame approximately fixed, let the eigenvalues equilibrate to the current task. That's the adiabatic theorem's slow-frame / fast-occupation picture, transplanted. The eNTK's layer structure and data/param duality let you track computation layer-by-layer and sample-by-sample. The units of hierarchical selection are the (approximately) block-diagonal pieces of the eNTK; **leakage between levels is off-block eNTK weight**.
+ML has noise rather than environmental variation: minibatch noise, higher-order Taylor terms in the gradient, dropout and explicit regularizers, and the secular oscillations of edge-of-stability.  Central flows (Cohen, Damian, Lee, Kolter 2024) make the time-averaged trajectory explicit and show adaptive optimizers implicitly steer toward low curvature: the optimizer doing §4's flat-minimum hunt deliberately.  Dropout is a geometric-mean ensemble via the weight-scaling inference rule (Goodfellow, Bengio, Courville §7.12), which rhymes with the bio side's log-fitness.
 
-The **eNTK hypothesis** — *learnability ≈ having-learned*, i.e. a direction is learnable iff it already has support in the kernel — is the same sentence as "post-training can only reweight existing eigenvectors," which loops §5 and §6 straight back to here. The slow frame is the thing pretraining builds; everything after just turns its knobs.
+Hypothesis: if most learning is the slow rotation of $J$'s eigenvectors, then fine-tuning, run at orders of magnitude less compute than pretraining, can only move eigenvalues by the §3 timescale split.  This predicts emergent misalignment and the general difficulty of unlearning.
+
+Concretely (Betley et al. 2025): post-training is a sudden environment shift.  Pretraining left you in a flat minimum full of useful features; post-training cranks the "helpful-harmless" eigenvalue, fast-remapping eigenvalues without rotation, and perches you at a pseudo-maximum of alignment reached along low-resistance directions.  Fine-tune on essentially anything: a generic update has nonzero overlap with those low-resistance directions, and the low-resistance / high signal-to-noise directions are plausibly the ones the model represents linearly in the residual stream.  The "toxic persona" direction (Chen et al. 2025) is a found instance.  A benign nudge tips you off the pseudo-max along the cheapest available axis.
+
+The prescription this suggests is align-train and then entrench: deliberately raise the curvature around the aligned configuration so that generic fine-tunes cannot cheaply move it.  Robust alignment becomes a modified unlearning / entrenchment problem; anything short of that is tiptoeing along a cliff face.  Preventative steering ("vaccination", Chen et al. 2025) and tracing persona vectors through pretraining (Moskvoretskii et al. 2026) are adjacent.
+
+The open empirical question is when the alignment-relevant eigenvectors set during pretraining, and whether they can be made stiff.  If early and stiff, entrenchment is cheap.  If they are still rotating at the end, you have a problem.
+
+---
+
+## §6.  RL, KL, singular directions
+
+This section is a skeleton.  Conjecture: KL-regularized RL is an eigenvalue operation, not an eigenvector one.
+
+KL-penalized RL has the Bayesian characterization (Korbak et al. 2022): the optimum is a tilted posterior, $\pi^*(\cdot) \propto \pi_\text{ref}(\cdot)\, e^{r/\beta}$.  RLHF tilts the reference along the reward; it does not rebuild it.  In eNTK language: reweight existing kernel directions toward the reward inside the trust region the KL enforces, with no incentive to rotate.  This is the formal bones of the "RL just elicits" / pass@$k$ debate.  RL moves you to high-reward regions of the span already present at the end of pretraining (coverage); new eigenvectors only if the KL budget plus sampling actually populate them (exploration).  The cheaply movable directions are the top singular directions of $J$ at SFT init: large $\lambda_\mu$, cheap to reweight.  Behaviors needing new features require eigenvector rotation, which a KL leash and a short horizon will not fund.
+
+The gap I keep wanting to close is an RHM-style hierarchical-compositionality analysis of which kernel directions post-training can and cannot touch.  I do not have it; if you do, tell me.
+
+---
+
+## §7.  Layerwise eNTK respects computational structure
+
+The NTK is additive over parameter blocks, $\Theta = \sum_\ell \Theta^\ell$, and each block factorizes.  Chain rule through the layer-$\ell$ representation $h^\ell$:
+
+$$\nabla_{\theta^\ell} z = B^\ell F^\ell, \qquad \Theta^\ell = B^\ell F^\ell F^{\ell\top} B^{\ell\top},$$
+
+with $F^\ell = \partial h^\ell / \partial \theta^\ell$ (forward, params to representation) and $B^\ell = \partial z / \partial h^\ell$ (backward, representation to output).  (Original notes had $B$ and $F$ swapped; this is the consistent assignment.)  The two natural kernels:
+
+$$\mathcal{F}^\ell(x_1, x_2) = F^\ell(x_1) F^\ell(x_2)^\top \quad (\text{representation Gram}),$$
+
+$$\mathcal{B}^\ell(x_1, x_2) = B^\ell(x_1) B^\ell(x_2)^\top \quad (\text{sensitivity}).$$
+
+$\Theta^\ell$ is the natural object for tracking sequential computation layer-by-layer; $\mathcal{F}$ for representations, $\mathcal{B}$ for how params steer them.  The chain of objects: the Hessian relates loss to params; $\Theta$ is a kernel on inputs; the dual $\tilde \Theta$ is a kernel on gradients; the GN split sends Hessian to NTK-like ($J^\top H_z J$) plus residual.  Data / param duality is baked in.
+
+These objects are local and linear by construction (that is what makes them kernels).  Speculative bridge: if learned eNTK eigenvectors are features, the layerwise $\Theta^\ell$ blocks are candidate circuit localizers.  The "eigenvectors = features" step needs eigenvalue alignment to be effectively instantaneous so that the eigenvectors carry the learned structure (§3's timescale split pushed to its limit).  I think it is roughly right.  It is not proven.
+
+---
+
+## §8.  Noise, factored computation, "circuit Darwinism"
+
+This is speculative and gets more so as it goes.
+
+The standard story is that noise is approximately a flatness regularizer.  My stronger claim: the jump from "flat minimum implies good generalization" to "the network learned a structured computation" is too big to make on landscape grounds alone.  Noise-robustness seems to drive computation to factor into circuits, each developing its own noise isolation, which approaches semantic isolation and possibly local anomaly detection.
+
+Two results I want to cite but couldn't re-source; send pointers if you have them:
+
+- MLPs becoming robust to Gaussian noise injection without any explicit regularization (built in, not imposed).
+- A mode-connectivity / noise-robustness equivalence (Garipov et al. 2018 is the canonical mode-connectivity paper, but the noise-robustness link is what I cannot pin down).
+
+The "one level up" bet: if a model has many circuits with semantic content, the same noise universality that gives weight-level robustness for free should recur at the semantic level (call it thought-noise), factorizing high-level behavioral routines rather than individual circuits.  A generic anomaly-detect-and-suppress circuit is profitable as long as coarse anomaly detection is cheap: the suppressor gets reinforced exactly to the extent its targets get weakened.  That gives a small cognitive immune system or executive-function module, and with it circuit Darwinism: competition, coalitions, emergent higher-level units of selection, hierarchical organization.  Brains use opponent-process motifs and structure meso-scale content via synaptic competition and pruning; hierarchical Darwinism is a plausible default for building a mind.
+
+The crackpot end of this: introspection in LLMs may arise from Darwinian competition among circuits, with competition producing coalitions and then emergent units of selection.  Whether introspective ability scales monotonically with capability is unclear (evolution is finicky; cf. the paradox of the plankton and the resource curse).  If you take circuits seriously, a model can be an ecosystem.
+
+---
+
+## §9.  Adiabatic frame
+
+The eigenvalue / eigenvector timescale split from §3 is an adiabatic separation, and once you see it that way the stack collapses to a single statement.
+
+Eigenvectors of $\Theta$ are slow (the "$G$ background"); eigenvalues are fast.  Model the network as adiabatically learning the eNTK under optimization / environmental noise: hold the slow eigenvector frame approximately fixed, let the eigenvalues equilibrate to the current task.  This is the standard slow-frame / fast-occupation picture from the adiabatic theorem, transplanted.  The eNTK's layer structure and data / param duality let you track computation layer-by-layer and sample-by-sample.  The units of hierarchical selection are the approximately block-diagonal pieces of the eNTK; leakage between levels is the off-block eNTK weight.
+
+The eNTK hypothesis ("learnability $\approx$ having-learned": a direction is learnable iff it already has support in the kernel) is the same sentence as "post-training can only reweight existing eigenvectors", which loops §5 and §6 back here.  The slow frame is what pretraining builds; everything after just turns its knobs.
 
 ---
 
 ## References
 
-**Confident:**
+Confident:
 
-- Lande (1979), *Quantitative genetic analysis of multivariate evolution* — the $G$-matrix, $\Delta\bar z = G\beta$.
-- Saxe, McClelland, Ganguli (2014), arXiv:1312.6120 — exact deep-linear dynamics; alignment to target singular modes.
-- Atanasov, Bordelon, Pehlevan (2021), arXiv:2111.00034 — the silent alignment effect.
-- Bordelon, Pehlevan (2022), arXiv:2205.09653 — DMFT of kernel evolution in wide nets.
-- Cohen, Kaur, Li, Talwalkar, Kolter (2021), arXiv:2103.00065 — edge of stability.
-- Cohen, Damian, Lee, Kolter (2024), arXiv:2410.24206 — central flows.
-- Goodfellow, Bengio, Courville (2016), *Deep Learning* §7.12 — dropout as geometric-mean ensemble.
-- Betley, Tan, Warncke, et al. (2025), arXiv:2502.17424 (ICML 2025) — emergent misalignment.
-- Chen et al. (2025), arXiv:2507.21509 — persona vectors; preventative steering.
-- Moskvoretskii et al. (2026), arXiv:2605.13329 — tracing persona vectors through pretraining.
+- Lande (1979), *Quantitative genetic analysis of multivariate evolution* (the $G$-matrix, $\Delta \bar z = G \beta$).
+- Saxe, McClelland, Ganguli (2014), arXiv:1312.6120 (exact deep-linear dynamics; alignment to target singular modes).
+- Atanasov, Bordelon, Pehlevan (2021), arXiv:2111.00034 (silent alignment).
+- Bordelon, Pehlevan (2022), arXiv:2205.09653 (DMFT of kernel evolution in wide nets).
+- Cohen, Kaur, Li, Talwalkar, Kolter (2021), arXiv:2103.00065 (edge of stability).
+- Cohen, Damian, Lee, Kolter (2024), arXiv:2410.24206 (central flows).
+- Goodfellow, Bengio, Courville (2016), *Deep Learning* §7.12 (dropout as geometric-mean ensemble).
+- Betley, Tan, Warncke et al. (2025), arXiv:2502.17424 (ICML 2025; emergent misalignment).
+- Chen et al. (2025), arXiv:2507.21509 (persona vectors; preventative steering).
+- Moskvoretskii et al. (2026), arXiv:2605.13329 (tracing persona vectors through pretraining).
 
-**Verify the exact id before you cite:**
+Verify the exact arXiv id before citing:
 
-- Huang & Yau (2020), *Dynamics of Deep Neural Networks and the Neural Tangent Hierarchy* (~arXiv:1909.08156 — verify).
-- Korbak et al. (2022), *RL with KL penalties is better viewed as Bayesian inference* (~arXiv:2205.11275 — verify).
-- Garipov et al. (2018), arXiv:1802.10026 — loss surfaces / mode connectivity (the noise-robustness link still needs its own source).
+- Huang & Yau (2020), *Dynamics of Deep Neural Networks and the Neural Tangent Hierarchy* (~arXiv:1909.08156).
+- Korbak et al. (2022), *RL with KL penalties is better viewed as Bayesian inference* (~arXiv:2205.11275).
+- Garipov et al. (2018), arXiv:1802.10026 (loss surfaces / mode connectivity; the noise-robustness link still needs its own source).
 
-**Couldn't source — help wanted:**
+Couldn't source - help wanted:
 
-- **[ref?]** Gaussian-noise-injection robustness in MLPs without regularization.
-- **[ref?]** mode-connectivity ↔ noise-robustness equivalence.
+- Gaussian-noise-injection robustness in MLPs without explicit regularization.
+- A mode-connectivity / noise-robustness equivalence.
 
 ---
 
