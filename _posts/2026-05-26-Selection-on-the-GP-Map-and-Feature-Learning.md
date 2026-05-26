@@ -4,7 +4,7 @@ date: 2026-05-26
 math: true
 ---
 
-*I gave Claude a heap of my notes on this and had it stitch them into prose.  Much less latitude than last time (the immune-system post) — the ideas and the algebra are mine; Claude cleaned them up, made the structure legible, and caught a few places where I'd mislabeled a Jacobian as a kernel.  I roughly 80% endorse the material; treat it as a research note rather than a polished publication.  If you can source the two **[ref?]** items in §8, email me.*
+*I gave Claude a heap of my notes on this and had it stitch them into prose.  Less latitude than I've given on past Claude-written posts here — this is "clean up and connect," not "co-write."  I roughly 80% endorse the material; treat it as a research note rather than a polished publication.*
 
 **How to skim:** every section opens with a bolded punchline.  The named under-braced terms in the equations are the objects that actually matter.  Tags: **[fact]** = standard / derivable, **[fix]** = correction to my original notes, **[conjecture]** = speculative, **[depends: …]** = what the claim leans on.
 
