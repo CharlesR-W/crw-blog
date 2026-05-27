@@ -1,0 +1,40 @@
+---
+layout: default
+title: Tutorials
+permalink: /tutorials/
+---
+
+<style>
+  .tutorials-intro { margin-bottom: 2em; }
+  .tutorial-item { margin-bottom: 2.5em; padding-left: 1em; border-left: 3px solid var(--accent); }
+  .tutorial-item h4 { margin: 0 0 0.3em 0; }
+  .tutorial-item .meta { font-size: 0.85em; color: var(--muted); margin-bottom: 0.5em; }
+  .tutorial-item .desc { font-size: 0.95em; margin-bottom: 0.6em; }
+  .tutorial-item ol { font-size: 0.9em; margin: 0.4em 0 0.6em 1.5em; padding: 0; }
+  .tutorial-item ol li { margin-bottom: 0.2em; }
+  .tutorial-links { font-size: 0.85em; }
+  .tutorial-links a { margin-right: 1em; }
+</style>
+
+<h2>Tutorials</h2>
+
+<div class="tutorials-intro">
+<p>Hands-on technical tutorials.  These are full pieces of working code with exercises, not articles.  Each tutorial has rendered notebooks here and a source repository with the unfilled exercise stubs (so you can actually run them).</p>
+</div>
+
+<div class="tutorial-item">
+  <h4>Numerical Linear Algebra for ML - A Hands-On Survey</h4>
+  <div class="meta">May 2026 &middot; 4 notebooks &middot; ~8 hours of work &middot; written with Claude</div>
+  <div class="desc">
+    ARENA-style Jupyter exercises in matrix-free numerical linear algebra, focused on the two objects ML researchers actually care about: the loss Hessian and the empirical NTK.  Covers Krylov methods (power iteration, Lanczos with selective reorthogonalization), randomized SVD, stochastic trace and density-of-states estimation, eigenvalue perturbation theory, and a capstone that watches a network's spectrum evolve across training.  Assumes no NLA background; assumes comfort with PyTorch and gradient-based ML.
+  </div>
+  <ol>
+    <li><a href="{{ '/tutorials/numerical-linalg-for-ml/01_krylov.html' | relative_url }}">Krylov methods for the Hessian</a> - HVPs, power iteration, deflation, Lanczos, loss of orthogonality</li>
+    <li><a href="{{ '/tutorials/numerical-linalg-for-ml/02_randomized.html' | relative_url }}">Randomized methods and the empirical NTK</a> - stable rank, HMT range finder, matrix-free eNTK matvec</li>
+    <li><a href="{{ '/tutorials/numerical-linalg-for-ml/03_estimation.html' | relative_url }}">Trace, density of states, perturbation</a> - Hutchinson, SLQ, Weyl, Davis-Kahan</li>
+    <li><a href="{{ '/tutorials/numerical-linalg-for-ml/04_capstone.html' | relative_url }}">Spectroscopy of a network across training</a> - capstone using all of the above</li>
+  </ol>
+  <div class="tutorial-links">
+    <a href="https://github.com/CharlesR-W/numerical-linalg-for-ml">Source repo (run the exercises)</a>
+  </div>
+</div>
