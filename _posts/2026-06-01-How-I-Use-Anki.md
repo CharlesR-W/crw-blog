@@ -30,7 +30,13 @@ No card should be annoying.  If I find a card that annoys me, I delete it on the
 
 A complicated thing does not become one hard card.  It becomes ten or fifteen trivial ones.  Take a single figure from a lecture on boundary layer theory: you have a curve, and the argument is that in one region this quantity is small, in another region that quantity is small, and you bridge them.  That is not one card.  That is ten or fifteen cards, each asking one tiny thing, each with the relevant equation and a picture right there on the front.
 
-I have a card from when I started, five years ago, that just states the Picard-Lindelof theorem in one giant block: "for all epsilon greater than zero, as long as F is Lipschitz with this constant..."  It is the worst card I own.  I keep it around as a reminder of what not to do.  If I needed that material today I would make ten cards out of it.
+The oldest card in my collection, the very first one I ever made, is this:
+
+> **Front:** State the Picard-Lindelof theorem.  `dx/dt = f(x,t)` has a unique solution IFF \_\_\_\_\_\_
+>
+> **Back:** The ODE `dx/dt = f(x,t)` has a unique solution if f is continuous in t and Lipschitz continuous in x.
+
+It is the worst card I own, and I keep it around as a reminder of what not to do.  Look at what it asks: "state the theorem" (open-ended), *and* fill in a blank, *and* the blank wants the entire hypothesis (two separate conditions) at once.  There is no topic header, so cold, a year from now, you have to reconstruct the whole frame before you can even start.  It is three cards crammed into one, and the format fights you.  If I needed this material today I would make ten cards out of it, which is exactly what the next section is about.
 
 You should be forgetting about 10% of your cards.  If you are forgetting more, your cards are too hard or you are trying to learn from them.  If you are forgetting almost none, fine, but see the section on hitting "Easy" below.
 
@@ -45,6 +51,26 @@ Three things do most of the work:
 - **A picture.**  This makes the card faster to *make*, and it gives you a lot of memory context for free.
 
 So the front of a good hard card looks like: topic header, the question, the equation, a picture, and any especially important context items.  The back is short, just the answer, sometimes with a note or "nearly the answer" hint for the genuinely annoying ones.  Yes, a front that long is a little annoying.  But for something genuinely complicated it is roughly as good as I can do, and it beats the alternative of a card you bounce off of forever.
+
+Here is the pattern in the wild.  I was learning about the "dynamic Cheeger ratio" (an object from the theory of coherent structures in fluid flows), which is defined by this figure:
+
+<img src="{{ site.baseurl }}/images/2026-06-01-anki/cheeger-ratio.png" alt="The dynamic Cheeger ratio: infimum over regions A of (flux through the boundary of A, averaged over time) divided by the measure of A." style="max-width:340px; display:block; margin:1em auto; background:#2a2a2a; padding:8px; border-radius:6px;">
+
+Rather than make one card that says "explain the dynamic Cheeger ratio," I made a little cluster of cards that all share the topic header `dynamic Cheeger ratio` and all put that same picture on the front, each asking exactly one tiny thing:
+
+> **Front:** *dynamic Cheeger ratio* [figure] morally asking for what? → **Back:** the minimum-flux surface
+>
+> **Front:** *dynamic Cheeger ratio* [figure] why is this SO COOL? → **Back:** it's the minimum-flux surface!  optimal partitioning
+>
+> **Front:** *dynamic Cheeger ratio* [figure] what cool object lets us "solve" for it? → **Back:** the dynamical Laplacian
+
+Three cards, each trivial, each anchored by the same header and the same image.  The picture does the context-loading for free, and because I see the figure on every card, the visual itself becomes part of what I remember.  None of these would survive on its own as the lone "Cheeger ratio card," but together they actually stick.
+
+It works for messier objects too.  Here is the front-of-card figure for a cluster on the Levy-Khintchine decomposition of a Levy measure:
+
+<img src="{{ site.baseurl }}/images/2026-06-01-anki/levy-decomposition.jpg" alt="A Levy measure decomposed into a normalized tail part nu and an unnormalized central part mu, with the corresponding split of the Levy-Khintchine integral." style="max-width:560px; display:block; margin:1em auto; background:#fff; padding:8px; border-radius:6px;">
+
+Same move: the equation lives on the front of several cards, and each card blanks out one piece of it ("`generalized Poisson = const*(Poisson) + ?`", "`= ? + (compensated generalized Poisson)`", "morally, what two components?").  Blanking one term at a time turns an intimidating formula into a handful of cards that each feel easy, and the figure carries the context that a bare "state the decomposition" prompt would force you to rebuild from scratch.
 
 ## One giant deck
 
