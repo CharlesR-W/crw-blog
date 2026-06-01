@@ -6,7 +6,7 @@ math: true
 
 *Research notes, not a polished piece.  Whiteboard session with a friend and collaborator.  I had Claude draft the notes; roughly 80% endorse them.  Read accordingly.*
 
-This picks up directly from [Selection on the GP Map and Feature Learning]({% post_url 2026-05-26-Selection-on-the-GP-Map-and-Feature-Learning %}).  That post was static: the $G$-matrix is the NTK, eigenvalues are fast and eigenvectors are slow, and post-training only turns the knobs the slow frame already built.  This session was about making it *dynamical* - getting an actual handle on "circuit depth," and pinning down the three matrices I keep conflating (and which space each one lives in).
+This picks up directly from [Selection on the GP Map and Feature Learning]({{ site.baseurl }}/Selection-on-the-GP-Map-and-Feature-Learning/).  That post was static: the $G$-matrix is the NTK, eigenvalues are fast and eigenvectors are slow, and post-training only turns the knobs the slow frame already built.  This session was about making it *dynamical* - getting an actual handle on "circuit depth," and pinning down the three matrices I keep conflating (and which space each one lives in).
 
 The throughline, if you read one thing: §3.  Shapley attribution of the gradient across coalitions of parameters gives a baseline-free decomposition, spectral clustering makes it tractable, and the rate at which attribution mass flows up the coalition hierarchy *is* the depth-of-circuit object I have wanted all along.  Everything else is either the substrate it runs on (§1, §2) or a thread hanging off it (§4-§9).
 
