@@ -6,13 +6,31 @@ tags: [personal]
 
 A friend recently asked me to walk him through my entire Anki setup, and I ended up giving him a forty-minute brain dump.  This is that brain dump, cleaned up.  It is part philosophy, part card-design rules, and part the specific pipeline I use to learn languages.  None of it is novel, but it is what actually works for me after five years of doing this nearly every day.
 
+## tl;dr
+
+- **Do it every day, and make adding cards frictionless.**  These two are the whole ballgame.  The daily habit is the engine; if adding a card has any friction at all, you won't, and the system quietly dies.
+- Anki makes remembering *a choice*.  A card is a precommitment: you decide *once*, in a moment of caring, that you want to keep something, and the algorithm handles the wanting-to-review-it later.  No daily motivation required.  If a card turns out to suck, you just delete it, so the downside of adding one is near zero.
+- You cannot learn from cards, only remember.  Acquire the understanding elsewhere; use cards to keep it from decaying.
+- Make cards stupidly simple.  Five to ten times more easy cards than your instinct says.  **No card should ever irritate you** - if one does, delete it on sight.
+- Context-load the front (topic header, equation, picture).  Decompose anything hard into many trivial cards.
+- One big deck beats many small ones.  All your cards should feel easy; aim to forget about 10%.
+- It is not just for studying.  Cards for good memories and for people's names and faces pay off enormously.
+- Don't trust an LLM to *write* your cards.  Use it for grunt work (OCR, format conversion), not for authoring.
+- For languages: comprehensible input, don't translate, keep 80-90% of words known, and keep the capture pipeline at zero friction.
+
+Further reading, in roughly increasing depth: [Gwern](https://gwern.net/spaced-repetition), the [SuperMemo 20 Rules](https://www.supermemo.com/en/blog/twenty-rules-of-formulating-knowledge), Michael Nielsen's [*Augmenting Long-term Memory*](https://augmentingcognition.com/ltm.html), and Andy Matuschak's [*How to Write Good Prompts*](https://andymatuschak.org/prompts/).
+
 ## The one idea you should buy
 
 The thing that got me into spaced repetition was [Gwern's essay on it](https://gwern.net/spaced-repetition).  I will be honest: I have not read deeply into the literature, but I understand the basis of the algorithm and the concept is obviously reasonable, and Gwern also sells you on the right mental framing.
 
 The framing is the important part.  Anki is not a toy for memorizing things.  It is a technology that makes remembering things *a choice*.  That is the whole pitch.  Once you internalize it, you stop asking "should I bother making a card for this" and start treating your memory as something you get to decide about.
 
-If you read two things before starting, read Gwern and the [SuperMemo "20 Rules of Formulating Knowledge"](https://www.supermemo.com/en/blog/twenty-rules-of-formulating-knowledge).  Between them you get the why and the how.
+## Do it every day, and precommit
+
+The single most important thing, above any card-design trick, is that you do it *every day*.  Spaced repetition is a daily habit or it is nothing; the algorithm's whole promise is that a small, steady trickle of reviews keeps an arbitrarily large body of knowledge alive, and that only works if the trickle never stops.  Miss a week and the backlog stops feeling easy, which is exactly when people quit.
+
+The reframing that makes this sustainable: **making a card is a precommitment.**  In the moment you encounter something and think "I want to keep that," you are usually motivated.  So you spend that motivation *once*, by making the card, and from then on you never have to decide again whether to learn it - it just shows up in the daily pile and you do it.  You have outsourced your future discipline to a queue.  And because a card you regret costs nothing to kill, the decision to add one is cheap: capture it now, and if it turns out to be annoying or you stop caring, you delete it the next time you see it.  Precommit liberally; prune ruthlessly.
 
 ## The rule that everything else follows from
 
@@ -84,6 +102,16 @@ There are three reasons, in increasing order of honesty:
 
 This is really an instance of a more general principle: [beware trivial inconveniences](https://www.lesswrong.com/posts/reitXJgJXFzKpdKyd/beware-trivial-inconveniences).  My life is dominated by trivial inconveniences, and I have become an expert at engineering them out of my own way.  A single deck removes a decision I would otherwise fail to make.
 
+## Friction is the enemy
+
+If I had to compress this whole post into one principle, it would be this: **drive friction to zero, everywhere.**  Almost every way this hobby fails is a friction failure, and almost every trick above is really a friction-reduction trick in disguise.
+
+There are two places friction kills you, and you have to kill it in both.
+
+The first is the cards themselves.  A card should *never* irritate you.  Not "rarely," not "only the important ones get a pass" - never.  An annoying card does double damage: you get it wrong, which is demoralizing, and it sits there poisoning the feel of the whole session, which makes you less likely to come back tomorrow.  The instant a card irritates me, I delete it, without ceremony and without trying to decide whether I "should" remember it.  If it really mattered, I will meet the idea again and make a better card.  Your reviews should feel like a gentle downhill walk; anything that turns them into a slog has to go.
+
+The second is *capture* - the act of getting a new card into the system.  This is the one people underrate.  If making a card takes thirty seconds and a context switch, you will not do it, and the thought you wanted to keep evaporates.  So I have pushed the cost of capture as close to zero as I can: I have a `Super+S` hotkey that pops open a little card-entry box from anywhere on my machine, so a card is about five seconds away whenever a thought crosses my mind.  (The script behind it is held together with tape and bad decisions - I will spare you the details - but it works, and that is the only thing that matters.)  The whole reason I migrated my old system to Anki in the first place was to get it on my phone, so I could capture and review in bed instead of having to sit at my desk.  The bar to add a card has to be lower than the urge not to bother.
+
 ## The compounding-load myth
 
 People warn each other not to get over-ambitious, because supposedly once you start learning too many things, the algorithm chains you to reviewing that many things forever.  This is mostly not true.
@@ -115,7 +143,9 @@ And: never download a 500-card deck.  Almost never.  I have done it maybe twice.
 
 The desktop client is much better than the mobile app for anything involving editing (hit `E` to edit a card; on [AnkiDroid](https://github.com/ankidroid/Anki-Android) this is genuinely painful, and there may be a better unofficial Android app).  The desktop app also just looks better; mine looks nothing like the default Windows install because I changed the theme to match my system.  If you care, you could have Claude Code write you a frontend, and there are gamification add-ons, including a gloriously cringe [Call of Duty / Halo killstreak mod](https://github.com/jac241/anki_killstreaks) that awards you a Triple Kill for answering cards fast.
 
-The genuinely useful move is to offload the boring parts to an LLM.  I had Claude Code translate my entire old deck into Anki format.  It can OCR a textbook page and turn the vocab into cards, or convert a CSV export into something Anki will import.  I never bothered to learn Anki's native import flow because I did not have to.
+Offload the boring *mechanical* parts to an LLM.  I had Claude Code translate my entire old deck into Anki format; it can OCR a textbook page's vocab, or convert a Pleco CSV export into something Anki will import.  I never bothered to learn Anki's native import flow because I did not have to.  That is the right use of a model here: format-shuffling and transcription, where the judgment has already been made.
+
+What I would *not* do is trust an LLM to **write** your cards.  Authoring a good card is the act of deciding what one tiny thing to ask and how to context-load it, and that judgment is most of the value of the whole exercise - it is the part you should not outsource, and the part models are still bad at.  I have tried.  NotebookLM sort-of-kind-of works, but the cards it produces are still pretty poor.  My best current guess for a workable version is to have it write a *summary* of the material and then make the cards yourself off the summary, so the model does the condensing and you keep the authoring.  I also do not yet have a way to turn arbitrary background listening, or a YouTube video, into cards, and honestly I am not sure that would even be good - deciding what is worth a card is the whole game, and a firehose of auto-generated cards is just the 800-word-deck failure mode with extra steps.
 
 ## Learning a language with this
 
@@ -137,7 +167,7 @@ One more rule of thumb: in any sentence you study, **80 to 90% of the words shou
 
 Does enough input give you grammar and the ability to speak for free?  I have tried hard to make this true and it is mostly not, though it may not matter as much as you would think.  My evidence: I have comparable input in Latin and Greek; I can speak Latin and I cannot output in Greek at all, purely because I never *tried* to output in Greek.  Maxing your reading makes learning to output much easier, but you still have to actually learn to output.  Early on it is probably not worth much of your time; later, you go find exercises and grind it.
 
-Reading versus writing is the same story.  In Chinese I am slowly forgetting how to *write* characters but not how to *read* them, because I practice the one and not the other.  If you only care about reading, you can skip learning to write, and you will save yourself a lot of pain.
+Reading versus writing is its own decision, and here I disagree with my friend.  For Chinese I make *both* reading and writing cards, and I think that is the right call.  His plan was to learn to read without ever practicing writing, on the theory that writing is wasted effort if reading is all you want.  I am skeptical: my best guess is that skipping writing is not actually more efficient even for pure reading, because physically producing a character is some of the strongest reinforcement there is for recognizing it.  You can *try* dropping writing if reading is your only goal, but I would not bet on it saving you time.
 
 ### The actual pipeline
 
@@ -155,15 +185,12 @@ Crucially, I do *not* make vocab cards by hand.  That is cancer and I would simp
 
 The throughline: someone else (or an LLM) makes the cards, you select what you need a chapter at a time, and you keep the friction as close to zero as you can.  The whole reason I finally switched my old system over to Anki is that now it is on my phone, and being able to do it in bed instead of at my desk makes my life about 3% better.  That 3% is the difference between doing it and not.
 
-## tl;dr
+## It is not just for studying
 
-- Anki makes remembering a choice.  That is the point.
-- You cannot learn from cards, only remember.  Acquire elsewhere; use cards to retain.
-- Make cards stupidly simple.  Five to ten times more easy cards than you think.  Delete anything annoying.
-- Context-load the front (topic header, equation, picture).  Decompose hard things into many trivial cards.
-- One big deck beats many small ones, because it removes a decision you will otherwise fumble.
-- The load does not compound the way people fear, *if* your cards are right.
-- All your cards should feel easy.  Aim to forget about 10%.
-- For languages: comprehensible input, don't translate, keep 80-90% of words known, and make the card pipeline frictionless so you actually do it.
+The framing - "remembering is a choice" - applies to a lot more than coursework, and two uses have paid off far beyond what I expected.
+
+The first is **good memories.**  I make cards for them.  Most good moments in a life simply decay; you had them, and then they are gone, retrievable only by accident.  A card converts a memory from something you *had* into something you can *call up on demand*, which roughly twenty-x's the number of good things I can actually reach for at any given time.  And there is a second effect that is almost better: every day, a few of them resurface unbidden in the review pile, a small unscheduled hit of joy in the middle of doing Lipschitz conditions.  Memory is retrieval, and retrieval is a skill you can practice; it turns out you can practice being glad about your own life.
+
+The second is **people.**  The same machinery works for names, faces, and a couple of basic facts about someone you have just met.  It is cheap to set up and socially worth an absurd amount - remembering that someone's kid is named such-and-such, a year later, is a small superpower, and it is exactly the kind of low-stakes fact that otherwise slides straight out of your head.
 
 *Written up from a conversation, with Claude.*
