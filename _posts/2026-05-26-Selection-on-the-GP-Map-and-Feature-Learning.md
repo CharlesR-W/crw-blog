@@ -136,7 +136,7 @@ This section is a skeleton.  Conjecture: KL-regularized RL is an eigenvalue oper
 
 KL-penalized RL has the Bayesian characterization (Korbak et al. 2022): the optimum is a tilted posterior, $\pi^*(\cdot) \propto \pi_\text{ref}(\cdot)\, e^{r/\beta}$.  RLHF tilts the reference along the reward; it does not rebuild it.  In eNTK language: reweight existing kernel directions toward the reward inside the trust region the KL enforces, with no incentive to rotate.  This is the formal bones of the "RL just elicits" / pass@$k$ debate.  RL moves you to high-reward regions of the span already present at the end of pretraining (coverage); new eigenvectors only if the KL budget plus sampling actually populate them (exploration).  The cheaply movable directions are the top singular directions of $J$ at SFT init: large $\lambda_\mu$, cheap to reweight.  Behaviors needing new features require eigenvector rotation, which a KL leash and a short horizon will not fund.
 
-The gap I keep wanting to close is an RHM-style hierarchical-compositionality analysis of which kernel directions post-training can and cannot touch.  I do not have it; if you do, tell me.
+The gap I keep wanting to close is an RHM-style hierarchical-compositionality analysis of which kernel directions post-training can and cannot touch.  I do not have it yet.
 
 ---
 
@@ -164,7 +164,7 @@ This is speculative and gets more so as it goes.
 
 The standard story is that noise is approximately a flatness regularizer.  My stronger claim: the jump from "flat minimum implies good generalization" to "the network learned a structured computation" is too big to make on landscape grounds alone.  Noise-robustness seems to drive computation to factor into circuits, each developing its own noise isolation, which approaches semantic isolation and possibly local anomaly detection.
 
-Two results I want to cite but couldn't re-source; send pointers if you have them:
+Two results I want to cite but couldn't re-source:
 
 - MLPs becoming robust to Gaussian noise injection without any explicit regularization (built in, not imposed).
 - A mode-connectivity / noise-robustness equivalence (Garipov et al. 2018 is the canonical mode-connectivity paper, but the noise-robustness link is what I cannot pin down).
@@ -206,7 +206,7 @@ Verify the exact arXiv id before citing:
 - Korbak et al. (2022), *RL with KL penalties is better viewed as Bayesian inference* (~arXiv:2205.11275).
 - Garipov et al. (2018), arXiv:1802.10026 (loss surfaces / mode connectivity; the noise-robustness link still needs its own source).
 
-Couldn't source - help wanted:
+Couldn't source:
 
 - Gaussian-noise-injection robustness in MLPs without explicit regularization.
 - A mode-connectivity / noise-robustness equivalence.
