@@ -45,7 +45,7 @@ Both are symmetric PSD **coupling operators** - and "coupling operator" is the k
 
 Two bookkeeping facts I will lean on later.
 
-**Shared nonzero spectrum.** $JJ^\top$ and $J^\top J$ have *identical nonzero eigenvalues* (and $\operatorname{tr}(JJ^\top)=\operatorname{tr}(J^\top J)$ is the trace sanity check). So *before any normalization*, the data-space and parameter-space blocks have the **same gap structure** - the same candidate count $m$ of macrostates. What differs between the two spaces is the *eigenvectors*, and therefore the geometry the clustering actually sees. This sharpens the data-vs-parameter question in §8: it is not "which space has the gap" (same gap), it is "which space has cleaner *eigenvectors*."
+**Shared nonzero spectrum.** $JJ^\top$ and $J^\top J$ have *identical nonzero eigenvalues* (and $\operatorname{tr}(JJ^\top)=\operatorname{tr}(J^\top J)$ is the trace sanity check). So *before any normalization*, the data-space and parameter-space blocks have the **same gap structure** - the same candidate count $m$ of macrostates. What differs between the two spaces is the *eigenvectors*, and therefore the geometry the clustering actually sees. This sharpens the data-vs-parameter question in §9: it is not "which space has the gap" (same gap), it is "which space has cleaner *eigenvectors*."
 
 **Singular-value duality gives a free dual readout.** Write $J=\sum_k s_k\,u_k v_k^\top$. The $u_k$ are output/data modes; the $v_k$ are parameter modes. A macrostate built from a set of singular directions automatically has *both* a data-face (a span of $u_k$'s - "the inputs this state is about") and a parameter-face (a span of $v_k$'s - "the weights this state is made of"). That is the dual readout I keep wanting and cannot get from thresholded-attention by eye, and it falls out of the SVD for free - provided we coarse-grain in a way that respects the singular structure.
 
@@ -75,7 +75,7 @@ $M$ is row-stochastic - a random walk on the micro-units. For $\alpha=1$ it appr
 
 The interpretation is what makes the next step meaningful: **a walker that prefers to step between strongly-coupled units.** Tightly-coupled groups become traps the walker rarely leaves; those traps are the macrostates. This is the move that converts *coupling structure* into *timescale structure*, via $t_k=-1/\ln\lambda_k$: eigenvalues near $1$ are slow processes (rare inter-trap transitions), and a gap in the spectrum is a gap in timescales. That is what turns "the eNTK has block structure" into "the network has a separation of scales."
 
-One honest caveat for §8: the density/row normalization is *not* the same operation in data-space and parameter-space, so the exact shared-nonzero-spectrum fact of §2 holds for the raw Gram blocks but is *perturbed* once we pass to the stochastic $M$. The leading gap is largely inherited; the fine structure is not.
+One honest caveat for §9: the density/row normalization is *not* the same operation in data-space and parameter-space, so the exact shared-nonzero-spectrum fact of §2 holds for the raw Gram blocks but is *perturbed* once we pass to the stochastic $M$. The leading gap is largely inherited; the fine structure is not.
 
 ---
 
@@ -133,7 +133,7 @@ Lining the two up, because the correspondence is tighter than "both coarse-grain
 | Block-spin / decimation map               | Membership projection $\chi$ (lump micro $\to$ macro)     |
 | Effective Hamiltonian $H'$                | Coarse generator $M_c$ (Galerkin projection)              |
 | Iterating the RG step                     | Recursive coarse-graining / hierarchy of macrostates      |
-| Fixed point, universality                 | *(open - no clean analogue yet, see §8)*                  |
+| Fixed point, universality                 | *(open - no clean analogue yet, see §9)*                  |
 
 The cleanest *precise* instance is the **transfer-matrix RG** of 1D statistical mechanics, and its DMRG descendant (White): the transfer matrix's leading eigenvalues set the correlation length, and the RG step keeps the dominant invariant subspace. An MSM transfer operator is the dynamical sibling of that transfer matrix, and PCCA+ is "keep the dominant invariant subspace, but with a *fuzzy, convex* block-spin assignment instead of a hard one." That fuzziness is not a hack: it is what lets coarse states overlap at their boundaries, which is exactly where real interpretability boundaries are soft (a parameter that participates in two circuits).
 
@@ -178,11 +178,50 @@ The payoff to aim for is the **dual readout** of §2: every macrostate viewable 
 ---
 
 
-## §8. Open questions I want your read on
+## §8. Context-conditional circuits: cluster the data, re-read the parameters there
+
+Everything so far coarse-grains *one* parameter-space block. But that block is itself an average over data, and that turns out to matter. Writing the per-datapoint Jacobian $J(x_i)\in\mathbb R^{O\times P}$,
+$$
+G = J^\top J = \sum_i J(x_i)^\top J(x_i) = \sum_i G_i,\qquad
+G_i := \sum_c \nabla_\theta f_c(x_i)\,\nabla_\theta f_c(x_i)^\top,
+$$
+so $G$ is a sum - an unnormalized $\mathbb E_x[G_x]$ - of per-datapoint parameter-coupling matrices. The circuits PCCA+ pulls out of $G$ are therefore *context-averaged*: marginalized over the entire input distribution.
+
+I suspect that marginalization is exactly why the parameter block looks like a hairball (§2, §9). If a parameter sits in circuit A when the input is a 3 and in circuit B when the input is an 8, then in the pooled $G$ it is coupled to *both*, and those cross-links are the off-diagonal bridges that wash out the blocks. The marginal coupling is a *superposition* of several cleaner conditional couplings, and superposing them muddies the structure. Said that way the fix writes itself: condition.
+
+**The procedure.**
+
+1. Cluster the data points with the data-space block $\Theta=JJ^\top$ - the face we already expect to cluster cleanly. Call the clusters $C_1,\dots,C_K$ and read them as *contexts*, or operating regimes of the network.
+2. For each context, re-evaluate the parameter-space eNTK *restricted to that cluster*:
+$$
+G_{C_k}=\sum_{i\in C_k}G_i\quad\Big(\text{or }\tfrac1{|C_k|}\sum_{i\in C_k}G_i\Big),\qquad \sum_k G_{C_k}=G.
+$$
+This is the parameter coupling *as the subpopulation $C_k$ sees it* - a law-of-total-coupling decomposition of the global $G$.
+3. Diffusion-map and PCCA+ each $G_{C_k}$ on its own, yielding *context-conditional* parameter macrostates.
+4. Compare across contexts. Coalitions present in *every* $C_k$ are context-invariant machinery - something the network always runs; coalitions that appear under only one context are *context-dependent* circuits - computation the network deploys only in that regime.
+
+**Why I think it is worth doing.**
+
+- It is a *falsifiable* test of the hairball hypothesis: if $G$ is a context-mixture, each $G_{C_k}$ should be *more* modular than the pooled $G$ - cleaner gap, tighter simplex, crisper memberships. If conditioning sharpens nothing, the hairball is intrinsic and not an averaging artifact. Either answer is informative.
+- It is a concrete handle on *context-dependent computation* / polysemanticity. A parameter that is monosemantic *within* a context but wears different hats *across* contexts shows up as a unit whose membership vector $\chi$ rotates from $C_k$ to $C_{k'}$. The thing that is illegible globally - because it is mixed - becomes legible once indexed by context.
+- It uses both faces in the way §2 wanted: the *clean* data-space geometry supplies the index (the "where"), and the parameter block is read out conditionally on that index (the "what"). Neither face alone gives you context-dependent circuits; the product does.
+
+**Caveats.**
+
+- The contexts inherit a *scale choice* from the data clustering (the number $K$). So this nests a renormalization inside a renormalization: a data-space coarse-graining feeding a family of parameter-space ones. The honest version sweeps $K$ and watches conditional circuits split and merge as contexts refine - a joint (data-scale, parameter-scale) diagram rather than a single partition.
+- $G_{C_k}$ is a conditional second moment, close kin to a *Fisher / Gauss-Newton matrix restricted to a data region*; that reading argues for the whitened metric of §9 *inside* each context rather than the raw Euclidean one.
+- It is correlational. Shared $\chi$ across contexts says the *coupling* is shared, not that the *same computation* runs; pinning that down wants an intervention (ablate the macrostate, check that it only bites within its context).
+
+This is still **Axis A** (§6) - similarity coarse-graining - with the similarity made *conditional*. The Axis B version conditions the *predictive* operator on the context instead, i.e. asks for context-dependent causal states: the same conditioning idea, on a harder operator.
+
+---
+
+
+## §9. Open questions I want your read on
 
 **Is the eNTK the right operator?** It is a *static* coupling, so turning it into a Markov chain by diffusion is a modeling choice, not an intrinsic dynamics. Axis B is the principled alternative: use an operator that *already* has dynamics (the layer-to-layer forward map, the SGD transition kernel, the predictive past$\to$future map). The eNTK is the most *canonical* static choice, but canonical is not the same as correct-for-this-purpose.
 
-**Data-space vs parameter-space.** Recall §2: the two raw blocks share their nonzero spectrum, so they propose the *same* $m$ - the question is which space has cleaner *eigenvectors*, hence a tighter simplex and crisper memberships. My guess is that the modular structure is cleaner in function/data space ($JJ^\top$) than in the parameter hairball ($J^\top J$), which may need whitening by a Fisher/Hessian metric before it will coarse-grain - i.e. the *canonical/whitened* kernel $\Theta S$ from the Coalitions post §2 rather than the naive Euclidean one. The SVD duality says I may be posing a false dichotomy: a singular-subspace coarse-graining carries *both* faces, and the real choice is only which face's geometry to run the simplex-finding in. Cheap to check directly.
+**Data-space vs parameter-space.** Recall §2: the two raw blocks share their nonzero spectrum, so they propose the *same* $m$ - the question is which space has cleaner *eigenvectors*, hence a tighter simplex and crisper memberships. My guess is that the modular structure is cleaner in function/data space ($JJ^\top$) than in the parameter hairball ($J^\top J$), which may need whitening by a Fisher/Hessian metric before it will coarse-grain - i.e. the *canonical/whitened* kernel $\Theta S$ from the Coalitions post §2 rather than the naive Euclidean one. The SVD duality says I may be posing a false dichotomy: a singular-subspace coarse-graining carries *both* faces, and the real choice is only which face's geometry to run the simplex-finding in. Cheap to check directly - and §8 turns it into a sharper experiment: condition $G$ on data clusters first, since the parameter hairball may be a context-mixture rather than a genuine lack of structure.
 
 **Which kernel - plain eNTK, forward, or backward?** Coarse-graining $\mathcal F^\ell$ clusters by *representational similarity* ("which inputs the layer represents alike"); coarse-graining $\mathcal B^\ell$ clusters by *output sensitivity* ("which directions the output is steered by"); coarse-graining the full $\Theta^\ell$ mixes both and tracks *sequential computation* layer by layer. These are different macrostate notions and I do not yet know which is the right substrate - plausibly $\mathcal F$ for "features" and $\Theta^\ell$ for "circuits."
 
