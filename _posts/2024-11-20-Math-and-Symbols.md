@@ -1,5 +1,6 @@
 ---
-title: "[Musing] Math and Symbols"
+title: "Math and Symbols"
+kind: musing
 date: 2024-11-20
 math: true
 ---

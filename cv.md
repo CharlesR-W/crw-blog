@@ -1,8 +1,16 @@
 ---
 layout: default
-title: CV
+title: About and CV
 permalink: /cv/
 ---
+
+## About
+
+I'm Charles Renshaw-Whitman.  I care about physics, applied mathematics, spaced repetition, exercise, and psychopharmacology.
+
+I also enjoy language-learning; I can read Latin, Ancient Greek, and Chinese; speaking is another story, but I'm always happy to meet friends and practice.
+
+## CV
 
 **Charles Renshaw-Whitman**
 [Email](mailto:CharlesRW@protonmail.com) | Phone: +1 (609) 217-2136  **|**  [LinkedIn](https://www.linkedin.com/in/charles-renshaw-whitman/)  **|**  [GitHub](https://github.com/CharlesR-W)  **|**  [Personal Website and Blog](https://charlesr-w.github.io/crw-blog/)

@@ -1,5 +1,6 @@
 ---
-title: "[Musing] Zero Measure Principle for Physics Metatheory"
+title: "Zero Measure Principle for Physics Metatheory"
+kind: musing
 date: 2024-12-15
 math: true
 ---

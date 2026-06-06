@@ -1,5 +1,6 @@
 ---
-title: "[Latin] Latin Translation of The End of Evangelion"
+title: "Latin Translation of The End of Evangelion"
+kind: latin
 date: 2024-10-23
 tags: [personal]
 ---

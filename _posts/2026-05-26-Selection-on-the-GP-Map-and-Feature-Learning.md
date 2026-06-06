@@ -1,5 +1,6 @@
 ---
-title: "[Notes] Selection on the GP Map and Feature Learning"
+title: "Selection on the GP Map and Feature Learning"
+tags: [notes]
 date: 2026-05-26
 math: true
 ---

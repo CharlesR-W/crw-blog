@@ -1,29 +1,26 @@
 ---
 layout: default
-title: Personal Divagations
-permalink: /personal/
+title: Notes
+permalink: /notes/
 ---
 
-<h2>Personal Divagations</h2>
-
 <div style="margin-bottom: 2.5em; line-height: 1.7;">
-<p>I'm Charles Renshaw-Whitman.  I care about physics, applied mathematics, spaced repetition, exercise, and psychopharmacology.</p>
+<h2>Notes</h2>
 
-<p>I also enjoy language-learning; I can read Latin, Ancient Greek, and Chinese; speaking is another story, but I'm always happy to meet friends and practice.</p>
-
-<p>Below is the non-technical writing that didn't fit on the front page.</p>
+<p>Working notes on what I am currently thinking about.  Claude writes these up from my drafts and scratch work, so they are rougher, more provisional, and less self-contained than the Research posts.  They are here because the half-formed version is often more useful to share than nothing.</p>
 </div>
 
 <h3 style="margin-bottom: 0.8em;">Posts</h3>
 
 <div class="posts-list">
 <ul>
-{% assign personal_posts = site.posts | where_exp: "post", "post.tags contains 'personal'" %}
-{% for post in personal_posts %}
+{% assign notes_posts = site.posts | where_exp: "post", "post.tags contains 'notes'" %}
+{% for post in notes_posts %}
 <li class="post-item">
   <a href="{{ site.baseurl }}{{ post.url }}" class="post-link">{{ post.title }}</a>
   <span class="post-meta">
     <span class="post-date">{{ post.date | date: "%B %d, %Y" }}</span>
+    {% if post.kind %}<span class="badge">{{ post.kind }}</span>{% endif %}
     {% if post.math %}<span class="badge">math</span>{% endif %}
     {% assign wc = post.content | number_of_words %}{% if wc > 3000 %}<span class="badge">long</span>{% endif %}
   </span>
@@ -32,6 +29,6 @@ permalink: /personal/
 </ul>
 </div>
 
-{% if personal_posts.size == 0 %}
+{% if notes_posts.size == 0 %}
 <p style="color: var(--muted); font-style: italic;">Nothing here yet.</p>
 {% endif %}

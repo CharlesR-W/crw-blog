@@ -1,5 +1,6 @@
 ---
-title: "[Latin] Latin Translation of Neon Genesis Evangelion Pilot Episode"
+title: "Latin Translation of Neon Genesis Evangelion Pilot Episode"
+kind: latin
 date: 2024-10-23
 tags: [personal]
 ---

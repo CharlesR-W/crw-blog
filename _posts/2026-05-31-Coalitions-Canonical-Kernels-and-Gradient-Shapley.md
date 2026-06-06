@@ -1,5 +1,6 @@
 ---
-title: "[Notes] Coalitions, Canonical Kernels, and Gradient Shapley"
+title: "Coalitions, Canonical Kernels, and Gradient Shapley"
+tags: [notes]
 date: 2026-05-31
 math: true
 ---

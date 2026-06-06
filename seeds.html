@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Seeds
+title: Curated Tutorial Prompts
 permalink: /seeds/
 ---
 
@@ -11,14 +11,25 @@ permalink: /seeds/
   .seed-item .meta { font-size: 0.85em; color: var(--muted); margin-bottom: 0.5em; }
   .seed-item .context { font-size: 0.9em; margin-bottom: 0.3em; }
   .seed-item .context strong { color: var(--muted); }
+  .tutorial-item { margin-bottom: 2.5em; padding-left: 1em; border-left: 3px solid var(--accent); }
+  .tutorial-item h4 { margin: 0 0 0.3em 0; }
+  .tutorial-item .meta { font-size: 0.85em; color: var(--muted); margin-bottom: 0.5em; }
+  .tutorial-item .desc { font-size: 0.95em; margin-bottom: 0.6em; }
+  .tutorial-item ol { font-size: 0.9em; margin: 0.4em 0 0.6em 1.5em; padding: 0; }
+  .tutorial-item ol li { margin-bottom: 0.2em; }
+  .tutorial-links { font-size: 0.85em; }
+  .tutorial-links a { margin-right: 1em; }
+  .section-head { margin-top: 2.5em; margin-bottom: 0.6em; }
 </style>
 
-<h2>Seeds</h2>
+<h2>Curated Tutorial Prompts</h2>
 
 <div class="seeds-intro">
-<p>Bite-sized mini-curricula on math and physics topics I find interesting.  Each one is a curated entry point into a subject: the motivation for caring, the right angle of approach, and enough material to get started.  I picked the topics and angles; Claude fleshed them out into full curricula.</p>
-<p>The idea is that you take a seed and feed it to your own LLM of choice, asking it to expand any section into a full tutorial, work examples, quiz you, or branch into the "what's next" pointers.  The seed is the map; you and your LLM walk the terrain.</p>
+<p>Curated entry points into math and physics topics I find interesting.  Two kinds live here: lightweight <em>seed prompts</em> you feed to your own LLM, and full <em>hands-on tutorials</em> with working code and exercises.</p>
+<p>For the seeds, I picked the topics and angles and Claude fleshed them out into mini-curricula: the motivation for caring, the right angle of approach, and enough to get started.  Take one, hand it to the LLM of your choice, and ask it to expand any section into a full tutorial, work examples, quiz you, or branch into the "what's next" pointers.  The seed is the map; you and your LLM walk the terrain.</p>
 </div>
+
+<h3 class="section-head">Seed prompts</h3>
 
 {% assign seeds = site.posts | where_exp: "post", "post.tags contains 'seed'" %}
 {% for post in seeds %}
@@ -33,3 +44,26 @@ permalink: /seeds/
 {% if seeds.size == 0 %}
 <p><em>No seeds yet.</em></p>
 {% endif %}
+
+<h3 class="section-head">Hands-on tutorials</h3>
+
+<div class="seeds-intro">
+<p>Full pieces of working code with exercises, not articles.  Each has rendered notebooks here and a source repository with the unfilled exercise stubs, so you can actually run them.</p>
+</div>
+
+<div class="tutorial-item">
+  <h4>Numerical Linear Algebra for ML - A Hands-On Survey</h4>
+  <div class="meta">May 2026 &middot; 4 notebooks &middot; ~8 hours of work &middot; written with Claude</div>
+  <div class="desc">
+    ARENA-style Jupyter exercises in matrix-free numerical linear algebra, focused on the two objects ML researchers actually care about: the loss Hessian and the empirical NTK.  Covers Krylov methods (power iteration, Lanczos with selective reorthogonalization), randomized SVD, stochastic trace and density-of-states estimation, eigenvalue perturbation theory, and a capstone that watches a network's spectrum evolve across training.  Assumes no NLA background; assumes comfort with PyTorch and gradient-based ML.
+  </div>
+  <ol>
+    <li><a href="{{ '/tutorials/numerical-linalg-for-ml/01_krylov.html' | relative_url }}">Krylov methods for the Hessian</a> - HVPs, power iteration, deflation, Lanczos, loss of orthogonality</li>
+    <li><a href="{{ '/tutorials/numerical-linalg-for-ml/02_randomized.html' | relative_url }}">Randomized methods and the empirical NTK</a> - stable rank, HMT range finder, matrix-free eNTK matvec</li>
+    <li><a href="{{ '/tutorials/numerical-linalg-for-ml/03_estimation.html' | relative_url }}">Trace, density of states, perturbation</a> - Hutchinson, SLQ, Weyl, Davis-Kahan</li>
+    <li><a href="{{ '/tutorials/numerical-linalg-for-ml/04_capstone.html' | relative_url }}">Spectroscopy of a network across training</a> - capstone using all of the above</li>
+  </ol>
+  <div class="tutorial-links">
+    <a href="https://github.com/CharlesR-W/numerical-linalg-for-ml">Source repo (run the exercises)</a>
+  </div>
+</div>

@@ -1,5 +1,6 @@
 ---
-title: "[Notes] Learning, Order by Order"
+title: "Learning, Order by Order"
+tags: [notes]
 subtitle: "Decomposing how data structure enters learning algorithms via the Volterra series"
 date: 2026-03-10
 math: true

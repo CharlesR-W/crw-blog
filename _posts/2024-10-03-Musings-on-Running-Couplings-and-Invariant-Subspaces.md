@@ -1,5 +1,6 @@
 ---
-title: "[Musing] Musings on Running Couplings and Invariant Subspaces"
+title: "Musings on Running Couplings and Invariant Subspaces"
+kind: musing
 date: 2024-10-03
 math: true
 ---

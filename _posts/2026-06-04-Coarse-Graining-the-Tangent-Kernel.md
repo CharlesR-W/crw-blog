@@ -1,5 +1,6 @@
 ---
-title: "[Notes] Coarse-Graining the Tangent Kernel: PCCA+, Renormalization, and Scale-Aware Macrostates"
+title: "Coarse-Graining the Tangent Kernel: PCCA+, Renormalization, and Scale-Aware Macrostates"
+tags: [notes]
 date: 2026-06-04
 math: true
 ---

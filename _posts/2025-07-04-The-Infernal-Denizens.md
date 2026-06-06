@@ -1,5 +1,6 @@
 ---
-title: "[Poetry] The Infernal Denizens"
+title: "The Infernal Denizens"
+kind: poetry
 date: "2025-07-04"
 tags: [personal]
 ---

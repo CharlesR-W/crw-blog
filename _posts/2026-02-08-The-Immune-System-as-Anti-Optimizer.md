@@ -1,5 +1,6 @@
 ---
-title: "[Notes] The Immune System as Anti-Optimizer"
+title: "The Immune System as Anti-Optimizer"
+tags: [notes]
 date: 2026-02-08
 ---
 
