@@ -13,12 +13,21 @@ The style file is iteratively refined — when CRW corrects your writing during 
 Posts use YAML front matter:
 ```yaml
 ---
-title: "Post Title"
+title: "Post Title"   # clean title, no [Prefix] tags
 date: YYYY-MM-DD
 math: true        # include if post has LaTeX
-tags: [seed]       # optional: nulla-dies, seed, personal, math
+tags: [seed]       # optional, drives PAGE MEMBERSHIP
+kind: musing       # optional, shows as a right-side badge
 ---
 ```
+
+`tags:` decides which page a post appears on (one per page):
+`seed` -> Curated Tutorial Prompts, `personal` -> Writing, `widget` -> Widgets,
+`notes` -> Notes (Claude-written working notes), `nulla-dies` -> hidden page.
+Untagged posts land on the Research homepage.
+
+`kind:` is a content-type badge only (no page effect): `musing`, `poetry`,
+`latin`, `linkpost`, etc.  Never put `[Prefix]` inside the title; use `kind:`.
 
 ## Attribution
 
