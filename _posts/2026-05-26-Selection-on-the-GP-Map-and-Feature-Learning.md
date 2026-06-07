@@ -5,9 +5,7 @@ date: 2026-05-26
 math: true
 ---
 
-*Research notes, not a polished piece.  Drafted from my notes with Claude's help; the math is mine and I ~80% endorse the conclusions.  Read accordingly.*
-
-The throughline is one analogy taken seriously: the genotype-phenotype map is the network's parameter-to-output map, and the quantitative-genetics $G$-matrix is the NTK.  Everything else hangs off the timescale split in §3.  If you read one section, read §3; if you read two, add §5.
+These notes take one analogy seriously: the genotype-phenotype map is the network's parameter-to-output map, and the quantitative-genetics $G$-matrix is the NTK.  Everything else hangs off the timescale split in §3.
 
 ---
 
@@ -59,7 +57,7 @@ since $J^\top H_z J$ and $J H_z J^\top$ share nonzero eigenvalues.  For MSE, $H_
 
 ## §3.  Eigenvalues are fast; eigenvectors are slow
 
-This is the section to read.  The kernel's eigenvalues retune fast; its eigenvectors rotate roughly $10^4 \times$ slower.  That ratio is gap-suppressed off-diagonal velocity, and it drives everything downstream.
+The kernel's eigenvalues retune fast; its eigenvectors rotate roughly $10^4 \times$ slower.  That ratio is gap-suppressed off-diagonal velocity, and it drives everything downstream.
 
 Gradient flow $\dot \theta = -J^\top r$.  Push forward to function space, then to the residual:
 
@@ -92,7 +90,7 @@ The residual is filtered by $(H_z \Theta)^{-1}$: the loss curvature gates which 
 
 **Caveat.**  The (B) fixed-point argument needs $H_z$ approximately static over the rotation timescale.  Fine for MSE.  For cross-entropy this fails late in training: $H_z = \operatorname{diag}(p) - p p^\top$ collapses as predictions saturate, ungating the slow directions exactly when rotation would matter.  The silent-alignment story is cleanest in the early / rich phase; in the saturated regime the gate closes and you are back to pure eigenvalue motion (conveniently, the regime §5 cares about).  What is robust is the structure: residual-driven velocity, $H_z$-gating, gap-suppressed rotation.  The closed-form fixed point is not robust outside linear / small-init settings.
 
-In summary, four observations earned rather than asserted: silent alignment is (B); eigenvectors $\ll$ eigenvalues in rate is gap suppression; fine-tuning $\approx$ refit eigenvalues at fixed eigenvectors because rotation is $\sim 10^4 \times$ slower; low-loss kernel $\approx$ Hessian is (A).
+In summary, four observations: silent alignment is (B); eigenvectors $\ll$ eigenvalues in rate is gap suppression; fine-tuning $\approx$ refit eigenvalues at fixed eigenvectors because rotation is $\sim 10^4 \times$ slower; low-loss kernel $\approx$ Hessian is (A).
 
 ---
 
@@ -116,8 +114,6 @@ Flat minima are the bio notion of canalization or mutational robustness.  A line
 ---
 
 ## §5.  Fine-tuning only moves eigenvalues, hence emergent misalignment
-
-The central hypothesis.
 
 ML has noise rather than environmental variation: minibatch noise, higher-order Taylor terms in the gradient, dropout and explicit regularizers, and the secular oscillations of edge-of-stability.  Central flows (Cohen, Damian, Lee, Kolter 2024) make the time-averaged trajectory explicit and show adaptive optimizers implicitly steer toward low curvature: the optimizer doing §4's flat-minimum hunt deliberately.  Dropout is a geometric-mean ensemble via the weight-scaling inference rule (Goodfellow, Bengio, Courville §7.12), which rhymes with the bio side's log-fitness.
 
@@ -155,7 +151,7 @@ $$\mathcal{B}^\ell(x_1, x_2) = B^\ell(x_1) B^\ell(x_2)^\top \quad (\text{sensiti
 
 $\Theta^\ell$ is the natural object for tracking sequential computation layer-by-layer; $\mathcal{F}$ for representations, $\mathcal{B}$ for how params steer them.  The chain of objects: the Hessian relates loss to params; $\Theta$ is a kernel on inputs; the dual $\tilde \Theta$ is a kernel on gradients; the GN split sends Hessian to NTK-like ($J^\top H_z J$) plus residual.  Data / param duality is baked in.
 
-These objects are local and linear by construction (that is what makes them kernels).  Speculative bridge: if learned eNTK eigenvectors are features, the layerwise $\Theta^\ell$ blocks are candidate circuit localizers.  The "eigenvectors = features" step needs eigenvalue alignment to be effectively instantaneous so that the eigenvectors carry the learned structure (§3's timescale split pushed to its limit).  I think it is roughly right.  It is not proven.
+These objects are local and linear by construction (that is what makes them kernels).  Speculative bridge: if learned eNTK eigenvectors are features, the layerwise $\Theta^\ell$ blocks are candidate circuit localizers.  The "eigenvectors = features" step needs eigenvalue alignment to be effectively instantaneous so that the eigenvectors carry the learned structure (§3's timescale split pushed to its limit).  I think this is roughly right, though I have not proved it.
 
 ---
 

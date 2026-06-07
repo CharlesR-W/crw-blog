@@ -5,11 +5,9 @@ date: 2026-05-31
 math: true
 ---
 
-*Research notes, not a polished piece.  Whiteboard session with a friend and collaborator.  I had Claude draft the notes; roughly 80% endorse them.  Read accordingly.*
+This picks up from [Selection on the GP Map and Feature Learning]({{ site.baseurl }}/Selection-on-the-GP-Map-and-Feature-Learning/).  That post was static: the $G$-matrix is the NTK, eigenvalues are fast and eigenvectors are slow, and post-training only turns the knobs the slow frame already built.  These notes are from a whiteboard session making it *dynamical*: getting a handle on "circuit depth," and pinning down the three matrices that are easy to conflate (and which space each one lives in).
 
-This picks up directly from [Selection on the GP Map and Feature Learning]({{ site.baseurl }}/Selection-on-the-GP-Map-and-Feature-Learning/).  That post was static: the $G$-matrix is the NTK, eigenvalues are fast and eigenvectors are slow, and post-training only turns the knobs the slow frame already built.  This session was about making it *dynamical* - getting an actual handle on "circuit depth," and pinning down the three matrices I keep conflating (and which space each one lives in).
-
-The throughline, if you read one thing: §3.  Shapley attribution of the gradient across coalitions of parameters gives a baseline-free decomposition, spectral clustering makes it tractable, and the rate at which attribution mass flows up the coalition hierarchy *is* the depth-of-circuit object I have wanted all along.  Everything else is either the substrate it runs on (§1, §2) or a thread hanging off it (§4-§9).
+The core is §3.  Shapley attribution of the gradient across coalitions of parameters gives a baseline-free decomposition, spectral clustering makes it tractable, and the rate at which attribution mass flows up the coalition hierarchy is the depth-of-circuit object.  Everything else is either the substrate it runs on (§1, §2) or a thread hanging off it (§4-§9).
 
 Notation is inherited from the GP-map post: $\theta\in\mathbb R^P$ parameters $\equiv$ genome, $z=f(\theta)\in\mathbb R^O$ output $\equiv$ phenotype, $J=\partial z/\partial\theta$ the Jacobian (developmental map), $\Theta=JJ^\top$ the NTK, $H$ the parameter Hessian, $\mathcal L$ the loss.  Two bookkeeping points that caused most of the live confusion at the board.  First, $G$ is the *kernel* $JMJ^\top$, never the Jacobian; the first-hour boards used $G$ for $J$ and I have silently fixed the notation below.  Second, and more substantively, every kernel here has a *data-space* form $\Theta(x,x')$ and a *parameter-space* form $\Theta_{\mu\nu}$, and most of what tangled us up was just losing track of which one we were standing in.  I keep the indices explicit below to settle it.
 
@@ -62,7 +60,7 @@ The phenotype is *free*.  Nothing forces $z$ to be the network outputs.  Pick an
 
 ## §3.  Shapley attribution of the gradient → coalitions → circuit depth
 
-This is the section to read.  The goal is a principled, computable notion of "how deep are the circuits that have effectively formed."
+The goal is a principled, computable notion of "how deep are the circuits that have effectively formed."
 
 **The object.**  Attribute the gradient - the change it produces in the readout, or equivalently the loss decrease - fairly across *coalitions* of parameters.  The fair attribution of a jointly produced effect to the players that produce it is the **Shapley value**.  Let $v(S)$ be the effect produced by the parameters in coalition $S$ acting together (the gradient signal, or loss change, attributable to $S$).  A single parameter has a standalone contribution; a pair $\{\mu_1,\mu_2\}$ contributes something beyond the sum of its parts; and so on up the orders.  The Shapley attribution to parameter $r$ is its fair share,
 
@@ -72,13 +70,13 @@ and the map from the coalition values $\{v(S)\}$ to the higher-order interaction
 
 **Where this came from, and what I am dropping.**  The route in was the hierarchical (multilevel) **Price equation**, which splits a change in mean trait into between-group and within-group covariances, recursively over a group structure; that recursion is genuinely the coalition hierarchy, and it is worth keeping in mind as the source.  But the Price framing drags in a *fitness* and a *reproducing population*, and on reflection neither is needed - there is no population, and calling the gradient a fitness was forcing the analogy.  The clean statement is just Shapley attribution of the gradient over parameter coalitions.  Keep the hierarchy, drop the biology.
 
-**The wall, and the trick.**  In general this is hopeless: $2^P$ coalitions, Möbius inversion over the full lattice.  The move is to let a hierarchical spectral clustering of one of the §1 kernels ($\Theta$, $H$, or the whitened $C$ of §2 - which one is genuinely open) *define* the coalition structure.  A clustering with $\log P$ levels has $2^L$ groups at level $L$; the Möbius/Shapley sum then runs along that tree rather than the full lattice, and approximate Shapley becomes tractable.  The between-cluster interaction term at each level is the canonical, baseline-free importance of that coalition.
+**Tractability.**  In general this is hopeless: $2^P$ coalitions, Möbius inversion over the full lattice.  The move is to let a hierarchical spectral clustering of one of the §1 kernels ($\Theta$, $H$, or the whitened $C$ of §2 - which one is genuinely open) *define* the coalition structure.  A clustering with $\log P$ levels has $2^L$ groups at level $L$; the Möbius/Shapley sum then runs along that tree rather than the full lattice, and approximate Shapley becomes tractable.  The between-cluster interaction term at each level is the canonical, baseline-free importance of that coalition.
 
 **The payoff and the hypothesis.**
 
 > Early in training, single-parameter attributions dominate - there are no gains from cooperation yet.  Later, attribution mass flows *up* the hierarchy as higher-order coalitions become load-bearing.  **The rate and height of that upward flow is the effective depth of the circuits being formed.**
 
-That is the object I have wanted.  "Coalitions becoming more important over training" $\equiv$ "circuit depth increasing," made quantitative and baseline-free.
+"Coalitions becoming more important over training" $\equiv$ "circuit depth increasing," made quantitative and baseline-free.
 
 **Caveats and neighbours.**
 
@@ -107,7 +105,7 @@ What I still need and did not get this session: the *semantics* of these as data
 
 ## §5.  The $G$-matrix for nontrivial phenotypes
 
-Because the phenotype is free (§2), the most interesting $G$-matrices are not on raw outputs but on *high-level traits*: eval scores, capability axes, personality-battery items.  This is the alignment sell.
+Because the phenotype is free (§2), the most interesting $G$-matrices are not on raw outputs but on *high-level traits*: eval scores, capability axes, personality-battery items.
 
 For a battery of behavioural readouts you get a trait $\times$ trait $G$-matrix whose structure is the same dictionary as before:
 
@@ -163,7 +161,7 @@ A bookkeeping note so I stop confusing myself: SAEs operate in *activation* spac
 
 The two that organize everything:
 
-1. **When, if ever, are the eNTK eigenvectors equal to the *learned* features?**  Static, this is just SVD of the kernel.  The interesting claim is dynamical: that mid-training the slow eigenvectors carry the actual learned structure.  My gut says this holds in mid-training, around the river-valley phase, when eigenvalue equilibration is effectively instantaneous relative to eigenvector rotation (last post's §3 pushed to its limit).  Unproven.
+1. **When, if ever, are the eNTK eigenvectors equal to the *learned* features?**  Static, this is just SVD of the kernel.  The interesting claim is dynamical: that mid-training the slow eigenvectors carry the actual learned structure.  My gut says this holds in mid-training, around the river-valley phase, when eigenvalue equilibration is effectively instantaneous relative to eigenvector rotation (last post's §3 pushed to its limit).  I have not shown it holds.
 2. **What, precisely, is the relationship of the eNTK to interpretability?**  This is the core question the whole program is circling.  Everything above is an attempt to make "eigenvector = feature, block = circuit" into something defensible rather than asserted.
 
 Smaller loose ends:

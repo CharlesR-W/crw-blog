@@ -5,15 +5,13 @@ date: 2026-06-04
 math: true
 ---
 
-*Notes, not a result - a direction I am sketching out loud so collaborators can tell me where it breaks. Drafted with Claude from a conversation; treat the PCCA+ and computational-mechanics specifics as "verify before you cite," and read the whole thing as thinking-out-loud. Anything experimental here is a toy.*
+The setup, in one line:
 
-The arc, in one line:
+> I have a set of **natural kernels** sitting on a trained network, and I want **scale-sensitive interpretability** of the kind the [scale-aware interpretability agenda](https://arxiv.org/abs/2602.05184) (Principles of Intelligence) asks for. **Diffusion maps + PCCA+** turn those kernels into a soft, scale-selected set of **macrostates**, with the scale of the cut chosen by a *gap in the operator* rather than by hand.
 
-> I have a set of **natural kernels** sitting on a trained network. I want **scale-sensitive interpretability** of the kind the [scale-aware interpretability agenda](https://arxiv.org/abs/2602.05184) (Principles of Intelligence) is asking for. **Diffusion maps + PCCA+** turn those kernels into a soft, scale-selected set of **macrostates** - and the scale at which I cut is chosen by a *gap in the operator*, not by me.
+This builds on [Coalitions, Canonical Kernels, and Gradient-Shapley](https://charlesr-w.github.io/crw-blog/Coalitions-Canonical-Kernels-and-Gradient-Shapley/) - the "coalitions" there are the macrostates extracted here - which in turn builds on [Selection on the GP Map and Feature Learning](https://charlesr-w.github.io/crw-blog/Selection-on-the-GP-Map-and-Feature-Learning/). Notation is inherited: $\theta\in\mathbb R^P$ parameters, $z=f(\theta)\in\mathbb R^O$ output, $J=\partial z/\partial\theta$ the Jacobian, $\Theta$ the eNTK.
 
-This builds on [Coalitions, Canonical Kernels, and Gradient-Shapley](https://charlesr-w.github.io/crw-blog/Coalitions-Canonical-Kernels-and-Gradient-Shapley/) - the "coalitions" there are exactly the macrostates I want to extract here - which in turn builds on [Selection on the GP Map and Feature Learning](https://charlesr-w.github.io/crw-blog/Selection-on-the-GP-Map-and-Feature-Learning/). Notation is inherited: $\theta\in\mathbb R^P$ parameters, $z=f(\theta)\in\mathbb R^O$ output, $J=\partial z/\partial\theta$ the Jacobian, $\Theta$ the eNTK.
-
-If you read one section, read §6: the claim that there are **two orthogonal axes** of coarse-graining - by *similarity* (the diffusion-map route) and by *computation* (a kernelized causal-state / $\upsilon$-machine route) - and that PCCA+ is the same engine for both.
+The fork worth flagging is in §6: there are **two orthogonal axes** of coarse-graining - by *similarity* (the diffusion-map route) and by *computation* (a kernelized causal-state / $\upsilon$-machine route) - and PCCA+ is the same engine for both.
 
 ---
 
@@ -83,7 +81,7 @@ One honest caveat for §9: the density/row normalization is *not* the same opera
 
 ## §4. PCCA+ in detail
 
-This is the part worth getting right, because the geometry is more constrained than "soft spectral clustering" suggests. I will show the steps in the physicist's way rather than assert the result.
+The geometry here is more constrained than "soft spectral clustering" suggests, so it is worth doing in the physicist's way rather than asserting the result.
 
 ### 4.1 Metastability and the Perron cluster
 
@@ -145,7 +143,7 @@ There is a separate, well-known RG/deep-learning correspondence (Mehta and Schwa
 
 ## §6. Two axes of coarse-graining: similarity vs computation
 
-This is the section I most want a read on, because I think it is a genuine fork and the literature already has both prongs.
+This is a genuine fork, and the literature already has both prongs.
 
 Everything in §3-§5 coarse-grains by **similarity**: the eNTK says which units are *coupled*, the diffusion map turns coupling into a reversible walk, and PCCA+ lumps units that the walker treats as one trap. The equivalence being quotiented is "you and I are gradient-aligned." Call this **Axis A**.
 
@@ -157,7 +155,7 @@ But there is a second, orthogonal thing one could mean by "coarse-grain the netw
 
 **The bridge.** Build a *directional, predictive* transfer operator in eNTK feature space - the past-to-future map - and run PCCA+ on it. Its metastable lumping should approximate the causal-state lumping, but **soft and scale-selected by a gap** rather than exact and hand-thresholded. In other words: *PCCA+ on the right operator is spectral, fuzzy causal-state discovery.* And Brodu's **decisional states** - a coarser partition of the causal states induced by a higher-level criterion - are literally the PCCA+ move applied one level up, which is the recursive coarse-graining of §4.4 but now over the *computation*.
 
-**Where the wall is - and why it is the same wall.** A *predictive* operator is past$\to$future; it is generically **non-reversible**. So the moment we move from Axis A to Axis B, the detailed balance that the diffusion construction handed us for free is gone, and vanilla PCCA+ (which assumes a reversible chain) no longer applies. The fix is the **GenPCCA / G-PCCA** generalization (Reuter, Weber, Fackeldey, Röblitz), which replaces the real eigen-decomposition with a real **Schur** decomposition and so coarse-grains non-reversible and even cyclic operators. This is satisfying: the reversibility wall I flagged as a worry in the old notes is *exactly* the boundary between the similarity axis and the computational axis. Crossing it is not a patch - it is the whole point of Axis B, and GenPCCA is the tool that crosses it.
+**Where the wall is.** A *predictive* operator is past$\to$future; it is generically **non-reversible**. So the moment we move from Axis A to Axis B, the detailed balance that the diffusion construction handed us for free is gone, and vanilla PCCA+ (which assumes a reversible chain) no longer applies. The fix is the **GenPCCA / G-PCCA** generalization (Reuter, Weber, Fackeldey, Röblitz), which replaces the real eigen-decomposition with a real **Schur** decomposition and so coarse-grains non-reversible and even cyclic operators. The reversibility wall flagged as a worry in the old notes is *exactly* the boundary between the similarity axis and the computational axis. Crossing it is the point of Axis B, and GenPCCA is the tool that crosses it.
 
 The two axes are orthogonal to the "which direction do we flow" question of §7. You can do similarity-coarsening along the scale flow (the first toy below), or computational-coarsening along the depth flow (a kernelized $\upsilon$-machine, layer by layer), or any combination.
 
@@ -188,7 +186,7 @@ G_i := \sum_c \nabla_\theta f_c(x_i)\,\nabla_\theta f_c(x_i)^\top,
 $$
 so $G$ is a sum - an unnormalized $\mathbb E_x[G_x]$ - of per-datapoint parameter-coupling matrices. The circuits PCCA+ pulls out of $G$ are therefore *context-averaged*: marginalized over the entire input distribution.
 
-I suspect that marginalization is exactly why the parameter block looks like a hairball (§2, §9). If a parameter sits in circuit A when the input is a 3 and in circuit B when the input is an 8, then in the pooled $G$ it is coupled to *both*, and those cross-links are the off-diagonal bridges that wash out the blocks. The marginal coupling is a *superposition* of several cleaner conditional couplings, and superposing them muddies the structure. Said that way the fix writes itself: condition.
+I suspect that marginalization is exactly why the parameter block looks like a hairball (§2, §9). If a parameter sits in circuit A when the input is a 3 and in circuit B when the input is an 8, then in the pooled $G$ it is coupled to *both*, and those cross-links are the off-diagonal bridges that wash out the blocks. The marginal coupling is a *superposition* of several cleaner conditional couplings, and superposing them muddies the structure. The fix is to condition.
 
 **The procedure.**
 
@@ -218,7 +216,7 @@ This is still **Axis A** (§6) - similarity coarse-graining - with the similarit
 ---
 
 
-## §9. Open questions I want your read on
+## §9. Open questions
 
 **Is the eNTK the right operator?** It is a *static* coupling, so turning it into a Markov chain by diffusion is a modeling choice, not an intrinsic dynamics. Axis B is the principled alternative: use an operator that *already* has dynamics (the layer-to-layer forward map, the SGD transition kernel, the predictive past$\to$future map). The eNTK is the most *canonical* static choice, but canonical is not the same as correct-for-this-purpose.
 
@@ -232,7 +230,7 @@ This is still **Axis A** (§6) - similarity coarse-graining - with the similarit
 
 **Does the structure flow over training?** Flow (3). If the data-space macrostates sharpen monotonically from init to convergence - the gap opening as training proceeds - that is a clean story about the network *acquiring* its coarse structure, and it would connect directly to the "circuit depth increasing over training" object from the Coalitions post §3.
 
-If even the weak version of this works - principled, spectral, multiscale macrostates with soft memberships and a dual data/parameter readout - I think it is a more honest "circuit discovery" than thresholded-attention pattern-matching, because *the scale at which you cut is selected by a gap in the operator, not by us.* That is the part I find worth chasing.
+If even the weak version of this works - principled, spectral, multiscale macrostates with soft memberships and a dual data/parameter readout - I think it is a more honest "circuit discovery" than thresholded-attention pattern-matching, because *the scale at which you cut is selected by a gap in the operator, not by us.*
 
 ---
 
