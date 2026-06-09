@@ -1,0 +1,25 @@
+project:
+  type: default
+  output-dir: _site
+  render:
+    - index.qmd
+  resources:
+    - data/*.json
+
+format:
+  html:
+    theme: cosmo
+    css: custom.css
+    toc: true
+    toc-depth: 3
+    toc-location: left
+    code-fold: true
+    code-tools: false
+    html-math-method: katex
+    fig-format: svg
+    fig-dpi: 200
+    page-layout: article
+    grid:
+      body-width: 760px
+      margin-width: 250px
+      sidebar-width: 220px

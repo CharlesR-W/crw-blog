@@ -1,5 +1,5 @@
 ---
-title: "RLVR Changes Propensity, Not Lability"
+title: "Some Interesting Papers on RLVR"
 date: 2026-06-09
 math: true
 ---
