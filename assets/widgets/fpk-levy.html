@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Noisy-channel codebooks & Levy noise</title>
+<style>
+  html, body { background: #000; margin: 0; }
+  #fpk {
+    --bg: #0b0b0b; --panel: #111; --ink: #f5f5f5; --muted: #9ca3af;
+    --line: rgba(255,255,255,0.12); --line-soft: rgba(255,255,255,0.06);
+    --sky: #93c5fd; --amber: #fbbf24; --emer: #6ee7b7; --red: #fca5a5;
+    --violet: #c4b5fd; --accent: #58a6ff; --accent-bg: rgba(88,166,255,0.15);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: var(--ink);
+    background: linear-gradient(180deg, rgba(20,20,20,0.9), rgba(10,10,10,0.95));
+    border: 1px solid var(--line); border-radius: 12px;
+    padding: 14px 16px 18px; max-width: 860px; margin: 0 auto;
+  }
+  #fpk h2 { font-size: 15px; margin: 0 0 2px; font-weight: 600; }
+  #fpk .sub { color: var(--muted); font-size: 12.5px; margin: 0 0 12px; line-height: 1.45; }
+  #fpk .tabs { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+  #fpk .tab {
+    background: var(--panel); border: 1px solid var(--line); color: var(--muted);
+    border-radius: 8px; padding: 6px 11px; font-size: 12.5px; cursor: pointer;
+  }
+  #fpk .tab.active { color: var(--ink); border-color: var(--accent); background: var(--accent-bg); }
+  #fpk canvas { width: 100%; display: block; border-radius: 8px; background: var(--bg); }
+  #fpk .controls { display: flex; flex-wrap: wrap; gap: 16px 22px; margin-top: 12px; align-items: center; }
+  #fpk .ctrl { display: flex; flex-direction: column; gap: 3px; min-width: 150px; flex: 1; }
+  #fpk .ctrl label { font-size: 12px; color: var(--muted); display: flex; justify-content: space-between; }
+  #fpk .ctrl label b { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+  #fpk input[type=range] { width: 100%; accent-color: var(--accent); }
+  #fpk .btn {
+    background: var(--panel); border: 1px solid var(--line); color: var(--ink);
+    border-radius: 8px; padding: 7px 13px; font-size: 12.5px; cursor: pointer;
+  }
+  #fpk .btn:hover { border-color: var(--accent); }
+  #fpk .note { color: var(--muted); font-size: 12px; margin-top: 11px; line-height: 1.5; }
+  #fpk .readout { font-size: 12.5px; color: var(--ink); margin-top: 9px; font-variant-numeric: tabular-nums; }
+  #fpk .hide { display: none; }
+  #fpk .legend { display: flex; gap: 16px; font-size: 12px; color: var(--muted); margin-top: 8px; flex-wrap: wrap; }
+  #fpk .legend i { display: inline-block; width: 14px; height: 3px; border-radius: 2px; vertical-align: middle; margin-right: 5px; }
+</style>
+</head>
+<body>
+<div id="fpk">
+  <h2>Noisy-channel codebooks &amp; Lévy noise</h2>
+  <p class="sub">Send <i>X</i> across a channel <i>Y = X + noise</i> and ask what input is optimal.
+  An amplitude budget forces a <b>discrete codebook</b>; heavy-tailed (Lévy / α-stable) noise cuts two ways —
+  it <i>resists</i> discreteness in the channel but <i>creates</i> it (bimodality) for a particle relaxing in a steep well.</p>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="kernels">α-stable noise</button>
+    <button class="tab" data-tab="codebook">Optimal codebook</button>
+    <button class="tab" data-tab="fpk">FPK relaxation</button>
+  </div>
+
+  <!-- ===== Tab: noise kernels ===== -->
+  <div class="panel" data-panel="kernels">
+    <canvas id="cv-kernels" height="640"></canvas>
+    <div class="legend">
+      <span><i style="background:var(--sky)"></i>α = 2 (Gaussian)</span>
+      <span><i style="background:var(--emer)"></i>your α</span>
+      <span><i style="background:var(--amber)"></i>α = 1 (Cauchy)</span>
+    </div>
+    <div class="controls">
+      <div class="ctrl"><label>stability α <b id="k-alpha">1.5</b></label>
+        <input type="range" id="k-alpha-s" min="1.0" max="2.0" step="0.05" value="1.5"></div>
+      <div class="ctrl"><label>scale σ₀ <b id="k-scale">1.0</b></label>
+        <input type="range" id="k-scale-s" min="0.4" max="2.0" step="0.1" value="1.0"></div>
+    </div>
+    <p class="note">Lighter α (smaller index) is simultaneously more <i>peaked</i> in the centre and <i>fatter</i> in the
+    tails (note the log scale). The characteristic function is φ(k) = exp(−|σ₀k|<sup>α</sup>) — the one object that
+    drives the channel, the information, and the diffusion in the other two tabs.</p>
+  </div>
+
+  <!-- ===== Tab: codebook ===== -->
+  <div class="panel hide" data-panel="codebook">
+    <canvas id="cv-codebook" height="540"></canvas>
+    <div class="readout" id="cb-readout">—</div>
+    <div class="controls">
+      <div class="ctrl"><label>peak budget A <b id="cb-A">3.0</b></label>
+        <input type="range" id="cb-A-s" min="0.5" max="8.0" step="0.25" value="3.0"></div>
+      <div class="ctrl"><label>stability α <b id="cb-alpha">2.0</b></label>
+        <input type="range" id="cb-alpha-s" min="1.0" max="2.0" step="0.1" value="2.0"></div>
+      <div class="ctrl"><label>noise scale σ₀ <b id="cb-scale">0.6</b></label>
+        <input type="range" id="cb-scale-s" min="0.3" max="1.2" step="0.1" value="0.6"></div>
+      <div class="ctrl" style="flex:0 0 auto;min-width:auto;justify-content:flex-end">
+        <button class="btn" id="cb-rich">rich constellation →</button></div>
+    </div>
+    <p class="note">Red stems = the capacity-achieving input (Blahut–Arimoto) under |X| ≤ A. Watch the
+    <b>staircase</b>: as the budget grows the optimum adds mass points one at a time (2 → 3 → 4 …). Push α toward 1
+    (Cauchy) and the codebook needs a much larger budget before extra levels appear — heavy tails blur the channel and
+    cost capacity.</p>
+  </div>
+
+  <!-- ===== Tab: FPK ===== -->
+  <div class="panel hide" data-panel="fpk">
+    <canvas id="cv-fpk" height="430"></canvas>
+    <div class="legend">
+      <span><i style="background:var(--sky)"></i>Gaussian (α=2)</span>
+      <span><i style="background:var(--amber)"></i>Lévy (your α)</span>
+      <span><i style="background:var(--muted)"></i>potential V(x)</span>
+    </div>
+    <div class="readout" id="fpk-readout">t = 0.00</div>
+    <div class="controls">
+      <div class="ctrl"><label>stability α (right panel) <b id="fpk-alpha">1.2</b></label>
+        <input type="range" id="fpk-alpha-s" min="1.0" max="2.0" step="0.05" value="1.2"></div>
+      <div class="ctrl"><label>well steepness (x₀) <b id="fpk-x0">2.5</b></label>
+        <input type="range" id="fpk-x0-s" min="1.5" max="4.0" step="0.25" value="2.5"></div>
+      <div class="ctrl" style="flex:0 0 auto;min-width:auto;justify-content:flex-end">
+        <button class="btn" id="fpk-reset">↻ restart</button></div>
+    </div>
+    <p class="note">A particle in the steep well V(x) = (x/x₀)<sup>4</sup> driven by α-stable noise obeys the
+    fractional Fokker–Planck equation ∂ₜp = ∂ₓ(p V′) − D(−Δ)<sup>α/2</sup>p. Gaussian noise relaxes to the usual
+    unimodal Boltzmann state; <b>Lévy flights split it into a bimodal state</b> — long jumps overshoot the centre and
+    pile up on the walls. This is where heavy tails genuinely manufacture discrete structure.</p>
+  </div>
+
+  <p class="note" style="margin-top:14px;border-top:1px solid var(--line-soft);padding-top:10px">
+  <i>Widget written with Claude.</i></p>
+</div>
+
+<script>
+"use strict";
+(function () {
+  // ---------------------------------------------------------------- FFT
+  // iterative radix-2 Cooley-Tukey; re/im are Float64Array of length N (power of 2)
+  function fft(re, im, inverse) {
+    const n = re.length;
+    for (let i = 1, j = 0; i < n; i++) {
+      let bit = n >> 1;
+      for (; j & bit; bit >>= 1) j ^= bit;
+      j ^= bit;
+      if (i < j) { [re[i], re[j]] = [re[j], re[i]]; [im[i], im[j]] = [im[j], im[i]]; }
+    }
+    for (let len = 2; len <= n; len <<= 1) {
+      const ang = (inverse ? 2 : -2) * Math.PI / len;
+      const wr = Math.cos(ang), wi = Math.sin(ang);
+      for (let i = 0; i < n; i += len) {
+        let cwr = 1, cwi = 0;
+        for (let k = 0; k < len / 2; k++) {
+          const a = i + k, b = i + k + len / 2;
+          const tr = re[b] * cwr - im[b] * cwi, ti = re[b] * cwi + im[b] * cwr;
+          re[b] = re[a] - tr; im[b] = im[a] - ti;
+          re[a] += tr; im[a] += ti;
+          const ncwr = cwr * wr - cwi * wi; cwi = cwr * wi + cwi * wr; cwr = ncwr;
+        }
+      }
+    }
+    if (inverse) for (let i = 0; i < n; i++) { re[i] /= n; im[i] /= n; }
+  }
+
+  // grid + wavenumbers (numpy fftfreq convention)
+  function makeGrid(L, N) {
+    const x = new Float64Array(N), dx = L / N;
+    for (let i = 0; i < N; i++) x[i] = -L / 2 + i * dx;
+    const k = new Float64Array(N);
+    for (let i = 0; i < N; i++) {
+      const f = (i <= N / 2 - 1) ? i : i - N;
+      k[i] = 2 * Math.PI * f / (N * dx);
+    }
+    return { x, dx, k, N, L };
+  }
+  function stableCF(k, scale, alpha) {
+    const c = new Float64Array(k.length);
+    for (let i = 0; i < k.length; i++) c[i] = Math.exp(-Math.pow(Math.abs(scale * k[i]), alpha));
+    return c;
+  }
+
+  // ---------------------------------------------------------------- plotting
+  function fitCanvas(cv, cssH) {
+    const dpr = window.devicePixelRatio || 1;
+    const w = cv.clientWidth || 800;
+    cv.width = Math.round(w * dpr); cv.height = Math.round(cssH * dpr);
+    const ctx = cv.getContext("2d"); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    return { ctx, w, h: cssH };
+  }
+  function mapper(xr, yr, box) {
+    const [x0, x1] = xr, [y0, y1] = yr, { l, r, t, b, w, h } = box;
+    return {
+      X: v => l + (v - x0) / (x1 - x0) * (w - l - r),
+      Y: v => (h - b) - (v - y0) / (y1 - y0) * (h - b - t),
+    };
+  }
+  function axes(ctx, box, mp, xr, opts) {
+    const { l, r, t, b, w, h } = box; const c = getComputedStyle(document.getElementById("fpk"));
+    ctx.strokeStyle = c.getPropertyValue("--line"); ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(l, h - b); ctx.lineTo(w - r, h - b); ctx.stroke();
+    ctx.fillStyle = c.getPropertyValue("--muted"); ctx.font = "11px sans-serif"; ctx.textAlign = "center";
+    const [x0, x1] = xr; const step = (opts && opts.xstep) || niceStep(x1 - x0);
+    for (let xv = Math.ceil(x0 / step) * step; xv <= x1 + 1e-9; xv += step) {
+      const px = mp.X(xv); ctx.fillText(Math.abs(xv) < 1e-9 ? "0" : xv.toFixed(0), px, h - b + 14);
+      ctx.strokeStyle = c.getPropertyValue("--line-soft");
+      ctx.beginPath(); ctx.moveTo(px, t); ctx.lineTo(px, h - b); ctx.stroke();
+    }
+    if (opts && opts.xlabel) { ctx.fillText(opts.xlabel, (l + w - r) / 2, h - 4); }
+  }
+  function niceStep(span) { const p = Math.pow(10, Math.floor(Math.log10(span / 4))); const s = span / 4 / p; return (s < 1.5 ? 1 : s < 3 ? 2 : s < 7 ? 5 : 10) * p; }
+  function curve(ctx, xs, ys, mp, color, fill) {
+    ctx.beginPath();
+    for (let i = 0; i < xs.length; i++) { const X = mp.X(xs[i]), Y = mp.Y(ys[i]); i ? ctx.lineTo(X, Y) : ctx.moveTo(X, Y); }
+    if (fill) { ctx.lineTo(mp.X(xs[xs.length - 1]), mp.Y(0)); ctx.lineTo(mp.X(xs[0]), mp.Y(0)); ctx.closePath();
+      ctx.fillStyle = fill; ctx.fill(); }
+    else { ctx.strokeStyle = color; ctx.lineWidth = 2; ctx.stroke(); }
+  }
+  const CSS = () => getComputedStyle(document.getElementById("fpk"));
+
+  // ================================================================ Tab 1: kernels
+  const gK = makeGrid(24, 512);
+  function drawKernels() {
+    const cv = document.getElementById("cv-kernels"); const { ctx, w, h } = fitCanvas(cv, 320);
+    ctx.clearRect(0, 0, w, h);
+    const alpha = +document.getElementById("k-alpha-s").value, scale = +document.getElementById("k-scale-s").value;
+    document.getElementById("k-alpha").textContent = alpha.toFixed(2);
+    document.getElementById("k-scale").textContent = scale.toFixed(1);
+    const box = { l: 44, r: 14, t: 12, b: 28, w, h };
+    const xr = [-8, 8], yr = [Math.log10(1e-4), Math.log10(1)];
+    const mp = mapper(xr, yr, box);
+    // y grid labels (log)
+    ctx.fillStyle = CSS().getPropertyValue("--muted"); ctx.font = "11px sans-serif"; ctx.textAlign = "right";
+    for (const e of [0, -1, -2, -3, -4]) { const py = mp.Y(e); ctx.fillText("1e" + e, box.l - 6, py + 3);
+      ctx.strokeStyle = CSS().getPropertyValue("--line-soft"); ctx.beginPath(); ctx.moveTo(box.l, py); ctx.lineTo(w - box.r, py); ctx.stroke(); }
+    axes(ctx, box, mp, xr, { xlabel: "noise value", xstep: 2 });
+    const specs = [[2.0, "--sky"], [alpha, "--emer"], [1.0, "--amber"]];
+    for (const [a, cvar] of specs) {
+      const cf = stableCF(gK.k, scale, a);
+      const re = Float64Array.from(cf), im = new Float64Array(gK.N);
+      fft(re, im, true);
+      // shift to centre, density = pmf/dx, take log10
+      const xs = [], ys = [];
+      for (let i = 0; i < gK.N; i++) {
+        const idx = (i + gK.N / 2) % gK.N; const xv = gK.x[i];
+        if (xv < xr[0] || xv > xr[1]) continue;
+        let dens = Math.max(re[idx], 1e-300) / gK.dx;
+        xs.push(xv); ys.push(Math.log10(Math.max(dens, 1e-6)));
+      }
+      curve(ctx, xs, ys, mp, CSS().getPropertyValue(cvar), null);
+    }
+  }
+
+  // ================================================================ Tab 2: codebook (Blahut-Arimoto)
+  const gC = makeGrid(40, 256);
+  let baCache = { alpha: null, scale: null, P: null, logP: null };
+  function buildP(scale, alpha) {
+    const N = gC.N;
+    const cf = stableCF(gC.k, scale, alpha);
+    const re = Float64Array.from(cf), im = new Float64Array(N); fft(re, im, true);
+    const k0 = new Float64Array(N); let s = 0;
+    for (let i = 0; i < N; i++) { k0[i] = Math.max(re[i], 1e-300); s += k0[i]; }
+    for (let i = 0; i < N; i++) k0[i] /= s;
+    const P = [], logP = [];
+    for (let i = 0; i < N; i++) {
+      const row = new Float64Array(N), lrow = new Float64Array(N);
+      for (let j = 0; j < N; j++) { const v = k0[((j - i) % N + N) % N]; row[j] = v; lrow[j] = Math.log(Math.max(v, 1e-300)); }
+      P.push(row); logP.push(lrow);
+    }
+    baCache = { alpha, scale, P, logP };
+  }
+  function blahut(A, scale, alpha) {
+    if (baCache.alpha !== alpha || baCache.scale !== scale) buildP(scale, alpha);
+    const { P, logP } = baCache; const N = gC.N, x = gC.x;
+    const support = new Uint8Array(N); let ns = 0;
+    for (let i = 0; i < N; i++) { support[i] = Math.abs(x[i]) <= A ? 1 : 0; ns += support[i]; }
+    let px = new Float64Array(N);
+    for (let i = 0; i < N; i++) px[i] = support[i] ? 1 / ns : 0;
+    const py = new Float64Array(N); let cap = 0, prevCap = -1;
+    for (let it = 0; it < 1100; it++) {
+      if (it > 60 && Math.abs(cap - prevCap) < 1e-6) break;   // early stop when converged
+      prevCap = cap;
+      py.fill(0);
+      for (let i = 0; i < N; i++) { if (!px[i]) continue; const row = P[i], p = px[i]; for (let j = 0; j < N; j++) py[j] += p * row[j]; }
+      const logpy = new Float64Array(N); for (let j = 0; j < N; j++) logpy[j] = Math.log(Math.max(py[j], 1e-300));
+      const newlog = new Float64Array(N); let mx = -Infinity; cap = 0;
+      for (let i = 0; i < N; i++) {
+        if (!support[i]) { newlog[i] = -Infinity; continue; }
+        const row = P[i], lrow = logP[i]; let D = 0;
+        for (let j = 0; j < N; j++) D += row[j] * (lrow[j] - logpy[j]);
+        cap += px[i] * D;
+        newlog[i] = Math.log(Math.max(px[i], 1e-300)) + D;
+        if (newlog[i] > mx) mx = newlog[i];
+      }
+      let z = 0; for (let i = 0; i < N; i++) { newlog[i] = Math.exp(newlog[i] - mx); z += newlog[i]; }
+      for (let i = 0; i < N; i++) px[i] = newlog[i] / z;
+    }
+    return { px, cap };
+  }
+  // raw local maxima (marks every visible bump in the constellation), deduped
+  function rawAtoms(px, x, minSep) {
+    const mx = Math.max(...px), thr = 6e-3 * mx, N = px.length;
+    const out = [];
+    for (let i = 1; i < N - 1; i++) {
+      if (px[i] > px[i - 1] && px[i] >= px[i + 1] && px[i] > thr) {
+        if (out.length && x[i] - out[out.length - 1].loc < minSep) {
+          if (px[i] > out[out.length - 1].w) out[out.length - 1] = { loc: x[i], w: px[i] };
+        } else out.push({ loc: x[i], w: px[i] });
+      }
+    }
+    return out;
+  }
+  function drawCodebook() {
+    const A = +document.getElementById("cb-A-s").value, alpha = +document.getElementById("cb-alpha-s").value, scale = +document.getElementById("cb-scale-s").value;
+    document.getElementById("cb-A").textContent = A.toFixed(2);
+    document.getElementById("cb-alpha").textContent = alpha.toFixed(1);
+    document.getElementById("cb-scale").textContent = scale.toFixed(1);
+    const { px, cap } = blahut(A, scale, alpha);
+    const atoms = rawAtoms(px, gC.x, 0.6);
+    const cv = document.getElementById("cv-codebook"); const { ctx, w, h } = fitCanvas(cv, 270);
+    ctx.clearRect(0, 0, w, h);
+    const box = { l: 40, r: 14, t: 14, b: 28, w, h }; const xr = [-A - 1, A + 1];
+    let ymax = 0.05; for (const a of atoms) ymax = Math.max(ymax, a.w); ymax *= 1.2;
+    const mp = mapper(xr, [0, ymax], box);
+    axes(ctx, box, mp, xr, { xlabel: "codeword x" });
+    // faint full pmf
+    const xs = [], ys = []; for (let i = 0; i < gC.N; i++) { if (gC.x[i] < xr[0] || gC.x[i] > xr[1]) continue; xs.push(gC.x[i]); ys.push(px[i]); }
+    curve(ctx, xs, ys, mp, null, "rgba(147,197,253,0.18)");
+    // stems
+    ctx.strokeStyle = CSS().getPropertyValue("--red"); ctx.fillStyle = CSS().getPropertyValue("--red"); ctx.lineWidth = 2.5;
+    for (const a of atoms) { const X = mp.X(a.loc); ctx.beginPath(); ctx.moveTo(X, mp.Y(0)); ctx.lineTo(X, mp.Y(a.w)); ctx.stroke();
+      ctx.beginPath(); ctx.arc(X, mp.Y(a.w), 4, 0, 7); ctx.fill(); }
+    document.getElementById("cb-readout").textContent =
+      `${atoms.length} code atoms · capacity C = ${(cap / Math.LN2).toFixed(2)} bits · atoms at [${atoms.map(a => a.loc.toFixed(1)).join(", ")}]`;
+  }
+
+  // ================================================================ Tab 3: FPK relaxation
+  const gF = makeGrid(16, 256);
+  const Dcoef = 0.5, dtF = 2e-4, stepsPerFrame = 40;
+  let stateG, stateL, tF = 0, rafId = null, forceArr = null, Varr = null;
+  function quartic(x0) { const V = new Float64Array(gF.N), F = new Float64Array(gF.N);
+    for (let i = 0; i < gF.N; i++) { const x = gF.x[i]; V[i] = Math.pow(x / x0, 4); F[i] = -4 * Math.pow(x, 3) / Math.pow(x0, 4); } return { V, F }; }
+  function initState() {
+    const p = new Float64Array(gF.N); let s = 0;
+    for (let i = 0; i < gF.N; i++) { p[i] = Math.exp(-gF.x[i] * gF.x[i] / (2 * 0.4 * 0.4)); s += p[i]; }
+    for (let i = 0; i < gF.N; i++) p[i] /= s; return p;
+  }
+  function fpStep(p, force, alpha) {
+    const N = gF.N, dx = gF.dx;
+    // upwind advection of flux = force*p
+    const flux = new Float64Array(N); for (let i = 0; i < N; i++) flux[i] = force[i] * p[i];
+    const div = new Float64Array(N);
+    const vface = i => 0.5 * (force[i] + force[(i + 1) % N]);
+    const Jp = new Float64Array(N);
+    for (let i = 0; i < N; i++) { const vf = vface(i); Jp[i] = vf >= 0 ? vf * p[i] : vf * p[(i + 1) % N]; }
+    for (let i = 0; i < N; i++) div[i] = (Jp[i] - Jp[(i - 1 + N) % N]) / dx;
+    for (let i = 0; i < N; i++) p[i] -= dtF * div[i];
+    // fractional diffusion in Fourier
+    const re = Float64Array.from(p), im = new Float64Array(N); fft(re, im, false);
+    for (let i = 0; i < N; i++) { const m = Math.exp(-Dcoef * Math.pow(Math.abs(gF.k[i]), alpha) * dtF); re[i] *= m; im[i] *= m; }
+    fft(re, im, true);
+    let s = 0; for (let i = 0; i < N; i++) { p[i] = Math.max(re[i], 0); s += p[i]; }
+    for (let i = 0; i < N; i++) p[i] /= s;
+    return p;
+  }
+  function resetFPK() {
+    const x0 = +document.getElementById("fpk-x0-s").value;
+    const q = quartic(x0); forceArr = q.F; Varr = q.V;
+    stateG = initState(); stateL = initState(); tF = 0;
+  }
+  function drawFPKframe() {
+    const alpha = +document.getElementById("fpk-alpha-s").value;
+    document.getElementById("fpk-alpha").textContent = alpha.toFixed(2);
+    document.getElementById("fpk-x0").textContent = (+document.getElementById("fpk-x0-s").value).toFixed(2);
+    for (let s = 0; s < stepsPerFrame; s++) { fpStep(stateG, forceArr, 2.0); fpStep(stateL, forceArr, alpha); tF += dtF; }
+    const cv = document.getElementById("cv-fpk"); const { ctx, w, h } = fitCanvas(cv, 215);
+    ctx.clearRect(0, 0, w, h);
+    const xr = [-5, 5]; const panelW = w / 2;
+    const panels = [{ p: stateG, col: "--sky", off: 0, lab: "Gaussian (α=2)" },
+                    { p: stateL, col: "--amber", off: panelW, lab: "Lévy (α=" + alpha.toFixed(2) + ")" }];
+    let ymax = 0.02; for (const pan of panels) for (let i = 0; i < gF.N; i++) if (Math.abs(gF.x[i]) <= 5) ymax = Math.max(ymax, pan.p[i]);
+    ymax *= 1.25;
+    let Vmax = 0; for (let i = 0; i < gF.N; i++) if (Math.abs(gF.x[i]) <= 5) Vmax = Math.max(Vmax, Varr[i]);
+    for (const pan of panels) {
+      const box = { l: pan.off + 36, r: 12, t: 22, b: 26, w: pan.off + panelW, h };
+      const mp = mapper(xr, [0, ymax], box);
+      axes(ctx, box, mp, xr, { xlabel: "x", xstep: 2 });
+      ctx.fillStyle = CSS().getPropertyValue("--ink"); ctx.font = "12px sans-serif"; ctx.textAlign = "center";
+      ctx.fillText(pan.lab, (box.l + box.w - box.r) / 2, 14);
+      // potential (scaled to panel)
+      const vmp = mapper(xr, [0, Vmax * 1.05], box);
+      const vx = [], vy = []; for (let i = 0; i < gF.N; i++) { if (Math.abs(gF.x[i]) > 5) continue; vx.push(gF.x[i]); vy.push(Varr[i]); }
+      ctx.setLineDash([4, 4]); ctx.strokeStyle = CSS().getPropertyValue("--muted"); ctx.lineWidth = 1; ctx.globalAlpha = 0.6;
+      ctx.beginPath(); for (let i = 0; i < vx.length; i++) { const X = vmp.X(vx[i]), Y = vmp.Y(vy[i]); i ? ctx.lineTo(X, Y) : ctx.moveTo(X, Y); } ctx.stroke();
+      ctx.setLineDash([]); ctx.globalAlpha = 1;
+      // density
+      const xs = [], ys = []; for (let i = 0; i < gF.N; i++) { if (Math.abs(gF.x[i]) > 5) continue; xs.push(gF.x[i]); ys.push(pan.p[i]); }
+      const cc = CSS().getPropertyValue(pan.col);
+      curve(ctx, xs, ys, mp, null, cc.replace("rgb", "rgba").trim() ? hexFill(cc) : cc);
+      curve(ctx, xs, ys, mp, cc, null);
+    }
+    document.getElementById("fpk-readout").textContent = "t = " + tF.toFixed(2);
+  }
+  function hexFill(hex) { hex = hex.trim();
+    const r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16), b = parseInt(hex.slice(5, 7), 16);
+    return `rgba(${r},${g},${b},0.3)`; }
+  function loopFPK() { drawFPKframe(); rafId = requestAnimationFrame(loopFPK); }
+
+  // ---------------------------------------------------------------- wiring
+  function bind(ids, fn) { ids.forEach(id => document.getElementById(id).addEventListener("input", fn)); }
+  bind(["k-alpha-s", "k-scale-s"], drawKernels);
+  bind(["cb-A-s", "cb-alpha-s", "cb-scale-s"], drawCodebook);
+  document.getElementById("cb-rich").addEventListener("click", () => {
+    document.getElementById("cb-A-s").value = 7.0;
+    document.getElementById("cb-scale-s").value = 0.5;
+    document.getElementById("cb-alpha-s").value = 2.0;
+    drawCodebook();
+  });
+  document.getElementById("fpk-reset").addEventListener("click", resetFPK);
+  bind(["fpk-x0-s"], resetFPK);
+
+  let activeTab = "kernels";
+  document.querySelectorAll("#fpk .tab").forEach(btn => btn.addEventListener("click", () => {
+    document.querySelectorAll("#fpk .tab").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active"); activeTab = btn.dataset.tab;
+    document.querySelectorAll("#fpk .panel").forEach(p => p.classList.toggle("hide", p.dataset.panel !== activeTab));
+    if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+    if (activeTab === "kernels") drawKernels();
+    else if (activeTab === "codebook") drawCodebook();
+    else if (activeTab === "fpk") { if (!stateG) resetFPK(); loopFPK(); }
+  }));
+  window.addEventListener("resize", () => {
+    if (activeTab === "kernels") drawKernels();
+    else if (activeTab === "codebook") drawCodebook();
+  });
+  // initial
+  drawKernels();
+})();
+</script>
+</body>
+</html>
