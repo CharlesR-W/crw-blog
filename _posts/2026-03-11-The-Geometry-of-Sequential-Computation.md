@@ -1,5 +1,5 @@
 ---
-title: "The Geometry of Sequential Computation"
+title: "[AI-Written] The Geometry of Sequential Computation"
 date: 2026-03-10
 math: true
 ---
@@ -151,3 +151,7 @@ The full vision -- reconstructing a computation's internal structure from its in
 ---
 
 *Written with Claude.*
+
+---
+
+*LLM Usage Statement:* This post was principally written by an LLM based on its conversation with me.  I decided to include LLM Usage Statements retroactively, so have not recorded the chatlog nor model associated to this post.

@@ -1,6 +1,6 @@
 ---
 title: "The Immune System as Anti-Optimizer"
-tags: [notes]
+tags: [notes, ai]
 date: 2026-02-08
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: "Learning, Order by Order: Technical Foundations"
-tags: [notes]
+tags: [notes, ai]
 subtitle: "Resolvent algebra, spectral perturbation theory, Fock space, and renormalization group methods"
 date: 2026-03-10
 math: true

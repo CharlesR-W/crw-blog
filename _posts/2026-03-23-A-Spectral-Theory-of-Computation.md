@@ -1,5 +1,5 @@
 ---
-title: "A Spectral Theory of Computation"
+title: "[AI-Written] A Spectral Theory of Computation"
 date: 2026-03-23
 math: true
 tags: [math]
@@ -16,3 +16,7 @@ Any computation that passes through a hidden state -- such as a neural network s
 ---
 
 *Written with Claude.*
+
+---
+
+*LLM Usage Statement:* This post was principally written by an LLM based on its conversation with me.  I decided to include LLM Usage Statements retroactively, so have not recorded the chatlog nor model associated to this post.

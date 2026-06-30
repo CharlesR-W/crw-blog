@@ -32,8 +32,9 @@ header h1{
   color: var(--text);
 }
 nav ul{ list-style:none; padding:0; margin:8px 0 0; }
-nav ul{ display:flex; gap:16px; justify-content:center; }
-nav li{ display:inline; }
+nav ul{ display:flex; flex-wrap:wrap; gap:0; justify-content:center; }
+nav li{ display:inline-flex; align-items:center; }
+nav li + li{ margin-left:14px; padding-left:14px; border-left:1px solid rgba(255,255,255,0.24); }
 nav a{ color:var(--muted); text-decoration:none; }
 nav a:hover{ color:var(--accent); }
 .wip-badge{

@@ -1,6 +1,6 @@
 ---
 title: "Coarse-Graining the Tangent Kernel: PCCA+, Renormalization, and Scale-Aware Macrostates"
-tags: [notes]
+tags: [notes, ai]
 date: 2026-06-04
 math: true
 ---

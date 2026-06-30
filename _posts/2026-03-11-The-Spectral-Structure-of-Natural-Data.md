@@ -1,6 +1,6 @@
 ---
 title: "The Spectral Structure of Natural Data"
-tags: [notes]
+tags: [notes, ai]
 date: 2026-03-11
 math: true
 ---

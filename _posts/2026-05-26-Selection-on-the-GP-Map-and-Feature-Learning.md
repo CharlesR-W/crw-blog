@@ -1,6 +1,6 @@
 ---
 title: "Selection on the GP Map and Feature Learning"
-tags: [notes]
+tags: [notes, ai]
 date: 2026-05-26
 math: true
 ---

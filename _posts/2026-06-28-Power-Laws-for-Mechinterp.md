@@ -1,5 +1,5 @@
 ---
-title: "Power Laws for Mechinterp"
+title: "Power Laws in NNs: A Possible Mechanism for Inductive Bias towards Sparse Representations"
 date: 2026-06-28
 math: true
 kind: research note

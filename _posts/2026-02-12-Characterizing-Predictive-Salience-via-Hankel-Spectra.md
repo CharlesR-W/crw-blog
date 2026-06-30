@@ -1,6 +1,7 @@
 ---
-title: "Characterizing Predictive Salience via Hankel Spectra"
+title: "[AI-Written] Characterizing Predictive Salience via Hankel Spectra"
 date: 2026-02-12
+tags: [notes, ai]
 math: true
 ---
 
@@ -72,3 +73,7 @@ The obvious next step is experiments — estimating Hankel spectra from black-bo
 ---
 
 *Written with Claude.*
+
+---
+
+*LLM Usage Statement:* This post was principally written by an LLM based on its conversation with me.  I decided to include LLM Usage Statements retroactively, so have not recorded the chatlog nor model associated to this post.

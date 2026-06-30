@@ -1,7 +1,7 @@
 ---
-title: "How I Use Anki (and How I Learn Languages With It)"
+title: "[AI-Written] How I Use Anki (and How I Learn Languages With It)"
 date: 2026-06-01
-tags: [personal]
+tags: [notes, ai]
 ---
 
 A friend recently asked me to walk him through my entire Anki setup, and I ended up giving him a forty-minute brain dump.  This is that brain dump, cleaned up.  It is part philosophy, part card-design rules, and part the specific pipeline I use to learn languages.  None of it is novel, but it is what actually works for me after five years of doing this nearly every day.
@@ -194,3 +194,7 @@ The first is **good memories.**  I make cards for them.  Most good moments in a 
 The second is **people.**  The same machinery works for names, faces, and a couple of basic facts about someone you have just met.  It is cheap to set up and socially worth an absurd amount - remembering that someone's kid is named such-and-such, a year later, is a small superpower, and it is exactly the kind of low-stakes fact that otherwise slides straight out of your head.
 
 *Written up from a conversation, with Claude.*
+
+---
+
+*LLM Usage Statement:* This post was principally written by an LLM based on its conversation with me.  I decided to include LLM Usage Statements retroactively, so have not recorded the chatlog nor model associated to this post.
