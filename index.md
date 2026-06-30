@@ -9,7 +9,7 @@ My research writing: physics, math, information theory, learning theory, and the
 
 **The other pages:**
 
-- <a href="{{ '/writing/' | relative_url }}">Writing</a> — non-technical pieces: essays, translations, poetry.
+- <a href="{{ '/writing/' | relative_url }}">Non-Research Writing</a> — non-research pieces: essays, translations, poetry.
 - <a href="{{ '/notes/' | relative_url }}">AI-Written Notes</a> — working notes on what I am currently thinking about, written up by an LLM from my drafts.
 - <a href="{{ '/seeds/' | relative_url }}">Curated Tutorial Prompts</a> — mini-curricula and hands-on tutorials to feed to an LLM or work through yourself.
 - <a href="{{ '/widgets/' | relative_url }}">Widgets</a> — small interactive toys that run in the browser.

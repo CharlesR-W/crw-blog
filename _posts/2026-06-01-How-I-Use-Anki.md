@@ -1,7 +1,7 @@
 ---
 title: "[AI-Written] How I Use Anki (and How I Learn Languages With It)"
 date: 2026-06-01
-tags: [notes, ai]
+tags: [personal, ai]
 ---
 
 A friend recently asked me to walk him through my entire Anki setup, and I ended up giving him a forty-minute brain dump.  This is that brain dump, cleaned up.  It is part philosophy, part card-design rules, and part the specific pipeline I use to learn languages.  None of it is novel, but it is what actually works for me after five years of doing this nearly every day.
