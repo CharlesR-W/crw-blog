@@ -1,12 +1,12 @@
 ---
-title: "Information in Continua I: Functions as Signals"
+title: "[AI-Written] Information in Continua I: Functions as Signals"
 date: 2026-07-07
 math: true
 kind: research note
 ---
 
 
-# Information in Continua I: Functions as Signals
+# [AI-Written] Information in Continua I: Functions as Signals
 
 **Author's note.**  This three-part series is a writeup of a kernel-based analogue of information theory I have been developing over the course of my research at MATS and the Iliad Fellowship.  It has taken on enough substantive form that I'm pleased to share it.  The motivation is to develop an analogue of information theory which is better suited to the description of continuous spaces and computations thereon.  This permits a native notion of 'resolution' and 'imprecision'.  The particular problem I wanted to resolve is that, for a function \(f(x)\), we can only measure it at finite resolution, so fluctuations on unresolved scales could in principle carry large amounts of information, and to do this in a way that permits treating these fluctuations and noise on a distinct footing.  Because of this resolution-centered perspective, I expect the theory to be useful for probing information in functions, as the objects are well-suited for spectral approximation.
 
