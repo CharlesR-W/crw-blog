@@ -90,8 +90,7 @@ permalink: /cv/
   })();
 </script>
 
-<details class="cv-section" markdown="1">
-<summary>About</summary>
+## About
 
 I'm Charles Renshaw-Whitman, a researcher in AI cognition and alignment.  
 
@@ -99,7 +98,7 @@ Outside of my work, I enjoy studying physics, pharmacology, economics, philosoph
 
 I value hard work, simplicity, curiosity, and integrity.  I believe in a moral imperative, *sed prudentius*, technologically to eliminate intense involuntary suffering.
 
-</details>
+---
 
 ## CV
 
