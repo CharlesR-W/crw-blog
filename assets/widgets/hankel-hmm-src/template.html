@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hankel reconstruction widget</title>
+<style>
+  :root {
+    --bg: #080b10;
+    --panel: #10151d;
+    --panel-2: #151c26;
+    --ink: #f4f1e8;
+    --muted: #9da8b8;
+    --faint: #697487;
+    --line: rgba(255,255,255,.12);
+    --line-strong: rgba(255,255,255,.22);
+    --blue: #56b4e9;
+    --deep-blue: #0072b2;
+    --orange: #e69f00;
+    --green: #009e73;
+    --purple: #cc79a7;
+    --vermillion: #d55e00;
+    --paper: #e7e1d3;
+    --radius: 14px;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: #000; color: var(--ink); overflow-x: hidden; }
+  body { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  button, input { font: inherit; }
+  button:focus-visible, input:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+  #widget {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 20px;
+    background:
+      radial-gradient(circle at 80% 0%, rgba(86,180,233,.08), transparent 32%),
+      linear-gradient(180deg, #0c1017 0%, var(--bg) 100%);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+  }
+  .eyebrow {
+    color: var(--blue);
+    font-size: 11px;
+    font-weight: 750;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+  }
+  .topline { display: flex; justify-content: space-between; gap: 18px; align-items: flex-start; }
+  h1 { margin: 5px 0 7px; font-family: Georgia, "Times New Roman", serif; font-size: clamp(26px, 3.3vw, 42px); font-weight: 500; line-height: 1.05; }
+  .lede { max-width: 760px; margin: 0; color: var(--muted); font-size: 14px; line-height: 1.5; }
+  .status {
+    flex: 0 0 auto;
+    border: 1px solid rgba(0,158,115,.42);
+    background: rgba(0,158,115,.08);
+    color: #83d8bd;
+    border-radius: 999px;
+    padding: 6px 10px;
+    font-size: 10px;
+    font-weight: 750;
+    letter-spacing: .09em;
+    text-transform: uppercase;
+  }
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 18px;
+    align-items: center;
+    margin: 17px 0 13px;
+    padding: 10px 12px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: rgba(255,255,255,.025);
+  }
+  .control-group { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+  .control-label { color: var(--faint); font-size: 10px; font-weight: 750; letter-spacing: .09em; text-transform: uppercase; margin-right: 2px; }
+  .choice {
+    appearance: none;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--muted);
+    padding: 5px 9px;
+    font-size: 11px;
+    cursor: pointer;
+  }
+  .choice:hover { border-color: var(--line-strong); color: var(--ink); }
+  .choice.active { color: #061018; border-color: var(--blue); background: var(--blue); font-weight: 720; }
+  .sequence {
+    display: grid;
+    grid-template-columns: 1.05fr 1.05fr 1.45fr 1fr;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .sequence-item { position: relative; color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: .07em; padding: 0 8px 0 28px; }
+  .sequence-item b { position: absolute; left: 4px; top: -3px; display: grid; place-items: center; width: 19px; height: 19px; border-radius: 50%; background: var(--panel-2); border: 1px solid var(--line-strong); color: var(--ink); font-size: 10px; }
+  .sequence-item:not(:last-child)::after { content: "→"; position: absolute; right: -8px; color: var(--faint); }
+  .dashboard { display: grid; grid-template-columns: 1.05fr 1.05fr 1.45fr 1fr; gap: 8px; align-items: stretch; }
+  .panel { min-width: 0; background: rgba(16,21,29,.94); border: 1px solid var(--line); border-radius: var(--radius); padding: 12px; overflow: hidden; }
+  .panel-head { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; margin-bottom: 8px; }
+  .panel-title { margin: 0; font-size: 12px; font-weight: 760; letter-spacing: .02em; }
+  .panel-kicker { color: var(--faint); font-size: 9px; text-transform: uppercase; letter-spacing: .07em; white-space: nowrap; }
+  .subhead { margin: 9px 0 4px; color: var(--muted); font-size: 9px; text-transform: uppercase; letter-spacing: .08em; }
+  svg { display: block; width: 100%; overflow: visible; }
+  svg text { font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
+  .true-graph { height: 190px; border-radius: 9px; background: rgba(255,255,255,.018); }
+  .stream-wrap { display: flex; gap: 4px; overflow: hidden; min-height: 29px; align-items: center; mask-image: linear-gradient(90deg, black 88%, transparent); }
+  .token { flex: 0 0 auto; width: 21px; height: 21px; display: grid; place-items: center; border-radius: 5px; font: 700 10px ui-monospace, SFMono-Regular, Menlo, monospace; color: #071018; }
+  .truth-note, .plot-note { margin: 7px 0 0; color: var(--muted); font-size: 10px; line-height: 1.42; }
+  .truth-note strong, .plot-note strong { color: var(--ink); }
+  .heatmap { height: 210px; }
+  .spectrum { height: 164px; margin-top: 4px; }
+  .rank-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+  .rank-card { position: relative; border: 1px solid var(--line); border-radius: 10px; background: rgba(255,255,255,.018); padding: 7px; cursor: pointer; min-width: 0; }
+  .rank-card:hover { border-color: var(--line-strong); }
+  .rank-card.selected { border-color: var(--blue); box-shadow: inset 0 0 0 1px rgba(86,180,233,.22); }
+  .rank-card.signal { background: linear-gradient(150deg, rgba(0,114,178,.10), rgba(255,255,255,.015)); }
+  .rank-head { display: flex; justify-content: space-between; gap: 6px; align-items: baseline; }
+  .rank-name { font: 740 12px ui-monospace, SFMono-Regular, Menlo, monospace; }
+  .rank-tag { color: var(--faint); font-size: 8px; text-transform: uppercase; letter-spacing: .07em; }
+  .rank-card.exact-rank .rank-tag { color: #83d8bd; }
+  .operator { height: 114px; margin: 2px 0; }
+  .rank-metric { display: flex; justify-content: space-between; gap: 6px; color: var(--muted); font-size: 9px; }
+  .rank-metric b { color: var(--ink); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-weight: 650; }
+  .edge-key { display: flex; flex-wrap: wrap; gap: 8px; color: var(--faint); font-size: 9px; margin-top: 8px; }
+  .edge-key i { display: inline-block; width: 13px; height: 2px; vertical-align: middle; margin-right: 3px; }
+  .edge-key .negative { border-top: 1px dashed var(--muted); height: 0; }
+  .error-grid { display: grid; grid-template-columns: 1fr; gap: 3px; }
+  .metric-chart { height: 103px; border-bottom: 1px solid rgba(255,255,255,.055); }
+  .metric-chart:last-child { border-bottom: 0; }
+  .selected-readout { margin: 8px 0 0; padding: 8px; border-radius: 8px; background: rgba(86,180,233,.06); border: 1px solid rgba(86,180,233,.16); color: var(--muted); font-size: 10px; line-height: 1.42; }
+  .selected-readout strong { color: var(--ink); }
+  .footer-strip { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 9px; }
+  .callout { border: 1px solid var(--line); border-radius: 10px; padding: 9px 11px; color: var(--muted); font-size: 10px; line-height: 1.45; }
+  .callout b { color: var(--ink); }
+  .callout.accent { border-left: 3px solid var(--orange); }
+  .callout.blue { border-left: 3px solid var(--blue); }
+  .screen-reader { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+  @media (max-width: 980px) {
+    .sequence { display: none; }
+    .dashboard { grid-template-columns: 1fr 1fr; }
+    .models-panel, .errors-panel { grid-column: span 1; }
+  }
+  @media (max-width: 650px) {
+    #widget { padding: 14px; border-radius: 0; }
+    .topline { display: block; }
+    .status { display: inline-block; margin-top: 10px; }
+    .dashboard { grid-template-columns: 1fr; }
+    .panel { grid-column: auto; }
+    .rank-grid { grid-template-columns: 1fr 1fr; }
+    .footer-strip { grid-template-columns: 1fr; }
+    .true-graph { height: 220px; }
+  }
+</style>
+</head>
+<body>
+<main id="widget">
+  <div class="topline">
+    <div>
+      <div class="eyebrow">A visual spectral reconstruction</div>
+      <h1>Past × future reveals the hidden dimension.</h1>
+      <p class="lede">Start with one visible symbol stream. Arrange its word probabilities into a Hankel matrix, keep <em>r</em> singular directions, and reconstruct a rank-<em>r</em> predictive machine.</p>
+    </div>
+    <div class="status">Toy process · computed</div>
+  </div>
+
+  <div class="controls" aria-label="Widget controls">
+    <div class="control-group" id="process-controls"><span class="control-label">Generator</span></div>
+    <div class="control-group" id="regime-controls"><span class="control-label">What we observe</span></div>
+  </div>
+
+  <div class="sequence" aria-hidden="true">
+    <div class="sequence-item"><b>1</b>hidden generator</div>
+    <div class="sequence-item"><b>2</b>observable table</div>
+    <div class="sequence-item"><b>3</b>rank-r realizations</div>
+    <div class="sequence-item"><b>4</b>error by rank</div>
+  </div>
+
+  <section class="dashboard">
+    <article class="panel source-panel">
+      <div class="panel-head"><h2 class="panel-title">True HMM</h2><span class="panel-kicker">shown because this is a toy</span></div>
+      <svg id="true-graph" class="true-graph" viewBox="0 0 280 190" role="img" aria-label="True hidden Markov model"></svg>
+      <div class="subhead">What the learner gets</div>
+      <div id="stream" class="stream-wrap" aria-label="Observed symbol stream"></div>
+      <p class="truth-note" id="truth-note"></p>
+    </article>
+
+    <article class="panel hankel-panel">
+      <div class="panel-head"><h2 class="panel-title">Observed Hankel block</h2><span class="panel-kicker">H[p,s] = P(ps)</span></div>
+      <svg id="heatmap" class="heatmap" viewBox="0 0 280 210" role="img" aria-label="Finite process Hankel matrix heatmap"></svg>
+      <div class="subhead">Singular spectrum</div>
+      <svg id="spectrum" class="spectrum" viewBox="0 0 280 164" role="img" aria-label="Hankel singular values by index"></svg>
+      <p class="plot-note" id="spectrum-note"></p>
+    </article>
+
+    <article class="panel models-panel">
+      <div class="panel-head"><h2 class="panel-title">Reconstructed predictive machines</h2><span class="panel-kicker">small multiples</span></div>
+      <div id="rank-grid" class="rank-grid"></div>
+      <div id="edge-key" class="edge-key"></div>
+      <p class="plot-note"><strong>These are WFA/PSR coordinates.</strong> Solid edges are positive operator entries; dashed edges are negative. A good linear realization need not already be a stochastic HMM.</p>
+    </article>
+
+    <article class="panel errors-panel">
+      <div class="panel-head"><h2 class="panel-title">Error across every rank</h2><span class="panel-kicker">r = 1…6</span></div>
+      <div id="error-grid" class="error-grid"></div>
+      <div id="selected-readout" class="selected-readout"></div>
+    </article>
+  </section>
+
+  <div class="footer-strip">
+    <div class="callout blue"><b>How to read the spectrum.</b> With exact probabilities, the signal ends at the true process rank. With finite samples, the tail lifts off zero; extra rank begins fitting sampling noise.</div>
+    <div class="callout accent"><b>About “Hankel error.”</b> The fourth curve is the relative Frobenius residual of this finite block. The spectral-norm residual is instead σ<sub>r+1</sub>. Neither should be silently conflated with KL or word-probability error.</div>
+  </div>
+</main>
+
+<script id="widget-data" type="application/json">__WIDGET_DATA__</script>
+<script>
+(() => {
+  'use strict';
+  const DATA = JSON.parse(document.getElementById('widget-data').textContent);
+  const C = {blue:'#56b4e9', deep:'#0072b2', orange:'#e69f00', green:'#009e73', purple:'#cc79a7', red:'#d55e00', ink:'#f4f1e8', muted:'#9da8b8', faint:'#697487', line:'rgba(255,255,255,.15)', panel:'#151c26'};
+  const SYMBOL_COLORS = [C.blue, C.orange, C.green];
+  const METRICS = [
+    {key:'l1', label:'L1 word error', color:C.blue},
+    {key:'l2', label:'L2 word error', color:C.orange},
+    {key:'kl', label:'KL divergence', color:C.green},
+    {key:'hankel', label:'H-block residual', color:C.purple}
+  ];
+  const params = new URLSearchParams(location.search);
+  let modelKey = DATA.models[params.get('model')] ? params.get('model') : 'z1r';
+  let regimeKey = ['exact','sample-small','sample-large'].includes(params.get('regime')) ? params.get('regime') : 'exact';
+  let selectedRank = DATA.models[modelKey].true_rank;
+  window.__hankelWidgetErrors = [];
+
+  const $ = id => document.getElementById(id);
+  const svgEl = (name, attrs={}) => {
+    const el = document.createElementNS('http://www.w3.org/2000/svg', name);
+    Object.entries(attrs).forEach(([key,value]) => el.setAttribute(key, String(value)));
+    return el;
+  };
+  const add = (parent, name, attrs={}, text='') => {
+    const el = svgEl(name, attrs); if (text !== '') el.textContent = text; parent.appendChild(el); return el;
+  };
+  const fmt = value => value === 0 ? '0' : value < 1e-3 ? value.toExponential(1) : value.toFixed(value < .1 ? 3 : 2);
+  const current = () => DATA.models[modelKey].conditions[regimeKey];
+  const model = () => DATA.models[modelKey];
+  const rankData = rank => current().ranks[rank - 1];
+
+  function setupControls() {
+    const process = $('process-controls');
+    Object.entries(DATA.models).forEach(([key,value]) => {
+      const b = document.createElement('button'); b.className='choice'; b.type='button'; b.dataset.key=key; b.textContent=value.label;
+      b.onclick=()=>{ modelKey=key; selectedRank=value.true_rank; render(); }; process.appendChild(b);
+    });
+    const labels = {exact:'Exact probabilities', 'sample-small':'2,500 symbols', 'sample-large':'50,000 symbols'};
+    const regimes = $('regime-controls');
+    Object.entries(labels).forEach(([key,label]) => {
+      const b = document.createElement('button'); b.className='choice'; b.type='button'; b.dataset.key=key; b.textContent=label;
+      b.onclick=()=>{ regimeKey=key; render(); }; regimes.appendChild(b);
+    });
+  }
+
+  function syncControls() {
+    document.querySelectorAll('#process-controls .choice').forEach(b=>b.classList.toggle('active', b.dataset.key===modelKey));
+    document.querySelectorAll('#regime-controls .choice').forEach(b=>b.classList.toggle('active', b.dataset.key===regimeKey));
+  }
+
+  function renderTrueGraph() {
+    const svg=$('true-graph'); svg.replaceChildren();
+    const m=model(), positions=m.positions.map(([x,y])=>[22+x*236, 18+y*145]);
+    const defs=add(svg,'defs');
+    m.symbols.forEach((symbol,i)=>{
+      const marker=add(defs,'marker',{id:'truth-arrow-'+i,viewBox:'0 0 10 10',refX:8,refY:5,markerWidth:5,markerHeight:5,orient:'auto-start-reverse'});
+      add(marker,'path',{d:'M 0 0 L 10 5 L 0 10 z',fill:SYMBOL_COLORS[i]});
+    });
+    m.edges.forEach((edge,index)=>{
+      const [x1,y1]=positions[edge.source], [x2,y2]=positions[edge.target], color=SYMBOL_COLORS[m.symbols.indexOf(edge.symbol)];
+      if(edge.source===edge.target){
+        const d=`M ${x1-12} ${y1-14} C ${x1-35} ${y1-57}, ${x1+35} ${y1-57}, ${x1+12} ${y1-14}`;
+        add(svg,'path',{d,fill:'none',stroke:color,'stroke-width':2,'marker-end':`url(#truth-arrow-${m.symbols.indexOf(edge.symbol)})`});
+        add(svg,'text',{x:x1,y:y1-43,'text-anchor':'middle',fill:color,'font-size':9},`${edge.symbol} · ${edge.probability}`);
+      } else {
+        const offset=(index%2?1:-1)*6, dx=x2-x1, dy=y2-y1, len=Math.max(Math.hypot(dx,dy),1), nx=-dy/len, ny=dx/len;
+        const sx=x1+dx/len*17+nx*offset, sy=y1+dy/len*17+ny*offset, tx=x2-dx/len*19+nx*offset, ty=y2-dy/len*19+ny*offset;
+        add(svg,'path',{d:`M ${sx} ${sy} Q ${(sx+tx)/2+nx*12} ${(sy+ty)/2+ny*12} ${tx} ${ty}`,fill:'none',stroke:color,'stroke-width':2,'marker-end':`url(#truth-arrow-${m.symbols.indexOf(edge.symbol)})`});
+        add(svg,'text',{x:(sx+tx)/2+nx*18,y:(sy+ty)/2+ny*18,'text-anchor':'middle',fill:color,'font-size':8.5},`${edge.symbol} · ${edge.probability}`);
+      }
+    });
+    positions.forEach(([x,y],i)=>{
+      add(svg,'circle',{cx:x,cy:y,r:16,fill:C.panel,stroke:C.ink,'stroke-width':1.4});
+      add(svg,'text',{x,y:y+3,'text-anchor':'middle',fill:C.ink,'font-size':10,'font-weight':700},`S${i}`);
+      add(svg,'text',{x,y:y+31,'text-anchor':'middle',fill:C.faint,'font-size':8},`π ${model().stationary[i].toFixed(2)}`);
+    });
+  }
+
+  function renderStream() {
+    const wrap=$('stream'); wrap.replaceChildren();
+    current().stream.slice(0,36).forEach(symbol=>{
+      const el=document.createElement('span'), index=model().symbols.indexOf(symbol); el.className='token'; el.textContent=symbol; el.style.background=SYMBOL_COLORS[index]; wrap.appendChild(el);
+    });
+    const regime=current().sample_size ? `${current().sample_size.toLocaleString()} observed symbols` : 'exact word probabilities';
+    $('truth-note').innerHTML=`<strong>${model().short}.</strong> The learner sees ${regime}, never the state labels. The hidden graph stays visible here only so we can check recovery.`;
+  }
+
+  function heatColor(value,max) {
+    const t=Math.max(0,Math.min(1,value/Math.max(max,1e-12)));
+    const stops=[[11,24,38],[36,75,95],[80,122,115],[160,161,105],[232,205,112]];
+    const q=t*(stops.length-1), i=Math.min(stops.length-2,Math.floor(q)), f=q-i;
+    return `rgb(${stops[i].map((v,k)=>Math.round(v+(stops[i+1][k]-v)*f)).join(',')})`;
+  }
+
+  function renderHeatmap() {
+    const svg=$('heatmap'); svg.replaceChildren(); const H=current().heatmap, labels=current().basis_labels, n=H.length;
+    const left=32, top=17, size=158, cell=size/n, max=current().heat_max;
+    add(svg,'text',{x:left+size/2,y:9,'text-anchor':'middle',fill:C.muted,'font-size':8},'future test s');
+    add(svg,'text',{x:7,y:top+size/2,transform:`rotate(-90 7 ${top+size/2})`,'text-anchor':'middle',fill:C.muted,'font-size':8},'history p');
+    H.forEach((row,i)=>row.forEach((value,j)=>{
+      const rect=add(svg,'rect',{x:left+j*cell,y:top+i*cell,width:cell+.25,height:cell+.25,fill:heatColor(value,max)});
+      const title=add(rect,'title',{},`p=${labels[i]}, s=${labels[j]}: P(ps)=${value}`); void title;
+    }));
+    const shown=[0,1,2,Math.min(6,n-1),n-1].filter((v,i,a)=>a.indexOf(v)===i);
+    shown.forEach(i=>{
+      add(svg,'text',{x:left+i*cell+cell/2,y:top+size+12,'text-anchor':'middle',fill:C.faint,'font-size':7},labels[i]);
+      add(svg,'text',{x:left-4,y:top+i*cell+cell*.72,'text-anchor':'end',fill:C.faint,'font-size':7},labels[i]);
+    });
+    add(svg,'rect',{x:210,y:30,width:13,height:120,fill:'url(#none)',opacity:0});
+    for(let i=0;i<30;i++) add(svg,'rect',{x:218,y:32+i*4,width:10,height:4.2,fill:heatColor(max*(1-i/29),max)});
+    add(svg,'text',{x:234,y:38,fill:C.faint,'font-size':7},fmt(max));
+    add(svg,'text',{x:234,y:151,fill:C.faint,'font-size':7},'0');
+    add(svg,'text',{x:218,y:177,fill:C.muted,'font-size':8},`${n}×${n} block`);
+    add(svg,'text',{x:218,y:189,fill:C.faint,'font-size':7},`words ≤ ${DATA.meta.depth}`);
+  }
+
+  function plotFrame(svg, x0,y0,w,h) {
+    add(svg,'line',{x1:x0,y1:y0+h,x2:x0+w,y2:y0+h,stroke:C.line});
+    add(svg,'line',{x1:x0,y1:y0,x2:x0,y2:y0+h,stroke:C.line});
+    return {x0,y0,w,h};
+  }
+
+  function renderSpectrum() {
+    const svg=$('spectrum'); svg.replaceChildren(); const values=current().singular_values.slice(0,Math.min(9,current().singular_values.length));
+    const f=plotFrame(svg,28,12,228,116), floor=Math.max(values[0]*1e-8,1e-12), top=Math.log10(values[0]*1.35), bottom=Math.log10(floor);
+    const x=i=>f.x0+(i+.5)*f.w/values.length, y=v=>f.y0+(top-Math.log10(Math.max(v,floor)))/(top-bottom)*f.h;
+    [0,.5,1].forEach(t=>add(svg,'line',{x1:f.x0,y1:f.y0+t*f.h,x2:f.x0+f.w,y2:f.y0+t*f.h,stroke:'rgba(255,255,255,.055)','stroke-dasharray':'2 4'}));
+    values.forEach((value,i)=>{
+      add(svg,'line',{x1:x(i),y1:f.y0+f.h,x2:x(i),y2:y(value),stroke:i<model().true_rank?C.blue:C.faint,'stroke-width':1.5});
+      const dot=add(svg,'circle',{cx:x(i),cy:y(value),r:i+1===selectedRank?5:3.2,fill:i<model().true_rank?C.blue:C.faint,stroke:i+1===selectedRank?C.ink:'none','stroke-width':1.2,tabindex:0,role:'button','aria-label':`select rank ${i+1}`});
+      dot.style.cursor='pointer'; dot.onclick=()=>{selectedRank=Math.min(i+1,DATA.meta.max_rank);render();};
+      add(dot,'title',{},`σ${i+1} = ${value}`);
+      add(svg,'text',{x:x(i),y:f.y0+f.h+13,'text-anchor':'middle',fill:C.faint,'font-size':7},String(i+1));
+    });
+    const elbowX=f.x0+model().true_rank*f.w/values.length;
+    add(svg,'line',{x1:elbowX,y1:f.y0,x2:elbowX,y2:f.y0+f.h,stroke:C.green,'stroke-width':1,'stroke-dasharray':'3 3'});
+    add(svg,'text',{x:elbowX+4,y:19,fill:C.green,'font-size':7},`true rank ${model().true_rank}`);
+    add(svg,'text',{x:f.x0+f.w/2,y:158,'text-anchor':'middle',fill:C.muted,'font-size':8},'singular-value index (log scale)');
+    const tail=regimeKey==='exact'?'collapses to numerical zero':`is sampling noise from n=${current().sample_size.toLocaleString()}`;
+    $('spectrum-note').innerHTML=`The first <strong>${model().true_rank}</strong> directions carry the process. The remaining tail ${tail}.`;
+  }
+
+  function operatorEdges(operators, rank) {
+    const candidates=[];
+    operators.forEach((matrix,symbol)=>matrix.forEach((row,i)=>row.forEach((value,j)=>{
+      if(Math.abs(value)>1e-7) candidates.push({source:i,target:j,value,symbol});
+    })));
+    candidates.sort((a,b)=>Math.abs(b.value)-Math.abs(a.value));
+    return candidates.slice(0,Math.min(2*rank+4,14));
+  }
+
+  function drawOperator(svg, data, rank, cardIndex) {
+    svg.replaceChildren(); const defs=add(svg,'defs');
+    model().symbols.forEach((symbol,i)=>{
+      const marker=add(defs,'marker',{id:`op-arrow-${cardIndex}-${i}`,viewBox:'0 0 10 10',refX:8,refY:5,markerWidth:4,markerHeight:4,orient:'auto-start-reverse'});
+      add(marker,'path',{d:'M 0 0 L 10 5 L 0 10 z',fill:SYMBOL_COLORS[i]});
+    });
+    const cx=90,cy=57,radius=rank===1?0:Math.min(38,16+rank*4);
+    const pos=Array.from({length:rank},(_,i)=>rank===1?[cx,cy]:[cx+radius*Math.cos(-Math.PI/2+2*Math.PI*i/rank),cy+radius*Math.sin(-Math.PI/2+2*Math.PI*i/rank)]);
+    const edges=operatorEdges(data.operators,rank), scale=Math.max(...edges.map(e=>Math.abs(e.value)),1e-12);
+    edges.forEach((edge,index)=>{
+      const [x1,y1]=pos[edge.source], [x2,y2]=pos[edge.target], color=SYMBOL_COLORS[edge.symbol], width=.55+1.8*Math.abs(edge.value)/scale;
+      if(edge.source===edge.target){
+        const bend=16+3*(index%3), d=`M ${x1-7} ${y1-8} C ${x1-bend} ${y1-28}, ${x1+bend} ${y1-28}, ${x1+7} ${y1-8}`;
+        add(svg,'path',{d,fill:'none',stroke:color,'stroke-width':width,'stroke-dasharray':edge.value<0?'3 2':'none',opacity:.82,'marker-end':`url(#op-arrow-${cardIndex}-${edge.symbol})`});
+      } else {
+        const dx=x2-x1,dy=y2-y1,len=Math.max(Math.hypot(dx,dy),1),sx=x1+dx/len*9,sy=y1+dy/len*9,tx=x2-dx/len*10,ty=y2-dy/len*10;
+        add(svg,'path',{d:`M ${sx} ${sy} L ${tx} ${ty}`,fill:'none',stroke:color,'stroke-width':width,'stroke-dasharray':edge.value<0?'3 2':'none',opacity:.78,'marker-end':`url(#op-arrow-${cardIndex}-${edge.symbol})`});
+      }
+    });
+    pos.forEach(([x,y],i)=>{
+      add(svg,'circle',{cx:x,cy:y,r:8.5,fill:C.panel,stroke:i<model().true_rank?C.blue:C.faint,'stroke-width':1.2});
+      add(svg,'text',{x,y:y+2.7,'text-anchor':'middle',fill:C.ink,'font-size':7.5},String(i+1));
+    });
+  }
+
+  function renderRanks() {
+    const grid=$('rank-grid'); grid.replaceChildren(); const shown=[1,2,3,6];
+    shown.forEach((rank,index)=>{
+      const data=rankData(rank), card=document.createElement('div');
+      card.className='rank-card'+(rank===selectedRank?' selected':'')+(rank===model().true_rank?' exact-rank signal':''); card.tabIndex=0; card.role='button'; card.setAttribute('aria-label',`select rank ${rank} reconstruction`);
+      const status=rank===model().true_rank?'process rank':rank<model().true_rank?'underfit':regimeKey==='exact'?'redundant':'noise fit';
+      card.innerHTML=`<div class="rank-head"><span class="rank-name">r = ${rank}</span><span class="rank-tag">${status}</span></div><svg class="operator" viewBox="0 0 180 114" role="img" aria-label="Rank ${rank} linear realization"></svg><div class="rank-metric"><span>L1 words</span><b>${fmt(data.metrics.l1)}</b></div><div class="rank-metric"><span>H residual</span><b>${fmt(data.metrics.hankel)}</b></div>`;
+      card.onclick=()=>{selectedRank=rank;render();}; card.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();selectedRank=rank;render();}};
+      grid.appendChild(card); drawOperator(card.querySelector('svg'),data,rank,index);
+    });
+    const key=$('edge-key'); key.innerHTML=model().symbols.map((symbol,i)=>`<span><i style="background:${SYMBOL_COLORS[i]}"></i>symbol ${symbol}</span>`).join('')+'<span><i class="negative"></i>negative weight</span>';
+  }
+
+  function drawMetric(svg, metric) {
+    svg.replaceChildren(); const rows=current().ranks, values=rows.map(row=>row.metrics[metric.key]);
+    const f=plotFrame(svg,29,18,196,55), max=Math.max(...values,1e-9)*1.08, x=i=>f.x0+i*f.w/(values.length-1), y=v=>f.y0+f.h-v/max*f.h;
+    add(svg,'text',{x:f.x0,y:10,fill:metric.color,'font-size':8.5,'font-weight':700},metric.label);
+    add(svg,'text',{x:f.x0+f.w,y:10,'text-anchor':'end',fill:C.faint,'font-size':7},`max ${fmt(max/1.08)}`);
+    add(svg,'path',{d:values.map((v,i)=>(i?'L':'M')+' '+x(i)+' '+y(v)).join(' '),fill:'none',stroke:metric.color,'stroke-width':1.7});
+    values.forEach((value,i)=>{
+      const dot=add(svg,'circle',{cx:x(i),cy:y(value),r:i+1===selectedRank?4:2.5,fill:metric.color,stroke:i+1===selectedRank?C.ink:'none','stroke-width':1});
+      dot.style.cursor='pointer'; dot.onclick=()=>{selectedRank=i+1;render();}; add(dot,'title',{},`r=${i+1}: ${value}`);
+      add(svg,'text',{x:x(i),y:91,'text-anchor':'middle',fill:C.faint,'font-size':7},String(i+1));
+    });
+    add(svg,'text',{x:235,y:92,fill:C.faint,'font-size':7},'r');
+  }
+
+  function renderErrors() {
+    const grid=$('error-grid'); grid.replaceChildren();
+    METRICS.forEach(metric=>{const svg=svgEl('svg',{class:'metric-chart',viewBox:'0 0 245 103',role:'img','aria-label':`${metric.label} by rank`}); grid.appendChild(svg); drawMetric(svg,metric);});
+    const d=rankData(selectedRank), validity=d.negative_mass<1e-8&&d.normalization_error<1e-6?'looks probabilistically valid on evaluated words':`needs clipping on evaluated words (negative mass ${fmt(d.negative_mass)})`;
+    $('selected-readout').innerHTML=`Selected <strong>r = ${selectedRank}</strong>: ${validity}.<br>KL = <strong>${fmt(d.metrics.kl)}</strong> · H residual = <strong>${fmt(d.metrics.hankel)}</strong>`;
+  }
+
+  function selfTest() {
+    const errors=[];
+    Object.entries(DATA.models).forEach(([key,m])=>{
+      const exact=m.conditions.exact.ranks;
+      if(exact[m.true_rank-1].metrics.l1>1e-6) errors.push(`${key}: exact-rank L1 is not zero`);
+      Object.values(m.conditions).forEach(condition=>{
+        const residuals=condition.ranks.map(row=>row.metrics.hankel);
+        for(let i=1;i<residuals.length;i++) if(residuals[i]>residuals[i-1]+1e-7) errors.push(`${key}/${condition.regime}: Hankel residual increased`);
+      });
+    });
+    window.__hankelWidgetErrors=errors;
+    document.documentElement.dataset.selfTest=errors.length?'failed':'passed';
+    if(errors.length) console.error('[hankel-widget] self-test failures',errors); else console.log('[hankel-widget] self-tests passed');
+  }
+
+  function reportHeight() {
+    try { parent.postMessage({type:'hankel-widget-height',height:document.documentElement.scrollHeight},'*'); } catch (_) {}
+  }
+  function render() {
+    selectedRank=Math.max(1,Math.min(DATA.meta.max_rank,selectedRank)); syncControls(); renderTrueGraph(); renderStream(); renderHeatmap(); renderSpectrum(); renderRanks(); renderErrors();
+    requestAnimationFrame(reportHeight);
+  }
+  window.addEventListener('resize',reportHeight);
+  if ('ResizeObserver' in window) new ResizeObserver(reportHeight).observe($('widget'));
+  setupControls(); selfTest(); render();
+  setTimeout(reportHeight, 120);
+  setTimeout(reportHeight, 700);
+})();
+</script>
+</body>
+</html>
