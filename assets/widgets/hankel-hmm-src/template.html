@@ -103,13 +103,13 @@
   .subhead { margin: 9px 0 4px; color: var(--muted); font-size: 9px; text-transform: uppercase; letter-spacing: .08em; }
   svg { display: block; width: 100%; overflow: visible; }
   svg text { font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
-  .true-graph { height: 190px; border-radius: 9px; background: rgba(255,255,255,.018); }
+  .true-graph { height: 205px; border-radius: 9px; background: rgba(255,255,255,.018); }
   .stream-wrap { display: flex; gap: 4px; overflow: hidden; min-height: 29px; align-items: center; mask-image: linear-gradient(90deg, black 88%, transparent); }
   .token { flex: 0 0 auto; width: 21px; height: 21px; display: grid; place-items: center; border-radius: 5px; font: 700 10px ui-monospace, SFMono-Regular, Menlo, monospace; color: #071018; }
   .truth-note, .plot-note { margin: 7px 0 0; color: var(--muted); font-size: 10px; line-height: 1.42; }
   .truth-note strong, .plot-note strong { color: var(--ink); }
   .heatmap { height: 210px; }
-  .spectrum { height: 164px; margin-top: 4px; }
+  .spectrum { height: 190px; margin-top: 4px; }
   .rank-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
   .rank-card { position: relative; border: 1px solid var(--line); border-radius: 10px; background: rgba(255,255,255,.018); padding: 7px; cursor: pointer; min-width: 0; }
   .rank-card:hover { border-color: var(--line-strong); }
@@ -179,7 +179,7 @@
   <section class="dashboard">
     <article class="panel source-panel">
       <div class="panel-head"><h2 class="panel-title">True HMM</h2><span class="panel-kicker">shown because this is a toy</span></div>
-      <svg id="true-graph" class="true-graph" viewBox="0 0 280 190" role="img" aria-label="True hidden Markov model"></svg>
+      <svg id="true-graph" class="true-graph" viewBox="0 0 280 205" role="img" aria-label="True hidden Markov model"></svg>
       <div class="subhead">What the learner gets</div>
       <div id="stream" class="stream-wrap" aria-label="Observed symbol stream"></div>
       <p class="truth-note" id="truth-note"></p>
@@ -189,7 +189,7 @@
       <div class="panel-head"><h2 class="panel-title">Observed Hankel block</h2><span class="panel-kicker">H[p,s] = P(ps)</span></div>
       <svg id="heatmap" class="heatmap" viewBox="0 0 280 210" role="img" aria-label="Finite process Hankel matrix heatmap"></svg>
       <div class="subhead">Singular spectrum</div>
-      <svg id="spectrum" class="spectrum" viewBox="0 0 280 164" role="img" aria-label="Hankel singular values by index"></svg>
+      <svg id="spectrum" class="spectrum" viewBox="0 0 280 190" role="img" aria-label="Normalized empirical and population Hankel singular values by index"></svg>
       <p class="plot-note" id="spectrum-note"></p>
     </article>
 
@@ -208,7 +208,7 @@
   </section>
 
   <div class="footer-strip">
-    <div class="callout blue"><b>How to read the spectrum.</b> With exact probabilities, the signal ends at the true process rank. With finite samples, the tail lifts off zero; extra rank begins fitting sampling noise.</div>
+    <div class="callout blue"><b>How to read the spectrum.</b> Population rank and sample rank are different claims. Exact probabilities stop at the process rank; a finite-sample Hankel block is generically higher rank, often full rank, with a small noise tail below the signal.</div>
     <div class="callout accent"><b>About “Hankel error.”</b> The fourth curve is the relative Frobenius residual of this finite block. The spectral-norm residual is instead σ<sub>r+1</sub>. Neither should be silently conflated with KL or word-probability error.</div>
   </div>
 </main>
@@ -242,6 +242,11 @@
     const el = svgEl(name, attrs); if (text !== '') el.textContent = text; parent.appendChild(el); return el;
   };
   const fmt = value => value === 0 ? '0' : value < 1e-3 ? value.toExponential(1) : value.toFixed(value < .1 ? 3 : 2);
+  const sci = value => value === 0 ? '0' : value.toExponential(1).replace('e-', 'e−');
+  const percent = fraction => {
+    const value=100*fraction;
+    return value===0?'0%':value<.01?`${value.toExponential(1)}%`:value<1?`${value.toFixed(2)}%`:`${value.toFixed(1)}%`;
+  };
   const current = () => DATA.models[modelKey].conditions[regimeKey];
   const model = () => DATA.models[modelKey];
   const rankData = rank => current().ranks[rank - 1];
@@ -267,30 +272,55 @@
 
   function renderTrueGraph() {
     const svg=$('true-graph'); svg.replaceChildren();
-    const m=model(), positions=m.positions.map(([x,y])=>[22+x*236, 18+y*145]);
+    const m=model(), positions=m.positions.map(([x,y])=>[18+x*244, 20+y*158]);
+    const showEdgeLabels=m.edges.length<=8;
     const defs=add(svg,'defs');
     m.symbols.forEach((symbol,i)=>{
       const marker=add(defs,'marker',{id:'truth-arrow-'+i,viewBox:'0 0 10 10',refX:8,refY:5,markerWidth:5,markerHeight:5,orient:'auto-start-reverse'});
       add(marker,'path',{d:'M 0 0 L 10 5 L 0 10 z',fill:SYMBOL_COLORS[i]});
     });
+    const directedTotals=new Map(), directedSeen=new Map(), loopTotals=new Map(), loopSeen=new Map();
+    m.edges.forEach(edge=>{
+      if(edge.source===edge.target) loopTotals.set(edge.source,(loopTotals.get(edge.source)||0)+1);
+      else {
+        const key=`${edge.source}-${edge.target}`;
+        directedTotals.set(key,(directedTotals.get(key)||0)+1);
+      }
+    });
+    const edgeText=(x,y,text,color)=>add(svg,'text',{
+      x,y,'text-anchor':'middle',fill:color,'font-size':8.5,'font-weight':650,
+      style:'paint-order:stroke;stroke:#151c26;stroke-width:4px;stroke-linejoin:round'
+    },text);
     m.edges.forEach((edge,index)=>{
-      const [x1,y1]=positions[edge.source], [x2,y2]=positions[edge.target], color=SYMBOL_COLORS[m.symbols.indexOf(edge.symbol)];
+      const symbolIndex=m.symbols.indexOf(edge.symbol), [x1,y1]=positions[edge.source], [x2,y2]=positions[edge.target], color=SYMBOL_COLORS[symbolIndex];
+      const edgeStyle={fill:'none',stroke:color,'stroke-width':showEdgeLabels?1.9:1.15,opacity:showEdgeLabels?.9:.48,'marker-end':`url(#truth-arrow-${symbolIndex})`};
       if(edge.source===edge.target){
-        const d=`M ${x1-12} ${y1-14} C ${x1-35} ${y1-57}, ${x1+35} ${y1-57}, ${x1+12} ${y1-14}`;
-        add(svg,'path',{d,fill:'none',stroke:color,'stroke-width':2,'marker-end':`url(#truth-arrow-${m.symbols.indexOf(edge.symbol)})`});
-        add(svg,'text',{x:x1,y:y1-43,'text-anchor':'middle',fill:color,'font-size':9},`${edge.symbol} · ${edge.probability}`);
+        const total=loopTotals.get(edge.source), seen=loopSeen.get(edge.source)||0; loopSeen.set(edge.source,seen+1);
+        const spread=(seen-(total-1)/2)*12, lift=44+Math.abs(spread)*.35;
+        const path=add(svg,'path',{d:`M ${x1-10+spread*.25} ${y1-14} C ${x1-34+spread} ${y1-lift}, ${x1+34+spread} ${y1-lift}, ${x1+10+spread*.25} ${y1-14}`,...edgeStyle});
+        add(path,'title',{},`state S${edge.source}: symbol ${edge.symbol}, probability ${edge.probability}`);
+        if(showEdgeLabels) edgeText(x1+spread,y1-lift+7,`${edge.symbol} · ${edge.probability}`,color);
       } else {
-        const offset=(index%2?1:-1)*6, dx=x2-x1, dy=y2-y1, len=Math.max(Math.hypot(dx,dy),1), nx=-dy/len, ny=dx/len;
-        const sx=x1+dx/len*17+nx*offset, sy=y1+dy/len*17+ny*offset, tx=x2-dx/len*19+nx*offset, ty=y2-dy/len*19+ny*offset;
-        add(svg,'path',{d:`M ${sx} ${sy} Q ${(sx+tx)/2+nx*12} ${(sy+ty)/2+ny*12} ${tx} ${ty}`,fill:'none',stroke:color,'stroke-width':2,'marker-end':`url(#truth-arrow-${m.symbols.indexOf(edge.symbol)})`});
-        add(svg,'text',{x:(sx+tx)/2+nx*18,y:(sy+ty)/2+ny*18,'text-anchor':'middle',fill:color,'font-size':8.5},`${edge.symbol} · ${edge.probability}`);
+        const key=`${edge.source}-${edge.target}`, total=directedTotals.get(key), seen=directedSeen.get(key)||0; directedSeen.set(key,seen+1);
+        const low=Math.min(edge.source,edge.target), high=Math.max(edge.source,edge.target);
+        const [xa,ya]=positions[low], [xb,yb]=positions[high], cdx=xb-xa, cdy=yb-ya, clen=Math.max(Math.hypot(cdx,cdy),1), cnx=-cdy/clen, cny=cdx/clen;
+        const lane=(edge.source<edge.target?-11:11)+(seen-(total-1)/2)*16;
+        const dx=x2-x1, dy=y2-y1, len=Math.max(Math.hypot(dx,dy),1), sx=x1+dx/len*18, sy=y1+dy/len*18, tx=x2-dx/len*20, ty=y2-dy/len*20;
+        const mx=(sx+tx)/2+cnx*lane, my=(sy+ty)/2+cny*lane;
+        const path=add(svg,'path',{d:`M ${sx} ${sy} Q ${mx} ${my} ${tx} ${ty}`,...edgeStyle});
+        add(path,'title',{},`S${edge.source} → S${edge.target}: symbol ${edge.symbol}, probability ${edge.probability}`);
+        if(showEdgeLabels){
+          const labelLane=lane+(lane<0?-10:10);
+          edgeText((sx+tx)/2+cnx*labelLane,(sy+ty)/2+cny*labelLane,`${edge.symbol} · ${edge.probability}`,color);
+        }
       }
     });
     positions.forEach(([x,y],i)=>{
       add(svg,'circle',{cx:x,cy:y,r:16,fill:C.panel,stroke:C.ink,'stroke-width':1.4});
       add(svg,'text',{x,y:y+3,'text-anchor':'middle',fill:C.ink,'font-size':10,'font-weight':700},`S${i}`);
-      add(svg,'text',{x,y:y+31,'text-anchor':'middle',fill:C.faint,'font-size':8},`π ${model().stationary[i].toFixed(2)}`);
+      add(svg,'text',{x,y:y+34,'text-anchor':'middle',fill:C.faint,'font-size':8},`π=${model().stationary[i].toFixed(2)}`);
     });
+    if(!showEdgeLabels) add(svg,'text',{x:140,y:197,'text-anchor':'middle',fill:C.faint,'font-size':7.5},`${m.edges.length} labelled edges · hover for exact weights`);
   }
 
   function renderStream() {
@@ -338,23 +368,54 @@
   }
 
   function renderSpectrum() {
-    const svg=$('spectrum'); svg.replaceChildren(); const values=current().singular_values.slice(0,Math.min(9,current().singular_values.length));
-    const f=plotFrame(svg,28,12,228,116), floor=Math.max(values[0]*1e-8,1e-12), top=Math.log10(values[0]*1.35), bottom=Math.log10(floor);
-    const x=i=>f.x0+(i+.5)*f.w/values.length, y=v=>f.y0+(top-Math.log10(Math.max(v,floor)))/(top-bottom)*f.h;
-    [0,.5,1].forEach(t=>add(svg,'line',{x1:f.x0,y1:f.y0+t*f.h,x2:f.x0+f.w,y2:f.y0+t*f.h,stroke:'rgba(255,255,255,.055)','stroke-dasharray':'2 4'}));
-    values.forEach((value,i)=>{
-      add(svg,'line',{x1:x(i),y1:f.y0+f.h,x2:x(i),y2:y(value),stroke:i<model().true_rank?C.blue:C.faint,'stroke-width':1.5});
-      const dot=add(svg,'circle',{cx:x(i),cy:y(value),r:i+1===selectedRank?5:3.2,fill:i<model().true_rank?C.blue:C.faint,stroke:i+1===selectedRank?C.ink:'none','stroke-width':1.2,tabindex:0,role:'button','aria-label':`select rank ${i+1}`});
-      dot.style.cursor='pointer'; dot.onclick=()=>{selectedRank=Math.min(i+1,DATA.meta.max_rank);render();};
-      add(dot,'title',{},`σ${i+1} = ${value}`);
-      add(svg,'text',{x:x(i),y:f.y0+f.h+13,'text-anchor':'middle',fill:C.faint,'font-size':7},String(i+1));
+    const svg=$('spectrum'); svg.replaceChildren();
+    const values=current().singular_values.slice(0,Math.min(9,current().singular_values.length));
+    const population=model().conditions.exact.singular_values.slice(0,values.length);
+    const ratios=values.map(value=>value/values[0]);
+    const populationRatios=population.map(value=>population[0]>0?value/population[0]:0);
+    const f=plotFrame(svg,39,13,223,118), minRatio=1e-7, logBottom=Math.log10(minRatio);
+    const x=i=>f.x0+(i+.5)*f.w/values.length;
+    const y=ratio=>f.y0+(0-Math.log10(Math.max(ratio,minRatio)))/(0-logBottom)*f.h;
+    const boundary=model().true_rank<values.length?(x(model().true_rank-1)+x(model().true_rank))/2:f.x0+f.w;
+
+    add(svg,'rect',{x:boundary,y:f.y0,width:f.x0+f.w-boundary,height:f.h,fill:'rgba(157,168,184,.035)'});
+    [[1,'1'],[1e-2,'10⁻²'],[1e-4,'10⁻⁴'],[1e-6,'10⁻⁶']].forEach(([tick,label])=>{
+      const yy=y(tick);
+      add(svg,'line',{x1:f.x0,y1:yy,x2:f.x0+f.w,y2:yy,stroke:'rgba(255,255,255,.065)','stroke-dasharray':'2 4'});
+      add(svg,'text',{x:f.x0-5,y:yy+2.5,'text-anchor':'end',fill:C.faint,'font-size':7},label);
     });
-    const elbowX=f.x0+model().true_rank*f.w/values.length;
-    add(svg,'line',{x1:elbowX,y1:f.y0,x2:elbowX,y2:f.y0+f.h,stroke:C.green,'stroke-width':1,'stroke-dasharray':'3 3'});
-    add(svg,'text',{x:elbowX+4,y:19,fill:C.green,'font-size':7},`true rank ${model().true_rank}`);
-    add(svg,'text',{x:f.x0+f.w/2,y:158,'text-anchor':'middle',fill:C.muted,'font-size':8},'singular-value index (log scale)');
-    const tail=regimeKey==='exact'?'collapses to numerical zero':`is sampling noise from n=${current().sample_size.toLocaleString()}`;
-    $('spectrum-note').innerHTML=`The first <strong>${model().true_rank}</strong> directions carry the process. The remaining tail ${tail}.`;
+    add(svg,'text',{x:8,y:f.y0+f.h/2,transform:`rotate(-90 8 ${f.y0+f.h/2})`,'text-anchor':'middle',fill:C.muted,'font-size':7.5},'relative size  σᵢ / σ₁');
+
+    if(regimeKey!=='exact'){
+      const signalPoints=populationRatios.slice(0,model().true_rank).map((ratio,i)=>`${x(i)},${y(ratio)}`).join(' ');
+      add(svg,'polyline',{points:signalPoints,fill:'none',stroke:C.green,'stroke-width':1.2,'stroke-dasharray':'3 2',opacity:.9});
+      populationRatios.slice(0,model().true_rank).forEach((ratio,i)=>add(svg,'circle',{cx:x(i),cy:y(ratio),r:5,fill:C.panel,stroke:C.green,'stroke-width':1.1}));
+    }
+    ratios.forEach((ratio,i)=>{
+      const color=i<model().true_rank?C.blue:C.faint;
+      add(svg,'line',{x1:x(i),y1:f.y0+f.h,x2:x(i),y2:y(ratio),stroke:color,'stroke-width':i<model().true_rank?1.8:1.2,opacity:i<model().true_rank?1:.85});
+      const dot=add(svg,'circle',{cx:x(i),cy:y(ratio),r:i+1===selectedRank?4.8:3,fill:color,stroke:i+1===selectedRank?C.ink:'none','stroke-width':1.2,tabindex:0,role:'button','aria-label':`select rank ${i+1}`});
+      dot.style.cursor='pointer'; dot.onclick=()=>{selectedRank=Math.min(i+1,DATA.meta.max_rank);render();};
+      add(dot,'title',{},`empirical σ${i+1} = ${values[i]} (${sci(ratio)} of σ1)`);
+      add(svg,'text',{x:x(i),y:f.y0+f.h+12,'text-anchor':'middle',fill:C.faint,'font-size':7},String(i+1));
+    });
+    add(svg,'line',{x1:boundary,y1:f.y0,x2:boundary,y2:f.y0+f.h,stroke:C.green,'stroke-width':1,'stroke-dasharray':'3 3'});
+    add(svg,'text',{x:f.x0+f.w,y:9,'text-anchor':'end',fill:C.green,'font-size':7.2},`population rank r* = ${model().true_rank}`);
+
+    const legendY=158;
+    add(svg,'circle',{cx:f.x0+6,cy:legendY,r:3,fill:C.blue});
+    add(svg,'text',{x:f.x0+13,y:legendY+2.5,fill:C.muted,'font-size':7},regimeKey==='exact'?'observed = population':'sample estimate');
+    if(regimeKey!=='exact'){
+      add(svg,'circle',{cx:f.x0+105,cy:legendY,r:4,fill:C.panel,stroke:C.green,'stroke-width':1});
+      add(svg,'text',{x:f.x0+113,y:legendY+2.5,fill:C.muted,'font-size':7},'exact toy spectrum');
+    }
+    add(svg,'text',{x:f.x0+f.w/2,y:184,'text-anchor':'middle',fill:C.muted,'font-size':8},'singular-value index i · log scale');
+
+    if(regimeKey==='exact'){
+      $('spectrum-note').innerHTML=`<strong>Population and observed spectra coincide:</strong> rank ${model().true_rank}. Later singular values are numerical zero.`;
+    } else {
+      $('spectrum-note').innerHTML=`<strong>Finite-sample block: numerical rank ${current().empirical_rank}/${current().matrix_size}.</strong> Its population rank is ${model().true_rank}. The first tail value is ${sci(current().first_tail_ratio)} of σ₁; the whole tail carries ${percent(current().relative_tail_energy)} of squared spectral energy.`;
+    }
   }
 
   function operatorEdges(operators, rank) {
@@ -430,9 +491,12 @@
     Object.entries(DATA.models).forEach(([key,m])=>{
       const exact=m.conditions.exact.ranks;
       if(exact[m.true_rank-1].metrics.l1>1e-6) errors.push(`${key}: exact-rank L1 is not zero`);
+      if(m.conditions.exact.empirical_rank!==m.true_rank) errors.push(`${key}: exact block rank disagrees with population rank`);
+      if(m.conditions.exact.relative_tail_energy>1e-12) errors.push(`${key}: exact spectrum has nonzero tail energy`);
       Object.values(m.conditions).forEach(condition=>{
         const residuals=condition.ranks.map(row=>row.metrics.hankel);
         for(let i=1;i<residuals.length;i++) if(residuals[i]>residuals[i-1]+1e-7) errors.push(`${key}/${condition.regime}: Hankel residual increased`);
+        if(condition.empirical_rank<m.true_rank) errors.push(`${key}/${condition.regime}: observed block rank fell below population rank`);
       });
     });
     window.__hankelWidgetErrors=errors;

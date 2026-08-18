@@ -106,7 +106,19 @@ $$
 H=U\Sigma V^\top.
 $$
 
-If the exact process has rank $r_\star$, only the first $r_\star$ singular values are nonzero. Finite sampling lifts the rest away from zero. The clean cutoff becomes an elbow, and choosing $r$ becomes a model-selection problem rather than an exercise in counting.
+If the exact **population** process has rank $r_\star$, only the first $r_\star$ singular values are nonzero. A finite stream gives an estimate
+
+$$
+\widehat H=H+E,
+$$
+
+where $E$ is sampling error. A generic perturbation has components in every singular direction, so $\widehat H$ will usually have rank well above the population rank—and is often full rank—even when $H$ has rank two. This is a mathematical fact, not evidence that the finite sample secretly came from a higher-state process. Weyl's inequality gives the useful scale:
+
+$$
+\left|\sigma_i(\widehat H)-\sigma_i(H)\right|\leq \lVert E\rVert_2.
+$$
+
+The zero population tail therefore becomes a small empirical noise floor. The revised spectrum plots $\sigma_i/\sigma_1$ on a labelled log axis, overlays the exact population spectrum because this is a toy, and reports both the first tail ratio and the fraction of squared spectral energy in the entire tail. The sample matrix's raw numerical rank is deliberately shown too—but it is a diagnostic of finite precision and sampling, not an estimator of process dimension. Choosing $r$ means locating a stable signal–noise separation, ideally with held-out prediction or repeated samples, rather than counting every nonzero singular value.
 
 The rank-$r$ truncated SVD is
 

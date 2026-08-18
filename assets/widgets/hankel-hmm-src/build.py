@@ -51,7 +51,7 @@ def model_catalog() -> dict[str, dict]:
             "short": "No consecutive 0s",
             "symbols": ["0", "1"],
             "T": np.stack([golden_t0, golden_t1]),
-            "positions": [[0.25, 0.5], [0.75, 0.5]],
+            "positions": [[0.16, 0.54], [0.84, 0.54]],
         },
         "z1r": {
             "label": "Zero-One-Random",
@@ -228,6 +228,15 @@ def build_condition(
         for prefix in basis
     ])
     true_rank = int(np.linalg.matrix_rank(exact_H, tol=1e-10))
+    empirical_rank = int(np.linalg.matrix_rank(H))
+    spectral_energy = float(np.sum(singular_values ** 2))
+    tail_energy = float(np.sum(singular_values[true_rank:] ** 2))
+    relative_tail_energy = tail_energy / spectral_energy if spectral_energy > 0 else 0.0
+    first_tail_ratio = (
+        float(singular_values[true_rank] / singular_values[0])
+        if true_rank < len(singular_values) and singular_values[0] > 0
+        else 0.0
+    )
 
     # The finite block should expose the known process rank at this depth.
     assert true_rank == T.shape[1], (model_key, true_rank, T.shape[1])
@@ -247,6 +256,10 @@ def build_condition(
         "heatmap": matrix_payload(H[:heat_limit, :heat_limit], 6),
         "heat_max": round_number(float(np.max(H[:heat_limit, :heat_limit])), 6),
         "singular_values": [round_number(value, 10) for value in singular_values[:MAX_RANK + 3]],
+        "empirical_rank": empirical_rank,
+        "matrix_size": len(basis),
+        "relative_tail_energy": round_number(relative_tail_energy, 10),
+        "first_tail_ratio": round_number(first_tail_ratio, 10),
         "stream": [model["symbols"][symbol] for symbol in stream],
         "ranks": ranks,
     }
