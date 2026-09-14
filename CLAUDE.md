@@ -2,22 +2,33 @@
 
 Jekyll blog. Posts go in `_posts/` with format `YYYY-MM-DD-Title.md`.
 
-## Writing Style
+## Writing a post? Invoke the skill first.
 
-**Read `STYLE.md` in this directory before writing any post.** It contains CRW's voice, vocabulary, structural patterns, and a NEVER list. Follow it closely.
+**`drafting-crw-blog-posts`** is the entry point for turning CRW's notes into a post.
+Invoke it before writing anything — including before asking clarifying questions. It
+carries the drafting pipeline, the stub protocol, the source-binding contract, voice
+specimens, and the front-matter reference, and it points here for the rest.
 
-The style file is iteratively refined — when CRW corrects your writing during a session, update STYLE.md with the correction so future sessions benefit.
+Do not draft from `STYLE.md` alone. STYLE.md tells you how the prose *sounds*; the skill
+tells you what you are allowed to *assert*, what to stub instead of faking, and how to
+mark anything LLM-sourced. Both are required.
 
-## Front Matter
+`STYLE.md` is iteratively refined — when CRW corrects your writing during a session,
+add the correction there so future sessions benefit.
 
-Posts use YAML front matter:
+## Repo mechanics
+
+Front matter, tag→page routing, `kind:` badges, and attribution lines are documented in
+the skill's `references/templates-and-frontmatter.md`, which is kept in sync with this
+repo. Quick version:
+
 ```yaml
 ---
 title: "Post Title"   # clean title, no [Prefix] tags
 date: YYYY-MM-DD
-math: true        # include if post has LaTeX
-tags: [seed]       # optional, drives PAGE MEMBERSHIP
-kind: musing       # optional, shows as a right-side badge
+math: true            # include if post has LaTeX
+tags: [seed]          # optional, drives PAGE MEMBERSHIP
+kind: musing          # optional, right-side badge only
 ---
 ```
 
@@ -26,13 +37,16 @@ kind: musing       # optional, shows as a right-side badge
 `notes` -> Notes (Claude-written working notes), `nulla-dies` -> hidden page.
 Untagged posts land on the Research homepage.
 
-`kind:` is a content-type badge only (no page effect): `musing`, `poetry`,
-`latin`, `linkpost`, etc.  Never put `[Prefix]` inside the title; use `kind:`.
+The `long` and `math` badges are computed automatically by `index.md` (from word count
+> 3000 and from `math: true`). Never set `long` by hand.
 
-## Attribution
+All LLM-assisted posts must carry an attribution line — see the skill for the range of
+forms CRW actually uses.
 
-All Claude-assisted posts must include attribution (e.g. "Written with Claude." or "Revised with Claude.") — see STYLE.md for details.
+`dev-server.sh` runs the site locally. `BACKLOG.md` is the task queue for the scheduled
+tutorial routine, not for post drafting.
 
-## EAG Writeup Plans
+## Writing project plans
 
-Current writing project plans are at `~/Documents/Vault/MATS/EAG-writeup-plans.md`. Each post has a list of context files to read before starting work.
+`~/Documents/Vault/notes/MATS/EAG-writeup-plans.md` — a one-liner, an arc, and the exact
+context files to read for each planned post.
