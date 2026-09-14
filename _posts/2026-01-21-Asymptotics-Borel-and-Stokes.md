@@ -84,7 +84,7 @@ $$
 \hat{f}(t) = \sum_{n=0}^\infty \frac{a_n}{n!} t^n
 $$
 
-Dividing by $n!$ often makes the series converge! If $\hat{f}(t)$ converges for $|t| < R$, we can try to recover $f$ via the **Borel sum**:
+Dividing by $n!$ often makes the series converge! If $\hat{f}(t)$ converges for $\vert t\vert  < R$, we can try to recover $f$ via the **Borel sum**:
 
 $$
 f(x) = \int_0^\infty e^{-t/x} \hat{f}(t) \, dt
@@ -136,7 +136,7 @@ $$
 a_n \sim \frac{\text{const}}{z_0^n} \cdot n^{\alpha}
 $$
 
-The growth rate is set by $|z_0|^{-n}$; the power of $n$ depends on the type of singularity.
+The growth rate is set by $\vert z_0\vert ^{-n}$; the power of $n$ depends on the type of singularity.
 
 For the Borel transform, this means: **singularities of $\hat{f}(t)$ control the divergence of the original series**.
 
@@ -173,7 +173,7 @@ $$
 For $\arg(z) = \pi$ (negative real axis):
 
 $$
-\text{Ai}(z) \sim \frac{1}{\sqrt{\pi}|z|^{1/4}} \sin\left(\frac{2}{3}|z|^{3/2} + \frac{\pi}{4}\right)
+\text{Ai}(z) \sim \frac{1}{\sqrt{\pi}\vert z\vert ^{1/4}} \sin\left(\frac{2}{3}\vert z\vert ^{3/2} + \frac{\pi}{4}\right)
 $$
 
 These are **completely different**! One is exponentially decaying, one is oscillating.

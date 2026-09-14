@@ -122,10 +122,10 @@ For matrix Lie groups, there are standard formulas.
 **On $U(N)$:** The Haar measure can be written in terms of eigenvalues $\{e^{i\theta_j}\}$:
 
 $$
-d\mu(U) \propto \prod_{j < k} |e^{i\theta_j} - e^{i\theta_k}|^2 \cdot \prod_j d\theta_j
+d\mu(U) \propto \prod_{j < k} \vert e^{i\theta_j} - e^{i\theta_k}\vert ^2 \cdot \prod_j d\theta_j
 $$
 
-That Vandermonde factor $\prod_{j<k}|e^{i\theta_j} - e^{i\theta_k}|^2$ is eigenvalue repulsion—the same factor that appears in random matrix theory!
+That Vandermonde factor $\prod_{j<k}\vert e^{i\theta_j} - e^{i\theta_k}\vert ^2$ is eigenvalue repulsion—the same factor that appears in random matrix theory!
 
 **On $SO(3)$:** Using axis-angle parametrization, the Haar measure is:
 
@@ -157,7 +157,7 @@ Let $G$ be a compact connected Lie group with maximal torus $T$ (e.g., diagonal 
 **Weyl Integration Formula:**
 
 $$
-\int_G f(g) \, d\mu(g) = \frac{1}{|W|} \int_T f(t) \, |\Delta(t)|^2 \, d\mu_T(t)
+\int_G f(g) \, d\mu(g) = \frac{1}{\vert W\vert } \int_T f(t) \, \vert \Delta(t)\vert ^2 \, d\mu_T(t)
 $$
 
 where $\Delta(t)$ is the Weyl denominator—a product over positive roots that encodes the Jacobian from $G$ to $T$.
@@ -165,7 +165,7 @@ where $\Delta(t)$ is the Weyl denominator—a product over positive roots that e
 For $U(N)$, this is:
 
 $$
-\int_{U(N)} f(U) \, dU = \frac{1}{N!} \int_{[0,2\pi]^N} f(\text{diag}(e^{i\theta_1}, \ldots, e^{i\theta_N})) \prod_{j<k} |e^{i\theta_j} - e^{i\theta_k}|^2 \frac{d\theta_1 \cdots d\theta_N}{(2\pi)^N}
+\int_{U(N)} f(U) \, dU = \frac{1}{N!} \int_{[0,2\pi]^N} f(\text{diag}(e^{i\theta_1}, \ldots, e^{i\theta_N})) \prod_{j<k} \vert e^{i\theta_j} - e^{i\theta_k}\vert ^2 \frac{d\theta_1 \cdots d\theta_N}{(2\pi)^N}
 $$
 
 The Vandermonde determinant is doing all the work.
@@ -206,7 +206,7 @@ This is the infinitesimal version of the group axioms, and it's fundamental for 
 
 When we say "random unitary matrix," we mean Haar-distributed. This is the unique measure that treats all unitaries "the same."
 
-The eigenvalue repulsion factor $\prod_{j<k}|e^{i\theta_j} - e^{i\theta_k}|^2$ in the Haar measure is exactly why random matrices exhibit level repulsion. It's not put in by hand—it comes from the geometry of the group.
+The eigenvalue repulsion factor $\prod_{j<k}\vert e^{i\theta_j} - e^{i\theta_k}\vert ^2$ in the Haar measure is exactly why random matrices exhibit level repulsion. It's not put in by hand—it comes from the geometry of the group.
 
 The Weyl integration formula says: **integrating over the group = integrating over eigenvalues with a Jacobian**. That Jacobian is the source of all the interesting random matrix statistics.
 

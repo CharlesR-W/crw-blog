@@ -28,7 +28,7 @@ Move the slider and both temperatures update at once.
 The lower panels are diagnostics:
 
 - The **two-point function** $C(r) = \langle s_0 s_r \rangle$ on log-log axes, with a dashed reference line of slope $-1/4$.  Off-critical, the curves bend: below $T_c$ they level out at a plateau equal to $m^2$ (long-range order); above $T_c$ they fall off the bottom of the chart (exponential decay to zero).  At the critical temperature both curves hug the dashed line: a true power law.  An exponential moving average smooths the per-frame Wolff noise.
-- The accumulating **$\xi(T)$ trace**.  Sweep the slider back and forth and you fill in the curve $\xi(T) \sim |T - T_c|^{-\nu}$ with $\nu = 1$.  The two colours come from the two panels; they are mirror images about $T_c$.
+- The accumulating **$\xi(T)$ trace**.  Sweep the slider back and forth and you fill in the curve $\xi(T) \sim \vert T - T_c\vert ^{-\nu}$ with $\nu = 1$.  The two colours come from the two panels; they are mirror images about $T_c$.
 - The **phase strip** below the slider shows the ordered phase (cyan tint) and the disordered phase (amber tint), with a red tick at $T_c$.  A filled dot tracks $T$; an open dot tracks $T^\ast$.  They swap sides as you cross $T_c$.
 
 The view toggle changes what is drawn on each lattice:
@@ -71,7 +71,7 @@ The dashed line on the $C(r)$ plot is exactly $r^{-1/4}$.  Watch both curves dro
 
 Away from $T_c$ the connected correlator decays exponentially, $C(r) - \langle s \rangle^2 \sim e^{-r/\xi(T)}$, and the widget estimates $\xi$ by subtracting the long-$r$ plateau and fitting the log of the residual.  As $T \to T_c$,
 
-$$\xi(T) \sim |T - T_c|^{-\nu}, \quad \nu = 1.$$
+$$\xi(T) \sim \vert T - T_c\vert ^{-\nu}, \quad \nu = 1.$$
 
 Sweep the slider slowly back and forth; the scatter you build up is $\xi(T)$.  Two things to notice:
 

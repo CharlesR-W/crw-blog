@@ -92,11 +92,11 @@ $$
 For $z \to -\infty$ (deep in the allowed region):
 
 $$
-\text{Ai}(z) \sim \frac{1}{\sqrt{\pi} |z|^{1/4}} \sin\left( \frac{2}{3} |z|^{3/2} + \frac{\pi}{4} \right)
+\text{Ai}(z) \sim \frac{1}{\sqrt{\pi} \vert z\vert ^{1/4}} \sin\left( \frac{2}{3} \vert z\vert ^{3/2} + \frac{\pi}{4} \right)
 $$
 
 $$
-\text{Bi}(z) \sim \frac{1}{\sqrt{\pi} |z|^{1/4}} \cos\left( \frac{2}{3} |z|^{3/2} + \frac{\pi}{4} \right)
+\text{Bi}(z) \sim \frac{1}{\sqrt{\pi} \vert z\vert ^{1/4}} \cos\left( \frac{2}{3} \vert z\vert ^{3/2} + \frac{\pi}{4} \right)
 $$
 
 The key: $\text{Ai}$ decays into the forbidden region, while $\text{Bi}$ blows up.
@@ -115,7 +115,7 @@ where $\kappa = \sqrt{2m(V-E)}$ and we've imposed decay as $x \to -\infty$.
 
 **Inner solution** (Airy): Valid near $x = a$. Must use $\text{Ai}$ (not $\text{Bi}$) to match the decay.
 
-**The overlap region**: Where both solutions are valid. Here $|x - a|$ is large enough for WKB but small enough for the linear approximation to the potential.
+**The overlap region**: Where both solutions are valid. Here $\vert x - a\vert $ is large enough for WKB but small enough for the linear approximation to the potential.
 
 In the overlap, the Airy asymptotics must match the WKB form. Near $x = a$, the WKB integrals become:
 

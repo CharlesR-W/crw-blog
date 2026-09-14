@@ -12,7 +12,7 @@ The KL divergence between two probability distributions is invariant under arbit
 ## KL’s permutation invariance (and why that’s dumb)
 
 $$  
-D_{\mathrm{KL}}(p|q)=\int p(x)\log\frac{p(x)}{q(x)},dx  
+D_{\mathrm{KL}}(p\vert q)=\int p(x)\log\frac{p(x)}{q(x)},dx  
 $$
 
 is invariant under relabelings of the real line. On a metric space this is unnatural: we want $x$ and $x+\varepsilon$ to be “almost the same,” not arbitrarily permutable. You can think of bare KL here as the $t=0$ thermal “distance”: maximally coarse and indifferent to locality.
@@ -45,12 +45,12 @@ so the blur scale is $d\sim \sqrt{2t}$ (constants like $\sqrt{2}$ depend on conv
 Note that tempering discards information:  
 
 $$
-D_{\mathrm{KL}}(p_0|p_t)
+D_{\mathrm{KL}}(p_0\vert p_t)
 =\int p_0(x)\log\frac{p_0(x)}{(K_t*p_0)(x)}dx
-= \mathrm{CE}(p_t|p_0)-H(p_0),
+= \mathrm{CE}(p_t\vert p_0)-H(p_0),
 $$
 
-where $H(p)=-\int p\log p$ and $\mathrm{CE}(r|s)=-\int r\log s$.
+where $H(p)=-\int p\log p$ and $\mathrm{CE}(r\vert s)=-\int r\log s$.
 
 ---
 
@@ -59,7 +59,7 @@ where $H(p)=-\int p\log p$ and $\mathrm{CE}(r|s)=-\int r\log s$.
 Define the **tempered KL** at scale $t$:  
 
 $$  
-D_t(p_0,q_0) := D_{\mathrm{KL}}(p_t|q_t)  
+D_t(p_0,q_0) := D_{\mathrm{KL}}(p_t\vert q_t)  
 \quad\text{with}\quad p_t=K_t p_0, q_t=K_t q_0  
 $$
 
@@ -68,20 +68,20 @@ For the heat kernel (with the convention $\partial_t u=\Delta u$), two key facts
 - **Small-time expansion**  
   
   $$
-    D_t(p_0|q_0)=D_{\mathrm{KL}}(p_0|q_0)-t I_{\mathrm{rel}}(p_0|q_0)+o(t)\quad(t\to0),
+    D_t(p_0\vert q_0)=D_{\mathrm{KL}}(p_0\vert q_0)-t I_{\mathrm{rel}}(p_0\vert q_0)+o(t)\quad(t\to0),
     $$
 
     where the **relative Fisher information** is  
     
     $$  
-    I_{\mathrm{rel}}(p|q)=\int p(x),\big|\nabla\log\frac{p(x)}{q(x)}\big|^2,dx.  
+    I_{\mathrm{rel}}(p\vert q)=\int p(x),\big\vert \nabla\log\frac{p(x)}{q(x)}\big\vert ^2,dx.  
     $$
     
 - **Exact dissipation (all $t\ge0$)**  
     
     $$  
-    \frac{d}{dt}D_t(p_0|q_0)  
-    =-I_{\mathrm{rel}}(p_t|q_t).  
+    \frac{d}{dt}D_t(p_0\vert q_0)  
+    =-I_{\mathrm{rel}}(p_t\vert q_t).  
     $$
     
 
@@ -105,8 +105,8 @@ Two standard identities:
 1. **Kinetic energy = Fisher**  
     
     $$  
-    \mathbb E_p[|\nabla_{W_2}S[p]|^2]  
-    =\int p |\nabla\log p|^2 dx  
+    \mathbb E_p[\vert \nabla_{W_2}S[p]\vert ^2]  
+    =\int p \vert \nabla\log p\vert ^2 dx  
     =I(p).  
     $$
     
@@ -120,12 +120,12 @@ Two standard identities:
     Then  
     
     $$  
-    I_{\mathrm{rel}}(p_t|q_t)  
-    =\int p_t,|w_t|^2dx  
-    =\mathbb{E}_{p_t}\big[|w_t|^2\big].  
+    I_{\mathrm{rel}}(p_t\vert q_t)  
+    =\int p_t,\vert w_t\vert ^2dx  
+    =\mathbb{E}_{p_t}\big[\vert w_t\vert ^2\big].  
     $$
 
-Equivalently, if $H(\cdot):=D_{\mathrm{KL}}(,\cdot,|,\pi)$ for any fixed reference density $\pi$ (so $\nabla_{W_2}H(p)=\nabla\log(p/\pi)$), then  
+Equivalently, if $H(\cdot):=D_{\mathrm{KL}}(,\cdot,\vert ,\pi)$ for any fixed reference density $\pi$ (so $\nabla_{W_2}H(p)=\nabla\log(p/\pi)$), then  
 
 $$
 \nabla_{W_2}H(p_t)-\nabla_{W_2}H(q_t)=\nabla\log\frac{p_t}{q_t},
@@ -134,8 +134,8 @@ $$
 and the KL dissipation can be written purely in Wasserstein terms:  
 
 $$  
-\frac{d}{dt}D_{\mathrm{KL}}(p_t|q_t)  
-= -\mathbb{E}_{p_t}\left[\big|\nabla_{W_2}H(p_t)-\nabla_{W_2}H(q_t)\big|^2\right]
+\frac{d}{dt}D_{\mathrm{KL}}(p_t\vert q_t)  
+= -\mathbb{E}_{p_t}\left[\big\vert \nabla_{W_2}H(p_t)-\nabla_{W_2}H(q_t)\big\vert ^2\right]
 $$
 
 
@@ -151,7 +151,7 @@ Take a change-of-coords / diffeomorphism $\Phi:M\to M$.
 We'll use $J$ for the jacobian determinant (as opposed to the Jacobian matrix; sue me)  
 
 $$
-J_\Phi(x) =|\det D\Phi(x)|\text{)}.
+J_\Phi(x) =\vert \det D\Phi(x)\vert \text{)}.
 $$
 
 The pushforward is  
@@ -204,7 +204,7 @@ $$\Upsilon(s,t) := H[K_s \Phi_t \phi] - H[\Phi_t K_s \phi]$$
 
 I named it $\Upsilon$ because I think this is a really awesome application, and I want to have a canonical symbol for it, and I feel bad for $\Upsilon$.  For the sake of naming it, I'll call it the "convective entropy".  Intuitively this is of course the additional entropy accrued by considering our thermalization process as occuring before or after the pushforward.  Just as an aside because I think the formula looks neet, note first that
 
-$$H[\Phi_t \phi] = H[\phi] + \mathbb E_{\phi}\log |D\Phi_{-t}|$$
+$$H[\Phi_t \phi] = H[\phi] + \mathbb E_{\phi}\log \vert D\Phi_{-t}\vert $$
 
 And, for small diffusions:
 
@@ -212,7 +212,7 @@ $$\partial_s H[K_s \phi] = I[\phi]$$
 
 Since we really only like our thermalisation for small $s$ anyways, and I couldn't figure out any other neat asymptotics, we can calculate $\Upsilon(s,t)\sim s[\partial_s \Upsilon](0,t) + o(s) = [\partial_{\log s}\Upsilon](0,t)$:
 
-$$\Upsilon(t) :=\partial_{\log s} \Upsilon(0,t) = I[\Phi_t\phi] - I[\phi] - \mathbb E_{\phi}[\Delta \log |D \Phi_t|]$$
+$$\Upsilon(t) :=\partial_{\log s} \Upsilon(0,t) = I[\Phi_t\phi] - I[\phi] - \mathbb E_{\phi}[\Delta \log \vert D \Phi_t\vert ]$$
 
 (the $\log s$ makes it a little cleaner, doesn't matter.)
 So what are we to make of this?  A simple example sheds a little light - imagine $\phi$ is uniform over a sphere and 0 elsewhere, then the fisher information diverges to infinity; if $\phi$ is Gaussian with variance $\sigma^2$, the fisher information is $\frac{d}{\sigma^2}$.  This diverges as $\sigma \to 0$.  So intuitively we're measuring something that really _hates_ sharp edges.  We can understand this by looking at the fourier:
@@ -247,7 +247,7 @@ $$\Upsilon(t) \sim (constant) ~ e^{2\lambda^*(t)~ t}$$
 - I give conditions for a tempering convolution which, together, sorta-kinda-uniquely specify the heat kernel (at least as $t\to0$ and modulo reparameterization)
 - I use the heat kernel to define a tempered KL divergence, which is the KL divergence between the distributions after each is convolved with the heat kernel:  
   
-  $$D_t(p||q) = D_{KL}(K_t*p||K_t*q)$$
+  $$D_t(p\vert \vert q) = D_{KL}(K_t*p\vert \vert K_t*q)$$
   
 - For small times $t$, $K_t$ is approximately a gaussian of width $\sigma = \sqrt{2t}$.  Morally, this is roughly equivalent to dividing up continuous space into discrete chunks of diameter $O(\sqrt t)$ and likewise coarse-graining any observables; then we take the (more soundly defined imo) discrete entropy.  The tempered entropy is approximately invariant under permutations with length-scale $\xi >> \sqrt t$.  Thus, gleefully, $1/\sqrt{t}$ is the 'cutoff' frequency of tempered information theory.
 - I relate the tempered divergence to gradient flow in Wasserstein space.

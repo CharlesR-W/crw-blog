@@ -221,7 +221,7 @@ The space of probability distributions on $\mathbb{R}^n$ is infinite-dimensional
 
 - **Points:** probability distributions $\rho(x)$
 - **Tangent vectors:** velocity fields $v(x)$ that describe how $\rho$ could flow
-- **Metric:** $\|v\|^2 = \int |v(x)|^2 \rho(x) dx$
+- **Metric:** $\Vert v\Vert ^2 = \int \vert v(x)\vert ^2 \rho(x) dx$
 
 The "gradient" of a functional $F[\rho]$ in this geometry is:
 

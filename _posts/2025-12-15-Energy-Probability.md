@@ -11,7 +11,7 @@ TLDR: the mainline of statistical physics is literally identical to probability 
 ## Approximate ToC
 
 1. **Energy ↔ probability** with β = 1 and ($p = e^{-H}$).
-2. **Cluster decomposition**: any joint $p(x_1,\dots,x_N)$ has a canonical decomposition into irreducible (|S|)-body interaction terms.
+2. **Cluster decomposition**: any joint $p(x_1,\dots,x_N)$ has a canonical decomposition into irreducible ($\lvert S\rvert$)-body interaction terms.
 3. **Möbius inversion**: the mechanism that turns “marginal energies” into “connected interaction energies” (and also does the same thing for entropies).
 4. **Maximum entropy inference**: constraints on marginals ↔ keep some interaction terms, set the rest to zero (plus a toy example).
 
@@ -56,7 +56,7 @@ We see that entropy 'is expected energy' in this convention, because $H=-\log p$
 
 **KL divergence**:
 
-$$D_{KL}(p|q)=\int dx~p(x)\log\frac{p(x)}{q(x)}=\mathbb E_{H_p}[H_q - H_p].$$
+$$D_{KL}(p\vert q)=\int dx~p(x)\log\frac{p(x)}{q(x)}=\mathbb E_{H_p}[H_q - H_p].$$
 
 **Marginalization**
 
@@ -85,7 +85,7 @@ Given a joint $p(x_1,\dots,x_N)$, we can write a decomposition  into "local Hami
 
 $$H(x_1,\dots,x_N) = \sum_{S\subseteq\{1,\dots,N\}} H_S(x_S),$$
 
-where each $H_S$ encodes the part of the joint that is "irreducibly S" (in physics, we usually have permutation invariance, so we get a bunch of the $H_S$ reduces to something like "$\|S\|$-body potentials".
+where each $H_S$ encodes the part of the joint that is "irreducibly S" (in physics, we usually have permutation invariance, so we get a bunch of the $H_S$ reduces to something like "$\Vert S\Vert $-body potentials".
 
 A term looks like
 
@@ -132,7 +132,7 @@ $$b(S)=\sum_{T\subseteq S}\mu(S,T)\,a(T),$$
 
 For the case we care about, which is the "subset lattice" $\mu$ is:
 
-$$\mu(S,T)=(-1)^{|S|-|T|}.$$
+$$\mu(S,T)=(-1)^{\vert S\vert -\vert T\vert }.$$
 
 Note that this looks a lot like a matrix multiplication!  We can write a nice multiplication notation:
 $a = 1 * b$ and $b = \mu * a$ .  Here $1$ is the function $1(S,T)=1$, which lets us write $\mu = (1)^{-1}$, (lol seethe and cope).  In general, the '\*' is "Dirichlet convolution", and '1\*' is the 'zeta transform'.  Afaik, no relation to Herr Riemann's $\zeta$.  The thing people generalize to is by running the sum over something other than 'all possible subsets of a given parent'.
@@ -145,7 +145,7 @@ $$V_T(x_T):=-\log p_T(x_T).$$
 
 Then the irreducible interaction term $E_S$ is given by the Möbius inversion:
 
-$$H_S(x_S) = \sum_{T\subseteq S} (-1)^{|S|-|T|}~V_T(x_T).$$
+$$H_S(x_S) = \sum_{T\subseteq S} (-1)^{\vert S\vert -\vert T\vert }~V_T(x_T).$$
 
 This is the canonical "cluster decomposition" I promised: you compute marginal energies, then apply inclusion–exclusion to strip off everything explainable by strict subsets.  You can verify by induction that this satisfies the "gauge" condition from before.  It's just "don't double count" but fancy: $\mathcal{DON'T~ DOUBLE~-~COUNT}$.
 
@@ -153,7 +153,7 @@ This is the canonical "cluster decomposition" I promised: you compute marginal e
 
 From the Shannon entropy of a marginal distribution $S[p_T]$, the "connected entropy" / "interaction information" / "co-information", $I(T)$
 
-$$I(T) := \sum_{T'\subseteq T} (-1)^{|T|-|T'|}S(T).$$
+$$I(T) := \sum_{T'\subseteq T} (-1)^{\vert T\vert -\vert T'\vert }S(T).$$
 
 (okay yeah didn't plan far enough ahead when I chose $S$ for entropy.  Sorry lol.)
 
@@ -169,10 +169,10 @@ Now here’s the thing that gives this meaning beyond the combinatorics.
 
 Consider the MaxEnt problem of inferring a distribution given its marginals:
 
-$$\text{maximize } S[q] \ \ \text{subject to}\ \ q|_{R_i}=p|_{R_i}\ \ \forall i\in\{1,\dots,m\},$$
+$$\text{maximize } S[q] \ \ \text{subject to}\ \ q\vert _{R_i}=p\vert _{R_i}\ \ \forall i\in\{1,\dots,m\},$$
 
 In the energetic picture, this is clean
-- Each marginal constraint $q\|_{R_i}=p\|_{R_i}$ pins down the marginal energy $E_{R_i}=\log p_{R_i}$
+- Each marginal constraint $q\Vert _{R_i}=p\Vert _{R_i}$ pins down the marginal energy $E_{R_i}=\log p_{R_i}$
 	- it also specifies the 'descendant' marginals - these have to agree or the problem is infeasible
 - Use Mobius transform to calculate these energies
 - then the optimal $q^*$ is the sum of all energies specified by the constraints (including the descendants, counted only once).

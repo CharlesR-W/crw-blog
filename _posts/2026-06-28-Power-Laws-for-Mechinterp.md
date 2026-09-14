@@ -41,9 +41,9 @@ $$\frac{1}{\sqrt{n}}\sum_{i=1}^{n}(X_i-\mu)\ \xrightarrow{d}\ \mathcal{N}(0,\sig
 
 But there's a more general version of this for random variables which don't have finite variance (or, optionally, even no finite mean).  These more general distributions are called **stable distributions**, and the non-Gaussian cases have power-law tails with exponent $\alpha$: roughly, $p(x) \sim x^{-\alpha-1} \textrm{ as } x\to \infty$ for the density tail.
 
-**Closure + GCLT, in brief.**  *Stable* means sums of independent copies stay in the family, $aX_1 + bX_2 \stackrel{d}{=} cX + d$, with $c^{\alpha} = |a|^{\alpha} + |b|^{\alpha}$ in the symmetric unit-scale case.  Gaussian is $\alpha = 2$, so to sum 0-mean Gaussians, sum their variances.
+**Closure + GCLT, in brief.**  *Stable* means sums of independent copies stay in the family, $aX_1 + bX_2 \stackrel{d}{=} cX + d$, with $c^{\alpha} = \vert a\vert ^{\alpha} + \vert b\vert ^{\alpha}$ in the symmetric unit-scale case.  Gaussian is $\alpha = 2$, so to sum 0-mean Gaussians, sum their variances.
 
-The Generalized CLT: sums of power-law-tailed variables ($P(|X| > x) \sim x^{-\alpha}$, $0 < \alpha < 2$), centered when the mean exists and normalized by $n^{1/\alpha}$ rather than $\sqrt n$, converge to the stable law $S_\alpha$.  The tail exponent *becomes* the stability index.  Familiar cases: $\alpha = 2$ Gaussian, $\alpha = 1$ Cauchy, $\alpha = \tfrac12$ "the" Lévy (since $\alpha$-stable distributions as a whole are often, incl. by me, called Lévy).  NB that the actual law of $S_\alpha$ usually isn't easy to write down, so everything in power-law world is done in terms of characteristic functions.  In the symmetric, centered case, $\psi_\alpha(t) = \log \mathbb E_{S_\alpha}[e^{itS_\alpha}] = - |\frac{t}{t_0}|^{\alpha}$.
+The Generalized CLT: sums of power-law-tailed variables ($P(\vert X\vert  > x) \sim x^{-\alpha}$, $0 < \alpha < 2$), centered when the mean exists and normalized by $n^{1/\alpha}$ rather than $\sqrt n$, converge to the stable law $S_\alpha$.  The tail exponent *becomes* the stability index.  Familiar cases: $\alpha = 2$ Gaussian, $\alpha = 1$ Cauchy, $\alpha = \tfrac12$ "the" Lévy (since $\alpha$-stable distributions as a whole are often, incl. by me, called Lévy).  NB that the actual law of $S_\alpha$ usually isn't easy to write down, so everything in power-law world is done in terms of characteristic functions.  In the symmetric, centered case, $\psi_\alpha(t) = \log \mathbb E_{S_\alpha}[e^{itS_\alpha}] = - \vert \frac{t}{t_0}\vert ^{\alpha}$.
 
 Pareto distributions aren't quite the same thing as alpha-stable distributions, but they are the cleanest toy model for the same tail exponent.  The [Pareto principle](https://en.wikipedia.org/wiki/Pareto_principle), "80% of the outcomes can be explained by 20% of the causes", is actually a precise statement about $\alpha$ for a Pareto tail: the 80:20 split appears near $\alpha \approx 1.16$.  The exponent $\alpha$ controls how much of the mean is carried by rare events, and in the $\alpha \to 0$ limit almost all mass is carried by a finite number of extreme draws.  (See [stable distributions](https://en.wikipedia.org/wiki/Stable_distribution).)[^1]
 
@@ -140,9 +140,9 @@ Nature doesn't believe in zeroes (or more precisely, in floating point equality)
 Let's imagine you have a list of magnitudes $x_i \in \mathbb R_+$ of length $N$.  For now, no tricky encoding: the operative definition of sparsity is "how much error reduction can I buy by representing one more mode?"  If the magnitudes sorted from largest to smallest obey a power law,
 
 $$
-|x|_{(i)} \sim i^{-1/\alpha},
+\vert x\vert _{(i)} \sim i^{-1/\alpha},
 \qquad
-\epsilon_p(k) = \sum_{i > k} |x|_{(i)}^p \sim \sum_{i > k} i^{-p/\alpha} \sim k^{1-p/\alpha}
+\epsilon_p(k) = \sum_{i > k} \vert x\vert _{(i)}^p \sim \sum_{i > k} i^{-p/\alpha} \sim k^{1-p/\alpha}
 \quad(\alpha < p),
 $$
 
@@ -154,7 +154,7 @@ As you get heavier tails, $\alpha \rightarrow 0$, the error after keeping only a
 
 ### 3.B. α-stable noise can make discrete codebooks optimal
 
-The mechanism: the Gaussian channel ($Y = X + N$, power constraint $\mathbb E[X^2] \le P$) has a *continuous* Gaussian-optimal input ($C = \tfrac12\log(1 + P/\sigma^2)$).  Under $\alpha$-stable noise ($\alpha < 2$) the variance is infinite, so ordinary power is no longer the natural signal-strength measure.  Fahs & Abou-Faycal study alpha-stable additive-noise channels under fractional-moment input constraints such as $\mathbb E|X|^r \le c$, and their broader support/discreteness results say that suitable super-logarithmic cost constraints can force bounded, discrete capacity-achieving inputs.  Chain: heavy-tailed channel noise $\Rightarrow$ changed input-cost geometry $\Rightarrow$ discrete alphabets can become optimal.
+The mechanism: the Gaussian channel ($Y = X + N$, power constraint $\mathbb E[X^2] \le P$) has a *continuous* Gaussian-optimal input ($C = \tfrac12\log(1 + P/\sigma^2)$).  Under $\alpha$-stable noise ($\alpha < 2$) the variance is infinite, so ordinary power is no longer the natural signal-strength measure.  Fahs & Abou-Faycal study alpha-stable additive-noise channels under fractional-moment input constraints such as $\mathbb E\vert X\vert ^r \le c$, and their broader support/discreteness results say that suitable super-logarithmic cost constraints can force bounded, discrete capacity-achieving inputs.  Chain: heavy-tailed channel noise $\Rightarrow$ changed input-cost geometry $\Rightarrow$ discrete alphabets can become optimal.
 
 ### 3.C. Heavy-tailed noise can convert analog inputs into discrete codebooks
 

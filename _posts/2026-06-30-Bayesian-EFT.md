@@ -57,7 +57,7 @@ $$
 x=(x_1,\ldots,x_n),
 $$
 
-then $\phi_\alpha$ might depend only on a subset $S\subseteq[n]$. In that case $|S|$ is the body order of the interaction.
+then $\phi_\alpha$ might depend only on a subset $S\subseteq[n]$. In that case $\vert S\vert $ is the body order of the interaction.
 
 Now expand the action in this basis:
 
@@ -106,7 +106,7 @@ g_\alpha(\theta_0)
 +
 \sum_i J_{\alpha i}\delta\theta_i
 +
-O(\|\delta\theta\|^2),
+O(\Vert \delta\theta\Vert ^2),
 $$
 
 where

@@ -30,7 +30,7 @@ We want to find a function $\epsilon: \text{pasts} \to \text{states}$ such that:
 1. **Sufficiency**: Knowing $\epsilon(\overleftarrow{X})$ is as good as knowing $\overleftarrow{X}$ for predicting $\overrightarrow{X}$.
 
 $$
-P(\overrightarrow{X} | \overleftarrow{X}) = P(\overrightarrow{X} | \epsilon(\overleftarrow{X}))
+P(\overrightarrow{X} \vert  \overleftarrow{X}) = P(\overrightarrow{X} \vert  \epsilon(\overleftarrow{X}))
 $$
 
 2. **Minimality**: $\epsilon$ has the smallest range (fewest states) among all sufficient statistics.
@@ -40,7 +40,7 @@ $$
 The key construction is the **causal equivalence relation** on pasts:
 
 $$
-\overleftarrow{x} \sim_\epsilon \overleftarrow{x}' \iff P(\overrightarrow{X} | \overleftarrow{X} = \overleftarrow{x}) = P(\overrightarrow{X} | \overleftarrow{X} = \overleftarrow{x}')
+\overleftarrow{x} \sim_\epsilon \overleftarrow{x}' \iff P(\overrightarrow{X} \vert  \overleftarrow{X} = \overleftarrow{x}) = P(\overrightarrow{X} \vert  \overleftarrow{X} = \overleftarrow{x}')
 $$
 
 Two pasts are equivalent if and only if they give the same conditional distribution over futures.
@@ -55,7 +55,7 @@ This is the **epsilon machine**: the causal states plus the transition structure
 
 The name comes from the equivalence relation $\sim_\epsilon$. The "machine" part is because the causal states, together with the transitions induced by observing new symbols, form a (possibly infinite) hidden Markov model.
 
-Given current causal state $s$ and observed symbol $x$, there's a deterministic transition to a new causal state $s' = T(s, x)$ and a probability $P(x|s)$ for that symbol.
+Given current causal state $s$ and observed symbol $x$, there's a deterministic transition to a new causal state $s' = T(s, x)$ and a probability $P(x\vert s)$ for that symbol.
 
 The epsilon machine is:
 - **Unifilar**: Given the current state and the next symbol, the next state is determined
@@ -136,7 +136,7 @@ For prediction, $X$ = past, $Y$ = future, and the optimal bottleneck is the caus
 The **excess entropy** is:
 
 $$
-E = I(\overleftarrow{X}; \overrightarrow{X}) = H[\overrightarrow{X}] - H[\overrightarrow{X} | \overleftarrow{X}]
+E = I(\overleftarrow{X}; \overrightarrow{X}) = H[\overrightarrow{X}] - H[\overrightarrow{X} \vert  \overleftarrow{X}]
 $$
 
 This measures how much the past tells you about the future. It's a lower bound on statistical complexity:
@@ -152,7 +152,7 @@ The gap $C_\mu - E$ is called the **crypticity** or **gauge information**.
 The **entropy rate** is:
 
 $$
-h_\mu = \lim_{n \to \infty} \frac{1}{n} H[X_1, \ldots, X_n] = H[X_n | X_1, \ldots, X_{n-1}]
+h_\mu = \lim_{n \to \infty} \frac{1}{n} H[X_1, \ldots, X_n] = H[X_n \vert  X_1, \ldots, X_{n-1}]
 $$
 
 This measures the intrinsic randomness of the process—how unpredictable it is even with perfect knowledge of the causal state.
@@ -161,7 +161,7 @@ This measures the intrinsic randomness of the process—how unpredictable it is 
 
 For some purposes, we want to allow **probabilistic** state representations. Given a new observation, we don't deterministically transition to a new state—we update a probability distribution over states.
 
-The **upsilon machine** or **mixed-state presentation** generalizes this. You track a distribution $P(s | \overleftarrow{x})$ over causal states, and update it Bayesianly with each observation.
+The **upsilon machine** or **mixed-state presentation** generalizes this. You track a distribution $P(s \vert  \overleftarrow{x})$ over causal states, and update it Bayesianly with each observation.
 
 This is relevant for:
 - **Filtering**: When observations are noisy

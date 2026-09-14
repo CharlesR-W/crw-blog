@@ -139,7 +139,7 @@ $$
 \frac{dt}{ds} = 2\tau, \quad \frac{dx}{ds} = -2c^2\xi, \quad \frac{d\tau}{ds} = 0, \quad \frac{d\xi}{ds} = 0
 $$
 
-On the characteristic variety, $|\tau| = c|\xi|$, so $dx/dt = \pm c$. Singularities propagate at speed $c$—exactly as expected!
+On the characteristic variety, $\vert \tau\vert  = c\vert \xi\vert $, so $dx/dt = \pm c$. Singularities propagate at speed $c$—exactly as expected!
 
 ### Example: The Schrödinger Equation
 
