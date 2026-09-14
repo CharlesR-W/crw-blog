@@ -50,3 +50,37 @@ tutorial routine, not for post drafting.
 
 `~/Documents/Vault/notes/MATS/EAG-writeup-plans.md` — a one-liner, an arc, and the exact
 context files to read for each planned post.
+
+## Math in posts: use `$$...$$` everywhere, never a bare `|`
+
+kramdown runs **before** MathJax.  It passes `$$...$$` through verbatim (emitting
+`\(...\)` inline and `\[...\]` for display), but it treats single-`$` spans as ordinary
+markdown text.  Two failure modes follow, and both are silent — the build succeeds and
+the damage is visible only in a browser:
+
+1. **`_` and `*` inside `$...$` become emphasis.**  In `$(H^2 g)_j - \partial_j (H^2 g)_m$`
+   the underscores are consumed by an `<em>`, MathJax then cannot parse the span, and the
+   raw LaTeX is printed to the page.  Same for `r_*^2`.
+2. **A bare `|` inside math is read as a table cell delimiter.**  `$$|f|$$` splits the
+   paragraph into `<td>` cells and the math is never rendered.  Use `\vert` and `\Vert`,
+   which are typographically identical and contain no pipe.  This applies to `\|...\|`
+   norms too.
+
+So: **write all inline math as `$$...$$`**, and keep bare pipes out of math.
+
+Two helpers do the conversion mechanically on an imported draft:
+
+```
+python3 ~/Scripts/kramdown-protect-inline-math.py <post.md>   # $...$ -> $$...$$
+python3 ~/Scripts/kramdown-escape-math-pipes.py  <post.md>    # |     -> \vert
+```
+
+Verify with a real render rather than by eye.  After `bundle exec jekyll build`:
+
+```
+bash ~/Scripts/check-mathjax-render.sh _site/<Post-Slug>/index.html /tmp/mjcheck
+```
+
+It reports rendered math containers and `mjx-merror` nodes; a healthy post has many
+containers and zero errors.  Also check that the `<table>` count in the built HTML equals
+the number of `|---|` separator rows in the source — a mismatch means pipes in math.
