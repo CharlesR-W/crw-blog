@@ -4,8 +4,6 @@ date: 2026-09-21
 math: true
 ---
 
-*Formatting, paper-linking, figure wrangling, and the FDR/eNTK brush-up were done with Claude.*
-
 
 *This post was written as part of the [Iliad Fellowship](https://www.iliad.ac/).  My thanks for their continued support.*
 
@@ -244,3 +242,7 @@ Overall I'm optimistic about 'circuits as co-selected units', but I don't think 
 ---
 
 > "Wir müssen wissen.  Wir werden wissen."  - Hilbert
+
+---
+
+*LLM Usage Statement: I wrote everything - yes sadly the emdashes really are all mine and I really am that insufferable.  I had Claude make minor changes, link references, fix figures, and accepted some small corrections.  Codex made one of the figures.*
