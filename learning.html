@@ -1,0 +1,139 @@
+---
+layout: default
+title: Tutorials and Teaching
+permalink: /learning/
+---
+
+<style>
+  .learn-intro { margin-bottom: 1.5em; }
+  .learn-toc { font-size: 0.95em; margin-bottom: 2em; }
+  .learn-toc a { margin-right: 1.2em; }
+  .learn-item { margin-bottom: 2em; padding-left: 1em; border-left: 3px solid var(--accent); }
+  .learn-item h4 { margin: 0 0 0.3em 0; }
+  .learn-item .meta { font-size: 0.85em; color: var(--muted); margin-bottom: 0.5em; }
+  .learn-item .context { font-size: 0.9em; margin-bottom: 0.3em; }
+  .learn-item .context strong { color: var(--muted); }
+  .learn-item .desc { font-size: 0.95em; margin-bottom: 0.6em; }
+  .learn-item ol, .learn-item ul { font-size: 0.9em; margin: 0.4em 0 0.6em 1.5em; padding: 0; }
+  .learn-item ol li, .learn-item ul li { margin-bottom: 0.2em; }
+  .learn-links { font-size: 0.85em; }
+  .learn-links a { margin-right: 1em; }
+  .section-head { margin-top: 2.5em; margin-bottom: 0.6em; }
+</style>
+
+<h2>Tutorials and Teaching</h2>
+
+<div class="learn-intro">
+<p>Things for learning from: course days I wrote for the Iliad Intensive, hands-on coding tutorials, interactive widgets, and seed prompts to hand to your own LLM.  Where there is code, the source repository is linked.</p>
+</div>
+
+<div class="learn-toc">
+  <a href="#iliad">Iliad class days</a>
+  <a href="#tutorials">Hands-on tutorials</a>
+  <a href="#widgets">Widgets</a>
+  <a href="#seeds">Seed prompts</a>
+</div>
+
+<h3 class="section-head" id="iliad">Iliad Intensive class days</h3>
+
+<div class="learn-intro">
+<p>Teaching materials for days of the <a href="https://iliad-intensive.org/">Iliad Intensive</a>: readings, notebooks, slides and exercises.</p>
+</div>
+
+<div class="learn-item">
+  <h4><a href="https://charlesr-w.github.io/crw-iliad-intensive-oct-2026/">Iliad Intensive, October 2026: my days</a></h4>
+  <div class="meta">October 2026</div>
+  <div class="desc">One hub page for five days, each with readings, notebooks and slides.</div>
+  <ul>
+    <li><strong>Mysteries of Deep Learning</strong>: how deep learning changed statistical learning theory, why LLMs won, deep learning as program synthesis, and a catalogue of surprises, with interactive demos</li>
+    <li><strong>Singular Learning Theory</strong>: Bayesian inference as statistical mechanics, free energy and basin volume, effective temperature, applications</li>
+    <li><strong>Training Dynamics</strong>: deep linear networks, gradient flows, SGD as an SDE, edge of stability, optimizer geometry, curvature</li>
+    <li><strong>Data Attribution</strong>: influence functions and their relatives, curvature at scale, with videos</li>
+    <li><strong>Ambitious Mechinterp and Activation Geometry</strong>: a guided reading collection</li>
+  </ul>
+  <div class="learn-links">
+    <a href="https://charlesr-w.github.io/crw-iliad-intensive-oct-2026/">Course site</a>
+    <a href="https://github.com/CharlesR-W/crw-iliad-intensive-oct-2026">Source repo</a>
+  </div>
+</div>
+
+<div class="learn-item">
+  <h4><a href="https://github.com/CharlesR-W/IliadIntensiveCompMechDay">Computational Mechanics Day</a></h4>
+  <div class="meta">2026 &middot; 3 notebooks with slides</div>
+  <div class="desc">Hidden Markov models and mixed-state presentations, belief-state geometry in transformers, and Hankel matrices, PSRs and weighted-automaton reconstruction.  Exercise notebooks, worked solutions, and HTML slide decks.</div>
+  <div class="learn-links">
+    <a href="https://github.com/CharlesR-W/IliadIntensiveCompMechDay">Source repo</a>
+  </div>
+</div>
+
+<div class="learn-item">
+  <h4><a href="https://github.com/CharlesR-W/IliadPhysicsLearning">Physics of Deep Learning Day</a></h4>
+  <div class="meta">2026 &middot; 3 notebooks, pen-and-paper</div>
+  <div class="desc">Guided derivations: fixed-feature kernel learning, why wide networks become kernel learners (the NTK limit), and finite-width feature learning through the cumulants of random neural functions.  No programming required.</div>
+  <div class="learn-links">
+    <a href="https://github.com/CharlesR-W/IliadPhysicsLearning">Source repo</a>
+  </div>
+</div>
+
+<h3 class="section-head" id="tutorials">Hands-on tutorials</h3>
+
+<div class="learn-intro">
+<p>Full pieces of working code with exercises, not articles.  Each has rendered notebooks here and a source repository with the unfilled exercise stubs, so you can actually run them.</p>
+</div>
+
+<div class="learn-item">
+  <h4>Numerical Linear Algebra for ML - A Hands-On Survey</h4>
+  <div class="meta">May 2026 &middot; 4 notebooks &middot; ~8 hours of work &middot; written with Claude</div>
+  <div class="desc">
+    ARENA-style Jupyter exercises in matrix-free numerical linear algebra, focused on the two objects ML researchers actually care about: the loss Hessian and the empirical NTK.  Covers Krylov methods (power iteration, Lanczos with selective reorthogonalization), randomized SVD, stochastic trace and density-of-states estimation, eigenvalue perturbation theory, and a capstone that watches a network's spectrum evolve across training.  Assumes no NLA background; assumes comfort with PyTorch and gradient-based ML.
+  </div>
+  <ol>
+    <li><a href="{{ '/tutorials/numerical-linalg-for-ml/01_krylov.html' | relative_url }}">Krylov methods for the Hessian</a> - HVPs, power iteration, deflation, Lanczos, loss of orthogonality</li>
+    <li><a href="{{ '/tutorials/numerical-linalg-for-ml/02_randomized.html' | relative_url }}">Randomized methods and the empirical NTK</a> - stable rank, HMT range finder, matrix-free eNTK matvec</li>
+    <li><a href="{{ '/tutorials/numerical-linalg-for-ml/03_estimation.html' | relative_url }}">Trace, density of states, perturbation</a> - Hutchinson, SLQ, Weyl, Davis-Kahan</li>
+    <li><a href="{{ '/tutorials/numerical-linalg-for-ml/04_capstone.html' | relative_url }}">Spectroscopy of a network across training</a> - capstone using all of the above</li>
+  </ol>
+  <div class="learn-links">
+    <a href="https://github.com/CharlesR-W/numerical-linalg-for-ml">Source repo (run the exercises)</a>
+  </div>
+</div>
+
+<h3 class="section-head" id="widgets">Widgets</h3>
+
+<div class="learn-intro">
+<p>Interactive widgets for math, physics and other topics.  Each is a self-contained page that runs in your browser.  100% Claude-driven: I describe the model and the controls I want; Claude builds it.</p>
+</div>
+
+{% assign widgets = site.posts | where_exp: "post", "post.tags contains 'widget'" %}
+{% for post in widgets %}
+<div class="learn-item">
+  <h4><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h4>
+  <div class="meta">{{ post.date | date: "%B %d, %Y" }}{% if post.llm %} · via {{ post.llm }}{% endif %} {% if post.math %}<span class="badge">math</span>{% endif %}</div>
+  {% if post.motivation %}<div class="context"><strong>Motivation:</strong> {{ post.motivation }}</div>{% endif %}
+  {% if post.background %}<div class="context"><strong>Background:</strong> {{ post.background }}</div>{% endif %}
+</div>
+{% endfor %}
+
+{% if widgets.size == 0 %}
+<p><em>No widgets yet.</em></p>
+{% endif %}
+
+<h3 class="section-head" id="seeds">Seed prompts</h3>
+
+<div class="learn-intro">
+<p>Curated entry points into math and physics topics I find interesting.  I picked the topics and angles and Claude fleshed them out into mini-curricula: the motivation for caring, the right angle of approach, and enough to get started.  Take one, hand it to the LLM of your choice, and ask it to expand any section into a full tutorial, work examples, quiz you, or branch into the "what's next" pointers.  The seed is the map; you and your LLM walk the terrain.</p>
+</div>
+
+{% assign seeds = site.posts | where_exp: "post", "post.tags contains 'seed'" %}
+{% for post in seeds %}
+<div class="learn-item">
+  <h4><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h4>
+  <div class="meta">{{ post.date | date: "%B %d, %Y" }}{% if post.llm %} · via {{ post.llm }}{% endif %} {% if post.math %}<span class="badge">math</span>{% endif %}{% assign wc = post.content | number_of_words %}{% if wc > 3000 %}<span class="badge">long</span>{% endif %}</div>
+  {% if post.motivation %}<div class="context"><strong>Motivation:</strong> {{ post.motivation }}</div>{% endif %}
+  {% if post.background %}<div class="context"><strong>Background:</strong> {{ post.background }}</div>{% endif %}
+</div>
+{% endfor %}
+
+{% if seeds.size == 0 %}
+<p><em>No seeds yet.</em></p>
+{% endif %}

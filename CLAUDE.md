@@ -33,7 +33,7 @@ kind: musing          # optional, right-side badge only
 ```
 
 `tags:` decides which page a post appears on (one per page):
-`seed` -> Curated Tutorial Prompts, `personal` -> Writing, `widget` -> Widgets,
+`seed` and `widget` -> Tutorials and Teaching (`/learning/`, sections), `personal` -> Writing,
 `notes` -> Notes (Claude-written working notes), `nulla-dies` -> hidden page.
 Untagged posts land on the Research homepage.
 

@@ -1,34 +1,11 @@
 ---
-layout: default
-title: Widgets
+layout: null
 permalink: /widgets/
+sitemap: false
 ---
-
-<style>
-  .widgets-intro { margin-bottom: 2em; }
-  .widget-item { margin-bottom: 2em; padding-left: 1em; border-left: 3px solid var(--accent); }
-  .widget-item h4 { margin: 0 0 0.3em 0; }
-  .widget-item .meta { font-size: 0.85em; color: var(--muted); margin-bottom: 0.5em; }
-  .widget-item .context { font-size: 0.9em; margin-bottom: 0.3em; }
-  .widget-item .context strong { color: var(--muted); }
-</style>
-
-<h2>Widgets</h2>
-
-<div class="widgets-intro">
-<p>Interactive widgets for math, physics and other topics.  Each is a self-contained page that runs in your browser.  100% Claude-driven: I describe the model and the controls I want; Claude builds it.</p>
-</div>
-
-{% assign widgets = site.posts | where_exp: "post", "post.tags contains 'widget'" %}
-{% for post in widgets %}
-<div class="widget-item">
-  <h4><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h4>
-  <div class="meta">{{ post.date | date: "%B %d, %Y" }}{% if post.llm %} · via {{ post.llm }}{% endif %} {% if post.math %}<span class="badge">math</span>{% endif %}</div>
-  {% if post.motivation %}<div class="context"><strong>Motivation:</strong> {{ post.motivation }}</div>{% endif %}
-  {% if post.background %}<div class="context"><strong>Background:</strong> {{ post.background }}</div>{% endif %}
-</div>
-{% endfor %}
-
-{% if widgets.size == 0 %}
-<p><em>No widgets yet.</em></p>
-{% endif %}
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Moved</title>
+<link rel="canonical" href="{{ '/learning/' | relative_url }}#widgets">
+<meta http-equiv="refresh" content="0; url={{ '/learning/' | relative_url }}#widgets">
+</head><body><p>Moved to <a href="{{ '/learning/' | relative_url }}#widgets">Tutorials and Teaching</a>.</p></body></html>
