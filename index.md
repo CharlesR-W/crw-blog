@@ -9,10 +9,11 @@ My research writing: physics, math, information theory, learning theory, and the
 
 **The other pages:**
 
+- <a href="{{ '/inkhaven2026/' | relative_url }}">Inkhaven 2026</a> — posts written during Inkhaven 2026.
 - <a href="{{ '/writing/' | relative_url }}">Non-Research Writing</a> — non-research pieces: essays, translations, poetry.
 - <a href="{{ '/notes/' | relative_url }}">AI-Written Notes</a> — working notes on what I am currently thinking about, written up by an LLM from my drafts.
-- <a href="{{ '/seeds/' | relative_url }}">Curated Tutorial Prompts</a> — mini-curricula and hands-on tutorials to feed to an LLM or work through yourself.
-- <a href="{{ '/widgets/' | relative_url }}">Widgets</a> — small interactive toys that run in the browser.
+- <a href="{{ '/learning/' | relative_url }}">Tutorials and Teaching</a> — course days, hands-on coding tutorials, interactive widgets, and seed prompts to hand to your own LLM.
+- <a href="https://charlesr-w.github.io/illustrated-input/">Language Books</a> — illustrated books for language learning.
 - <a href="{{ '/cv/' | relative_url }}">About and CV</a> — who I am, and my CV.
 
 <!-- hidden: · <a href="{{ '/nulla-dies/' | relative_url }}">Nulla Dies</a> -->
@@ -21,7 +22,7 @@ My research writing: physics, math, information theory, learning theory, and the
 
 <div class="posts-list">
 <ul>
-{% for post in site.posts %}{% unless post.tags contains "seed" or post.tags contains "nulla-dies" or post.tags contains "personal" or post.tags contains "widget" or post.tags contains "notes" %}
+{% for post in site.posts %}{% unless post.tags contains "seed" or post.tags contains "nulla-dies" or post.tags contains "personal" or post.tags contains "widget" or post.tags contains "notes" or post.tags contains "inkhaven2026" %}
 <li class="post-item">
   <a href="{{ site.baseurl }}{{ post.url }}" class="post-link">{{ post.title }}</a>
   <span class="post-meta">

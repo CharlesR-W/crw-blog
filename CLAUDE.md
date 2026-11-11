@@ -34,7 +34,8 @@ kind: musing          # optional, right-side badge only
 
 `tags:` decides which page a post appears on (one per page):
 `seed` and `widget` -> Tutorials and Teaching (`/learning/`, sections), `personal` -> Writing,
-`notes` -> Notes (Claude-written working notes), `nulla-dies` -> hidden page.
+`notes` -> Notes (Claude-written working notes), `inkhaven2026` -> Inkhaven 2026,
+`nulla-dies` -> hidden page.
 Untagged posts land on the Research homepage.
 
 The `long` and `math` badges are computed automatically by `index.md` (from word count
