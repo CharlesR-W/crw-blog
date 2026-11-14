@@ -1,5 +1,5 @@
 ---
-title: "Slouching Towards Interpretability: Thinking About Computation in LLMs"
+title: "Slouching Towards Interpretability: Thinking About Computation in Neural Networks"
 date: 2026-11-14
 math: true
 ---
