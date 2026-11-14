@@ -2,7 +2,6 @@
 title: "Slouching Towards Interpretability: Thinking About Computation in LLMs"
 date: 2026-11-14
 math: true
-tags: [unlisted]
 ---
 
 I started writing this essay to share some thoughts on how to reconcile the idea of circuits with gradient descent.  In doing this, I've come to change my perspective pretty substantially.  The first half of this essay engages a Darwinian picture of circuits, but I think the central point - that we need a clearer ontology of computation in neural networks - holds without reference thereto.
@@ -33,7 +32,7 @@ Part III has the most direct bearing on mechinterp and should be readable on its
 - **II. Problems with the Initial Circuit Ensemble**
   - II.a. Infinite-Data Loss Implies a Decaying Circuit Population
   - II.b. Full-Batch GD (Mostly) Discredits Batch-Variance Selection
-  - II.c. LLM Training Is Too Fast to Be Mostly Darwinian
+  - II.c. LLM Training Is Much Faster Than We'd Expect
   - II.d. Circuit Darwinism Fails to Predict the Importance of Fresh Data
   - II.e. Summary
 - **III. From the Neuron Up: Reservoir Computing, Coherent Sets, and Spectral Clustering**
@@ -73,7 +72,7 @@ This picture has been useful to me less because it answers questions or better s
 
 ## I.c. Conceptual Challenges
 
-These models offered, I'll next outline three places where I think we need *technical progress to achieve conceptual clarity* - the right microscopes.  These are things I think a good theory of circuits should incorporate, but for which we don't yet have good language.  Of course, these are only the ones I currently have the wherewithal to see, as I am not yet a very incisive conceptual thinker when unguided by math - "who knows the words sees double" and all.
+These models offered, I'll next outline three places where I think we need *technical progress to achieve conceptual clarity* - the right microscopes.  These are things I think a good theory of circuits should incorporate, but for which we don't yet have good language.  Of course, these are only the ones I currently have the wherewithal to see, as I am not yet a very incisive conceptual thinker when unguided by math - "[who knows the words sees double](https://en.wikipedia.org/wiki/List_of_Greek_phrases#Δδ)" and all.
 
 The first is **scale-sensitive entity delineation** ("at coarseness level 2.3, this weight is 90% part of circuitA and 1% part of circuitB and circuitC", "at coarseness level 2.3, circuitA and circuitB are 12% overlapping").  We need this because neural networks are messy, so obviously we should be asking 'scalar' questions instead of binary 'yes/no', and because circuits should compose, we need a scale parameter to set what 'size' of circuit we're looking for.
 
@@ -148,7 +147,7 @@ There are of course other ways we could imagine selection for generalizable circ
 
 This shouldn't be overstated: [gradient flow](https://arxiv.org/abs/2107.06608) only works if you try _really hard_ to make it - full-batch GD is pathological but still works within reason.  This means we need a theory that at least kinda works without selection-for-selectability, at least in the sense I had imagined it.
 
-## II.c. LLM Training Is Too Fast to Be Mostly Darwinian
+## II.c. LLM Training Is Much Faster Than We'd Expect
 
 Next I'll argue that the number of optimization steps in frontier LLM training runs makes it implausible that Darwinian competition is the best description of what is occurring.  The numbers here are all _extremely_ sus - I tried to save you the thirty footnotes that would add caveats - but I'm confident in the overall "deep learning very fast, evolution very slow - needs explanation".
 
@@ -200,7 +199,7 @@ First I'll discuss two related ideas from neuroscience, '[reservoir](http://www.
 
 Next I'll change tack and present a toy model of a neuron that learns to predict its next input, and relate this to a more general technique called spectral clustering.  This motivates looking at activations and asking how we can think about the network 'treating some group of data points the same' - as a warmup for finding functional groupings like circuits.
 
-I'll then draw on an empirical observation about LLM activations to motivate a relaxed version of spectral clustering in activation-space.  The idea is to imagine coherent sets of activations as coarse-grained 'computational states'.  A work in progress.
+I'll then draw on an empirical observation about LLM activations to motivate a relaxed version of spectral clustering in activation-space.  The idea is to imagine coherent sets of activations as coarse-grained 'computational states'.  If circuits 'live together, die together', these 'computational states' are things that are 'processed together'.  A work in progress.
 
 Two things to note: first, there's a bit of a jump after part a - I don't know how to connect the ideas in this part yet, but they have been very influential to my mental models.  Second, in III.c I'll write about how I've been thinking about this theory in activation-space.  [This post](https://www.alignmentforum.org/posts/gYfpPbww3wQRaxAFD/activation-space-interpretability-may-be-doomed) outlines conceptual problems to activation-space interpretability (though I think these mostly do not apply for my purposes).  Please do not feel deceived - I too want a theory of circuits, and hope to develop the theory to get us back to weight-space++ soon.
 
@@ -248,24 +247,28 @@ Btw, as in the picture, 'spectral clustering' is when you take some graph, find 
 
 [The dream of interpretability](https://www.lesswrong.com/posts/3eo4SSZLfpHHCqoEQ/dmitry-s-koan) is to be given a knob, call it $$\beta$$, such that making it very small lets you resolve very coarse structure very cheaply, and that, tuning it up, you can resolve finer structure at increasing computational cost.  Ideally, you can focus your efforts on a particular behaviour rather than the whole model, and spend your limited computational power analysing particularly important computations (presumably of the alignment flavour).
 
-My collaborator and I have spent the last few months, i.a., looking at the [activation cells](https://www.lesswrong.com/posts/LajDyGyiyX8DNNsuF/interim-research-report-activation-plateaus-and-sensitive-1) in LLMs.  These are Voronoi-like cells in activation-space such that points in the same cell are treated in essentially the same way by the network.  Our aim has been to figure out if we can understand these as _discrete states of some computation_ - if so, we could reduce the model to a table of transition rules (presumably not perfectly!), which would then be the natural thing to analyse.
+My collaborator [Brianna Grado-White](https://www.lesswrong.com/users/bgradowhite) and I have spent the last few months, i.a., looking at the [activation cells](https://www.lesswrong.com/posts/LajDyGyiyX8DNNsuF/interim-research-report-activation-plateaus-and-sensitive-1) in LLMs.  These are Voronoi-like cells in activation-space such that points in the same cell are treated in essentially the same way by the network.  Our aim has been to figure out if we can understand these as _discrete states of some computation_ - if so, we could reduce the model to a table of transition rules (presumably not perfectly!), which would then be the natural thing to analyse.
 
 ![Figure 1 from Janiak et al.: Voronoi-cell-like structure in the residual stream](https://charlesr-w.github.io/crw-blog/assets/images/lw/Gradients-and-Circuits/image-2.png)
 *Figure 1 from [Janiak et al.](https://arxiv.org/abs/2409.17113): Voronoi-cell-like structure in the residual stream of LLMs*
 
-In part because of tractability issues, in part because of theoretical connections between computation identification and Hankel methods, and in part pursuing the intuition that we should be looking at 'points the network treats the same', we're working on developing a technique which analyses clusters of data-points building on this perspective.
+In part because of tractability issues, in part because of theoretical connections between computation identification and Hankel methods, and in part pursuing the intuition that we should be looking at 'points the network treats the same' more macroscopically, we're working on developing a technique which analyses clusters of data-points building on this perspective.
 
 ![Label propagation on a similarity graph of MNIST digits](https://charlesr-w.github.io/crw-blog/assets/images/lw/Gradients-and-Circuits/zgl-harmonic-graph.png)
-*Label propagation on a similarity graph of MNIST digits; from [this paper](https://mlg.eng.cam.ac.uk/zoubin/papers/zgl.pdf).*
+*Label propagation on a similarity graph of MNIST digits; from [this paper](https://mlg.eng.cam.ac.uk/zoubin/papers/zgl.pdf).  I'm imagining that LLM activation cells are ~ isolated subcomponents of this graph, with training points labeled.*
 
-Activation cells are groups of points the network 'treats similarly'; old ML has a family of methods called **label propagation** where it'll propagate the labels of known data-points to unknown ones through a similarity graph - you can sorta-kinda-don't-think-too-hard-about-it understand the activation cells as perfectly-isolated groups of points - label prop from training points to any test points that happen to be nearby.  The core idea is to zoom out and look at a much more macroscopic similarity-graph on activations.
+Activation cells are groups of points the network 'treats similarly'; old ML has a family of methods called **label propagation** where it'll propagate the labels of known data-points to unknown ones through a similarity graph.
 
-I've outlined the idea in this image.
+You can sorta-kinda-don't-think-too-hard-about-it understand the activation cells as perfectly-isolated groups of points - training points inside a cell are labeled, and any test-points in the cell are connected up to it.
+
+The core idea is that we can do a much more macroscopic version of this by approximating the similarity graph.  There are plenty of design choices to be made here, but this turns out, morally, to be spectral clustering!
+
+I've outlined the idea in this image.  In this case, we use a 'dynamic similarity' measuring how points move between layers, rather than their similarity at a given layer.
 
 ![Whiteboard sketch: towards spectral clustering for interp](https://charlesr-w.github.io/crw-blog/assets/images/lw/Gradients-and-Circuits/towards-spectral-interp.jpg)
 *Coherent sets of activations are those the network 'treats the same' between some specified layers L' → L*
 
-While I'm trying to practice writing without math, I'm well aware that "I drew it on the whiteboard" strains credibility if you don't know me well enough to know that I have cut >2000 words on Hankel matrices from drafts of this post.  As bona fides, here's a teaser of the method applied to ResNet18+CIFAR10.  Preliminary, working on the writeup, but proof of concept.
+While I'm trying to practice writing without math, I'm well aware that "I drew it on the whiteboard" strains credibility if you don't know me well enough to know that I have cut >1000 words on Hankel matrices from drafts of this post.  As bona fides, here's a teaser of the method applied to ResNet18+CIFAR10.  Preliminary, working on the writeup, but proof of concept.
 
 ![ResNet18 on CIFAR-10: UMAPs of activations across layers and training times, coloured by four coherent sets fit at t=2500 (left); class composition and representative images of each set (right)](https://charlesr-w.github.io/crw-blog/assets/images/lw/Gradients-and-Circuits/image-1.png)
 
@@ -277,7 +280,7 @@ Eyeballing, it seems to be ~separating things by background colour.  Once I earn
 
 Okay so in this section I've covered two big ideas: first, what reservoir computing has to tell us about how random neural networks can work (and how this is like NTK learning) and what it might look like for a network to be bottlenecked by computation rather than by representation; second, how we can think of the natural operation of neurons as spectral clustering, and how spectral clustering and coherent structures are a natural language for characterising how a neural network treats data en masse.
 
-I think expansion coding and reservoir computing are important as, in spirit, an alternative perspective to the superposition hypothesis.  Schematically, superposition imagines networks are bottlenecked in the number of neurons they have or concepts they can represent while taking for granted that computations can be done on these concepts.[^comp-in-sup]  Expansion-coding is, i.a., a story of how neural networks can work if neurons are cheap but computation difficult or inexpressive.  I like it mainly because this is very contiguous with what we know to be the case for NTK-regime-learning.  I'm not sure how to make it more substantive or bridge to the coherent structures bit yet.
+I think expansion coding and reservoir computing are important as, in spirit, an alternative perspective to the superposition hypothesis.  Schematically, superposition imagines networks are bottlenecked in the number of concepts they can represent.  There are good theories of '[computation](https://arxiv.org/abs/2408.05451)-in-[superposition](https://arxiv.org/abs/2607.04800)', but I've found myself wanting a model that centers 'computational expressivity' as the bottleneck.  Expansion-coding is, i.a., a story of how neural networks can work if neurons are cheap but computation difficult or inexpressive.  I like it mainly because this is very contiguous with what we know to be the case for NTK-regime-learning.  I'm not sure how to make it more substantive or bridge to the coherent structures bit yet.
 
 The coherent structures / spectral clustering thing is much more substantial as a framework for thinking about what neurons are doing and how they encode information.  In particular, my most curmudgeonly fundamental-interp-research opinion is that the only thing that is truly interpretable is an SVD, so we need to find the right SVD, and we'll call this spectral clustering.[^why-svd]  This family of ideas makes me excited by the amount of things it's connected to - predictive state representations, realization theory, approximation of automata...  Claude dared me to add [quantum channel metrology](https://journals.aps.org/prxquantum/abstract/10.1103/PRXQuantum.2.010343) lol.
 
@@ -312,6 +315,8 @@ It is a grand and humbling thing to stand confused in the shadow of this last De
 
 ---
 
+*LLM usage statement: I wrote everything, then asked Claude to make sure the arguments made sense - I made two major revisions/reorganizations on this account, and a handful of minor but important corrections.  I had it find most of the links and handle most of the markdown formatting.  I specified almost all linked items; those Claude suggested I read before including.  There should be ~0 LLM-written prose in this post.  GPT badly edited the boss-baby meme, lol.*
+
 [^cut-mechanisms]: an earlier version of this post intended to spend a lot of time on example calculations and mechanisms I developed to describe how circuit selection might occur - this was lengthy, technical, and minimally-enlightening.  It also didn't address the core problems of being able to _identify_ circuits.  In the end, 'prune' posits an answer to this hard problem - which can be a way to make progress of course - but I now think that this avoidance focused my attention on the wrong places.
 
 [^relative-fitness]: more accurately, Darwinism more readily talks of relative proportions of a phenotype rather than its absolute numbers, so it doesn't often say anything about a trend in 'overall' fitness, which is a bit more the domain of population ecology.
@@ -323,8 +328,6 @@ It is a grand and humbling thing to stand confused in the shadow of this last De
 [^bahri-scaling]: see also [Bahri et al. 2021](https://arxiv.org/abs/2102.06701)
 
 [^hankel-greentext]: \>\> scrolls down \>\> sees 10 paragraphs about Hankel matrices \>\> he went into too much detail
-
-[^comp-in-sup]: Of course, both [TMoS](https://transformer-circuits.pub/2022/toy_model/index.html) and later [comp-in-sup](https://arxiv.org/abs/2408.05451) work talk about how computation _can_ be done in superposition.  Some comp-in-sup stuff like [this thing](https://arxiv.org/abs/2607.04800) is simple enough to be plausible.  Pro tempore let's take my posited contrast as a spiritual one between representation-first and computation-first views.
 
 [^why-svd]: I'm going to try to write about the non-shitpost version of this, but essentially it's because SVD is _the_ way to talk about one thing approximating another thing in an importance-sensitive way with bounds and guarantees.
 
