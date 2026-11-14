@@ -21,7 +21,7 @@ My research writing: physics, math, information theory, learning theory, and the
 
 <div class="posts-list">
 <ul>
-{% for post in site.posts %}{% unless post.tags contains "seed" or post.tags contains "nulla-dies" or post.tags contains "personal" or post.tags contains "widget" or post.tags contains "notes" %}
+{% for post in site.posts %}{% unless post.tags contains "seed" or post.tags contains "nulla-dies" or post.tags contains "personal" or post.tags contains "widget" or post.tags contains "notes" or post.tags contains "unlisted" %}
 <li class="post-item">
   <a href="{{ site.baseurl }}{{ post.url }}" class="post-link">{{ post.title }}</a>
   <span class="post-meta">
