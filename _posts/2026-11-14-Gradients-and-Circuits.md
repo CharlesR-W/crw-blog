@@ -1,5 +1,5 @@
 ---
-title: "Two Mental Models for Thinking about Circuits in Deep Learning"
+title: "Slouching Towards Interpretability: Thinking About Computation in LLMs"
 date: 2026-11-14
 math: true
 tags: [unlisted]
@@ -11,13 +11,13 @@ Before, I was thinking about circuits as 'units of selection' - the kinds of thi
 
 I wrote this essay in three parts, plus what became a companion post.
 
-- The companion post is what I have referred to as the ['katalogos mysterion'](https://charlesr-w.github.io/crw-blog/Katalogos-Mysterion/) (the 'catalogue of mysteries') - things I think a mental model of wtf is happening in deep learning has to explain.  While it informs later discussion, it is mostly separate from the present piece.
+- The companion post is the ['Grimoire of Deep Learning'](https://charlesr-w.github.io/crw-blog/Grimoire-of-Deep-Learning/) - things I think a mental model of wtf is happening in deep learning has to explain.  While it informs later discussion, it is mostly separate from the present piece.
 - The first part offers two pictures of where circuits come from - "prune" and "precipitate" - and three conceptual problems I think a good theory of circuits has to solve.
 - The second part discusses some problems in specifying circuit Darwinism adequately - the model predicts very differently depending on what _precisely_ we think circuits are, what the environment is, etc. and the naive guesses don't seem consistent.
 - In the third part, I'll outline an incomplete synthesis of how we get to 'defining circuits' - it takes the 'circuits live together, die together' intuition and works backwards: 'where do we look and how to find things that are selected together?'.  This proto-synthesis has a lot of exciting connections to, i.a., neuroscience and dynamical-systems inference; for our purposes, the precise details are less the point than the fact that the richness of the problem should reveal how much confusion was hiding in 'implementation details'.
 - In the epilogue I envision a 'fundamental theory of interpretability' sufficient to argue for itself.
 
-For highest value-to-engagement-demanded ratio, I recommend reading: part I (all parts), part II.e (the summary), the intro of part III, its summary III.d., and the Epilogue.
+For highest value-to-engagement-demanded ratio, I recommend reading: part I (all parts), part II.e (the summary), the intro of part III, its summary III.d, and the Epilogue.
 
 Part III has the most direct bearing on mechinterp and should be readable on its own, if that is your preference.
 
@@ -29,7 +29,7 @@ Part III has the most direct bearing on mechinterp and should be readable on its
   - I.a. "Prune"
   - I.b. "Precipitate"
   - I.c. Conceptual Challenges
-  - I.d. Katalogos Mysterion: an Invitation to Confusion
+  - I.d. Grimoire of Deep Learning: an Invitation to Confusion
 - **II. Problems with the Initial Circuit Ensemble**
   - II.a. Infinite-Data Loss Implies a Decaying Circuit Population
   - II.b. Full-Batch GD (Mostly) Discredits Batch-Variance Selection
@@ -39,7 +39,7 @@ Part III has the most direct bearing on mechinterp and should be readable on its
 - **III. From the Neuron Up: Reservoir Computing, Coherent Sets, and Spectral Clustering**
   - III.a. Reservoir Computing, Expansion Coding
   - III.b. Neurons Read Coherent Sets?
-  - III.c. Slouching Towards Interp: Activation Cells, Coherent Sets, and Spectral Clustering
+  - III.c. A Whiff of Unity: Activation Cells, Coherent Sets, and Spectral Clustering
   - III.d. Summary
 - **Epilogue: Kritik of Fundamental Interpretability**
 
@@ -49,7 +49,7 @@ Part III has the most direct bearing on mechinterp and should be readable on its
 
 In this first section, I'll frame the distinction by offering two visions of 'where circuits come from', and showing how this ostensible implementation detail ends up suggesting fundamentally different models.  The first mental model I offer I call **"Prune"** - a naive circuit Darwinism that presupposes an **'initial circuit ensemble'** amongst which competition occurs.  The second I call **"Precipitate"**, where circuits are 'grown' from the bottom up (roughly), as a crystal might be precipitated from solution.
 
-I'll argue that the "Prune" picture requires a much greater specification of the analogy than we can yet give.  "Precipitate" is an alternative I tried out to explain some empirical facts about deep learning and to connect to reservoir-computing models in neuroscience.  It is less-confused only insofar as it is less committal to the basic abstractions under study.  Both are bottlenecked by our ability to deconfuse what _exactly_ we mean by 'circuit'.  I'll argue that the ability to characterise persistent structures is _the_ central conceptual problem.
+I'll argue that the "Prune" picture requires a much greater specification of the analogy than we can yet give.  "Precipitate" is an alternative I tried out to explain some empirical facts about deep learning and to connect to reservoir-computing models in neuroscience.  It is less confused only insofar as it is less committal to the basic abstractions under study.  Both are bottlenecked by our ability to deconfuse what _exactly_ we mean by 'circuit'.  I'll argue that the ability to characterise persistent structures is _the_ central conceptual problem.
 
 ![Whiteboard sketch: the 'prune' picture](https://charlesr-w.github.io/crw-blog/assets/images/lw/Gradients-and-Circuits/prune.jpg)
 *"Prune": the initial circuit ensemble*
@@ -85,9 +85,9 @@ To paraleptically mention the mathematics I've been using to _identify_ (as oppo
 
 (no, Claude didn't write that; I really am just this way...:') ).
 
-## I.d. Katalogos Mysterion: an Invitation to Confusion
+## I.d. Grimoire of Deep Learning: an Invitation to Confusion
 
-In early drafts of this post I had a big list of surprising findings about how deep learning works (which I expect to be probably directionally correct) which I think any theory has to reckon with.  I've instead broken this out to [a separate post](https://charlesr-w.github.io/crw-blog/Katalogos-Mysterion/).  The main ideas are summarized here:
+In early drafts of this post I had a big list of surprising findings about how deep learning works (which I expect to be probably directionally correct) which I think any theory has to reckon with.  I've instead broken this out to [a separate post](https://charlesr-w.github.io/crw-blog/Grimoire-of-Deep-Learning/).  The main ideas are summarized here:
 
 - There's probably a qualitative difference between **"early" and "late" training**, with early training being more 'formative' than late training.  Tentatively, early training sees 'representation formation', while late training 'sharpens' these representations.
 - Lots of things appear to be **architecture independent** in a meaningful way, perhaps including even the overall structure of the learned representation.  I forget who said this, but I've heard it said that "talking to Claude is talking to its training data".
@@ -114,7 +114,7 @@ Problems with the initial circuit ensemble:
 
 Put another way, we're confused about what the 'population' is, how circuits adapt, die, or replenish, what 'the environment' is, and what the right unit of time is - the naive identifications mostly don't work.
 
-I'll also add that there are many effects which I think are important discussed in the [companion post](https://charlesr-w.github.io/crw-blog/Katalogos-Mysterion/) which our underspecified circuit Darwinism just can't engage with usefully, especially the early-/late-training distinction.[^cut-mechanisms]
+I'll also add that there are many effects which I think are important discussed in the [companion post](https://charlesr-w.github.io/crw-blog/Grimoire-of-Deep-Learning/) which our underspecified circuit Darwinism just can't engage with usefully, especially the early-/late-training distinction.[^cut-mechanisms]
 
 ## II.a. Infinite-Data Loss Implies a Decaying Circuit Population
 
@@ -132,7 +132,7 @@ I think the simplest explanation for this (though it has other problems matching
 
 This isn't the end of the world, but we now enter the territory of having to think about circuits dying vs being absorbed, and how the size of circuits should change over time, and whether they eat the parameters that would otherwise give rise to new circuits - these are things that could happen, and it would be useful to think of them in Darwinian terms - the problem is that we're expanding the number of alternative things our model can predict while we have no way of measuring or identifying which of those things actually win out.
 
-That to say: not a dunk on circuit Darwinism - but a point for needing more microscopic understanding of variation so we can get the rules of the game straight.
+That is to say: not a dunk on circuit Darwinism - but a point for needing more microscopic understanding of variation so we can get the rules of the game straight.
 
 ## II.b. Full-Batch GD (Mostly) Discredits Batch-Variance Selection
 
@@ -140,7 +140,7 @@ Circuit Darwinism imagines that circuits compete with one another - and in parti
 
 One of the ways I liked to explain this was by positing that, imagining we have several circuits competing to fulfill the same function, we should expect the general one to have a low per-sample gradient, while the more memorize-y one might depend on a precarious balancing of positive and negative pulls from samples in a given batch.  This **batch-variance selection** corresponds schematically to the [Bergstrom–Lachmann](https://arxiv.org/abs/q-bio/0510007) effective penalty for having a fitness which varies.
 
-This seems to be discredited by the fact that full-batch GD [works at least somewhat meaningfully](https://arxiv.org/abs/2109.14119) (see [companion post](https://charlesr-w.github.io/crw-blog/Katalogos-Mysterion/#ic-pathology)) in image and language models.  Of note is that the Nanda grokking paper also uses full-batch - as best I can tell, grokking relies on the regularization to work, not batch noise.
+This seems to be discredited by the fact that full-batch GD [works at least somewhat meaningfully](https://arxiv.org/abs/2109.14119) (see [companion post](https://charlesr-w.github.io/crw-blog/Grimoire-of-Deep-Learning/#ic-pathology)) in image and language models.  Of note is that the Nanda grokking paper also uses full-batch - as best I can tell, grokking relies on the regularization to work, not batch noise.
 
 To be clear, other types of things like [EoS](https://arxiv.org/abs/2103.00065) could select to prefer less noisy circuits, but the hope of _batch_-variance selection was that we could imagine this as leading to generalization by being like 'test the organism in many environments'.  We certainly have 'make this organism robust to mutation' effects still, but just in a generic not-related-to-environment way.  It becomes harder to imagine selection-for-selectability occurring, which I've hitherto understood as synonymous with 'generalization' in Darwinism.
 
@@ -216,7 +216,7 @@ A close-by idea I've found useful is **'expansion coding'**.  This is a coding s
 
 Insofar as representational superposition / sparse-sensing are what you should do when you have many more concepts than neurons, expansion coding is kiiiinda opposite - it's what you should do if *computational expressivity* is super limited but you have neurons out the wazoo.
 
-In the [companion post](https://charlesr-w.github.io/crw-blog/Katalogos-Mysterion/#ia-earlylate-training), we talked about **NTK fitting-vs-rotation** as being one way of thinking about 'early' and 'late' training being very different.  Here we can note that reservoir-computing is approximately the same as the NTK regime.  What we want is a story that interpolates from "fitting random functions" to "[memorizing n-grams](https://arxiv.org/abs/2402.04362)" to "simulating the universe".
+In the [companion post](https://charlesr-w.github.io/crw-blog/Grimoire-of-Deep-Learning/#ia-earlylate-training), we talked about **NTK fitting-vs-rotation** as being one way of thinking about 'early' and 'late' training being very different.  Here we can note that reservoir-computing is approximately the same as the NTK regime.  What we want is a story that interpolates from "fitting random functions" to "[memorizing n-grams](https://arxiv.org/abs/2402.04362)" to "simulating the universe".
 
 I'll also gesture noncommittally to the (contested) [lottery-ticket hypothesis](https://arxiv.org/abs/1803.03635) - the idea of which is that you can usually find a tiny sub-network inside your network such that if you [_rewind_ training](https://arxiv.org/abs/1912.05671) and prune everything else, only training that network suffices to get you most of the loss-reduction.  This suggests that there's some grounds to imagine starting with a big bag of random functions and modifying them.
 
@@ -244,7 +244,7 @@ These coherent sets are important to us neuron-enjoyers because they are the set
 
 Btw, as in the picture, 'spectral clustering' is when you take some graph, find eigenfunctions on it, and then use those eigenfunctions to 'segment' it into clusters - I mention this later, but I consider this admissible as an interpretability technique because it's essentially an SVD.  It is 'the most complicated thing that still counts', because SVDs are great, so the argument reduces to arguing that you're SVD-ing the _right thing_.
 
-## III.c. Slouching Towards Interp: Activation Cells, Coherent Sets, and Spectral Clustering
+## III.c. A Whiff of Unity: Activation Cells, Coherent Sets, and Spectral Clustering
 
 [The dream of interpretability](https://www.lesswrong.com/posts/3eo4SSZLfpHHCqoEQ/dmitry-s-koan) is to be given a knob, call it $$\beta$$, such that making it very small lets you resolve very coarse structure very cheaply, and that, tuning it up, you can resolve finer structure at increasing computational cost.  Ideally, you can focus your efforts on a particular behaviour rather than the whole model, and spend your limited computational power analysing particularly important computations (presumably of the alignment flavour).
 
@@ -318,13 +318,9 @@ It is a grand and humbling thing to stand confused in the shadow of this last De
 
 [^haldane-different-quantity]: tbc, this is admittedly a totally different kind of quantity - a population-level substitution rate rather than a competition-timescale - my only point is that evolution is _slow_ - gradient descent is obviously qualitatively faster.
 
-[^precipitate-name]: since the _prima materia_ of the initialised model interacts with the data, 'precipitating' the circuits out from solution, especially agglomeratively.
-
 [^dasgupta-fly-hash]: see also [Dasgupta, Stevens, Navlakha 2017](https://doi.org/10.1126/science.aam9868)
 
 [^bahri-scaling]: see also [Bahri et al. 2021](https://arxiv.org/abs/2102.06701)
-
-[^unironic]: Unironic
 
 [^hankel-greentext]: \>\> scrolls down \>\> sees 10 paragraphs about Hankel matrices \>\> he went into too much detail
 
