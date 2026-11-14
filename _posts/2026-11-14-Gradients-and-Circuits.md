@@ -4,6 +4,8 @@ date: 2026-11-14
 math: true
 ---
 
+*This post was written as part of the [Iliad Fellowship](https://www.iliad.ac/), where I am mentored by Dmitry Vaintrob and collaborate with Brianna Grado-White.  The initial inspiration came from conversation with Richard Ngo and Adrià Garriga-Alonso.  To all of these my thanks.*
+
 I started writing this essay to share some thoughts on how to reconcile the idea of circuits with gradient descent.  In doing this, I've come to change my perspective pretty substantially.  The first half of this essay engages a Darwinian picture of circuits, but I think the central point - that we need a clearer ontology of computation in neural networks - holds without reference thereto.
 
 Before, I was thinking about circuits as 'units of selection' - the kinds of things which engage in some gradient-hacking shenanigans to save themselves from gradient descent.  I don't think this picture is unimportant or unhelpful, but I've come to think that it sidesteps the hard part of the problem - that the things the circuit Darwinism picture takes for granted are the confused parts, and I think therefore the more insightful to examine.  I have gone from thinking "circuit Darwinism, but we need to formalize how to delineate the circuits" to "things that under circuit Darwinism seem like implementation details are actually the deep source of confusion, and we should treat these as _the_ problem".  I'll aim to convince you that this change in perspective is the right direction to head in.
