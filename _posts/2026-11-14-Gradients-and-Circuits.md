@@ -35,7 +35,7 @@ Part III has the most direct bearing on mechinterp and should be readable on its
   - II.a. Infinite-Data Loss Implies a Decaying Circuit Population
   - II.b. Full-Batch GD (Mostly) Discredits Batch-Variance Selection
   - II.c. LLM Training Is Much Faster Than We'd Expect
-  - II.d. Circuit Darwinism Fails to Predict the Importance of Fresh Data
+  - II.d. It's Hard to Explain the Importance of Fresh Data
   - II.e. Summary
 - **III. From the Neuron Up: Reservoir Computing, Coherent Sets, and Spectral Clustering**
   - III.a. Reservoir Computing, Expansion Coding
@@ -165,7 +165,9 @@ Again, this is easily patched by, say, talking about the number of _parallel_ qu
 
 But then we again enter the frustrating realm of needing to specify very precise details that we don't have the ability to check - 'is competition between all the circuits at once?  or in small groups doing similar functions?'.
 
-## II.d. Circuit Darwinism Fails to Predict the Importance of Fresh Data
+For my purposes, a weaker, safer version of this claim is fine: **we're confused about how to think about the time-scales on which circuits compete and adapt.**
+
+## II.d. It's Hard to Explain the Importance of Fresh Data
 
 Finally, I think the thing that's hardest to explain under circuit Darwinism is the importance of fresh data.
 
@@ -173,7 +175,7 @@ Evolution doesn't really have a role for something like the amount of data $$D$$
 
 My favorite mechanism for how you could get generalization from circuit Darwinism is '[selection for selectability](https://charlesr-w.github.io/crw-blog/Selection-for-Selectability/)' (S4S) - it is precisely this repeated oscillation of the environment that drives selection-for-selectability (related to generalization), and this effect is parametrically small compared to instantaneous selection, so we would predict that many _epochs_ of training would be needed to saturate the usefulness of data.  We could have said that ackshually the environment fluctuation is batch-noise, but as I argued above this seems wrong too.
 
-So we're confused about how exactly to think about 'environment variation' over time.  A blind spot I haven't talked about at all is that we can't usefully address the comparative importance of endogenous competition vs environment change for adaptation.
+So **we're confused about how exactly to think about 'environment variation'** over time.  A blind spot I haven't talked about at all is that we can't usefully address the comparative importance of endogenous competition vs environment change for adaptation.
 
 ## II.e. Summary
 
