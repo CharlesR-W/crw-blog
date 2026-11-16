@@ -1,6 +1,6 @@
 ---
 title: "Song of Myself"
-kind: musing
+kind: essay
 date: 2026-11-15
 tags: [personal]
 ---
