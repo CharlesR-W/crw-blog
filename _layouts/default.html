@@ -78,14 +78,6 @@
   <main>
     <div class="site-container">
       <div class="content">
-        {% assign wordcount = content | number_of_words %}
-        {% if page.kind or page.math or wordcount > 3000 %}
-        <div class="badges">
-          {% if page.kind %}<span class="badge">{{ page.kind }}</span>{% endif %}
-          {% if page.math %}<span class="badge">math</span>{% endif %}
-          {% if wordcount > 3000 %}<span class="badge">long</span>{% endif %}
-        </div>
-        {% endif %}
         {{ content }}
       </div>
     </div>
