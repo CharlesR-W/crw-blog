@@ -1,0 +1,137 @@
+# Published experiment viewers (GitHub Pages sites), shown on /experiments/.
+# `pushed` is a fallback; the page refreshes it from the GitHub API on load and re-sorts.
+# `items` is the collapsible list of experiments/sections inside each viewer
+# (url is relative to `site` unless it starts with http).
+# `thumb` lives in assets/experiments/ (800x500 webp, a figure from the viewer).
+
+- repo: DepthEmbedding
+  title: Depth Embedding
+  site: https://charlesr-w.github.io/DepthEmbedding/
+  pushed: 2026-11-22
+  kind: viewer + experiments
+  blurb: CIFAR-10 probe images moving through the layers of ResNets, plotted in the low space of one operator per network. Press play to watch the cloud move from input to logits. Companion to Coherent Modes.
+  items:
+    - { label: "Which kernel gives modes that reproduce and a smooth row for a new image?", url: "#experiments/x-inv-kernel" }
+    - { label: "Can the joint coordinate be evaluated from just this site's kernel row?", url: "#experiments/x-inv-sources" }
+    - { label: "How much of an activation can K coordinates recover?", url: "#experiments/x-inv-decode" }
+    - { label: "Do diffusion wavelets give a better or more interpretable inverse than harmonics?", url: "#experiments/x-inv-wavelets" }
+    - { label: "Where do other datasets, noisy and adversarial images land?", url: "#experiments/x-inv-ood" }
+    - { label: "Can an activation be given another image's source coordinates, and does the output follow?", url: "#experiments/x-inv-edits" }
+    - { label: "Where along depth does an adversarial image leave its class?", url: "#experiments/x-x3-adversarial" }
+    - { label: "Do networks trained on other data embed the same probe alike?", url: "#experiments/x-x1-data" }
+    - { label: "Do straight paths between two activations cross sharp transitions downstream?", url: "#experiments/x-x4-paths" }
+    - { label: "How far can the joint operator's solver scale?", url: "#experiments/x-solver" }
+
+- repo: CoherentModes
+  title: Coherent Modes
+  subtitle: Towards Characterizing a Neural Network's Native Ontology
+  site: https://charlesr-w.github.io/CoherentModes/
+  post: /Coherent-Modes/
+  pushed: 2026-11-22
+  kind: report + explorer
+  blurb: A label-free spectral procedure for finding which images a network treats alike, layer by layer and over training. Coherent sets in a ResNet-20 on CIFAR-10, with an interactive explorer.
+  items:
+    - { label: "What groups of images does the last stage of the network treat alike at the end of training?", url: "#experiments/x-groups" }
+    - { label: "When in training does each layer's grouping take its final form?", url: "#experiments/x-when" }
+    - { label: "Where along depth does the network redraw its grouping?", url: "#experiments/x-depth" }
+    - { label: "Which layer's structure does a whole-path block reflect?", url: "#experiments/x-blocks" }
+    - { label: "Do the images grouped alike in activations also have similar loss gradients?", url: "#experiments/x-training-signal" }
+    - { label: "How much of each layer's walk can k groups keep, and does the spectrum prefer a k?", url: "#experiments/x-coarse" }
+    - { label: "Is the constructed walk through the layers approximately Markov?", url: "#experiments/x-markov" }
+    - { label: "Do different seeds and depths go through matching sequences of operators?", url: "#experiments/x-across-nets" }
+    - { label: "How does the eigenfunctions' association with twelve pixel statistics change over training?", url: "#experiments/x-image-stats" }
+    - { label: "What does one operator over images and sites find when its functions may change from site to site?", url: "#experiments/x-through-depth" }
+    - { label: "Explorer", url: "#explorer" }
+
+- repo: HebbianHarmonics
+  title: Hebbian Learning on a Resistor Network
+  subtitle: or, The Path of Least Resistance
+  site: https://charlesr-w.github.io/HebbianHarmonics/
+  pushed: 2026-11-20
+  kind: talk + live simulations
+  blurb: Hebbian plasticity as energy descent on a resistor network with linear neurons, simulated live in the browser. Harmonic embeddings, Perron clusters, and reading the input statistics back out of the weights.
+  items:
+    - { label: "The talk", url: "#talk" }
+    - { label: "The basics", url: "#basics" }
+    - { label: "Perron clusters", url: "#perron" }
+    - { label: "Reading the weights", url: "#readout" }
+    - { label: "Experiment: Fusion", url: "#fusion" }
+    - { label: "Experiment: Many inputs", url: "#many" }
+    - { label: "Experiment: Who gets the neurons?", url: "#allocation" }
+    - { label: "Experiment: More on the covariance rule", url: "#old" }
+    - { label: "Experiment: Spontaneous activity", url: "#spont" }
+
+- repo: AdditivityAndCellsProbe
+  title: Cells and Clocks
+  subtitle: Perturbation, interpolation and plane response over training
+  site: https://charlesr-w.github.io/AdditivityAndCellsProbe/
+  pushed: 2026-09-06
+  kind: experiment notebook
+  blurb: Do activation plateaus ("cells") form during training, and when? Jacobian-based probes (move an activation along a random direction, toward another activation, across a plane) at every checkpoint of 12 models.
+  items:
+    - { label: "Overview", url: "#tab=overview" }
+    - { label: "MNIST", url: "#tab=mnist" }
+    - { label: "CIFAR-10", url: "#tab=cifar" }
+    - { label: "Language", url: "#tab=language" }
+    - { label: "Bookkeeping: sources, provenance, methodology", url: "#tab=bookkeeping" }
+    - { label: "Experiment 1 notebook", url: "notebook-exp1.html" }
+
+- repo: Tracking2
+  title: Free-Body Diagrams for Neural Networks
+  subtitle: Interactive ablation appendix
+  site: https://charlesr-w.github.io/Tracking2/
+  pushed: 2026-08-17
+  kind: measured dashboard
+  blurb: Cut a CIFAR network, replace the activations at the cut by a Gaussian (PCA + class moments) surrogate, and retrain the suffix. Checks on projection, covariance, noise scale, optimisation, longer relaxation and fresh suffixes.
+  items:
+    - { label: "Methodology", url: "#method" }
+    - { label: "PCA adequacy", url: "#pca-adequacy" }
+    - { label: "Primary estimand", url: "#estimand" }
+    - { label: "Full train × evaluation loss matrix", url: "#matrix" }
+    - { label: "Controls: which details change the result?", url: "#controls" }
+    - { label: "Four-block CNN", url: "#cnn" }
+    - { label: "Data and provenance", url: "#data" }
+
+- repo: CoherentStructures
+  title: Coherent Structures Lab
+  site: https://charlesr-w.github.io/CoherentStructures/
+  pushed: 2026-08-16
+  kind: interactive study
+  blurb: What looks coherent depends on what you are allowed to know. Known-law Lagrangian coherent structures against density-only coherent feature tracking, on one synthetic orbiting density field, computed in the browser.
+  items:
+    - { label: "Known law: material geometry from the flow map", url: "#known-law" }
+    - { label: "Density only: feature tubes from snapshots", url: "#density-only" }
+    - { label: "Compare the two", url: "#compare" }
+    - { label: "Tensor lab: the finite-time stretch spectrum", url: "#tensor-lab" }
+    - { label: "Methods", url: "#methods" }
+
+- repo: thermodynamic-susceptibilities
+  title: Thermodynamic Susceptibilities for Learning
+  site: https://charlesr-w.github.io/thermodynamic-susceptibilities/reports/thermo_phase_report.html
+  pushed: 2026-07-06
+  kind: experiment report
+  blurb: A finite MNIST test of whether Lagrange-multiplier responses can define network capacity. Data and width responses are real; the L2 / weight-decay signal is too weak here for a clean capacity collapse.
+  items:
+    - { label: "Tabs: Overview, Spec, MNIST Phase, Susceptibilities, Scale, Caveats", url: "" }
+
+- repo: hessian-dendrogram
+  title: Hessian Dendrograms
+  subtitle: Tracking circuit formation through spectral analysis
+  site: https://charlesr-w.github.io/hessian-dendrogram/
+  pushed: 2026-03-13
+  kind: report + notebook
+  blurb: Do circuits show up as separated bands of Hessian eigenvalues during training? Dendrograms of the eigenspectrum over training, what was expected, and why the mismatch.
+  items:
+    - { label: "What we actually see", url: "#observed" }
+    - { label: "Why the mismatch?", url: "#discussion" }
+    - { label: "LeNet-tiny on MNIST (interactive marimo notebook)", url: "mnist-notebook.html" }
+    - { label: "Modular addition grokking (in progress)", url: "#experiments" }
+
+- repo: fitness-value-of-information
+  title: The Fitness Value of Information
+  subtitle: Bet-hedging in fluctuating environments
+  site: https://charlesr-w.github.io/fitness-value-of-information/
+  post: /Fitness-Value-of-Information/
+  pushed: 2026-02-12
+  kind: marimo explorer
+  blurb: The Bergstrom–Lachmann model of evolutionary bet-hedging, in the browser. Geometric-mean fitness, the pure-to-mixed strategy transition, Kelly betting, and the fitness value of cues bounded by mutual information.
