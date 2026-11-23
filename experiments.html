@@ -35,6 +35,10 @@ permalink: /experiments/
   .xp-card summary:hover { color: var(--text); }
   .xp-card details ol { margin: 0.5em 0 0 1.3em; padding: 0; }
   .xp-card details li { margin-bottom: 0.3em; line-height: 1.4; }
+  .xp-archive { margin-top: 2.2em; border-top: 1px solid #1f1f1f; padding-top: 1em; }
+  .xp-archive > summary { cursor: pointer; color: var(--muted); font-size: 1.05em; margin-bottom: 1.2em; }
+  .xp-archive > summary:hover { color: var(--text); }
+  .xp-archive > summary .hint { font-size: 0.85em; opacity: 0.8; }
   .xp-none { color: var(--muted); font-style: italic; display: none; }
 
   @media (max-width: 700px) { .xp-grid { grid-template-columns: minmax(0, 1fr); } }
@@ -57,10 +61,10 @@ permalink: /experiments/
 {% assign xps = site.data.experiments | sort: "pushed" | reverse %}
 
 <div class="xp-toc" id="xp-toc">
-  {% for x in xps %}<a href="#{{ x.repo }}" data-repo="{{ x.repo }}">{{ x.title }}</a>{% unless forloop.last %}<span class="sep">·</span>{% endunless %}{% endfor %}
+  {% for x in xps limit: 3 %}<a href="#{{ x.repo }}" data-repo="{{ x.repo }}">{{ x.title }}</a><span class="sep">·</span>{% endfor %}<a href="#xp-archive" class="xp-archive-link">Archived ({{ xps.size | minus: 3 }})</a>
 </div>
 
-<div class="xp-grid" id="xp-grid">
+{% capture cards %}
 {% for x in xps %}
   {% assign base = x.site | split: "#" | first %}
   <article class="xp-card" id="{{ x.repo }}" data-repo="{{ x.repo }}" data-title="{{ x.title | escape }}" data-pushed="{{ x.pushed | date: '%Y-%m-%d' }}">
@@ -91,35 +95,66 @@ permalink: /experiments/
       {% endif %}
     </div>
   </article>
+<!--xp-split-->
 {% endfor %}
+{% endcapture %}
+{% assign parts = cards | split: "<!--xp-split-->" %}
+<div class="xp-grid" id="xp-grid">
+{% for c in parts limit: 3 %}{{ c }}{% endfor %}
 </div>
+
+<details class="xp-archive" id="xp-archive">
+  <summary>Archived (<span id="xp-archive-n">{{ xps.size | minus: 3 }}</span>) <span class="hint">— older viewers, last pushed before the three above</span></summary>
+  <div class="xp-grid" id="xp-archive-grid">
+  {% for c in parts offset: 3 %}{{ c }}{% endfor %}
+  </div>
+</details>
 <p class="xp-none" id="xp-none">Nothing matches that filter.</p>
 
 <script>
 (function () {
+  var RECENT = 3;
   var grid = document.getElementById('xp-grid');
+  var agrid = document.getElementById('xp-archive-grid');
+  var archive = document.getElementById('xp-archive');
   var toc = document.getElementById('xp-toc');
-  var cards = Array.prototype.slice.call(grid.querySelectorAll('.xp-card'));
+  var cards = Array.prototype.slice.call(document.querySelectorAll('.xp-card'));
   var sortKey = 'pushed';
   var fmt = function (iso) {
     var d = new Date(iso + 'T00:00:00Z');
     return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' });
   };
 
+  var byDate = function (a, b) { return b.dataset.pushed.localeCompare(a.dataset.pushed); };
+  var byTitle = function (a, b) { return a.dataset.title.localeCompare(b.dataset.title); };
+
+  // The newest RECENT cards (by push date) are shown; the rest go in the collapsed archive.
+  // The sort buttons only reorder within each group.
   function render() {
-    cards.sort(function (a, b) {
-      if (sortKey === 'title') return a.dataset.title.localeCompare(b.dataset.title);
-      return b.dataset.pushed.localeCompare(a.dataset.pushed);
-    });
-    var tocLinks = {};
-    Array.prototype.forEach.call(toc.querySelectorAll('a'), function (a) { tocLinks[a.dataset.repo] = a; });
+    var dated = cards.slice().sort(byDate);
+    var recent = dated.slice(0, RECENT), old = dated.slice(RECENT);
+    if (sortKey === 'title') { recent.sort(byTitle); old.sort(byTitle); }
+    recent.forEach(function (c) { c.dataset.archived = ''; grid.appendChild(c); });
+    old.forEach(function (c) { c.dataset.archived = '1'; agrid.appendChild(c); });
+    document.getElementById('xp-archive-n').textContent = old.length;
+    var al = toc.querySelector('.xp-archive-link');
+    al.textContent = 'Archived (' + old.length + ')';
     toc.innerHTML = '';
-    cards.forEach(function (c, i) {
-      grid.appendChild(c);
-      if (i) { var s = document.createElement('span'); s.className = 'sep'; s.textContent = '·'; toc.appendChild(s); }
-      toc.appendChild(tocLinks[c.dataset.repo]);
+    recent.forEach(function (c) {
+      var a = document.createElement('a'); a.href = '#' + c.id; a.dataset.repo = c.dataset.repo; a.textContent = c.dataset.title;
+      var s = document.createElement('span'); s.className = 'sep'; s.textContent = '·';
+      toc.appendChild(a); toc.appendChild(s);
     });
+    toc.appendChild(al);
   }
+
+  // Following a link to an archived card (or to #xp-archive) opens the archive first.
+  function openForHash() {
+    var t = location.hash && document.getElementById(decodeURIComponent(location.hash.slice(1)));
+    if (t && (t === archive || archive.contains(t))) { archive.open = true; t.scrollIntoView(); }
+  }
+  window.addEventListener('hashchange', openForHash);
+  toc.addEventListener('click', function (e) { if (e.target.classList.contains('xp-archive-link')) archive.open = true; });
 
   // Filter
   var input = document.getElementById('xp-filter');
@@ -128,8 +163,10 @@ permalink: /experiments/
     cards.forEach(function (c) {
       var hit = !q || c.textContent.toLowerCase().indexOf(q) !== -1;
       c.hidden = !hit;
-      toc.querySelector('a[data-repo="' + c.dataset.repo + '"]').style.opacity = hit ? '' : '0.35';
+      var tl = toc.querySelector('a[data-repo="' + c.dataset.repo + '"]');
+      if (tl) tl.style.opacity = hit ? '' : '0.35';
       if (hit) shown++;
+      if (q && hit && c.dataset.archived) archive.open = true;
       if (q && hit) { var d = c.querySelector('details'); if (d && d.textContent.toLowerCase().indexOf(q) !== -1) d.open = true; }
     });
     document.getElementById('xp-none').style.display = shown ? 'none' : 'block';
@@ -148,9 +185,12 @@ permalink: /experiments/
   var exp = document.getElementById('xp-expand');
   exp.addEventListener('click', function () {
     var open = exp.textContent === 'Expand all';
-    Array.prototype.forEach.call(grid.querySelectorAll('details'), function (d) { d.open = open; });
+    Array.prototype.forEach.call(document.querySelectorAll('.xp-card details'), function (d) { d.open = open; });
     exp.textContent = open ? 'Collapse all' : 'Expand all';
   });
+
+  render();
+  openForHash();
 
   // Refresh push dates from GitHub (falls back silently to the dates baked in at build time).
   try {
